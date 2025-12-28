@@ -66,12 +66,14 @@ const GameSaveDataSchema = z.object({
 // Building save schema
 const BuildingSaveDataSchema = z.object({
   id: z.number().int(),
-  level: z.number().int().min(0),
-  active: z.boolean(),
+  level: z.number().int().min(-1), // -1 means needs to be built
+  active: z.boolean().optional(),
   position: z.object({
     x: z.number(),
     y: z.number()
-  }).optional()
+  }).optional(),
+  activeBtnIndex: z.number().int().optional(),
+  saveActions: z.record(z.string(), z.any()).optional() // For formula states
 })
 
 // NPC save schema

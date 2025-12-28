@@ -2,8 +2,8 @@
 export * from './items'
 export * from './player'
 export * from './weather'
+export * from './buildings'
 // TODO: Add remaining configs as they are migrated
-// export * from './buildings'
 // export * from './buildActions'
 // export * from './formulas'
 // export * from './monsters'

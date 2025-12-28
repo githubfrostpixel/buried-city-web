@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type { PlayerState, PlayerAttributes } from '@/types/player.types'
+import type { BuildingCost } from '@/types/building.types'
 import { itemConfig } from '@/data/items'
 
 interface PlayerStore extends PlayerState {
@@ -468,6 +469,51 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         active
       }
     }))
+  },
+  
+  // Building cost validation
+  validateItems: (cost: BuildingCost[]) => {
+    const state = get()
+    
+    // Check if all required items are available in bag or storage
+    for (const costItem of cost) {
+      const itemId = String(costItem.itemId) // Convert to string for lookup
+      const requiredCount = costItem.num
+      
+      // Check bag and storage combined
+      const bagCount = state.getBagItemCount(itemId)
+      const storageCount = state.getStorageItemCount(itemId)
+      const totalCount = bagCount + storageCount
+      
+      if (totalCount < requiredCount) {
+        return false
+      }
+    }
+    
+    return true
+  },
+  
+  costItems: (cost: BuildingCost[]) => {
+    const state = get()
+    
+    // Remove items from inventory (bag first, then storage)
+    for (const costItem of cost) {
+      const itemId = String(costItem.itemId) // Convert to string for lookup
+      let remaining = costItem.num
+      
+      // Try to remove from bag first
+      const bagCount = state.getBagItemCount(itemId)
+      if (bagCount > 0) {
+        const removeFromBag = Math.min(bagCount, remaining)
+        state.removeItemFromBag(itemId, removeFromBag)
+        remaining -= removeFromBag
+      }
+      
+      // Remove remaining from storage if needed
+      if (remaining > 0) {
+        state.removeItemFromStorage(itemId, remaining)
+      }
+    }
   }
 }))
 

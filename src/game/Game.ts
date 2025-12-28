@@ -5,16 +5,34 @@
 
 import { TimeManager } from './systems/TimeManager'
 import { SurvivalSystem } from './systems/SurvivalSystem'
+import { FoodExpirationSystem } from './systems/FoodExpirationSystem'
 
 class Game {
   private static instance: Game | null = null
   private timeManager: TimeManager
   private survivalSystem: SurvivalSystem
+  private foodExpirationSystem: FoodExpirationSystem
   private initialized = false
 
   private constructor() {
     this.timeManager = new TimeManager()
     this.survivalSystem = new SurvivalSystem(this.timeManager)
+    this.foodExpirationSystem = new FoodExpirationSystem()
+    
+    // Set up food expiration daily callback at 1:05 AM
+    this.timeManager.addTimerCallbackDayByDayOneAM(this.foodExpirationSystem, () => {
+      // TODO: Check if fridge building (ID 21) is active
+      // Placeholder - integrate with building system in Phase 2C
+      const hasFridge = false
+      
+      const result = this.foodExpirationSystem.processDailyExpiration(hasFridge)
+      
+      if (result.lostItems.length > 0 || result.fertilizerHome > 0 || result.fertilizerSite > 0) {
+        // TODO: Show food expiration dialog (Phase 2D or later)
+        // TODO: Save game state
+        console.log('Food expired:', result)
+      }
+    })
   }
 
   static getInstance(): Game {
@@ -62,6 +80,13 @@ class Game {
    */
   getSurvivalSystem(): SurvivalSystem {
     return this.survivalSystem
+  }
+
+  /**
+   * Get food expiration system
+   */
+  getFoodExpirationSystem(): FoodExpirationSystem {
+    return this.foodExpirationSystem
   }
 
   /**

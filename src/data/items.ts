@@ -819,7 +819,7 @@ export const itemConfig: Record<string, ItemConfig> = {
         "value": 36.763999999999996
     },
     "1305034": {
-        "id": 1305034,
+        "id": "1305034",
         "weight": 16,
         "price": 64,
         "value": 62.374777777777774
@@ -831,13 +831,13 @@ export const itemConfig: Record<string, ItemConfig> = {
         "value": 23.216666666666664
     },
     "1305064": {
-        "id": 1305064,
+        "id": "1305064",
         "weight": 4,
         "price": 48,
         "value": 46.383444444444443
     },
     "1305075": {
-        "id": 1305075,
+        "id": "1305075",
         "weight": 4,
         "price": 4,
         "value": 3.333333
