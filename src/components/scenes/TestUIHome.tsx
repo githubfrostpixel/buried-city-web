@@ -79,14 +79,15 @@ export function TestUIHome() {
 
   return (
     <div
-      className="relative bg-gray-900"
+      className="relative"
       style={{
         width: `${screenWidth}px`,
         height: `${screenHeight}px`,
         margin: '0 auto',
         overflow: 'hidden',
         position: 'relative',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        backgroundColor: '#000000' // Black background like original game
       }}
     >
       {/* Top Bar */}
