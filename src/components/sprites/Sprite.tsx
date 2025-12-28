@@ -43,6 +43,8 @@ export function Sprite({ atlas, frame, className = '', style = {} }: SpriteProps
       style={{
         display: imageLoaded ? 'block' : 'none',
         imageRendering: 'pixelated',
+        width: 'auto',
+        height: 'auto',
         ...style
       }}
     />

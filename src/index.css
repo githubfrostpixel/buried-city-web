@@ -35,5 +35,15 @@
     -moz-user-select: none;
     -ms-user-select: none;
   }
+
+  /* Gate light fade animation */
+  @keyframes gateLightFade {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
 }
 

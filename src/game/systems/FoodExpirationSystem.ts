@@ -1,14 +1,15 @@
 import { expireRate, fertilizerRate } from '@/data/items'
 import { usePlayerStore } from '@/store/playerStore'
+import { useBuildingStore } from '@/store/buildingStore'
 import { Storage } from '@/game/inventory/Storage'
 
 export class FoodExpirationSystem {
   /**
    * Process daily food expiration
    * Called by TimeManager on daily callbacks (1:05 AM)
-   * @param hasFridge - Whether fridge building (ID 21) is active
+   * @param hasFridge - Whether fridge building (ID 21) is active (optional, will check if not provided)
    */
-  processDailyExpiration(hasFridge: boolean = false): {
+  processDailyExpiration(hasFridge?: boolean): {
     lostItems: Array<{ itemId: string; num: number }>
     fertilizerHome: number
     fertilizerSite: number
@@ -16,6 +17,13 @@ export class FoodExpirationSystem {
     const lostItems: Array<{ itemId: string; num: number }> = []
     let fertilizerHome = 0
     let fertilizerSite = 0
+    
+    // Check fridge building if not provided
+    if (hasFridge === undefined) {
+      const buildingStore = useBuildingStore.getState()
+      const fridge = buildingStore.getBuilding(21) // Fridge building ID
+      hasFridge = fridge !== null && fridge.level >= 0 && fridge.active
+    }
     
     // Process home storage (if no fridge)
     if (!hasFridge) {

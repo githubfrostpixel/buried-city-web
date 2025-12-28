@@ -379,11 +379,18 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   },
   
   getSafeMaxWeight: () => {
-    // TODO: Check building 20 level >= 0
-    // For now, return 50 if safe has any items (placeholder logic)
-    const state = get()
-    const hasItems = Object.keys(state.safe).length > 0
-    return hasItems ? 50 : 0
+    // Check building 20 level >= 0
+    try {
+      const { useBuildingStore } = require('@/store/buildingStore')
+      const buildingStore = useBuildingStore.getState()
+      const safe = buildingStore.getBuilding(20) // Safe building ID
+      if (safe && safe.level >= 0 && safe.active) {
+        return 50
+      }
+    } catch {
+      // Building store not initialized yet
+    }
+    return 0
   },
   
   // Equipment actions

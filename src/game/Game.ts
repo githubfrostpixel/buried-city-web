@@ -6,6 +6,7 @@
 import { TimeManager } from './systems/TimeManager'
 import { SurvivalSystem } from './systems/SurvivalSystem'
 import { FoodExpirationSystem } from './systems/FoodExpirationSystem'
+import { useBuildingStore } from '@/store/buildingStore'
 
 class Game {
   private static instance: Game | null = null
@@ -21,11 +22,9 @@ class Game {
     
     // Set up food expiration daily callback at 1:05 AM
     this.timeManager.addTimerCallbackDayByDayOneAM(this.foodExpirationSystem, () => {
-      // TODO: Check if fridge building (ID 21) is active
-      // Placeholder - integrate with building system in Phase 2C
-      const hasFridge = false
-      
-      const result = this.foodExpirationSystem.processDailyExpiration(hasFridge)
+      // Check if fridge building (ID 21) is active
+      // processDailyExpiration will check if hasFridge is not provided
+      const result = this.foodExpirationSystem.processDailyExpiration()
       
       if (result.lostItems.length > 0 || result.fertilizerHome > 0 || result.fertilizerSite > 0) {
         // TODO: Show food expiration dialog (Phase 2D or later)

@@ -169,7 +169,10 @@ export async function saveAll(): Promise<void> {
       day: gameState.day,
       weather: gameState.weather
     },
-    buildings: [], // TODO: Get from building store when available
+    buildings: (() => {
+      const { useBuildingStore } = require('@/store/buildingStore')
+      return useBuildingStore.getState().save()
+    })(),
     npcs: [], // TODO: Get from NPC store when available
     sites: [] // TODO: Get from site store when available
   }
@@ -237,7 +240,17 @@ export async function restoreFromSave(saveData: ValidatedSaveData): Promise<void
   playerStore.setCurrency(saveData.player.money)
   playerStore.talent = saveData.player.talent
   
-  // TODO: Restore buildings, NPCs, sites when those systems are ready
+  // Restore buildings
+  const { useBuildingStore } = await import('@/store/buildingStore')
+  const buildingStore = useBuildingStore.getState()
+  if (saveData.buildings && saveData.buildings.length > 0) {
+    buildingStore.restore(saveData.buildings)
+  } else {
+    // Initialize buildings for new game
+    buildingStore.initialize()
+  }
+  
+  // TODO: Restore NPCs, sites when those systems are ready
 }
 
 /**

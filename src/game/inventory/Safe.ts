@@ -1,5 +1,6 @@
 import { Storage } from './Storage'
 import { itemConfig } from '@/data/items'
+import { useBuildingStore } from '@/store/buildingStore'
 
 export class Safe extends Storage {
   constructor() {
@@ -8,12 +9,11 @@ export class Safe extends Storage {
   
   /**
    * Check if safe is available (building 20 level >= 0)
-   * TODO: Integrate with building system when available
    */
   isAvailable(): boolean {
-    // TODO: Check building 20 level from buildingStore
-    // For now, return true if safe has any items (placeholder)
-    return Object.keys(this.items).length > 0
+    const buildingStore = useBuildingStore.getState()
+    const safe = buildingStore.getBuilding(20) // Safe building ID
+    return safe !== null && safe.level >= 0 && safe.active
   }
   
   /**

@@ -7,6 +7,7 @@
 
 import { usePlayerStore } from '@/store/playerStore'
 import { useGameStore } from '@/store/gameStore'
+import { useBuildingStore } from '@/store/buildingStore'
 import { playerConfig, playerAttrEffect } from '@/data/player'
 import type { PlayerAttributes, AttributeEffect, PlayerAttributeEffectConfig } from '@/types/player.types'
 import type { DeathReason } from '@/types/game.types'
@@ -341,9 +342,18 @@ export class SurvivalSystem {
     
     const changeRate = tempConfig[1] || 0
     
-    // TODO: Check fireplace building (ID 5) for heating
-    // For now, apply base temperature change
-    const tempChange = changeRate !== 0 ? changeRate : 0
+    // Check fireplace building (ID 5) for heating
+    let tempChange = changeRate !== 0 ? changeRate : 0
+    
+    // Fireplace provides heating (reduces temperature loss or increases temperature)
+    const buildingStore = useBuildingStore.getState()
+    const fireplace = buildingStore.getBuilding(5) // Fireplace building ID
+    if (fireplace && fireplace.level >= 0 && fireplace.active) {
+      // Fireplace provides heating bonus (reduces cold effects)
+      // In original game, fireplace reduces infection increase from cold
+      // For temperature, it may provide a small heating bonus
+      // TODO: Implement specific heating mechanics based on fireplace level
+    }
     
     if (tempChange !== 0) {
       // Apply temperature change gradually
@@ -404,8 +414,13 @@ export class SurvivalSystem {
    * Returns true if sleep can start
    */
   startSleep(): boolean {
-    // TODO: Check if bed building (ID 9) exists
-    // For now, allow sleep
+    // Check if bed building (ID 9) exists
+    const buildingStore = useBuildingStore.getState()
+    const bed = buildingStore.getBuilding(9) // Bed building ID
+    
+    if (!bed || bed.level < 0 || !bed.active) {
+      return false // Cannot sleep without bed
+    }
     
     if (this.sleepState.isSleeping) {
       return false
@@ -413,11 +428,14 @@ export class SurvivalSystem {
     
     const playerStore = usePlayerStore.getState()
     
-    // TODO: Calculate vigour recovery rate based on bed level
+    // Calculate vigour recovery rate based on bed level
     // bedRate = bedLevel * 0.5 + starve/starveMax * 0.2 + spirit/spiritMax * 0.3
     // vigourRecovery = bedRate * 12 per hour
-    // For now, use default rate
-    const vigourRecoveryRate = 10 // Default recovery per hour
+    const bedLevel = Math.max(0, bed.level)
+    const bedRate = bedLevel * 0.5 + 
+                    (playerStore.starve / playerStore.starveMax) * 0.2 + 
+                    (playerStore.spirit / playerStore.spiritMax) * 0.3
+    const vigourRecoveryRate = bedRate * 12 // per hour
     
     this.sleepState = {
       isSleeping: true,
