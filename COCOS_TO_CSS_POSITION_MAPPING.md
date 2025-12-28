@@ -266,3 +266,9 @@ const contentHeight = contentTopLineHeight - 10  // Reduced height
 
 6. **BottomBar Layout Changes**: The BottomBar has been restructured to use flexbox for the action bar row, with modified positioning offsets (-32px for row, +40px for line/content) compared to the original Cocos layout.
 
+7. **Gate Light Effect**: The gate light effect for building 14 (Gate/Toilet) is positioned at the center of the gate button. Final positioning values:
+   - Transform: `translate(-47%, -55%) scale(2.35)`
+   - Position: `left: 50%, top: 50%` (centered on gate button)
+   - Animation: `gateLightFade 4s infinite` (fade in/out)
+   - These values were adjusted from the original to match visual appearance
+

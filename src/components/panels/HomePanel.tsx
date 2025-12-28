@@ -2,6 +2,12 @@
  * HomePanel Component
  * Home screen showing all buildings
  * Ported from OriginalGame/src/ui/home.js
+ * 
+ * Gate Light Effect:
+ * - Positioned at center of gate button (building 14)
+ * - Transform: translate(-47%, -55%) scale(2.35)
+ * - Animation: gateLightFade 4s infinite (fade in/out)
+ * - These values were fine-tuned to match original game appearance
  */
 
 import { useEffect, useState } from 'react'
@@ -37,30 +43,6 @@ const BUILDING_POSITIONS = [
   { bid: 21, pos: { x: 525, y: 674 } }
 ]
 
-/**
- * Gate Light Effect Component
- * Fade in/out animation for building 14 (Gate)
- */
-function GateLightEffect({ position }: { position: { x: number; y: number } }) {
-  return (
-    <div
-      className="absolute pointer-events-none"
-      style={{
-        left: `${position.x}px`,
-        bottom: `${position.y}px`,
-        transform: 'translate(-50%, 50%)',
-        animation: 'gateLightFade 4s infinite',
-        opacity: 1
-      }}
-    >
-      <Sprite
-        atlas="home"
-        frame="gate_light.png"
-        className="block"
-      />
-    </div>
-  )
-}
 
 export function HomePanel() {
   const buildingStore = useBuildingStore()
@@ -150,9 +132,6 @@ export function HomePanel() {
     zIndex: 1 // Below frame_bg_bottom
   }
 
-  // Get building 14 for gate light
-  const gateBuilding = buildingStore.getBuilding(14)
-  const showGateLight = gateBuilding && gateBuilding.level >= 0
 
   return (
     <div className="absolute inset-0 flex flex-col" style={{ overflow: 'hidden' }}>
@@ -187,6 +166,9 @@ export function HomePanel() {
           // Position: x from left, y from bottom (Cocos coordinates)
           // Use bottom property for Y since positions are from bottom
           // BuildingButton will be positioned relative to this wrapper
+          const isGate = bid === 14
+          const showLight = isGate && building && building.level >= 0
+
           return (
             <div
               key={bid}
@@ -205,14 +187,32 @@ export function HomePanel() {
                 position={{ x: 0, y: 0 }} // Relative to wrapper
                 onClick={() => handleBuildingClick(bid)}
               />
+              {/* Gate light effect - positioned at center of gate button */}
+              {showLight && (
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    left: '50%',
+                    top: '50%',
+                    transform: 'translate(-47%, -55%) scale(2.35)',
+                    animation: 'gateLightFade 4s infinite',
+                    opacity: 1
+                  }}
+                >
+                  <Sprite
+                    atlas="home"
+                    frame="gate_light.png"
+                    className="block"
+                    style={{
+                      width: 'auto',
+                      height: 'auto'
+                    }}
+                  />
+                </div>
+              )}
             </div>
           )
         })}
-
-        {/* Gate light effect (for building 14 - Gate/Toilet) */}
-        {showGateLight && (
-          <GateLightEffect position={{ x: 425, y: 216 }} />
-        )}
       </div>
     </div>
   )

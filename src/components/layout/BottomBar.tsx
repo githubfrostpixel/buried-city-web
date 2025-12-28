@@ -60,14 +60,15 @@ export function BottomBar({
   
   return (
     <div className="absolute" style={bgStyle}>
-      {/* Background sprite - on top layer above home bg */}
+      {/* Background sprite - on top layer above home bg, but doesn't block clicks */}
       <Sprite 
         atlas="ui" 
         frame="frame_bg_bottom.png"
         className="absolute inset-0"
         style={{ 
           transform: `scale(${bgScale})`,
-          zIndex: 10 // Above home bg
+          zIndex: 10, // Above home bg
+          pointerEvents: 'none' // Don't block clicks on buildings
         }}
       />
       
@@ -165,7 +166,7 @@ export function BottomBar({
         className="absolute" 
         style={{ 
           left: '0px',
-          top: fullScreen ? '0px' : '76px', // Top of bar if fullScreen, below line otherwise
+          top: fullScreen ? '-1px' : '76px', // Top of bar if fullScreen, below line otherwise
           width: `${bgWidth}px`,
           height: fullScreen ? `${bgHeight}px` : `${bgHeight - 76}px`, // Full height if fullScreen
           overflow: 'auto',
