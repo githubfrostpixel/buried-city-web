@@ -1,0 +1,295 @@
+{
+  "frames": {
+    "monster_dig_1.png": {
+      "frame": {
+        "x": 432,
+        "y": 234,
+        "w": 68,
+        "h": 166
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 228,
+        "y": 32,
+        "w": 68,
+        "h": 166
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "monster_dig_10.png": {
+      "frame": {
+        "x": 2,
+        "y": 588,
+        "w": 194,
+        "h": 360
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 82,
+        "y": 17,
+        "w": 360,
+        "h": 194
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "monster_dig_11.png": {
+      "frame": {
+        "x": 488,
+        "y": 588,
+        "w": 408,
+        "h": 184
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 59,
+        "y": 22,
+        "w": 408,
+        "h": 184
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "monster_dig_12.png": {
+      "frame": {
+        "x": 502,
+        "y": 396,
+        "w": 412,
+        "h": 190
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 57,
+        "y": 17,
+        "w": 412,
+        "h": 190
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "monster_dig_2.png": {
+      "frame": {
+        "x": 736,
+        "y": 774,
+        "w": 166,
+        "h": 160
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 182,
+        "y": 31,
+        "w": 160,
+        "h": 166
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "monster_dig_3.png": {
+      "frame": {
+        "x": 2,
+        "y": 420,
+        "w": 264,
+        "h": 166
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 131,
+        "y": 31,
+        "w": 264,
+        "h": 166
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "monster_dig_4.png": {
+      "frame": {
+        "x": 268,
+        "y": 420,
+        "w": 218,
+        "h": 192
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 154,
+        "y": 17,
+        "w": 218,
+        "h": 192
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "monster_dig_5.png": {
+      "frame": {
+        "x": 396,
+        "y": 774,
+        "w": 338,
+        "h": 188
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 94,
+        "y": 27,
+        "w": 338,
+        "h": 188
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "monster_dig_6.png": {
+      "frame": {
+        "x": 198,
+        "y": 614,
+        "w": 196,
+        "h": 348
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 86,
+        "y": 15,
+        "w": 348,
+        "h": 196
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "monster_dig_7.png": {
+      "frame": {
+        "x": 530,
+        "y": 2,
+        "w": 400,
+        "h": 202
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 60,
+        "y": 9,
+        "w": 400,
+        "h": 202
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "monster_dig_8.png": {
+      "frame": {
+        "x": 502,
+        "y": 396,
+        "w": 412,
+        "h": 190
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 57,
+        "y": 17,
+        "w": 412,
+        "h": 190
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "monster_dig_9.png": {
+      "frame": {
+        "x": 530,
+        "y": 206,
+        "w": 386,
+        "h": 188
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 69,
+        "y": 20,
+        "w": 386,
+        "h": 188
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "monster_dig_mid_bg.png": {
+      "frame": {
+        "x": 2,
+        "y": 2,
+        "w": 526,
+        "h": 230
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 526,
+        "h": 230
+      },
+      "sourceSize": {
+        "w": 526,
+        "h": 230
+      }
+    },
+    "ending_1.png": {
+      "frame": {
+        "x": 2,
+        "y": 234,
+        "w": 428,
+        "h": 184
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 9,
+        "y": 39,
+        "w": 428,
+        "h": 184
+      },
+      "sourceSize": {
+        "w": 446,
+        "h": 264
+      }
+    }
+  },
+  "meta": {
+    "app": "BuriedTown Asset Converter",
+    "version": "1.0.0",
+    "image": "dig_monster.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 932,
+      "h": 988
+    },
+    "scale": "1"
+  }
+}

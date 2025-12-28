@@ -1,0 +1,295 @@
+{
+  "frames": {
+    "npc_1.png": {
+      "frame": {
+        "x": 98,
+        "y": 672,
+        "w": 26,
+        "h": 44
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 6,
+        "w": 26,
+        "h": 44
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 56
+      }
+    },
+    "npc_2.png": {
+      "frame": {
+        "x": 2,
+        "y": 726,
+        "w": 50,
+        "h": 36
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 9,
+        "y": 2,
+        "w": 36,
+        "h": 50
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 56
+      }
+    },
+    "npc_3.png": {
+      "frame": {
+        "x": 68,
+        "y": 672,
+        "w": 28,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 4,
+        "w": 28,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 56
+      }
+    },
+    "npc_4.png": {
+      "frame": {
+        "x": 34,
+        "y": 672,
+        "w": 32,
+        "h": 50
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 11,
+        "y": 2,
+        "w": 32,
+        "h": 50
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 56
+      }
+    },
+    "npc_5.png": {
+      "frame": {
+        "x": 2,
+        "y": 672,
+        "w": 30,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 12,
+        "y": 4,
+        "w": 30,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 56
+      }
+    },
+    "npc_6.png": {
+      "frame": {
+        "x": 54,
+        "y": 724,
+        "w": 48,
+        "h": 30
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 12,
+        "y": 4,
+        "w": 30,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 56
+      }
+    },
+    "npc_dig_0.png": {
+      "frame": {
+        "x": 2,
+        "y": 522,
+        "w": 258,
+        "h": 148
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 148,
+        "y": 4,
+        "w": 148,
+        "h": 258
+      },
+      "sourceSize": {
+        "w": 446,
+        "h": 264
+      }
+    },
+    "npc_dig_1.png": {
+      "frame": {
+        "x": 316,
+        "y": 764,
+        "w": 136,
+        "h": 242
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 156,
+        "y": 12,
+        "w": 136,
+        "h": 242
+      },
+      "sourceSize": {
+        "w": 446,
+        "h": 264
+      }
+    },
+    "npc_dig_2.png": {
+      "frame": {
+        "x": 271,
+        "y": 2,
+        "w": 190,
+        "h": 252
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 118,
+        "y": 0,
+        "w": 190,
+        "h": 252
+      },
+      "sourceSize": {
+        "w": 446,
+        "h": 264
+      }
+    },
+    "npc_dig_3.png": {
+      "frame": {
+        "x": 2,
+        "y": 764,
+        "w": 156,
+        "h": 244
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 141,
+        "y": 7,
+        "w": 156,
+        "h": 244
+      },
+      "sourceSize": {
+        "w": 446,
+        "h": 264
+      }
+    },
+    "npc_dig_4.png": {
+      "frame": {
+        "x": 271,
+        "y": 498,
+        "w": 170,
+        "h": 264
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 145,
+        "y": 0,
+        "w": 170,
+        "h": 264
+      },
+      "sourceSize": {
+        "w": 446,
+        "h": 264
+      }
+    },
+    "npc_dig_5.png": {
+      "frame": {
+        "x": 271,
+        "y": 256,
+        "w": 172,
+        "h": 240
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 137,
+        "y": 12,
+        "w": 172,
+        "h": 240
+      },
+      "sourceSize": {
+        "w": 446,
+        "h": 264
+      }
+    },
+    "npc_dig_6.png": {
+      "frame": {
+        "x": 160,
+        "y": 764,
+        "w": 154,
+        "h": 244
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 144,
+        "y": 10,
+        "w": 154,
+        "h": 244
+      },
+      "sourceSize": {
+        "w": 446,
+        "h": 264
+      }
+    },
+    "npc_dig_bg.png": {
+      "frame": {
+        "x": 2,
+        "y": 2,
+        "w": 267,
+        "h": 518
+      },
+      "rotated": true,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 518,
+        "h": 267
+      },
+      "sourceSize": {
+        "w": 518,
+        "h": 267
+      }
+    }
+  },
+  "meta": {
+    "app": "BuriedTown Asset Converter",
+    "version": "1.0.0",
+    "image": "npc.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 463,
+      "h": 1010
+    },
+    "scale": "1"
+  }
+}
