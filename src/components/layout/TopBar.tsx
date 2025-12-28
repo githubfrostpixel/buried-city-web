@@ -90,7 +90,7 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
   const bgHeight = 244
   
   return (
-    <div className="absolute" style={bgStyle}>
+    <div className="absolute" style={bgStyle} data-test-id="topbar-bg" data-test-label="TopBar Background" data-test-position>
       {/* Background sprite */}
       <Sprite 
         atlas="ui" 
@@ -104,7 +104,7 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
       {/* Cocos Y=190 from bottom, bg height=244, so CSS top = 244 - 190 - 50 = 4px (accounting for line height) */}
       {/* Actually, anchor (0,0) means bottom-left, so Y=190 means 190px from bottom */}
       {/* CSS: top = bgHeight - cocosY - lineHeight = 244 - 190 - 50 = 4px */}
-      <div className="absolute" style={{ left: '6px', top: `${bgHeight - 190 - 50}px`, width: '584px', height: '50px' }}>
+      <div className="absolute" style={{ left: '6px', top: `${bgHeight - 190 - 50}px`, width: '584px', height: '50px' }} data-test-id="topbar-first-line" data-test-label="First Line (Status)" data-test-position>
         {/* Day button */}
         <StatusButton
           icon="icon_day.png"
@@ -120,7 +120,7 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
           icon={`icon_season_${gameStore.season}.png`}
           iconAtlas="icon"
           label=""
-          position={{ x: btnSize.width * 1.2 + 4.8, y: 25 }}
+          position={{ x: btnSize.width * 1.1 + 4.8, y: 25 }}
           scale={0.4}
           noLabel={true}
           onClick={() => showStatusDialog(2, getSeasonStr(gameStore.season), 'icon_season.png')}
@@ -131,7 +131,7 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
           icon="icon_time.png"
           iconAtlas="icon"
           label={getTimeHourStr(gameStore.hour, gameStore.minute)}
-          position={{ x: btnSize.width * 2 + 5.5, y: 25 }}
+          position={{ x: btnSize.width * 1.8 + 5.5, y: 25 }}
           scale={0.4}
           onClick={() => showStatusDialog(4, getTimeHourStr(gameStore.hour, gameStore.minute), 'icon_time.png')}
         />
@@ -141,7 +141,7 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
           icon={`icon_weather_${gameStore.weather}.png`}
           iconAtlas="icon"
           label=""
-          position={{ x: btnSize.width * 2.9 - 3, y: 25 }}
+          position={{ x: btnSize.width * 2.7 - 3, y: 25 }}
           scale={0.4}
           noLabel={true}
           onClick={() => showStatusDialog(11, getWeatherName(gameStore.weather), 'icon_weather.png')}
@@ -152,7 +152,7 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
           icon="icon_temperature_0.png"
           iconAtlas="icon"
           label={String(playerStore.temperature)}
-          position={{ x: btnSize.width * 3.5 - 4, y: 25 }}
+          position={{ x: btnSize.width * 3.3 - 4, y: 25 }}
           scale={0.4}
           onClick={() => showStatusDialog(3, playerStore.temperature, 'icon_temperature_0.png')}
         />
@@ -162,8 +162,8 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
           icon={`icon_electric_${workSiteActive ? 'active' : 'inactive'}.png`}
           iconAtlas="icon"
           label=""
-          position={{ x: btnSize.width * 4 + 4.5, y: 25 }}
-          scale={0.6}
+          position={{ x: btnSize.width * 3.9 + 4.5, y: 25 }}
+          scale={0.5}
           noLabel={true}
           onClick={() => showStatusDialog(12, workSiteActive ? 'Active' : 'Inactive', 'icon_electric.png')}
         />
@@ -173,7 +173,7 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
           icon="icon_item_money.png"
           iconAtlas="new_temp"
           label={String(Math.floor(playerStore.currency))}
-          position={{ x: btnSize.width * 5 - 12.5, y: 25 }}
+          position={{ x: btnSize.width * 4.7 - 12.5, y: 25 }}
           scale={0.5}
           onClick={() => showStatusDialog(13, Math.floor(playerStore.currency), 'icon_item_money.png')}
         />
@@ -183,15 +183,15 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
           icon="icon_item_gas.png"
           iconAtlas="new"
           label="0"
-          position={{ x: btnSize.width * 5.7 - 0.4, y: 25 }}
-          scale={1.0}
+          position={{ x: btnSize.width * 5.3 - 0.4, y: 25 }}
+          scale={0.5}
           onClick={() => showStatusDialog(16, `0/${hasMotorcycle ? 99 : 0}`, 'icon_oil.png')}
         />
       </div>
       
       {/* Second Line - Attribute Bars */}
       {/* Cocos Y=134 from bottom, CSS top = 244 - 134 - 50 = 60px */}
-      <div className="absolute" style={{ left: '6px', top: `${bgHeight - 134 - 50}px`, width: '584px', height: '50px' }}>
+      <div className="absolute" style={{ left: '6px', top: `${bgHeight - 134 - 50}px`, width: '584px', height: '50px' }} data-test-id="topbar-second-line" data-test-label="Second Line (Attributes)" data-test-position>
         <AttrButton
           attr="injury"
           position={{ x: 584 / 16 * 1, y: 25 }}
@@ -259,7 +259,7 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
       
       {/* Third Line - Log Bar */}
       {/* Cocos Y=6 from bottom, CSS top = 244 - 6 - 122 = 116px */}
-      <div className="absolute" style={{ left: '6px', top: `${bgHeight - 6 - 122}px`, width: '584px', height: '122px' }}>
+      <div className="absolute" style={{ left: '6px', top: `${bgHeight - 6 - 122}px`, width: '584px', height: '122px' }} data-test-id="topbar-third-line" data-test-label="Third Line (Log)" data-test-position>
         {/* Log messages */}
         <LogBar logs={testLogs} />
         

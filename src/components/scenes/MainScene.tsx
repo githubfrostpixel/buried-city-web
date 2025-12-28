@@ -113,6 +113,7 @@ export function MainScene() {
   
   return (
     <div
+      data-test-id="mainscene-container"
       className="relative"
       style={{
         width: `${screenWidth}px`,

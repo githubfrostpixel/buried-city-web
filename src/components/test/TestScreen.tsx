@@ -1,0 +1,123 @@
+/**
+ * Test Screen Component
+ * Reusable wrapper for test screens with controls
+ */
+
+import { useState, ReactNode } from 'react'
+import { PositionOverlay } from './PositionOverlay'
+
+interface TestScreenProps {
+  title: string
+  children: ReactNode
+  onTestComplete?: (results: any) => void
+  expectedPositions?: Array<{
+    id: string
+    label: string
+    expected: { x: number; y: number; width?: number; height?: number }
+  }>
+}
+
+export function TestScreen({ 
+  title, 
+  children, 
+  onTestComplete,
+  expectedPositions = []
+}: TestScreenProps) {
+  const [showPositionOverlay, setShowPositionOverlay] = useState(false)
+  const [showExpected, setShowExpected] = useState(false)
+  const [screenFix, setScreenFix] = useState(0)
+  const [showControls, setShowControls] = useState(true)
+
+  return (
+    <div className="relative w-full h-full" style={{ backgroundColor: '#000000' }}>
+      {/* Test Controls Panel - Collapsible */}
+      {showControls && (
+        <div
+          className="absolute bottom-0 right-0 bg-gray-900/95 text-white p-3 z-[10000]"
+          style={{ 
+            maxWidth: '320px', 
+            maxHeight: '50vh', 
+            overflowY: 'auto',
+            borderTopLeftRadius: '8px'
+          }}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-sm font-bold">{title}</h2>
+            <button
+              onClick={() => setShowControls(false)}
+              className="text-gray-400 hover:text-white text-lg"
+              title="Hide Controls"
+            >
+              ×
+            </button>
+          </div>
+          
+          <div className="space-y-1 mb-2 text-xs">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={showPositionOverlay}
+                onChange={(e) => setShowPositionOverlay(e.target.checked)}
+                className="w-3 h-3"
+              />
+              <span>Position Overlay</span>
+            </label>
+            
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={showExpected}
+                onChange={(e) => setShowExpected(e.target.checked)}
+                disabled={!showPositionOverlay}
+                className="w-3 h-3"
+              />
+              <span>Expected Positions</span>
+            </label>
+            
+            <div className="flex items-center gap-1 text-xs">
+              <span>screenFix:</span>
+              <button
+                onClick={() => setScreenFix(0)}
+                className={`px-1 py-0.5 text-xs ${screenFix === 0 ? 'bg-blue-500' : 'bg-gray-700'}`}
+              >
+                0
+              </button>
+              <button
+                onClick={() => setScreenFix(1)}
+                className={`px-1 py-0.5 text-xs ${screenFix === 1 ? 'bg-blue-500' : 'bg-gray-700'}`}
+              >
+                1
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Show Controls Button - when hidden */}
+      {!showControls && (
+        <button
+          onClick={() => setShowControls(true)}
+          className="absolute bottom-4 right-4 bg-gray-900/95 text-white px-3 py-2 rounded z-[10000] hover:bg-gray-800"
+          title="Show Controls"
+        >
+          Show Controls
+        </button>
+      )}
+
+      {/* Position Overlay */}
+      <PositionOverlay
+        enabled={showPositionOverlay}
+        showExpected={showExpected}
+        expectedPositions={expectedPositions}
+      />
+
+      {/* Test Content - Centered, with space for controls */}
+      <div className="flex items-center justify-center min-h-screen py-4">
+        <div className="relative" style={{ width: '640px', height: '1136px' }}>
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
+

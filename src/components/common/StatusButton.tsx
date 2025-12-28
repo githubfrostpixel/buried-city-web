@@ -56,7 +56,7 @@ export function StatusButton({
         />
         {!noLabel && label !== undefined && (
           <span 
-            className="text-white text-sm whitespace-nowrap pointer-events-none"
+            className="text-white text-sm whitespace-nowrap pointer-events-none text-left"
             style={{ 
               transform: `scale(${1 / scale})` // Inverse scale to keep text normal size
             }}

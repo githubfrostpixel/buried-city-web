@@ -59,7 +59,7 @@ export function BottomBar({
   // Content area fills remaining space below line
   
   return (
-    <div className="absolute" style={bgStyle}>
+    <div className="absolute" style={bgStyle} data-test-id="bottombar-bg" data-test-label="BottomBar Background" data-test-position>
       {/* Background sprite - on top layer above home bg, but doesn't block clicks */}
       <Sprite 
         atlas="ui" 
@@ -84,6 +84,9 @@ export function BottomBar({
             paddingTop: '5px', // 5px top padding
             boxSizing: 'border-box'
           }}
+          data-test-id="bottombar-action-bar"
+          data-test-label="Action Bar Row"
+          data-test-position
         >
           {/* Left button - absolutely positioned at left edge */}
           {leftBtn && (
@@ -100,6 +103,9 @@ export function BottomBar({
                 padding: 0,
                 cursor: 'pointer'
               }}
+              data-test-id="bottombar-left-btn"
+              data-test-label="Left Button"
+              data-test-position
             >
               <Sprite
                 atlas="ui"
@@ -112,6 +118,7 @@ export function BottomBar({
           {/* Title - always centered at 50% width (matches original) */}
           {title && (
             <div
+              data-test-id="bottombar-title"
               className="absolute text-center text-white"
               style={{
                 left: '50%',
@@ -143,6 +150,9 @@ export function BottomBar({
                 padding: 0,
                 cursor: 'pointer'
               }}
+              data-test-id="bottombar-right-btn"
+              data-test-label="Right Button"
+              data-test-position
             >
               <Sprite
                 atlas="ui"
@@ -165,6 +175,9 @@ export function BottomBar({
             top: '76px', // Below action bar (1px top + 5px padding + 70px height)
             transform: 'translateX(-50%)'
           }}
+          data-test-id="bottombar-line"
+          data-test-label="Line Separator"
+          data-test-position
         />
       )}
       
@@ -180,6 +193,9 @@ export function BottomBar({
           overflowX: 'hidden',
           boxSizing: 'border-box'
         }}
+        data-test-id="bottombar-content"
+        data-test-label="Content Area"
+        data-test-position
       >
         {children}
       </div>

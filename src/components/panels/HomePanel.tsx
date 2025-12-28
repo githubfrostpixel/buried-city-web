@@ -135,7 +135,7 @@ export function HomePanel() {
 
   return (
     <div className="absolute inset-0 flex flex-col" style={{ overflow: 'hidden' }}>
-      <div style={bgContainerStyle}>
+      <div style={bgContainerStyle} data-test-id="homepanel-bg">
         {/* Home background */}
         <Sprite
           atlas="new"
@@ -172,6 +172,7 @@ export function HomePanel() {
           return (
             <div
               key={bid}
+              data-test-id={`building-${bid}`}
               style={{
                 position: 'absolute',
                 left: `${pos.x}px`,
