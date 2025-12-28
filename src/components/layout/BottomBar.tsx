@@ -75,23 +75,24 @@ export function BottomBar({
       {/* Action bar row: buttons and title in same row - hidden if fullScreen */}
       {!fullScreen && (
         <div
-          className="absolute flex items-center justify-between"
+          className="absolute flex items-center"
           style={{
             left: '0px',
             top: '1px', // Position at top of bottom bar
             width: `${bgWidth}px`,
             height: '70px',
-            paddingLeft: '5px', // 5px left padding
-            paddingRight: '5px', // 5px right padding
             paddingTop: '5px', // 5px top padding
             boxSizing: 'border-box'
           }}
         >
-          {/* Left button */}
+          {/* Left button - absolutely positioned at left edge */}
           {leftBtn && (
             <button
               onClick={onLeftClick}
+              className="absolute"
               style={{
+                left: '15px', // Matches original: 60px from left edge
+                top: '5px',
                 width: '100px',
                 height: '70px',
                 background: 'transparent',
@@ -108,27 +109,33 @@ export function BottomBar({
             </button>
           )}
           
-          {/* Title - centered */}
+          {/* Title - always centered at 50% width (matches original) */}
           {title && (
             <div
-              className="text-center text-white"
+              className="absolute text-center text-white"
               style={{
+                left: '50%',
+                top: '5px',
+                transform: 'translateX(-50%)',
                 fontSize: '18px',
                 fontFamily: 'Arial, sans-serif',
                 fontWeight: 'bold',
-                flex: 1,
-                textAlign: 'center'
+                lineHeight: '70px',
+                height: '70px'
               }}
             >
               {title}
             </div>
           )}
           
-          {/* Right button */}
+          {/* Right button - absolutely positioned at right edge */}
           {rightBtn && (
             <button
               onClick={onRightClick}
+              className="absolute"
               style={{
+                right: '10px', // Matches original: 60px from right edge
+                top: '5px',
                 width: '100px',
                 height: '70px',
                 background: 'transparent',

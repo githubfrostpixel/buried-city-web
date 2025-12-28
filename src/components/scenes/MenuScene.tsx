@@ -33,6 +33,12 @@ export function MenuScene() {
     uiStore.setScene('saveFile')
   }
 
+  // Temporary test function to navigate directly to MainScene
+  const handleTestMainScene = () => {
+    audioManager.playEffect(SoundPaths.CLICK)
+    uiStore.setScene('main')
+  }
+
   const handleHallOfFame = () => {
     audioManager.playEffect(SoundPaths.CLICK)
     // TODO: Navigate to Hall of Fame scene
@@ -224,6 +230,20 @@ export function MenuScene() {
       >
         BuriedTown React Port - Phase 1
       </div>
+
+      {/* TEMPORARY: Test MainScene Button (Top Left) - Remove after testing */}
+      <button
+        onClick={handleTestMainScene}
+        className="absolute bg-blue-600 text-white px-4 py-2 rounded"
+        style={{ 
+          top: '20px',
+          left: '20px',
+          zIndex: 1000,
+          fontSize: '12px'
+        }}
+      >
+        TEST: MainScene
+      </button>
     </div>
   )
 }
