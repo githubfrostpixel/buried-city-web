@@ -28,7 +28,7 @@ interface GameStore extends GameState {
 export const useGameStore = create<GameStore>((set, get) => ({
   // Initial state
   time: 6 * 60 * 60 + 1, // Start at 6:00:01
-  season: 0, // Spring
+  season: 0, // Autumn (0=Autumn, 1=Winter, 2=Spring, 3=Summer)
   stage: 'day',
   isPaused: false,
   pausedRef: 0,

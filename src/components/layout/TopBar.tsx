@@ -7,10 +7,11 @@
 import { useEffect } from 'react'
 import { useGameStore } from '@/store/gameStore'
 import { usePlayerStore } from '@/store/playerStore'
+import { useLogStore } from '@/store/logStore'
 import { cocosToCssPosition } from '@/utils/position'
 import { Sprite } from '@/components/sprites/Sprite'
 import { StatusButton, AttrButton, LogBar } from '@/components/common'
-import { Range } from '@/utils/range'
+import { attributeWarningRanges } from '@/data/attributeWarningRanges'
 
 // Season names
 const SEASON_NAMES = ['Spring', 'Summer', 'Autumn', 'Winter']
@@ -55,6 +56,12 @@ interface TopBarProps {
 export function TopBar({ testLogs = [] }: TopBarProps = {}) {
   const gameStore = useGameStore()
   const playerStore = usePlayerStore()
+  const logStore = useLogStore()
+  
+  // Use log store if available, otherwise fall back to testLogs
+  const logs = logStore.logs.length > 0 
+    ? logStore.logs.map(log => ({ txt: log.txt, timestamp: log.timestamp }))
+    : testLogs
   
   // Screen dimensions
   const screenWidth = 640
@@ -195,64 +202,64 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
         <AttrButton
           attr="injury"
           position={{ x: 584 / 16 * 1, y: 25 }}
-          warnRange={new Range("[0,0.5]")}
-          reversePercentage={true}
+          warnRange={attributeWarningRanges.injury.range}
+          reversePercentage={attributeWarningRanges.injury.reversePercentage}
           onClick={() => showAttrStatusDialog(10, 'injury')}
         />
         
         <AttrButton
           attr="infect"
           position={{ x: 584 / 16 * 3, y: 25 }}
-          warnRange={new Range("[0,0.75]")}
-          reversePercentage={true}
+          warnRange={attributeWarningRanges.infect.range}
+          reversePercentage={attributeWarningRanges.infect.reversePercentage}
           onClick={() => showAttrStatusDialog(9, 'infect')}
         />
         
         <AttrButton
           attr="starve"
           position={{ x: 584 / 16 * 5, y: 25 }}
-          warnRange={new Range("[0,0.5]")}
-          reversePercentage={false}
+          warnRange={attributeWarningRanges.starve.range}
+          reversePercentage={attributeWarningRanges.starve.reversePercentage}
           onClick={() => showAttrStatusDialog(6, 'starve')}
         />
         
         <AttrButton
           attr="vigour"
           position={{ x: 584 / 16 * 7, y: 25 }}
-          warnRange={new Range("[0,0.5]")}
-          reversePercentage={false}
+          warnRange={attributeWarningRanges.vigour.range}
+          reversePercentage={attributeWarningRanges.vigour.reversePercentage}
           onClick={() => showAttrStatusDialog(7, 'vigour')}
         />
         
         <AttrButton
           attr="spirit"
           position={{ x: 584 / 16 * 9, y: 25 }}
-          warnRange={new Range("[0,0.5]")}
-          reversePercentage={false}
+          warnRange={attributeWarningRanges.spirit.range}
+          reversePercentage={attributeWarningRanges.spirit.reversePercentage}
           onClick={() => showAttrStatusDialog(8, 'spirit')}
         />
         
         <AttrButton
           attr="water"
           position={{ x: 584 / 16 * 11, y: 25 }}
-          warnRange={new Range("[0,0.5]")}
-          reversePercentage={false}
+          warnRange={attributeWarningRanges.water.range}
+          reversePercentage={attributeWarningRanges.water.reversePercentage}
           onClick={() => showAttrStatusDialog(14, 'water')}
         />
         
         <AttrButton
           attr="virus"
           position={{ x: 584 / 16 * 13, y: 25 }}
-          warnRange={new Range("[0,0.25]")}
-          reversePercentage={true}
+          warnRange={attributeWarningRanges.virus.range}
+          reversePercentage={attributeWarningRanges.virus.reversePercentage}
           onClick={() => showAttrStatusDialog(15, 'virus')}
         />
         
         <AttrButton
           attr="hp"
           position={{ x: 584 / 16 * 15, y: 25 }}
-          warnRange={new Range("[0,0.5]")}
-          reversePercentage={false}
+          warnRange={attributeWarningRanges.hp.range}
+          reversePercentage={attributeWarningRanges.hp.reversePercentage}
           onClick={() => showAttrStatusDialog(5, 'hp')}
         />
       </div>
@@ -261,7 +268,7 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
       {/* Cocos Y=6 from bottom, CSS top = 244 - 6 - 122 = 116px */}
       <div className="absolute" style={{ left: '6px', top: `${bgHeight - 6 - 122}px`, width: '584px', height: '122px' }} data-test-id="topbar-third-line" data-test-label="Third Line (Log)" data-test-position>
         {/* Log messages */}
-        <LogBar logs={testLogs} />
+        <LogBar logs={logs} />
         
         {/* Talent button - TODO: Implement TalentButton component */}
         {/* Position relative to third line: original says setPosition(width-20, height-20) = (564, 102) */}

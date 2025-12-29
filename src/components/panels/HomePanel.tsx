@@ -17,6 +17,7 @@ import { useUIStore } from '@/store/uiStore'
 import { emitter } from '@/utils/emitter'
 import { Sprite } from '@/components/sprites/Sprite'
 import { BuildingButton } from '@/components/common/BuildingButton'
+import { game } from '@/game/Game'
 
 // Building positions from original game (Cocos coordinates, relative to home_bg)
 const BUILDING_POSITIONS = [
@@ -99,6 +100,19 @@ export function HomePanel() {
     const building = buildingStore.getBuilding(bid)
 
     switch (bid) {
+      case 9:
+        // Bed building - show sleep options
+        // For now, sleep until morning (full implementation in BuildPanel later)
+        if (building && building.level >= 0 && building.active) {
+          const survivalSystem = game.getSurvivalSystem()
+          const success = survivalSystem.startSleep('untilMorning')
+          if (success) {
+            uiStore.addNotification('Sleeping until morning...', 'info')
+          } else {
+            uiStore.addNotification('Cannot sleep right now', 'warning')
+          }
+        }
+        break
       case 13:
         // Navigate to Storage panel
         uiStore.openPanelAction('storage')

@@ -8,8 +8,9 @@ import { TopBarTestScreen } from './TopBarTestScreen'
 import { BottomBarTestScreen } from './BottomBarTestScreen'
 import { HomePanelTestScreen } from './HomePanelTestScreen'
 import { MainSceneTestScreen } from './MainSceneTestScreen'
+import { Phase2ETestScreen } from './Phase2ETestScreen'
 
-type TestScreenType = 'index' | 'topbar' | 'bottombar' | 'homepanel' | 'mainscene'
+type TestScreenType = 'index' | 'topbar' | 'bottombar' | 'homepanel' | 'mainscene' | 'phase2e'
 
 export function TestIndexScreen() {
   const [currentTest, setCurrentTest] = useState<TestScreenType>('index')
@@ -28,6 +29,10 @@ export function TestIndexScreen() {
 
   if (currentTest === 'mainscene') {
     return <MainSceneTestScreen />
+  }
+
+  if (currentTest === 'phase2e') {
+    return <Phase2ETestScreen />
   }
 
   return (
@@ -75,6 +80,16 @@ export function TestIndexScreen() {
               <h3 className="font-bold">MainScene Test Screen</h3>
               <p className="text-sm text-gray-300 mt-1">
                 Test MainScene integration with TopBar and BottomBar
+              </p>
+            </button>
+            
+            <button
+              onClick={() => setCurrentTest('phase2e')}
+              className="p-4 bg-indigo-600 hover:bg-indigo-700 rounded text-left"
+            >
+              <h3 className="font-bold">Phase 2E Test Screen</h3>
+              <p className="text-sm text-gray-300 mt-1">
+                Test death overlay and sleep mechanics
               </p>
             </button>
           </div>

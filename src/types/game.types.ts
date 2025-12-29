@@ -1,4 +1,4 @@
-export type Season = 0 | 1 | 2 | 3 // Spring, Summer, Autumn, Winter
+export type Season = 0 | 1 | 2 | 3 // 0=Autumn, 1=Winter, 2=Spring, 3=Summer
 
 export type TimeOfDay = 'day' | 'night'
 

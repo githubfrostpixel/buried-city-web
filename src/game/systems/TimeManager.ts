@@ -225,7 +225,7 @@ export class TimeManager {
   }
 
   /**
-   * Get current season (0-3: Spring, Summer, Autumn, Winter)
+   * Get current season (0-3: 0=Autumn, 1=Winter, 2=Spring, 3=Summer)
    */
   getSeason(timeObj?: TimeFormat): Season {
     const format = timeObj || this.formatTime()
@@ -367,6 +367,47 @@ export class TimeManager {
    */
   addTimerCallbackHourByHour(target: any, func: () => void, priority?: number): TimerCallback {
     return this.addTimerCallbackByHour({}, target, func, priority)
+  }
+
+  /**
+   * Add minute-by-minute callback
+   */
+  addTimerCallbackByMinute(
+    time: { m?: number; s?: number },
+    target: any,
+    func: () => void,
+    priority?: number
+  ): TimerCallback {
+    const nowTime = this.time
+    const now = this.formatTime()
+
+    let targetTimeObj: TimeFormat = {
+      d: now.d,
+      h: now.h,
+      m: time.m || 0,
+      s: time.s || 0
+    }
+
+    let targetTime = this.objToTime(targetTimeObj)
+    if (targetTime >= nowTime) {
+      if (targetTimeObj.m === 0) {
+        targetTimeObj.h--
+        targetTimeObj.m = 59
+      } else {
+        targetTimeObj.m--
+      }
+      targetTime = this.objToTime(targetTimeObj)
+    }
+
+    const cb = new TimerCallback(60, target, { end: func }, REPEAT_FOREVER)
+    return this.addTimerCallback(cb, targetTime, priority)
+  }
+
+  /**
+   * Add minute-by-minute callback (every minute)
+   */
+  addTimerCallbackMinuteByMinute(target: any, func: () => void, priority?: number): TimerCallback {
+    return this.addTimerCallbackByMinute({}, target, func, priority)
   }
 
   /**

@@ -20,7 +20,7 @@ interface LogBarProps {
 export function LogBar({ logs = [], onExpand, className = '' }: LogBarProps) {
   const [expanded, setExpanded] = useState(false)
   
-  // Get last 4 log messages
+  // Get last 4 log messages (oldest to newest)
   const displayLogs = logs.slice(-4)
   
   const handleClick = () => {
@@ -33,12 +33,13 @@ export function LogBar({ logs = [], onExpand, className = '' }: LogBarProps) {
   return (
     <div className={`absolute inset-0 ${className}`}>
       {/* Log lines - display last 4 messages */}
+      {/* Order: oldest at top (i=3), newest at bottom (i=0) */}
       {/* In Cocos, labels positioned at (0, i * 30 + 4) with anchor (0, 0) = bottom-left */}
-      {/* So CSS: bottom = (3-i) * 30 + 4, or top = height - (i * 30 + 4) - lineHeight */}
+      {/* CSS: line 0 (bottom, newest) = 4px, line 1 = 34px, line 2 = 64px, line 3 (top, oldest) = 94px from bottom */}
       {[0, 1, 2, 3].map(i => {
-        const log = displayLogs[displayLogs.length - 4 + i]
-        // Cocos Y increases upward, so line 0 is at bottom, line 3 is at top
-        // CSS: line 0 (bottom) = 4px, line 1 = 34px, line 2 = 64px, line 3 = 94px from bottom
+        // Reverse index: i=0 (bottom) shows newest (displayLogs[3]), i=3 (top) shows oldest (displayLogs[0])
+        const logIndex = 3 - i
+        const log = displayLogs[logIndex]
         const cssBottom = i * 30 + 4
         return (
           <div

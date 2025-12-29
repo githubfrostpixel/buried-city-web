@@ -57,6 +57,20 @@ Tests the BottomBar component with:
 - Panel Switching
 - Button Visibility
 
+### 3. Phase 2E Test Screen
+Tests Phase 2E features:
+- Death overlay display and interactions
+- Sleep mechanics (1 hour, 4 hours, until morning)
+- Survival system integration
+
+**Test Cases:**
+- Death Overlay (HP Zero, Virus Overload, Infection)
+- Death Restart/Quit buttons
+- Sleep mechanics (all durations)
+- Sleep without bed validation
+- Sleep recovery (vigour/HP)
+- Death condition triggers
+
 ## Using Test Screens
 
 ### Position Overlay

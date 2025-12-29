@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import type { DeathReason } from '@/types/game.types'
 
 export type Scene = 
   | 'menu'
@@ -41,6 +42,9 @@ interface UIStore {
   // Active overlay
   activeOverlay: Overlay
   
+  // Death reason (stored when death overlay is shown)
+  deathReason: DeathReason | null
+  
   // Dialog state
   dialog: {
     title: string
@@ -60,7 +64,7 @@ interface UIStore {
   setScene: (scene: Scene) => void
   openPanelAction: (panel: Panel) => void
   closePanel: () => void
-  showOverlay: (overlay: Overlay) => void
+  showOverlay: (overlay: Overlay, data?: any) => void
   hideOverlay: () => void
   showDialog: (dialog: UIStore['dialog']) => void
   hideDialog: () => void
@@ -72,6 +76,7 @@ export const useUIStore = create<UIStore>((set) => ({
   currentScene: 'menu',
   openPanel: null,
   activeOverlay: null,
+  deathReason: null,
   dialog: null,
   notifications: [],
   
@@ -81,9 +86,15 @@ export const useUIStore = create<UIStore>((set) => ({
   
   closePanel: () => set({ openPanel: null }),
   
-  showOverlay: (overlay: Overlay) => set({ activeOverlay: overlay }),
+  showOverlay: (overlay: Overlay, data?: any) => {
+    if (overlay === 'death' && data?.reason) {
+      set({ activeOverlay: overlay, deathReason: data.reason })
+    } else {
+      set({ activeOverlay: overlay })
+    }
+  },
   
-  hideOverlay: () => set({ activeOverlay: null }),
+  hideOverlay: () => set({ activeOverlay: null, deathReason: null }),
   
   showDialog: (dialog: UIStore['dialog']) => set({ dialog }),
   

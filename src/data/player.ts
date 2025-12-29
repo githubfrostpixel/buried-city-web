@@ -5,12 +5,15 @@ import type {
 
 export const playerConfig: PlayerConfig = {
   changeByTime: [[-4], [-3], [-1], [-2], [-2], [-4]],
+  // Temperature config: [baseTemp, dayModifier, nightModifier]
+  // Season mapping: 0=Autumn, 1=Winter, 2=Spring, 3=Summer
+  // Index 4 is used for building bonus value (13)
   temperature: [
-    [15, 2, -2],
-    [0, 2, -2],
-    [10, 2, -2],
-    [18, 5, 0],
-    [13],
+    [15, 2, -2], // 0: Autumn
+    [0, 2, -2],  // 1: Winter
+    [10, 2, -2], // 2: Spring
+    [18, 5, 0],  // 3: Summer
+    [13],        // 4: Building bonus value
   ],
 } as const
 

@@ -8,11 +8,14 @@
 import { usePlayerStore } from '@/store/playerStore'
 import { useGameStore } from '@/store/gameStore'
 import { useBuildingStore } from '@/store/buildingStore'
+import { useUIStore } from '@/store/uiStore'
+import { useLogStore } from '@/store/logStore'
 import { playerConfig, playerAttrEffect } from '@/data/player'
+import { weatherConfig } from '@/data/weather'
 import type { PlayerAttributes, AttributeEffect, PlayerAttributeEffectConfig } from '@/types/player.types'
 import type { DeathReason } from '@/types/game.types'
 import { isInRange } from '@/utils/range'
-import { TimeManager } from './TimeManager'
+import { TimeManager, TimerCallback } from './TimeManager'
 
 export interface AttributeRangeInfo {
   id: number
@@ -20,10 +23,14 @@ export interface AttributeRangeInfo {
   effect: AttributeEffect
 }
 
+export type SleepDuration = '1hour' | '4hours' | 'untilMorning'
+
 export interface SleepState {
   isSleeping: boolean
   startTime: number
+  endTime: number
   vigourRecoveryRate: number
+  hpRecoveryRate: number
 }
 
 export class SurvivalSystem {
@@ -31,8 +38,11 @@ export class SurvivalSystem {
   private sleepState: SleepState = {
     isSleeping: false,
     startTime: 0,
-    vigourRecoveryRate: 0
+    endTime: 0,
+    vigourRecoveryRate: 0,
+    hpRecoveryRate: 0
   }
+  private sleepCallback: TimerCallback | null = null // Store sleep timer callback for cleanup
   private deathCausedInfect = false
   private isInCure = false // TODO: Implement cure state from medicine system
   private isInBind = false // TODO: Implement bind state from injury treatment
@@ -40,6 +50,7 @@ export class SurvivalSystem {
   constructor(timeManager: TimeManager) {
     this.timeManager = timeManager
     this.setupHourlyCallbacks()
+    this.setupMinuteCallbacks()
   }
 
   /**
@@ -55,6 +66,18 @@ export class SurvivalSystem {
   }
 
   /**
+   * Setup minute-by-minute callbacks for death condition checks
+   */
+  private setupMinuteCallbacks(): void {
+    // Check death conditions every minute
+    this.timeManager.addTimerCallbackMinuteByMinute(
+      this,
+      () => this.checkDeathConditionsMinute(),
+      0
+    )
+  }
+
+  /**
    * Process hourly attribute decay
    * Called by TimeManager on hourly callbacks
    */
@@ -63,10 +86,8 @@ export class SurvivalSystem {
     const format = this.timeManager.formatTime()
     const hour = format.h
     
-    // Process sleep recovery if sleeping
-    if (this.sleepState.isSleeping) {
-      this.processSleepHourly()
-    }
+    // Sleep recovery is handled by timer callback, not hourly
+    // (Sleep applies all recovery at once when timer completes)
     
     // changeByTime has 6 values for hours 0-5 (each hour of the 6-hour cycle)
     // The cycle repeats every 6 hours
@@ -84,10 +105,15 @@ export class SurvivalSystem {
     this.updateVigour()
     this.updateInjury()
     
-    // Update temperature
+    // Update temperature (updates during sleep, matching original game)
     this.updateTemperature()
-    
-    // Check death conditions
+  }
+
+  /**
+   * Check death conditions every minute
+   * Called by TimeManager on minute-by-minute callbacks
+   */
+  private checkDeathConditionsMinute(): void {
     const deathReason = this.checkDeathConditions()
     if (deathReason) {
       this.handleDeath(deathReason)
@@ -324,45 +350,99 @@ export class SurvivalSystem {
   }
 
   /**
+   * Initialize base temperature based on season and day/night
+   * Ported from OriginalGame/src/game/player.js:1008-1020
+   * 
+   * Season mapping: 0=Autumn, 1=Winter, 2=Spring, 3=Summer
+   * Temperature config: [baseTemp, dayModifier, nightModifier]
+   */
+  private initTemperature(): number {
+    const gameStore = useGameStore.getState()
+    const season = gameStore.season
+    const stage = gameStore.stage // 'day' or 'night'
+    
+    // Get temperature config for current season
+    // Index: 0=Autumn, 1=Winter, 2=Spring, 3=Summer, 4=default (for building bonus)
+    const configBySeason = playerConfig.temperature[season]
+    
+    if (!configBySeason || configBySeason.length === 0) {
+      return 0
+    }
+    
+    // Base temperature from season
+    let temperature = configBySeason[0]
+    
+    // Add day/night modifier
+    if (stage === 'day') {
+      temperature += configBySeason[1] || 0
+    } else {
+      temperature += configBySeason[2] || 0
+    }
+    
+    return temperature
+  }
+
+  /**
    * Update temperature based on season, weather, and buildings
+   * Ported from OriginalGame/src/game/player.js:980-994
+   * 
+   * Calculates target temperature and applies the difference to current temperature
    */
   updateTemperature(): void {
     const gameStore = useGameStore.getState()
     const playerStore = usePlayerStore.getState()
-    const season = gameStore.season
-    
-    // Get temperature config for current season
-    // temperature array: [baseTemp, changeRate, minChange]
-    // Index: 0=Spring, 1=Summer, 2=Autumn, 3=Winter, 4=default
-    const tempConfig = playerConfig.temperature[season] || playerConfig.temperature[4]
-    
-    if (!tempConfig || tempConfig.length === 0) {
-      return
-    }
-    
-    const changeRate = tempConfig[1] || 0
-    
-    // Check fireplace building (ID 5) for heating
-    let tempChange = changeRate !== 0 ? changeRate : 0
-    
-    // Fireplace provides heating (reduces temperature loss or increases temperature)
     const buildingStore = useBuildingStore.getState()
-    const fireplace = buildingStore.getBuilding(5) // Fireplace building ID
-    if (fireplace && fireplace.level >= 0 && fireplace.active) {
-      // Fireplace provides heating bonus (reduces cold effects)
-      // In original game, fireplace reduces infection increase from cold
-      // For temperature, it may provide a small heating bonus
-      // TODO: Implement specific heating mechanics based on fireplace level
+    
+    // Calculate base target temperature (season + day/night)
+    let targetTemperature = this.initTemperature()
+    
+    // Add building bonuses
+    // Building 18 = Electric Stove, Building 5 = Fireplace
+    const electricStove = buildingStore.getBuilding(18) // Electric Stove
+    const fireplace = buildingStore.getBuilding(5) // Fireplace
+    
+    // Building bonus value from config[4][0] = 13
+    const buildingBonusValue = playerConfig.temperature[4]?.[0] || 13
+    
+    if (electricStove && electricStove.level >= 0 && electricStove.active) {
+      // Electric Stove is active: add base bonus
+      targetTemperature += buildingBonusValue
+      
+      // If Fireplace is also active: add half bonus
+      if (fireplace && fireplace.level >= 0 && fireplace.active) {
+        targetTemperature += Math.floor(buildingBonusValue / 2)
+      }
+    } else if (fireplace && fireplace.level >= 0 && fireplace.active) {
+      // Only Fireplace is active: add base bonus
+      targetTemperature += buildingBonusValue
     }
     
-    if (tempChange !== 0) {
-      // Apply temperature change gradually
-      // In original game, this happens hourly
-      this.changeAttribute('temperature', tempChange)
+    // Add weather effect
+    const weatherId = gameStore.weather
+    const weather = weatherConfig[weatherId.toString()]
+    if (weather && weather.temperature !== undefined) {
+      targetTemperature += weather.temperature
     }
     
-    // Apply temperature range effects
+    // Apply the difference (target - current)
+    // This gradually moves temperature toward target
+    const temperatureChange = targetTemperature - playerStore.temperature
+    if (temperatureChange !== 0) {
+      this.changeAttribute('temperature', temperatureChange)
+    }
+    
+    // Apply temperature range effects (infection from cold)
+    this.updateTemperatureEffect()
+  }
+
+  /**
+   * Update temperature range effects (infection from cold)
+   * Ported from OriginalGame/src/game/player.js:996-1006
+   */
+  private updateTemperatureEffect(): void {
+    const playerStore = usePlayerStore.getState()
     const attrRangeInfo = this.getAttrRangeInfo('temperature', playerStore.temperature)
+    
     if (attrRangeInfo) {
       this.applyAttributeEffect(attrRangeInfo.effect)
     }
@@ -401,9 +481,12 @@ export class SurvivalSystem {
    * Handle death
    */
   private handleDeath(reason: DeathReason): void {
-    // TODO: Trigger death overlay
-    // This will be handled by UI system
-    console.log('Player died:', reason)
+    // Pause game
+    this.timeManager.pause()
+    
+    // Show death overlay
+    const uiStore = useUIStore.getState()
+    uiStore.showOverlay('death', { reason })
     
     // Emit death event if needed
     // utils.emitter.emit('death', reason)
@@ -413,7 +496,7 @@ export class SurvivalSystem {
    * Start sleep mechanics
    * Returns true if sleep can start
    */
-  startSleep(): boolean {
+  startSleep(duration: SleepDuration = 'untilMorning'): boolean {
     // Check if bed building (ID 9) exists
     const buildingStore = useBuildingStore.getState()
     const bed = buildingStore.getBuilding(9) // Bed building ID
@@ -428,65 +511,124 @@ export class SurvivalSystem {
     
     const playerStore = usePlayerStore.getState()
     
-    // Calculate vigour recovery rate based on bed level
+    // Calculate bed rate (sleep quality)
     // bedRate = bedLevel * 0.5 + starve/starveMax * 0.2 + spirit/spiritMax * 0.3
-    // vigourRecovery = bedRate * 12 per hour
     const bedLevel = Math.max(0, bed.level)
     const bedRate = bedLevel * 0.5 + 
                     (playerStore.starve / playerStore.starveMax) * 0.2 + 
                     (playerStore.spirit / playerStore.spiritMax) * 0.3
-    const vigourRecoveryRate = bedRate * 12 // per hour
     
-    this.sleepState = {
-      isSleeping: true,
-      startTime: this.timeManager.now(),
-      vigourRecoveryRate
+    // Calculate sleep duration based on parameter
+    const currentTime = this.timeManager.now()
+    let sleepTimeSeconds = 0
+    let endTime = 0
+    
+    switch (duration) {
+      case '1hour':
+        sleepTimeSeconds = 1 * 60 * 60
+        endTime = currentTime + sleepTimeSeconds
+        break
+      case '4hours':
+        sleepTimeSeconds = 4 * 60 * 60
+        endTime = currentTime + sleepTimeSeconds
+        break
+      case 'untilMorning':
+        const timeToMorning = this.timeManager.getTimeFromNowToMorning()
+        sleepTimeSeconds = timeToMorning
+        endTime = currentTime + sleepTimeSeconds
+        break
     }
     
-    // Accelerate time during sleep
-    // Sleep until vigour is full or morning (6:00)
-    const timeToMorning = this.timeManager.getTimeFromNowToMorning()
-    const vigourNeeded = playerStore.vigourMax - playerStore.vigour
-    const hoursNeeded = Math.ceil(vigourNeeded / vigourRecoveryRate)
-    const sleepTime = Math.min(timeToMorning, hoursNeeded * 60 * 60)
+    // Calculate recovery per hour
+    // Original: vigour = bedRate * 12 per hour, hp = bedRate * 20 per hour
+    const vigourPerHour = bedRate * 12
+    const hpPerHour = bedRate * 20
     
-    // Accelerate time
-    this.timeManager.accelerate(sleepTime, 3) // 3 real seconds
+    // Calculate total recovery based on hours (like original: effect[key] * hours)
+    const hours = sleepTimeSeconds / (60 * 60)
+    const totalVigourRecovery = Math.ceil(vigourPerHour * hours)
+    const totalHpRecovery = Math.ceil(hpPerHour * hours)
+    
+    // Set sleep state
+    this.sleepState = {
+      isSleeping: true,
+      startTime: currentTime,
+      endTime: endTime,
+      vigourRecoveryRate: vigourPerHour,
+      hpRecoveryRate: hpPerHour
+    }
+    
+    // Format sleep duration for log message
+    let durationText = ''
+    switch (duration) {
+      case '1hour':
+        durationText = '1 hour'
+        break
+      case '4hours':
+        durationText = '4 hours'
+        break
+      case 'untilMorning':
+        const timeToMorning = this.timeManager.getTimeFromNowToMorning()
+        const hoursToMorning = Math.floor(timeToMorning / (60 * 60))
+        durationText = `until morning (${hoursToMorning} hours)`
+        break
+    }
+    
+    // Log sleep start with duration
+    this.addLogMessage(`You are sleeping for ${durationText}`)
+    
+    // Create timer callback to apply recovery when sleep completes
+    // Original: this.addTimer(time, time, function() { player.applyEffect(totalEffect); player.wakeUp(); })
+    // The timer callback will apply all recovery at once when sleep duration completes
+    this.sleepCallback = new TimerCallback(
+      sleepTimeSeconds,
+      this,
+      {
+        end: () => {
+          // Apply all recovery at once (like original game)
+          const currentPlayerStore = usePlayerStore.getState()
+          
+          // Apply vigour recovery (cap at max)
+          const vigourRecovery = Math.min(totalVigourRecovery, currentPlayerStore.vigourMax - currentPlayerStore.vigour)
+          if (vigourRecovery > 0) {
+            this.changeAttribute('vigour', vigourRecovery)
+          }
+          
+          // Apply HP recovery (cap at max)
+          const hpRecovery = Math.min(totalHpRecovery, currentPlayerStore.hpMax - currentPlayerStore.hp)
+          if (hpRecovery > 0) {
+            this.changeAttribute('hp', hpRecovery)
+          }
+          
+          // Wake up
+          this.endSleep()
+        }
+      },
+      1 // Single execution (not repeating)
+    )
+    
+    // Add timer callback
+    this.timeManager.addTimerCallback(this.sleepCallback, currentTime)
+    
+    // Accelerate time during sleep (like original: accelerateWorkTime)
+    // Original: cc.timer.accelerateWorkTime(time) which accelerates to 3 real seconds
+    this.timeManager.accelerateWorkTime(sleepTimeSeconds)
     
     return true
   }
 
+  // Note: Sleep recovery is now handled by timer callback (applies all at once when timer completes)
+  // The old processSleepHourly method has been removed to match original game behavior
+
+  // Note: checkAttributeWarnings() removed - warning checks disabled for now
+  // Can be re-enabled later when needed
+
   /**
-   * Process sleep mechanics (hourly)
-   * Called during sleep to recover vigour every hour
+   * Add log message to TopBar log
    */
-  private processSleepHourly(): void {
-    if (!this.sleepState.isSleeping) {
-      return
-    }
-    
-    const playerStore = usePlayerStore.getState()
-    const format = this.timeManager.formatTime()
-    
-    // Check if should wake up (morning or vigour full)
-    if (format.h >= 6 && format.h < 20) {
-      // Morning - wake up
-      this.endSleep()
-      return
-    }
-    
-    if (playerStore.vigour >= playerStore.vigourMax) {
-      // Vigour full - wake up
-      this.endSleep()
-      return
-    }
-    
-    // Recover vigour (recovery rate is per hour)
-    const vigourRecovery = this.sleepState.vigourRecoveryRate
-    
-    if (vigourRecovery > 0) {
-      this.changeAttribute('vigour', vigourRecovery)
-    }
+  private addLogMessage(message: string): void {
+    const logStore = useLogStore.getState()
+    logStore.addLog(message)
   }
 
   /**
@@ -497,10 +639,18 @@ export class SurvivalSystem {
       return
     }
     
+    // Remove sleep timer callback if it exists
+    if (this.sleepCallback) {
+      this.timeManager.removeTimerCallback(this.sleepCallback)
+      this.sleepCallback = null
+    }
+    
     this.sleepState = {
       isSleeping: false,
       startTime: 0,
-      vigourRecoveryRate: 0
+      endTime: 0,
+      vigourRecoveryRate: 0,
+      hpRecoveryRate: 0
     }
     
     // Time acceleration will end automatically when target time is reached

@@ -32,13 +32,29 @@ export function AttrButton({
   const maxAttr = `${attr}Max` as keyof typeof playerStore
   const max = (playerStore[maxAttr] as number) || 100
   
-  // Calculate percentage (reverse if needed for display)
-  const percentage = reversePercentage ? 1 - (value / max) : value / max
-  const percentageValue = Math.max(0, Math.min(1, percentage))
+  // Calculate actual value percentage (0-1)
+  const actualPercentage = value / max
+  const actualPercentageValue = Math.max(0, Math.min(1, actualPercentage))
+  
+  // Calculate display percentage (reverse if needed for display)
+  const displayPercentage = reversePercentage ? 1 - actualPercentageValue : actualPercentageValue
+  const percentageValue = Math.max(0, Math.min(1, displayPercentage))
   
   // Check if in warning range
-  // Warning check uses the same percentageValue (already reversed if reversePercentage is true)
-  // This matches original game logic: warning range is checked against the display percentage
+  // Based on original game: btn.updateView(reversPercentage ? 1 - player.getAttrPercentage(attr) : player.getAttrPercentage(attr), ...)
+  //                        icon3.setVisible(this.range.isInRange(percentage))
+  // The percentage passed to updateView is the DISPLAY percentage (already reversed if reversePercentage is true)
+  // So the range should be checked against the display percentage
+  // However, user reports warning shows backwards for virus, so let's verify:
+  // For virus with reversePercentage=true and warnRange=[0,0.25]:
+  //   - High virus (80% actual) → display 20% → should be in [0,0.25] → should show warning
+  //   - Low virus (15% actual) → display 85% → should NOT be in [0,0.25] → should not show warning
+  // The logic seems correct, but user reports it's backwards. Let me check if maybe the range needs to be inverted
+  // for reversePercentage attributes when checking against actual value:
+  //   - High virus (80% actual) → should warn → check if 80% is in inverted range [0.75, 1] → true
+  //   - Low virus (15% actual) → should not warn → check if 15% is in inverted range [0.75, 1] → false
+  // So for reversePercentage, maybe we should check: actualPercentage >= (1 - warnRange.max)?
+  // Actually, let's stick with original game logic and check display percentage
   const isWarning = warnRange ? warnRange.isInRange(percentageValue) : false
 
   const iconAtlas = 'icon'
@@ -77,13 +93,15 @@ export function AttrButton({
           style={{ width: 'auto', height: 'auto' }}
         />
         {/* Filled state icon (_0) - always visible, clipped from top based on value */}
-        {/* Empty (0% value) = 0% inset (fully visible), Full (100% value) = 100% inset (fully clipped from top) */}
-        {/* So we use (1 - percentageValue) to reverse: empty shows all, full shows none */}
+        {/* For normal attributes: Empty (0% value) = 0% inset (fully visible), Full (100% value) = 100% inset (fully clipped) */}
+        {/* For reversePercentage attributes: Low value = high fill, High value = low fill */}
+        {/* So for reversePercentage, we use actualPercentage for clipPath (not display percentage) */}
+        {/* Example: Virus at 15% → clip 15% from top → shows 85% filled (correct for reversed display) */}
         <div
           className="absolute inset-0"
           style={{
             overflow: 'hidden',
-            clipPath: `inset(${(1 - percentageValue) * 100}% 0 0 0)`,
+            clipPath: `inset(${(reversePercentage ? actualPercentageValue : (1 - percentageValue)) * 100}% 0 0 0)`,
             zIndex: 1
           }}
         >
