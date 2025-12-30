@@ -167,7 +167,7 @@ export async function saveAll(): Promise<void> {
       time: gameState.time,
       season: gameState.season,
       day: gameState.day,
-      weather: gameState.weather
+      weather: gameState.weatherSystem.save()
     },
     buildings: (() => {
       const { useBuildingStore } = require('@/store/buildingStore')
@@ -212,7 +212,12 @@ export async function restoreFromSave(saveData: ValidatedSaveData): Promise<void
   const gameStore = useGameStore.getState()
   gameStore.setTime(saveData.game.time)
   gameStore.setSeason(saveData.game.season)
-  gameStore.setWeather(saveData.game.weather)
+  
+  // Restore weather system state
+  if (saveData.game.weather) {
+    gameStore.weatherSystem.restore(saveData.game.weather)
+    gameStore.updateWeather()
+  }
   
   // Restore player state
   const { usePlayerStore } = await import('@/store/playerStore')

@@ -7,6 +7,8 @@ import { TimeManager } from './systems/TimeManager'
 import { SurvivalSystem } from './systems/SurvivalSystem'
 import { FoodExpirationSystem } from './systems/FoodExpirationSystem'
 import { useBuildingStore } from '@/store/buildingStore'
+import { useGameStore } from '@/store/gameStore'
+import type { Season } from '@/types/game.types'
 
 class Game {
   private static instance: Game | null = null
@@ -30,6 +32,26 @@ class Game {
         // TODO: Show food expiration dialog (Phase 2D or later)
         // TODO: Save game state
         console.log('Food expired:', result)
+      }
+    })
+    
+    // Add weather check at day transition (6:00 AM)
+    // Original: cc.timer.addTimerCallbackDayAndNight(null, function (flag) { if (flag === 'day') { self.weather.checkWeather(); } })
+    this.timeManager.addTimerCallbackDayAndNight(null, (stage) => {
+      if (stage === 'day') {
+        const gameStore = useGameStore.getState()
+        const currentDay = gameStore.day
+        
+        // Calculate season for tomorrow (day + 1) to match original game
+        // Original: var season = cc.timer.getSeason({ d: (cc.timer.formatTime().d + 1) })
+        const dayInCycle = (currentDay + 1) % 120
+        const tomorrowSeason = Math.floor(dayInCycle / 30) as Season
+        
+        // Check and update weather
+        gameStore.weatherSystem.checkWeather(tomorrowSeason, currentDay)
+        
+        // Update GameStore
+        gameStore.updateWeather()
       }
     })
   }

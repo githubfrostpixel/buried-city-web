@@ -55,12 +55,24 @@ const PlayerSaveDataSchema = z.object({
   })
 })
 
+// Weather save schema
+const WeatherSaveDataSchema = z.object({
+  weatherId: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  Tomorrow: z.tuple([
+    z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+    z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])
+  ]),
+  Random: z.string(),
+  lastDays: z.number().int(),
+  aa: z.boolean()
+})
+
 // Game save schema
 const GameSaveDataSchema = z.object({
   time: z.number().min(0),
   season: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   day: z.number().int().min(0),
-  weather: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)])
+  weather: WeatherSaveDataSchema
 })
 
 // Building save schema

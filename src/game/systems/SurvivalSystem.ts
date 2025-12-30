@@ -107,6 +107,10 @@ export class SurvivalSystem {
     
     // Update temperature (updates during sleep, matching original game)
     this.updateTemperature()
+    
+    // Apply weather effects (vigour, spirit)
+    // Original: this.changeVigour(this.weather.getValue("vigour")); this.changeSpirit(this.weather.getValue("spirit"));
+    this.applyWeatherEffects()
   }
 
   /**
@@ -446,6 +450,40 @@ export class SurvivalSystem {
     if (attrRangeInfo) {
       this.applyAttributeEffect(attrRangeInfo.effect)
     }
+  }
+
+  /**
+   * Apply weather effects to player attributes
+   * Ported from OriginalGame/src/game/player.js:878-879
+   * 
+   * Applies vigour and spirit effects from weather
+   * Note: Temperature effect is already applied in updateTemperature()
+   * Note: Item-specific and building-specific effects are handled in their respective systems
+   * 
+   * Made public for testing purposes
+   */
+  applyWeatherEffects(): void {
+    const gameStore = useGameStore.getState()
+    const weatherSystem = gameStore.weatherSystem
+    const weatherConfig = weatherSystem.getWeatherConfig()
+    
+    // Apply vigour effect
+    if (weatherConfig.vigour !== undefined) {
+      this.changeAttribute('vigour', weatherConfig.vigour)
+    }
+    
+    // Apply spirit effect
+    if (weatherConfig.spirit !== undefined) {
+      this.changeAttribute('spirit', weatherConfig.spirit)
+    }
+    
+    // Note: Other weather effects are applied in their respective systems:
+    // - Temperature: Already applied in updateTemperature()
+    // - Speed: Applied in travel system (Phase 4)
+    // - Gun accuracy: Applied in combat system (Phase 4)
+    // - Monster speed: Applied in combat system (Phase 4)
+    // - Item-specific effects (item_1101061, item_1103041): Applied in item production systems
+    // - Building-specific effects (build_2): Applied in building production systems
   }
 
   /**

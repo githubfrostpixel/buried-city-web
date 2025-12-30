@@ -3,12 +3,13 @@
  * Test screen for HomePanel component with test buttons and expected results
  */
 
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { TestScreen } from './TestScreen'
 import { HomePanel } from '@/components/panels/HomePanel'
 import { useBuildingStore } from '@/store/buildingStore'
 import { usePlayerStore } from '@/store/playerStore'
 import { testBuildingLevels } from '@/test-utils/test-data'
+import { TestPanel, TestSection, TestButton, TestResultsList, useTestResults } from './component'
 
 // Building positions from HomePanel (Cocos coordinates)
 const BUILDING_POSITIONS = [
@@ -38,12 +39,7 @@ const BUILDING_POSITIONS = [
 export function HomePanelTestScreen() {
   const buildingStore = useBuildingStore()
   const playerStore = usePlayerStore()
-  const [testResults, setTestResults] = useState<Array<{
-    test: string
-    expected: string
-    actual: string
-    status: 'pass' | 'fail' | 'pending'
-  }>>([])
+  const { results, runTest, addPendingTests, clearResults } = useTestResults()
 
   // Initialize building store if needed
   useEffect(() => {
@@ -57,69 +53,42 @@ export function HomePanelTestScreen() {
     {
       id: 'homepanel-bg',
       label: 'Home Background',
-      expected: { x: 0, y: 0, width: 640, height: 1136 }, // Full screen in BottomBar content area
+      expected: { x: 0, y: 0, width: 640, height: 1136 },
     },
   ]
-
-  const runTest = (testName: string, expected: string, getActual: () => string) => {
-    const actual = getActual()
-    const status = actual === expected ? 'pass' : 'fail'
-    setTestResults((prev) => [
-      ...prev.filter((r) => r.test !== testName),
-      { test: testName, expected, actual, status },
-    ])
-  }
 
   const testBackgroundPosition = () => {
     const bg = document.querySelector('[data-test-id="homepanel-bg"]')
     if (bg) {
       const rect = bg.getBoundingClientRect()
       const actual = `top: ${Math.round(rect.top)}px, left: ${Math.round(rect.left)}px`
-      runTest(
-        'Background Position',
-        'Background positioned at bottom of content area',
-        () => actual
-      )
+      runTest('Background Position', 'Background positioned at bottom of content area', () => actual)
     }
   }
 
   const testBuildingPositions = () => {
-    const results = BUILDING_POSITIONS.map(({ bid, pos }) => {
+    const tests = BUILDING_POSITIONS.map(({ bid, pos }) => {
       const building = buildingStore.getBuilding(bid)
       const level = building?.level ?? -1
-      const expected = `x: ${pos.x}px, y: ${pos.y}px (from bottom), level: ${level}`
-      return { 
-        test: `Building ${bid} Position`, 
-        expected, 
-        actual: 'Check visually', 
-        status: 'pending' as const 
+      return {
+        test: `Building ${bid} Position`,
+        expected: `x: ${pos.x}px, y: ${pos.y}px (from bottom), level: ${level}`,
       }
     })
-    
-    setTestResults((prev) => [
-      ...prev.filter((r) => !r.test.startsWith('Building ') || !r.test.includes('Position')),
-      ...results,
-    ])
+    addPendingTests(tests)
   }
 
   const testBuildingActiveStates = () => {
-    const results = BUILDING_POSITIONS.map(({ bid }) => {
+    BUILDING_POSITIONS.forEach(({ bid }) => {
       const building = buildingStore.getBuilding(bid)
       const level = building?.level ?? -1
       const isActive = level >= 0
-      const expected = `Building ${bid}: ${isActive ? 'Active' : 'Inactive'} (level: ${level})`
-      return { 
-        test: `Building ${bid} Active State`, 
-        expected, 
-        actual: `Active: ${isActive}, Level: ${level}`, 
-        status: 'pass' as const 
-      }
+      runTest(
+        `Building ${bid} Active State`,
+        `Building ${bid}: ${isActive ? 'Active' : 'Inactive'} (level: ${level})`,
+        () => `Active: ${isActive}, Level: ${level}`
+      )
     })
-    
-    setTestResults((prev) => [
-      ...prev.filter((r) => !r.test.startsWith('Building ') || !r.test.includes('Active State')),
-      ...results,
-    ])
   }
 
   const testGateLightEffect = () => {
@@ -135,18 +104,13 @@ export function HomePanelTestScreen() {
   }
 
   const testBuildingClicks = () => {
-    // Test that buildings are clickable
     const buildingButtons = document.querySelectorAll('[data-test-id^="building-"]')
     const clickableCount = Array.from(buildingButtons).filter((btn) => {
       const style = window.getComputedStyle(btn)
       return style.pointerEvents !== 'none' && style.cursor === 'pointer'
     }).length
     
-    runTest(
-      'Building Clicks',
-      'All active buildings are clickable',
-      () => `${clickableCount} clickable building buttons found`
-    )
+    runTest('Building Clicks', 'All active buildings are clickable', () => `${clickableCount} clickable building buttons found`)
   }
 
   const setTestBuildingLevels = (levels: typeof testBuildingLevels.allInactive) => {
@@ -158,16 +122,11 @@ export function HomePanelTestScreen() {
     })
     
     setTimeout(() => {
-      runTest(
-        'Set Building Levels',
-        `Set ${levels.length} buildings to specified levels`,
-        () => `Updated ${levels.length} buildings`
-      )
+      runTest('Set Building Levels', `Set ${levels.length} buildings to specified levels`, () => `Updated ${levels.length} buildings`)
     }, 100)
   }
 
   const testDogBuilding = () => {
-    // Test building 12 (dog house) active state
     const building12 = buildingStore.getBuilding(12)
     const dog = playerStore.dog
     const isDogActive = dog.active && dog.hunger > 0 && dog.mood > 0 && dog.injury < dog.injuryMax
@@ -182,9 +141,8 @@ export function HomePanelTestScreen() {
   }
 
   const testBombBuilding = () => {
-    // Test building 17 (bomb/minefield) active state
     const building17 = buildingStore.getBuilding(17)
-    const isBombActive = (playerStore as any).isBombActive ?? false
+    const isBombActive = (playerStore as unknown as { isBombActive?: boolean }).isBombActive ?? false
     const buildingActive = building17?.level !== undefined && building17.level >= 0
     const shouldBeActive = isBombActive && buildingActive
     
@@ -196,139 +154,65 @@ export function HomePanelTestScreen() {
   }
 
   return (
-    <TestScreen title="HomePanel Test Screen" expectedPositions={expectedPositions}>
-      {/* Test Controls - Left side, smaller, moved up */}
-      <div className="absolute top-4 left-4 bg-gray-800/95 text-white p-3 z-[10001]" style={{ maxWidth: '280px', maxHeight: '60vh', overflowY: 'auto', borderBottomRightRadius: '8px' }}>
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-sm font-bold">Test Controls</h3>
-        </div>
-        
-        <div className="space-y-2 mb-4">
-          <div>
-            <h4 className="text-sm font-semibold mb-1">Position Tests</h4>
-            <button
-              onClick={testBackgroundPosition}
-              className="block w-full text-left px-2 py-1 bg-blue-600 hover:bg-blue-700 text-xs mb-1"
-            >
-              Test Background Position
-            </button>
-            <button
-              onClick={testBuildingPositions}
-              className="block w-full text-left px-2 py-1 bg-blue-600 hover:bg-blue-700 text-xs mb-1"
-            >
-              Test Building Positions
-            </button>
-          </div>
+    <TestScreen title="HomePanel Test" expectedPositions={expectedPositions}>
+      {/* Test Controls Panel - Draggable */}
+      <TestPanel title="Test Controls" defaultPosition={{ x: 16, y: 16 }} width={280}>
+        <TestSection title="Position Tests">
+          <TestButton variant="position" onClick={testBackgroundPosition}>
+            Test Background Position
+          </TestButton>
+          <TestButton variant="position" onClick={testBuildingPositions}>
+            Test Building Positions
+          </TestButton>
+        </TestSection>
 
-          <div>
-            <h4 className="text-sm font-semibold mb-1">State Tests</h4>
-            <button
-              onClick={testBuildingActiveStates}
-              className="block w-full text-left px-2 py-1 bg-green-600 hover:bg-green-700 text-xs mb-1"
-            >
-              Test Building Active States
-            </button>
-            <button
-              onClick={testGateLightEffect}
-              className="block w-full text-left px-2 py-1 bg-green-600 hover:bg-green-700 text-xs mb-1"
-            >
-              Test Gate Light Effect
-            </button>
-            <button
-              onClick={testDogBuilding}
-              className="block w-full text-left px-2 py-1 bg-green-600 hover:bg-green-700 text-xs mb-1"
-            >
-              Test Dog Building (12)
-            </button>
-            <button
-              onClick={testBombBuilding}
-              className="block w-full text-left px-2 py-1 bg-green-600 hover:bg-green-700 text-xs mb-1"
-            >
-              Test Bomb Building (17)
-            </button>
-          </div>
+        <TestSection title="State Tests">
+          <TestButton variant="state" onClick={testBuildingActiveStates}>
+            Test Building Active States
+          </TestButton>
+          <TestButton variant="state" onClick={testGateLightEffect}>
+            Test Gate Light Effect
+          </TestButton>
+          <TestButton variant="state" onClick={testDogBuilding}>
+            Test Dog Building (12)
+          </TestButton>
+          <TestButton variant="state" onClick={testBombBuilding}>
+            Test Bomb Building (17)
+          </TestButton>
+        </TestSection>
 
-          <div>
-            <h4 className="text-sm font-semibold mb-1">Interaction Tests</h4>
-            <button
-              onClick={testBuildingClicks}
-              className="block w-full text-left px-2 py-1 bg-purple-600 hover:bg-purple-700 text-xs mb-1"
-            >
-              Test Building Clicks
-            </button>
-          </div>
+        <TestSection title="Interaction Tests">
+          <TestButton variant="interaction" onClick={testBuildingClicks}>
+            Test Building Clicks
+          </TestButton>
+        </TestSection>
 
-          <div>
-            <h4 className="text-sm font-semibold mb-1">Test Data</h4>
-            <button
-              onClick={() => setTestBuildingLevels(testBuildingLevels.allInactive)}
-              className="block w-full text-left px-2 py-1 bg-yellow-600 hover:bg-yellow-700 text-xs mb-1"
-            >
-              Set All Buildings Inactive
-            </button>
-            <button
-              onClick={() => setTestBuildingLevels(testBuildingLevels.allLevel0)}
-              className="block w-full text-left px-2 py-1 bg-yellow-600 hover:bg-yellow-700 text-xs mb-1"
-            >
-              Set All Buildings Level 0
-            </button>
-            <button
-              onClick={() => setTestBuildingLevels(testBuildingLevels.allLevel1)}
-              className="block w-full text-left px-2 py-1 bg-yellow-600 hover:bg-yellow-700 text-xs mb-1"
-            >
-              Set All Buildings Level 1
-            </button>
-            <button
-              onClick={() => setTestBuildingLevels(testBuildingLevels.allLevel2)}
-              className="block w-full text-left px-2 py-1 bg-yellow-600 hover:bg-yellow-700 text-xs mb-1"
-            >
-              Set All Buildings Level 2
-            </button>
-            <button
-              onClick={() => setTestBuildingLevels(testBuildingLevels.mixed)}
-              className="block w-full text-left px-2 py-1 bg-yellow-600 hover:bg-yellow-700 text-xs mb-1"
-            >
-              Set Mixed Building Levels
-            </button>
-          </div>
-        </div>
+        <TestSection title="Test Data">
+          <TestButton variant="data" onClick={() => setTestBuildingLevels(testBuildingLevels.allInactive)}>
+            Set All Buildings Inactive
+          </TestButton>
+          <TestButton variant="data" onClick={() => setTestBuildingLevels(testBuildingLevels.allLevel0)}>
+            Set All Buildings Level 0
+          </TestButton>
+          <TestButton variant="data" onClick={() => setTestBuildingLevels(testBuildingLevels.allLevel1)}>
+            Set All Buildings Level 1
+          </TestButton>
+          <TestButton variant="data" onClick={() => setTestBuildingLevels(testBuildingLevels.allLevel2)}>
+            Set All Buildings Level 2
+          </TestButton>
+          <TestButton variant="data" onClick={() => setTestBuildingLevels(testBuildingLevels.mixed)}>
+            Set Mixed Building Levels
+          </TestButton>
+        </TestSection>
 
-        {/* Test Results */}
-        <div className="mt-4 pt-4 border-t border-gray-600">
-          <h4 className="text-sm font-semibold mb-2">Test Results</h4>
-          <div className="text-xs space-y-1 max-h-40 overflow-y-auto">
-            {testResults.length === 0 ? (
-              <p className="text-gray-400">No tests run yet</p>
-            ) : (
-              testResults.map((result, idx) => (
-                <div
-                  key={idx}
-                  className={`p-1 rounded ${
-                    result.status === 'pass'
-                      ? 'bg-green-900/50'
-                      : result.status === 'fail'
-                      ? 'bg-red-900/50'
-                      : 'bg-gray-700/50'
-                  }`}
-                >
-                  <div className="font-semibold">{result.test}</div>
-                  <div className="text-gray-300">Expected: {result.expected}</div>
-                  <div className="text-gray-300">Actual: {result.actual}</div>
-                  <div className={`text-xs ${result.status === 'pass' ? 'text-green-400' : result.status === 'fail' ? 'text-red-400' : 'text-yellow-400'}`}>
-                    {result.status === 'pass' ? '✓ PASS' : result.status === 'fail' ? '✗ FAIL' : '⏳ PENDING'}
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-      </div>
+        <TestResultsList results={results} onClear={clearResults} />
+      </TestPanel>
 
       {/* HomePanel Component - wrapped in BottomBar content area */}
       <div 
         className="absolute inset-0"
         style={{
-          top: '272px', // BottomBar content area starts after TopBar (18+244+10) and action bar (76)
+          top: '272px',
           left: '22px',
           width: '596px',
           height: '758px',
@@ -336,10 +220,7 @@ export function HomePanelTestScreen() {
         }}
         data-test-id="homepanel-container"
       >
-        <div 
-          className="absolute inset-0 flex flex-col"
-          style={{ overflow: 'hidden' }}
-        >
+        <div className="absolute inset-0 flex flex-col" style={{ overflow: 'hidden' }}>
           <HomePanel />
         </div>
       </div>

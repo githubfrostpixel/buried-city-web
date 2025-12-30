@@ -37,4 +37,38 @@ export function shuffle<T>(array: T[]): T[] {
   return shuffled
 }
 
+/**
+ * Get weighted random selection from list
+ * Ported from OriginalGame/src/util/utils.js:getRoundRandom
+ * 
+ * @param list Array of objects with 'weight' property
+ * @returns Selected object from list
+ */
+export function getRoundRandom<T extends { weight: number }>(list: T[]): T {
+  if (list.length === 0) {
+    throw new Error('getRoundRandom: list cannot be empty')
+  }
+  
+  // Calculate total weight
+  let total = 0
+  list.forEach((obj) => {
+    total += obj.weight
+  })
+  
+  // Generate random number (0 to total inclusive)
+  const rand = getRandomInt(0, total)
+  
+  // Find selected object
+  let w = 0
+  for (let i = 0; i < list.length; ++i) {
+    const obj = list[i]
+    w += obj.weight
+    if (rand <= w) {
+      return obj
+    }
+  }
+  
+  // Fallback (should never reach here)
+  return list[list.length - 1]
+}
 

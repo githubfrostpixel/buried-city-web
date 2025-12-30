@@ -13,11 +13,13 @@ export interface GameState {
   hour: number // Current hour (0-23)
 }
 
+import type { WeatherSaveData } from '@/game/systems/WeatherSystem'
+
 export interface GameSaveData {
   time: number
   season: Season
   day: number
-  weather: WeatherType
+  weather: WeatherSaveData
 }
 
 export type DeathReason = 

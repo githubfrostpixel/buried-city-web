@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type { GameState, Season, TimeOfDay, WeatherType } from '@/types/game.types'
+import { WeatherSystem } from '@/game/systems/WeatherSystem'
 
 interface GameStore extends GameState {
   // Time state
@@ -9,7 +10,9 @@ interface GameStore extends GameState {
   second: number
   
   // Weather
+  weatherSystem: WeatherSystem
   weather: WeatherType
+  weatherForecast: string
   
   // Game flags
   isPaused: boolean
@@ -23,7 +26,12 @@ interface GameStore extends GameState {
   setSeason: (season: Season) => void
   setStage: (stage: TimeOfDay) => void
   updateTime: (deltaTime: number) => void
+  updateWeather: () => void
+  initializeWeatherSystem: () => void
 }
+
+// Initialize WeatherSystem instance (shared across all store instances)
+const weatherSystem = new WeatherSystem()
 
 export const useGameStore = create<GameStore>((set, get) => ({
   // Initial state
@@ -36,7 +44,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
   hour: 6,
   minute: 0,
   second: 1,
-  weather: 0, // Clear
+  weatherSystem,
+  weather: weatherSystem.getCurrentWeather(),
+  weatherForecast: weatherSystem.getForecast(),
   
   // Actions
   pause: () => set((state: GameStore) => ({ 
@@ -78,7 +88,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
     })
   },
   
-  setWeather: (weather: WeatherType) => set({ weather }),
+  setWeather: (weather: WeatherType) => {
+    const ws = get().weatherSystem
+    ws.changeWeather(weather, false)
+    set({
+      weather: ws.getCurrentWeather(),
+      weatherForecast: ws.getForecast()
+    })
+  },
   
   setSeason: (season: Season) => set({ season }),
   
@@ -90,6 +107,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const currentTime = get().time
     const newTime = currentTime + deltaTime
     get().setTime(newTime)
+  },
+  
+  updateWeather: () => {
+    const ws = get().weatherSystem
+    set({
+      weather: ws.getCurrentWeather(),
+      weatherForecast: ws.getForecast()
+    })
+  },
+  
+  initializeWeatherSystem: () => {
+    const ws = get().weatherSystem
+    set({
+      weather: ws.getCurrentWeather(),
+      weatherForecast: ws.getForecast()
+    })
   }
 }))
 

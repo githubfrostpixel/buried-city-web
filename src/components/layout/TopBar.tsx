@@ -12,12 +12,11 @@ import { cocosToCssPosition } from '@/utils/position'
 import { Sprite } from '@/components/sprites/Sprite'
 import { StatusButton, AttrButton, LogBar } from '@/components/common'
 import { attributeWarningRanges } from '@/data/attributeWarningRanges'
+import { emitter } from '@/utils/emitter'
+import type { WeatherType } from '@/types/game.types'
 
 // Season names
 const SEASON_NAMES = ['Spring', 'Summer', 'Autumn', 'Winter']
-
-// Weather names
-const WEATHER_NAMES = ['Clear', 'Cloudy', 'Rain', 'Snow', 'Storm']
 
 // Helper functions for time formatting
 function getTimeHourStr(hour: number, minute: number): string {
@@ -34,9 +33,6 @@ function getSeasonStr(season: number): string {
   return SEASON_NAMES[season] || 'Unknown'
 }
 
-function getWeatherName(weather: number): string {
-  return WEATHER_NAMES[weather] || 'Unknown'
-}
 
 // Placeholder for status dialogs (to be implemented later)
 function showStatusDialog(stringId: number, value: string | number, iconName: string) {
@@ -88,6 +84,21 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
     // Time updates are handled by TimeManager
     // This component will re-render when gameStore updates
   }, [gameStore.hour, gameStore.minute, gameStore.day, gameStore.season, gameStore.weather])
+  
+  // Listen for weather change events
+  useEffect(() => {
+    const handleWeatherChange = (_weatherId: WeatherType) => {
+      // WeatherSystem already updated GameStore
+      // This just triggers re-render
+      gameStore.updateWeather()
+    }
+    
+    emitter.on('weather_change', handleWeatherChange)
+    
+    return () => {
+      emitter.off('weather_change', handleWeatherChange)
+    }
+  }, [])
   
   // Placeholder for work site and gas site active states
   const workSiteActive = false // TODO: Get from gameStore or site system
@@ -151,7 +162,7 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
           position={{ x: btnSize.width * 2.7 - 3, y: 25 }}
           scale={0.4}
           noLabel={true}
-          onClick={() => showStatusDialog(11, getWeatherName(gameStore.weather), 'icon_weather.png')}
+          onClick={() => showStatusDialog(11, gameStore.weatherSystem?.getWeatherName() || 'Unknown', 'icon_weather.png')}
         />
         
         {/* Temperature button */}

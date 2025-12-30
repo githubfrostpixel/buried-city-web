@@ -1,110 +1,92 @@
 /**
  * Test Index Screen
- * Main entry point for all test screens
+ * Main entry point for all test screens - uses registry for easy extension
  */
 
-import { useState } from 'react'
-import { TopBarTestScreen } from './TopBarTestScreen'
-import { BottomBarTestScreen } from './BottomBarTestScreen'
-import { HomePanelTestScreen } from './HomePanelTestScreen'
-import { MainSceneTestScreen } from './MainSceneTestScreen'
-import { Phase2ETestScreen } from './Phase2ETestScreen'
+import { useState, Suspense } from 'react'
+import { testRegistry, TestEntry } from './testRegistry'
 
-type TestScreenType = 'index' | 'topbar' | 'bottombar' | 'homepanel' | 'mainscene' | 'phase2e'
+const colorMap: Record<string, string> = {
+  blue: 'bg-blue-600 hover:bg-blue-700',
+  green: 'bg-green-600 hover:bg-green-700',
+  purple: 'bg-purple-600 hover:bg-purple-700',
+  yellow: 'bg-yellow-600 hover:bg-yellow-700',
+  indigo: 'bg-indigo-600 hover:bg-indigo-700',
+  teal: 'bg-teal-600 hover:bg-teal-700',
+  red: 'bg-red-600 hover:bg-red-700',
+  orange: 'bg-orange-600 hover:bg-orange-700',
+  default: 'bg-gray-600 hover:bg-gray-700',
+}
 
 export function TestIndexScreen() {
-  const [currentTest, setCurrentTest] = useState<TestScreenType>('index')
+  const [currentTest, setCurrentTest] = useState<string | null>(null)
 
-  if (currentTest === 'topbar') {
-    return <TopBarTestScreen />
-  }
-
-  if (currentTest === 'bottombar') {
-    return <BottomBarTestScreen />
-  }
-
-  if (currentTest === 'homepanel') {
-    return <HomePanelTestScreen />
-  }
-
-  if (currentTest === 'mainscene') {
-    return <MainSceneTestScreen />
-  }
-
-  if (currentTest === 'phase2e') {
-    return <Phase2ETestScreen />
-  }
-
-  return (
-    <div className="w-full h-full bg-gray-900 text-white p-8">
-      <h1 className="text-3xl font-bold mb-8">Phase 2D.6 Test Screens</h1>
-      
-      <div className="space-y-4">
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Available Test Screens</h2>
-          <div className="grid grid-cols-2 gap-4">
+  // If a test is selected, render it
+  if (currentTest) {
+    const testEntry = testRegistry.find(t => t.id === currentTest)
+    if (testEntry) {
+      const TestComponent = testEntry.component
+      return (
+        <Suspense fallback={
+          <div className="w-full h-full bg-gray-900 text-white flex items-center justify-center">
+            <div className="text-xl">Loading test...</div>
+          </div>
+        }>
+          <div className="relative w-full h-full">
+            <TestComponent />
+            {/* Back button */}
             <button
-              onClick={() => setCurrentTest('topbar')}
-              className="p-4 bg-blue-600 hover:bg-blue-700 rounded text-left"
+              onClick={() => setCurrentTest(null)}
+              className="fixed top-4 left-4 bg-gray-900/95 text-white px-3 py-2 rounded z-[10002] hover:bg-gray-800 shadow-lg text-sm"
             >
-              <h3 className="font-bold">TopBar Test Screen</h3>
-              <p className="text-sm text-gray-300 mt-1">
-                Test TopBar component positions, scaling, and interactions
-              </p>
-            </button>
-            
-            <button
-              onClick={() => setCurrentTest('bottombar')}
-              className="p-4 bg-green-600 hover:bg-green-700 rounded text-left"
-            >
-              <h3 className="font-bold">BottomBar Test Screen</h3>
-              <p className="text-sm text-gray-300 mt-1">
-                Test BottomBar component positions and panel switching
-              </p>
-            </button>
-            
-            <button
-              onClick={() => setCurrentTest('homepanel')}
-              className="p-4 bg-purple-600 hover:bg-purple-700 rounded text-left"
-            >
-              <h3 className="font-bold">HomePanel Test Screen</h3>
-              <p className="text-sm text-gray-300 mt-1">
-                Test HomePanel building positions and interactions
-              </p>
-            </button>
-            
-            <button
-              onClick={() => setCurrentTest('mainscene')}
-              className="p-4 bg-yellow-600 hover:bg-yellow-700 rounded text-left"
-            >
-              <h3 className="font-bold">MainScene Test Screen</h3>
-              <p className="text-sm text-gray-300 mt-1">
-                Test MainScene integration with TopBar and BottomBar
-              </p>
-            </button>
-            
-            <button
-              onClick={() => setCurrentTest('phase2e')}
-              className="p-4 bg-indigo-600 hover:bg-indigo-700 rounded text-left"
-            >
-              <h3 className="font-bold">Phase 2E Test Screen</h3>
-              <p className="text-sm text-gray-300 mt-1">
-                Test death overlay and sleep mechanics
-              </p>
+              Back to Index
             </button>
           </div>
+        </Suspense>
+      )
+    }
+  }
+
+  // Render test index
+  return (
+    <div className="w-full h-full bg-gray-900 text-white p-8 overflow-auto">
+      <h1 className="text-3xl font-bold mb-2">Test Screens</h1>
+      <p className="text-gray-400 mb-8">Select a test screen to begin testing</p>
+      
+      <div className="space-y-4">
+        <div className="space-y-2">
+          {testRegistry.map((test: TestEntry) => (
+            <button
+              key={test.id}
+              onClick={() => setCurrentTest(test.id)}
+              className={`w-full p-4 rounded text-left transition-colors ${colorMap[test.color || 'default']}`}
+            >
+              <h3 className="font-bold text-lg">{test.name}</h3>
+              <p className="text-sm text-gray-200 mt-1 opacity-80">
+                {test.description}
+              </p>
+            </button>
+          ))}
         </div>
 
-        <div className="mt-8">
-          <h2 className="text-xl font-semibold mb-2">Instructions</h2>
+        <div className="mt-8 p-4 bg-gray-800 rounded">
+          <h2 className="text-xl font-semibold mb-3">Instructions</h2>
           <ul className="list-disc list-inside space-y-2 text-gray-300">
             <li>Select a test screen from above</li>
-            <li>Use the test controls panel (top-right) to toggle position overlay</li>
-            <li>Click test buttons to run automated tests</li>
-            <li>Review expected vs actual results</li>
-            <li>Check visual appearance matches original game</li>
-            <li>Document any discrepancies found</li>
+            <li>Use draggable test panels to control tests</li>
+            <li>Panels can be collapsed by clicking the [-] button</li>
+            <li>Drag panels by their header to reposition</li>
+            <li>Toggle position overlay to see element coordinates</li>
+            <li>Click "Back to Index" to return here</li>
           </ul>
+        </div>
+
+        <div className="mt-8 p-4 bg-gray-800/50 rounded border border-gray-700">
+          <h2 className="text-lg font-semibold mb-2">Adding New Tests</h2>
+          <p className="text-gray-400 text-sm">
+            To add a new test, create your test screen component in <code className="bg-gray-700 px-1 rounded">src/components/test/</code> and 
+            add an entry to <code className="bg-gray-700 px-1 rounded">testRegistry.ts</code>
+          </p>
         </div>
 
         <div className="mt-8">
@@ -112,7 +94,7 @@ export function TestIndexScreen() {
             onClick={() => window.history.back()}
             className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded"
           >
-            ← Back to Game
+            Back to Game
           </button>
         </div>
       </div>

@@ -88,7 +88,7 @@ export function PositionOverlay({
             {pos.label}: ({Math.round(pos.x)}, {Math.round(pos.y)})
             {pos.width > 0 && pos.height > 0 && (
               <span className="ml-2">
-                {Math.round(pos.width)}×{Math.round(pos.height)}
+                {Math.round(pos.width)}x{Math.round(pos.height)}
               </span>
             )}
           </div>
@@ -125,7 +125,7 @@ export function PositionOverlay({
               Expected {expected.label}: ({expected.expected.x}, {expected.expected.y})
               {diff !== null && (
                 <span className="ml-2">
-                  Diff: {diff.toFixed(1)}px {isMatch ? '✓' : '✗'}
+                  Diff: {diff.toFixed(1)}px {isMatch ? 'OK' : 'X'}
                 </span>
               )}
             </div>
