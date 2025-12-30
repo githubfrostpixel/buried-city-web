@@ -50,7 +50,6 @@ export class SurvivalSystem {
   constructor(timeManager: TimeManager) {
     this.timeManager = timeManager
     this.setupHourlyCallbacks()
-    this.setupMinuteCallbacks()
   }
 
   /**
@@ -61,18 +60,6 @@ export class SurvivalSystem {
     this.timeManager.addTimerCallbackHourByHour(
       this,
       () => this.processHourlyDecay(),
-      0
-    )
-  }
-
-  /**
-   * Setup minute-by-minute callbacks for death condition checks
-   */
-  private setupMinuteCallbacks(): void {
-    // Check death conditions every minute
-    this.timeManager.addTimerCallbackMinuteByMinute(
-      this,
-      () => this.checkDeathConditionsMinute(),
       0
     )
   }
@@ -111,17 +98,6 @@ export class SurvivalSystem {
     // Apply weather effects (vigour, spirit)
     // Original: this.changeVigour(this.weather.getValue("vigour")); this.changeSpirit(this.weather.getValue("spirit"));
     this.applyWeatherEffects()
-  }
-
-  /**
-   * Check death conditions every minute
-   * Called by TimeManager on minute-by-minute callbacks
-   */
-  private checkDeathConditionsMinute(): void {
-    const deathReason = this.checkDeathConditions()
-    if (deathReason) {
-      this.handleDeath(deathReason)
-    }
   }
 
   /**
@@ -324,6 +300,30 @@ export class SurvivalSystem {
     }
     
     playerStore.updateAttribute(attr, newValue)
+    
+    // Check death conditions immediately after attribute update (matching original game)
+    // Original: OriginalGame/src/game/player.js:673-682
+    if (attr === 'hp') {
+      const updatedPlayerStore = usePlayerStore.getState()
+      if (updatedPlayerStore.hp === 0) {
+        // HP reached 0, trigger death
+        const deathReason = this.deathCausedInfect ? 'infection' : 'hp_zero'
+        this.handleDeath(deathReason)
+      }
+    }
+    
+    if (attr === 'virus') {
+      const updatedPlayerStore = usePlayerStore.getState()
+      if (updatedPlayerStore.virus >= updatedPlayerStore.virusMax) {
+        // Virus overload: set HP to 0 and trigger death
+        // Original: this.log.addMsg(stringUtil.getString(6671)); this.changeAttr("hp", -this["hp"]);
+        this.addLogMessage('Virus overload!') // TODO: Use proper string ID 6671
+        // Set HP to 0 (matching original game behavior)
+        playerStore.updateAttribute('hp', 0)
+        // Trigger death with virus_overload reason
+        this.handleDeath('virus_overload')
+      }
+    }
     
     // TODO: Emit attribute change event if needed
     // utils.emitter.emit(`${attr}_change`, value)
