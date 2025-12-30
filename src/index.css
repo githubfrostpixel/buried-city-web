@@ -45,5 +45,15 @@
       opacity: 0;
     }
   }
+
+  /* Attribute warning blink animation - slow blinking for warning state */
+  @keyframes attributeWarningBlink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
 }
 

@@ -114,11 +114,13 @@ export function AttrButton({
         </div>
         {/* Warning state icon (_2) - overlays _0 when in warning range, no clipping, always fully visible */}
         {/* Ensure _2 has same size as _1 and _0 */}
+        {/* Blinks slowly when in warning state */}
         {isWarning && (
           <div
             className="absolute inset-0"
             style={{
-              zIndex: 2
+              zIndex: 2,
+              animation: 'attributeWarningBlink 2.5s ease-in-out infinite'
             }}
           >
             <Sprite
