@@ -1,12 +1,13 @@
 /**
  * DeathOverlay Component
- * Standalone full-screen death overlay matching OriginalGame design
+ * Overlay that positions itself over the BottomBar element
  * Ported from OriginalGame/src/ui/deathNode.js
  * 
- * This is a completely independent overlay that covers the full viewport,
- * not constrained by BottomBar positioning.
+ * This overlay positions itself relative to the BottomBar element,
+ * matching its exact position and dimensions.
  */
 
+import { useState, useEffect } from 'react'
 import { useUIStore } from '@/store/uiStore'
 import { usePlayerStore } from '@/store/playerStore'
 import { game } from '@/game/Game'
@@ -20,6 +21,31 @@ interface DeathOverlayProps {
 export function DeathOverlay({ reason }: DeathOverlayProps) {
   const uiStore = useUIStore()
   const playerStore = usePlayerStore()
+  const [bottomBarRect, setBottomBarRect] = useState<DOMRect | null>(null)
+
+  // Get BottomBar position dynamically
+  useEffect(() => {
+    const updatePosition = () => {
+      const bottomBar = document.querySelector('[data-test-id="bottombar-bg"]')
+      if (bottomBar) {
+        setBottomBarRect(bottomBar.getBoundingClientRect())
+      }
+    }
+    
+    // Initial update
+    updatePosition()
+    
+    // Update on resize
+    window.addEventListener('resize', updatePosition)
+    
+    // Update periodically in case BottomBar moves (e.g., during transitions)
+    const interval = setInterval(updatePosition, 100)
+    
+    return () => {
+      window.removeEventListener('resize', updatePosition)
+      clearInterval(interval)
+    }
+  }, [])
 
   // Death description (from original: "You have finally fallen after surviving for %s")
   // Note: reason is available but original game doesn't show different messages per reason
@@ -81,25 +107,34 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
   const contentTopLineHeight = 770 * bgScale // Line separator position from bottom
   const actionBarBaseHeight = 803 * bgScale // Title/buttons position from bottom
 
+  // Don't render if BottomBar not found
+  if (!bottomBarRect) {
+    return null
+  }
+
   return (
     <div
-      className="fixed inset-0 z-[9999]"
+      className="fixed z-[9999]"
       style={{
-        left: 0,
-        top: 0,
-        right: 0,
-        bottom: 0,
-        width: '100vw',
-        height: '100vh',
-        backgroundColor: 'rgba(0, 0, 0, 0.95)',
-        animation: 'fadeIn 0.3s ease-in',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+        left: `${bottomBarRect.left}px`,
+        top: `${bottomBarRect.top}px`,
+        width: `${bottomBarRect.width}px`,
+        height: `${bottomBarRect.height}px`,
+        animation: 'fadeIn 0.3s ease-in'
       }}
       data-test-id="death-overlay"
     >
-      {/* Standalone panel - independent of BottomBar */}
+      {/* Dark background overlay covering BottomBar area */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundColor: 'rgba(0, 0, 0, 0.95)',
+          width: '100%',
+          height: '100%'
+        }}
+      />
+      
+      {/* Panel positioned to match BottomBar */}
       <div
         className="relative"
         style={{
@@ -134,7 +169,7 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
           className="absolute"
           style={{
             left: '50%',
-            top: `${bgHeight - contentTopLineHeight}px`, // From bottom: 770px
+            top: `${bgHeight - contentTopLineHeight }px`, // From bottom: 770px
             transform: 'translateX(-50%)',
             width: '100%'
           }}
@@ -153,7 +188,7 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
           className="absolute text-white text-center"
           style={{
             left: '50%',
-            top: `${bgHeight - actionBarBaseHeight}px`, // From bottom: 803px
+            top: `${bgHeight - actionBarBaseHeight + 5}px`, // From bottom: 803px
             transform: 'translate(-50%, -50%)', // Center vertically too
             fontSize: '18px',
             fontFamily: 'Arial, sans-serif',
@@ -176,7 +211,7 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
         <div
           className="absolute"
           style={{
-            top: `${bgHeight - (contentTopLineHeight - 10)}px`, // 760px from bottom = bgHeight - 760 from top
+            top: `${bgHeight - (contentTopLineHeight - 30)}px`, // 760px from bottom = bgHeight - 760 from top
             transform: 'translateX(7%)'
           }}
         >
