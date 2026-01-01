@@ -80,7 +80,7 @@ export function SitePanelContent({
           width: `${rightEdge - leftEdge}px`,
           transform: 'translateX(-50%)',
           fontSize: '14px',
-          fontFamily: 'Arial, sans-serif',
+          fontFamily: "'Noto Sans', sans-serif",
           lineHeight: '1.4',
         }}
         data-test-id="sitepanel-description"

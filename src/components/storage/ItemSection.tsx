@@ -43,7 +43,7 @@ export function ItemSection({ title, items, onItemClick }: ItemSectionProps) {
             left: `${(cellWidth - 84) / 2}px`,
             top: '0',
             fontSize: '16px',
-            fontFamily: 'Arial, sans-serif',
+            fontFamily: "'Noto Sans', sans-serif",
             fontWeight: 'bold',
             height: `${titleHeight}px`,
             lineHeight: `${titleHeight}px`

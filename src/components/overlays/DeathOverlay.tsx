@@ -225,7 +225,7 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
             top: `${bgHeight - actionBarBaseHeight + 5}px`, // From bottom: 803px
             transform: 'translate(-50%, -50%)', // Center vertically too
             fontSize: '18px',
-            fontFamily: 'Arial, sans-serif',
+            fontFamily: "'Noto Sans', sans-serif",
             fontWeight: 'bold'
           }}
         >
@@ -270,7 +270,7 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
             transform: 'translateX(-50%)',
             width: `${bgWidth - 80}px`, // rightEdge - leftEdge = width - 40 - 40
             fontSize: '16px',
-            fontFamily: 'Arial, sans-serif',
+            fontFamily: "'Noto Sans', sans-serif",
             lineHeight: '1.5'
           }}
         >
@@ -318,7 +318,7 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
                 className="absolute inset-0 flex items-center justify-center text-black"
                 style={{
                   fontSize: '16px',
-                  fontFamily: 'Arial, sans-serif',
+                  fontFamily: "'Noto Sans', sans-serif",
                   fontWeight: 'bold',
                   pointerEvents: 'none'
                 }}
@@ -335,7 +335,7 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
                 bottom: '-30px', // Button center (100 + 25) + 10px above
                 transform: 'translateX(-50%)',
                 fontSize: '14px',
-                fontFamily: 'Arial, sans-serif',
+                fontFamily: "'Noto Sans', sans-serif",
                 whiteSpace: 'nowrap'
               }}
             >
@@ -365,7 +365,7 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
                 className="absolute inset-0 flex items-center justify-center text-black"
                 style={{
                   fontSize: '16px',
-                  fontFamily: 'Arial, sans-serif',
+                  fontFamily: "'Noto Sans', sans-serif",
                   fontWeight: 'bold',
                   pointerEvents: 'none'
                 }}

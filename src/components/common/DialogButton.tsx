@@ -63,7 +63,7 @@ export function DialogButton({
         className="relative z-10 text-white"
         style={{
           fontSize: '20px',  // COMMON_2 - 4 = 24 - 4 = 20px
-          fontFamily: 'Arial, sans-serif',
+          fontFamily: "'Noto Sans', sans-serif",
           fontWeight: 'normal',
           textAlign: 'center',
           whiteSpace: 'nowrap',

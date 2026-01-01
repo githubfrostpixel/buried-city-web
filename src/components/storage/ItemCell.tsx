@@ -95,7 +95,7 @@ export function ItemCell({ itemId, count, onClick }: ItemCellProps) {
           right: '4px',
           bottom: '4px',
           fontSize: '18px',
-          fontFamily: 'Arial, sans-serif',
+          fontFamily: "'Noto Sans', sans-serif",
           fontWeight: 'bold',
           textShadow: '2px 2px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000',
           lineHeight: '1'

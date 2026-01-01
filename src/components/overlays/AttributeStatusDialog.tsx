@@ -340,7 +340,7 @@ export function AttributeStatusDialog() {
               top: '40%',
               transform: 'translateY(-50%)',
               fontSize: '32px',
-              fontFamily: 'Arial, sans-serif',
+              fontFamily: "'Noto Sans', sans-serif",
               fontWeight: 'bold',
               maxWidth: `${rightEdge - leftEdge - 70}px`
             }}
@@ -356,7 +356,7 @@ export function AttributeStatusDialog() {
               left: `${leftEdge + 70}px`,
               top: '55%',
               fontSize: '20px',
-              fontFamily: 'Arial, sans-serif'
+              fontFamily: "'Noto Sans', sans-serif"
             }}
             data-test-id="attribute-dialog-value"
           >
@@ -384,7 +384,7 @@ export function AttributeStatusDialog() {
               top: '20px',
               width: `${dialogWidth - leftEdge * 2}px`,
               fontSize: '20px',
-              fontFamily: 'Arial, sans-serif',
+              fontFamily: "'Noto Sans', sans-serif",
               lineHeight: '1.4'
             }}
             data-test-id="attribute-dialog-description"
@@ -498,7 +498,7 @@ export function AttributeStatusDialog() {
                           right: '4px',
                           bottom: '4px',
                           fontSize: '18px',
-                          fontFamily: 'Arial, sans-serif',
+                          fontFamily: "'Noto Sans', sans-serif",
                           fontWeight: 'bold',
                           textShadow: '2px 2px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000',
                           lineHeight: '1',
@@ -528,7 +528,7 @@ export function AttributeStatusDialog() {
                 className="text-red-600 mb-2"
                 style={{
                   fontSize: '18px',
-                  fontFamily: 'Arial, sans-serif'
+                  fontFamily: "'Noto Sans', sans-serif"
                 }}
               >
                 Virus Exchange (TODO: Implement)

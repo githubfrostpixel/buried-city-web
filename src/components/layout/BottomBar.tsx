@@ -139,7 +139,7 @@ export function BottomBar({
               style={{
                 ...titleStyle,
                 fontSize: '18px',
-                fontFamily: 'Arial, sans-serif',
+                fontFamily: "'Noto Sans', sans-serif",
                 fontWeight: 'bold',
                 lineHeight: `${actionBar.buttonHeight}px`,
                 height: `${actionBar.buttonHeight}px`
@@ -198,7 +198,7 @@ export function BottomBar({
               className="text-white"
               style={{
                 fontSize: '14px',
-                fontFamily: 'Arial, sans-serif',
+                fontFamily: "'Noto Sans', sans-serif",
               }}
               data-test-id="bottombar-left-subtext"
             >
@@ -212,7 +212,7 @@ export function BottomBar({
               className="text-white text-right"
               style={{
                 fontSize: '14px',
-                fontFamily: 'Arial, sans-serif',
+                fontFamily: "'Noto Sans', sans-serif",
               }}
               data-test-id="bottombar-right-subtext"
             >

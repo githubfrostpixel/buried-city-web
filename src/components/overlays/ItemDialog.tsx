@@ -245,7 +245,7 @@ export function ItemDialog() {
               top: '40%',
               transform: 'translateY(-50%)',
               fontSize: '32px',
-              fontFamily: 'Arial, sans-serif',
+              fontFamily: "'Noto Sans', sans-serif",
               fontWeight: 'bold',
               maxWidth: `${rightEdge - leftEdge - 70}px`
             }}
@@ -261,7 +261,7 @@ export function ItemDialog() {
               left: `${leftEdge + 70}px`,
               top: '55%',
               fontSize: '20px',
-              fontFamily: 'Arial, sans-serif'
+              fontFamily: "'Noto Sans', sans-serif"
             }}
             data-test-id="item-dialog-count"
           >
@@ -300,7 +300,7 @@ export function ItemDialog() {
             className="text-black mb-2"
             style={{
               fontSize: '20px',
-              fontFamily: 'Arial, sans-serif',
+              fontFamily: "'Noto Sans', sans-serif",
               lineHeight: '1.4',
               paddingLeft: `${leftEdge}px`,
               paddingRight: `${leftEdge}px`
@@ -326,7 +326,7 @@ export function ItemDialog() {
               className="text-red-600 mt-2"
               style={{
                 fontSize: '20px',
-                fontFamily: 'Arial, sans-serif',
+                fontFamily: "'Noto Sans', sans-serif",
                 paddingLeft: `${leftEdge}px`,
                 paddingRight: `${leftEdge}px`
               }}

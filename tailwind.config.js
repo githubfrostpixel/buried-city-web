@@ -10,7 +10,7 @@ export default {
         // Game-specific colors can be added here
       },
       fontFamily: {
-        // Game-specific fonts can be added here
+        sans: ["'Noto Sans'", 'sans-serif'],
       },
       screens: {
         'mobile': '640px',
