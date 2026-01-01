@@ -12,11 +12,15 @@ import { useEffect } from 'react'
 import { TopBar } from '@/components/layout/TopBar'
 import { BottomBar } from '@/components/layout/BottomBar'
 import { HomePanelContent } from '@/components/panels/HomePanelContent'
+import { StoragePanelContent } from '@/components/panels/StoragePanelContent'
 import { useUIStore } from '@/store/uiStore'
+import { useBuildingStore } from '@/store/buildingStore'
 import { audioManager, MusicPaths } from '@/game/systems/AudioManager'
+import { game } from '@/game/Game'
 
 export function MainScene() {
   const uiStore = useUIStore()
+  const buildingStore = useBuildingStore()
   const currentPanel = uiStore.openPanel
   
   // Screen dimensions (640x1136 from original game)
@@ -48,6 +52,37 @@ export function MainScene() {
       audioManager.stopMusic()
     }
   }, [])
+
+  // Game loop - update game every frame
+  useEffect(() => {
+    // Ensure game is initialized and resumed
+    game.initialize()
+    game.resume()
+    
+    let lastTime = performance.now()
+    let animationFrameId: number
+    
+    const gameLoop = (currentTime: number) => {
+      const deltaTime = (currentTime - lastTime) / 1000 // Convert to seconds
+      lastTime = currentTime
+      
+      // Update game systems (time, survival, etc.)
+      game.update(deltaTime)
+      
+      // Continue loop
+      animationFrameId = requestAnimationFrame(gameLoop)
+    }
+    
+    // Start game loop
+    animationFrameId = requestAnimationFrame(gameLoop)
+    
+    // Cleanup on unmount
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId)
+      }
+    }
+  }, [])
   
   // Handle back button - matches original back button behavior
   const handleBackButton = () => {
@@ -75,8 +110,7 @@ export function MainScene() {
         return <div className="text-white p-4">Build Panel - Coming soon</div>
       
       case 'storage':
-        // return <StoragePanel />
-        return <div className="text-white p-4">Storage Panel - Coming soon</div>
+        return <StoragePanelContent />
       
       case 'radio':
         // return <RadioPanel />
@@ -93,7 +127,13 @@ export function MainScene() {
     switch (currentPanel) {
       case 'home': return ''
       case 'build': return 'Building'
-      case 'storage': return 'Storage'
+      case 'storage': {
+        // Get building 13 (Storage Shelf) name
+        const building = buildingStore.getBuilding(13)
+        return building && buildingStore.room
+          ? buildingStore.room.getBuildCurrentName(13)
+          : 'Storage'
+      }
       case 'radio': return 'Radio'
       default: return ''
     }

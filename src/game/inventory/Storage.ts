@@ -260,6 +260,54 @@ export class Storage {
     })
     return result
   }
+
+  /**
+   * Get items grouped by type prefixes
+   * @param typeArray - Array of type prefixes to match (e.g., ["1101", "1103", "13", "other"])
+   * @returns Object with type keys and arrays of {item: Item, num: number}
+   * 
+   * Items are matched by ID prefix. Items not matching any prefix go to "other".
+   * The last element in typeArray should be "other" for catch-all.
+   */
+  getItemsByTypeGroup(typeArray: string[]): Record<string, Array<{item: Item, num: number}>> {
+    const result: Record<string, Array<{item: Item, num: number}>> = {}
+    
+    // Initialize result object with empty arrays
+    typeArray.forEach(key => {
+      result[key] = []
+    })
+    
+    // Group items by type prefix
+    Object.entries(this.items).forEach(([itemId, count]) => {
+      // Note: blackList.storageDisplay is empty in original, so no filtering needed
+      const itemIdStr = String(itemId)
+      let matched = false
+      
+      // Try to match against each type prefix (except "other")
+      for (let i = 0; i < typeArray.length - 1; i++) {
+        const type = typeArray[i]
+        const len = type.length
+        if (itemIdStr.substring(0, len) === type) {
+          result[type].push({
+            item: new Item(itemId),
+            num: count
+          })
+          matched = true
+          break
+        }
+      }
+      
+      // If no match, put in "other"
+      if (!matched && typeArray.includes('other')) {
+        result['other'].push({
+          item: new Item(itemId),
+          num: count
+        })
+      }
+    })
+    
+    return result
+  }
   
   /**
    * Validate item exists with sufficient count

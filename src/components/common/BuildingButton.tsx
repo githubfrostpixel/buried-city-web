@@ -29,7 +29,12 @@ export function BuildingButton({
   
   // Get warning state from building (Phase 2C complete)
   const warnState = building?.needWarn() || { upgrade: false, make: false, take: false }
-  const hasWarning = warnState.upgrade || warnState.make || warnState.take
+  
+  // Build list of active warnings (matching original createBuildWarn logic)
+  const activeWarnings: Array<'upgrade' | 'make' | 'take'> = []
+  if (warnState.upgrade) activeWarnings.push('upgrade')
+  if (warnState.make) activeWarnings.push('make')
+  if (warnState.take) activeWarnings.push('take')
   
   // If position is (0, 0), assume it's being positioned by parent wrapper
   const isPositionedByParent = position.x === 0 && position.y === 0
@@ -44,7 +49,6 @@ export function BuildingButton({
           transform: 'translate(-50%, -50%)'
         }),
         cursor: onClick ? 'pointer' : 'default',
-        filter: isActive ? 'none' : 'brightness(0.3)',
         background: 'transparent',
         border: 'none',
         padding: 0
@@ -59,17 +63,39 @@ export function BuildingButton({
           width: 'auto',
           height: 'auto',
           maxWidth: 'none',
-          maxHeight: 'none'
+          maxHeight: 'none',
+          filter: isActive ? 'none' : 'brightness(0.3)'
         }}
       />
-      {/* Warning icon if needed */}
-      {hasWarning && (
-        <div className="absolute top-0 right-0" style={{ transform: 'translate(50%, -50%)' }}>
-          <Sprite
-            atlas="ui"
-            frame="icon_warn.png"
-            className="w-4 h-4 block"
-          />
+      {/* Warning icons - positioned in top-right corner, exempt from grey filter */}
+      {activeWarnings.length > 0 && (
+        <div 
+          className="absolute"
+          style={{
+            top: '0',
+            right: '0',
+            transform: 'translate(50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '2px',
+            height: '38px',
+            zIndex: 11
+          }}
+        >
+          {activeWarnings.map((warningType) => (
+            <Sprite
+              key={warningType}
+              atlas="icon"
+              frame={`icon_${warningType}.png`}
+              className="block"
+              style={{
+                width: '38px',
+                height: 'auto',
+                maxWidth: 'none',
+                maxHeight: 'none'
+              }}
+            />
+          ))}
         </div>
       )}
     </button>

@@ -8,6 +8,10 @@ import { useUIStore } from '@/store/uiStore'
 import { audioManager, MusicPaths, SoundPaths } from '@/game/systems/AudioManager'
 import { getImagePath } from '@/utils/assets'
 import { cocosPosition } from '@/utils/position'
+import { game } from '@/game/Game'
+import { usePlayerStore } from '@/store/playerStore'
+import { useBuildingStore } from '@/store/buildingStore'
+import { useGameStore } from '@/store/gameStore'
 import { ImageSprite } from '../sprites/ImageSprite'
 import { Sprite } from '../sprites/Sprite'
 
@@ -31,7 +35,119 @@ export function MenuScene() {
 
   const handleNewGame = () => {
     audioManager.playEffect(SoundPaths.CLICK)
-    uiStore.setScene('saveFile')
+    
+    // Initialize new game
+    initializeNewGame()
+    
+    // Navigate to main scene
+    uiStore.setScene('main')
+  }
+
+  const initializeNewGame = () => {
+    // Initialize game systems
+    game.initialize()
+    
+    // Ensure game is not paused
+    game.resume()
+    
+    // Reset and initialize player store
+    const playerStore = usePlayerStore.getState()
+    
+    // Reset player attributes to initial values
+    playerStore.updateAttribute('hp', 100)
+    playerStore.updateAttribute('spirit', 50)
+    playerStore.updateAttribute('starve', 50)
+    playerStore.updateAttribute('vigour', 50)
+    playerStore.updateAttribute('injury', 0)
+    playerStore.updateAttribute('infect', 0)
+    playerStore.updateAttribute('water', 50)
+    playerStore.updateAttribute('virus', 0)
+    playerStore.updateAttribute('temperature', 20)
+    
+    // Reset player stats
+    playerStore.setCurrency(0)
+    
+    // Clear inventory
+    Object.keys(playerStore.bag).forEach(itemId => {
+      playerStore.removeItemFromBag(itemId, playerStore.getBagItemCount(itemId))
+    })
+    Object.keys(playerStore.storage).forEach(itemId => {
+      playerStore.removeItemFromStorage(itemId, playerStore.getStorageItemCount(itemId))
+    })
+    
+
+    
+    // Reset equipment
+    playerStore.equipItem('gun', null)
+    playerStore.equipItem('weapon', null)
+    playerStore.equipItem('equip', null)
+    playerStore.equipItem('tool', null)
+    playerStore.equipItem('special', null)
+    
+    // Reset dog
+    playerStore.updateDogHunger(50)
+    playerStore.updateDogMood(50)
+    playerStore.updateDogInjury(0)
+    playerStore.setDogActive(false)
+    
+    // Initialize map
+    playerStore.initializeMap()
+    
+    // Set player location to home
+    playerStore.setLocation({ isAtHome: true, isAtBazaar: false, isAtSite: false, siteId: null })
+    
+
+    addTestItemsToStorage()
+    // Initialize building store (room with default buildings)
+    const buildingStore = useBuildingStore.getState()
+    buildingStore.initialize()
+    
+    // Initialize game store (time, weather, etc.)
+    const gameStore = useGameStore.getState()
+    gameStore.setTime(6 * 60 * 60 + 1) // Start at 6:00:01 (matches original)
+    gameStore.initializeWeatherSystem()
+  }
+
+  /**
+   * Test function to add items to player storage for testing Storage Panel
+   * Adds items from all categories to test grouping
+   */
+  const addTestItemsToStorage = () => {
+    const playerStore = usePlayerStore.getState()
+    
+    // Materials (1101 prefix)
+    playerStore.addItemToStorage('1101011', 5)  // Wood
+    playerStore.addItemToStorage('1101021', 3)  // Stone
+    playerStore.addItemToStorage('1101031', 2)  // Iron
+    playerStore.addItemToStorage('1101041', 4)  // Cloth
+    
+    // Food (1103 prefix)
+    playerStore.addItemToStorage('1103011', 10) // Bread
+    playerStore.addItemToStorage('1103022', 8)  // Meat
+    playerStore.addItemToStorage('1103033', 6)  // Canned food
+    playerStore.addItemToStorage('1103041', 12) // Water
+    
+    // Medicines (1104 prefix)
+    playerStore.addItemToStorage('1104011', 3)  // Medicine
+    playerStore.addItemToStorage('1104021', 2) // Bandage
+    playerStore.addItemToStorage('1104032', 4) // Antiseptic
+    
+    // Enhancement (1107 prefix)
+    playerStore.addItemToStorage('1107012', 2)  // Enhancement item
+    playerStore.addItemToStorage('1107022', 1)  // Enhancement item
+    
+    // Equipment (13 prefix)
+    playerStore.addItemToStorage('1301011', 1)  // Gun
+    playerStore.addItemToStorage('1302011', 1)  // Weapon
+    playerStore.addItemToStorage('1303012', 1)  // Armor
+    playerStore.addItemToStorage('1305011', 50) // Bullet
+    playerStore.addItemToStorage('1305012', 30) // Bullet
+    
+    // Miscellaneous (other - items not matching above prefixes)
+    playerStore.addItemToStorage('1102063', 5)  // Basic item
+    playerStore.addItemToStorage('1102073', 3) // Basic item
+    
+    console.log('Test items added to storage')
   }
 
   // Temporary test function to navigate directly to MainScene
@@ -242,19 +358,36 @@ export function MenuScene() {
         BuriedTown React Port - Phase 1
       </div>
 
-      {/* TEMPORARY: Test MainScene Button (Top Left) - Remove after testing */}
-      <button
-        onClick={handleTestMainScene}
-        className="absolute bg-blue-600 text-white px-4 py-2 rounded"
+      {/* TEMPORARY: Test Buttons (Top Left) - Remove after testing */}
+      <div
+        className="absolute"
         style={{ 
           top: '20px',
           left: '20px',
           zIndex: 1000,
-          fontSize: '12px'
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px'
         }}
       >
-        TEST: MainScene
-      </button>
+        <button
+          onClick={handleTestMainScene}
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+          style={{ fontSize: '12px' }}
+        >
+          TEST: MainScene
+        </button>
+        <button
+          onClick={() => {
+            addTestItemsToStorage()
+            uiStore.addNotification('Test items added to storage!', 'success')
+          }}
+          className="bg-green-600 text-white px-4 py-2 rounded"
+          style={{ fontSize: '12px' }}
+        >
+          TEST: Add Items
+        </button>
+      </div>
     </div>
   )
 }
