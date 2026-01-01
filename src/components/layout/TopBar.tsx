@@ -35,10 +35,9 @@ function getSeasonStr(season: number): string {
 }
 
 
-// Placeholder for status dialogs (to be implemented later)
+// Show status dialog (ported from OriginalGame/src/ui/topFrame.js)
 function showStatusDialog(stringId: number, value: string | number, iconName: string) {
-  console.log('Status dialog:', { stringId, value, iconName })
-  // TODO: Implement status dialog
+  useUIStore.getState().showOverlay('statusDialog', { stringId, value, iconName })
 }
 
 function showAttrStatusDialog(stringId: number, attr: string) {
@@ -102,6 +101,7 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
   
   // Placeholder for work site and gas site active states
   const workSiteActive = false // TODO: Get from gameStore or site system
+  const gasSiteActive = false // TODO: Get from gameStore or site system
   const hasMotorcycle = false // TODO: Get from playerStore or equipment
   
   // Background height for coordinate conversion
@@ -138,10 +138,10 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
           icon={`icon_season_${gameStore.season}.png`}
           iconAtlas="icon"
           label=""
-          position={{ x: btnSize.width * 1.1 + 4.8, y: 25 }}
+          position={{ x: btnSize.width * 1.2 + 4.8, y: 25 }}
           scale={0.4}
           noLabel={true}
-          onClick={() => showStatusDialog(2, getSeasonStr(gameStore.season), 'icon_season.png')}
+          onClick={() => showStatusDialog(2, getSeasonStr(gameStore.season), `icon_season_${gameStore.season}.png`)}
         />
         
         {/* Time button */}
@@ -162,7 +162,7 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
           position={{ x: btnSize.width * 2.7 - 3, y: 25 }}
           scale={0.4}
           noLabel={true}
-          onClick={() => showStatusDialog(11, gameStore.weatherSystem?.getWeatherName() || 'Unknown', 'icon_weather.png')}
+          onClick={() => showStatusDialog(11, gameStore.weatherSystem?.getWeatherName() || 'Unknown', `icon_weather_${gameStore.weather}.png`)}
         />
         
         {/* Temperature button */}
@@ -198,12 +198,16 @@ export function TopBar({ testLogs = [] }: TopBarProps = {}) {
         
         {/* Fuel gauge button */}
         <StatusButton
-          icon="icon_item_gas.png"
+          icon={`icon_oil_${gasSiteActive ? 'active' : 'inactive'}.png`}
           iconAtlas="new"
-          label="0"
+          label={String(Math.floor(playerStore.fuel))}
           position={{ x: btnSize.width * 5.3 - 0.4, y: 25 }}
-          scale={0.5}
-          onClick={() => showStatusDialog(16, `0/${hasMotorcycle ? 99 : 0}`, 'icon_oil.png')}
+          scale={0.6}
+          onClick={() => {
+            const upperbound = hasMotorcycle ? 99 : 0
+            const fuelValue = Math.floor(playerStore.fuel)
+            showStatusDialog(16, `${fuelValue}/${upperbound}`, `icon_oil_${gasSiteActive ? 'active' : 'inactive'}.png`)
+          }}
         />
       </div>
       

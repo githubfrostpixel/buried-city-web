@@ -4,6 +4,7 @@
  * Used in TopBar for player attributes (HP, hunger, etc.)
  */
 
+import { useRef, useEffect, useState } from 'react'
 import { usePlayerStore } from '@/store/playerStore'
 import { Sprite } from '@/components/sprites/Sprite'
 import { Range } from '@/utils/range'
@@ -27,6 +28,19 @@ export function AttrButton({
 }: AttrButtonProps) {
   const playerStore = usePlayerStore()
   
+  // Track previous percentage for change detection (matching original game oldPercentage)
+  const oldPercentageRef = useRef<number | null>(null)
+  
+  // Track icon dimensions for arrow positioning
+  const iconRef = useRef<HTMLDivElement>(null)
+  const [iconSize, setIconSize] = useState({ width: 0, height: 0 })
+  
+  // Arrow state: visible and direction
+  const [arrowState, setArrowState] = useState<{
+    visible: boolean
+    direction: 'up' | 'down'
+  } | null>(null)
+  
   // Get attribute value and max
   const value = playerStore[attr] as number
   const maxAttr = `${attr}Max` as keyof typeof playerStore
@@ -39,6 +53,40 @@ export function AttrButton({
   // Calculate display percentage (reverse if needed for display)
   const displayPercentage = reversePercentage ? 1 - actualPercentageValue : actualPercentageValue
   const percentageValue = Math.max(0, Math.min(1, displayPercentage))
+  
+  // Measure icon dimensions for arrow positioning
+  useEffect(() => {
+    if (iconRef.current) {
+      const rect = iconRef.current.getBoundingClientRect()
+      setIconSize({ width: rect.width, height: rect.height })
+    }
+  }, [attr, value]) // Re-measure when attribute or value changes (value changes may affect icon size)
+  
+  // Detect attribute changes and show arrow (matching original game warnChange logic)
+  useEffect(() => {
+    const oldPercentage = oldPercentageRef.current
+    if (oldPercentage !== null) {
+      const dtPercentage = percentageValue - oldPercentage
+      // Use small threshold to avoid floating point precision issues
+      if (Math.abs(dtPercentage) > 0.001) {
+        setArrowState({
+          visible: true,
+          direction: dtPercentage > 0 ? 'up' : 'down'
+        })
+      }
+    }
+    oldPercentageRef.current = percentageValue
+  }, [percentageValue])
+  
+  // Cleanup arrow after fade-out animation (1 second, matching original game)
+  useEffect(() => {
+    if (arrowState?.visible) {
+      const timer = setTimeout(() => {
+        setArrowState(null)
+      }, 1000) // 1 second fade-out
+      return () => clearTimeout(timer)
+    }
+  }, [arrowState])
   
   // Check if in warning range
   // Based on original game: btn.updateView(reversPercentage ? 1 - player.getAttrPercentage(attr) : player.getAttrPercentage(attr), ...)
@@ -81,10 +129,14 @@ export function AttrButton({
           When warning, _2 is fully visible on top (no clipping)
       */}
       {/* All attributes use 0.5 scale except HP which uses no scale */}
-      <div className="relative" style={{ 
-        transform: attr === 'hp' ? 'none' : 'scale(0.5)', 
-        transformOrigin: 'center center' 
-      }}>
+      <div 
+        ref={iconRef}
+        className="relative" 
+        style={{ 
+          transform: attr === 'hp' ? 'none' : 'scale(0.5)', 
+          transformOrigin: 'center center' 
+        }}
+      >
         {/* Background icon (_1) - always visible, shows empty state */}
         <Sprite
           atlas={iconAtlas}
@@ -126,6 +178,29 @@ export function AttrButton({
             <Sprite
               atlas={iconAtlas}
               frame={`icon_${attr}_2.png`}
+              className="block"
+              style={{ width: 'auto', height: 'auto' }}
+            />
+          </div>
+        )}
+        
+        {/* Arrow indicator - shows when attribute increases/decreases (matching original game warnChange) */}
+        {/* Original: iconWarn positioned at icon.width + 3, icon.height / 4 * 3 (up) or icon.height / 4 (down) */}
+        {/* Anchor point: (0, 0.5) = left-center alignment */}
+        {arrowState?.visible && iconSize.width > 0 && (
+          <div
+            className="absolute pointer-events-none"
+            style={{
+              left: `${iconSize.width + 30}px`,
+              top: `${arrowState.direction === 'up' ? iconSize.height * 0.3 : iconSize.height * 1.5}px`,
+              transform: 'translateY(-50%)', // Center vertically (matches anchor 0.5)
+              animation: 'attributeArrowFade 1s ease-out forwards',
+              zIndex: 10
+            }}
+          >
+            <Sprite
+              atlas={iconAtlas}
+              frame={`icon_status_${arrowState.direction}.png`}
               className="block"
               style={{ width: 'auto', height: 'auto' }}
             />

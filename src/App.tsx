@@ -5,6 +5,7 @@ import { TestIndexScreen } from './components/test/TestIndexScreen'
 import { DeathOverlay } from './components/overlays/DeathOverlay'
 import { ItemDialog } from './components/overlays/ItemDialog'
 import { AttributeStatusDialog } from './components/overlays/AttributeStatusDialog'
+import { StatusDialog } from './components/overlays/StatusDialog'
 // Future scenes (to be implemented):
 // import { SaveFileScene } from './components/scenes/SaveFileScene'
 // import { ChooseScene } from './components/scenes/ChooseScene'
@@ -53,6 +54,9 @@ function App() {
       )}
       {activeOverlay === 'attributeDialog' && (
         <AttributeStatusDialog />
+      )}
+      {activeOverlay === 'statusDialog' && (
+        <StatusDialog />
       )}
     </>
   )

@@ -19,6 +19,7 @@ interface PlayerStore extends PlayerState {
   
   // Game state
   currency: number
+  fuel: number
   totalDistance: number
   leftHomeTime: number | null
   
@@ -154,6 +155,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   
   // Game state
   currency: 0,
+  fuel: 0,
   totalDistance: 0,
   leftHomeTime: null,
   

@@ -53,5 +53,15 @@
       opacity: 0.3;
     }
   }
+
+  /* Attribute arrow fade animation - fades out arrow indicator over 1 second */
+  @keyframes attributeArrowFade {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
 }
 

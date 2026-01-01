@@ -13,6 +13,7 @@ import { TopBar } from '@/components/layout/TopBar'
 import { BottomBar } from '@/components/layout/BottomBar'
 import { HomePanelContent } from '@/components/panels/HomePanelContent'
 import { StoragePanelContent } from '@/components/panels/StoragePanelContent'
+import { RadioPanelContent } from '@/components/panels/RadioPanelContent'
 import { useUIStore } from '@/store/uiStore'
 import { useBuildingStore } from '@/store/buildingStore'
 import { audioManager, MusicPaths } from '@/game/systems/AudioManager'
@@ -113,8 +114,7 @@ export function MainScene() {
         return <StoragePanelContent />
       
       case 'radio':
-        // return <RadioPanel />
-        return <div className="text-white p-4">Radio Panel - Coming soon</div>
+        return <RadioPanelContent />
       
       default:
         // Default to home (matches Navigation.current() default)
@@ -134,7 +134,13 @@ export function MainScene() {
           ? buildingStore.room.getBuildCurrentName(13)
           : 'Storage'
       }
-      case 'radio': return 'Radio'
+      case 'radio': {
+        // Get building 15 (Radio) name
+        const building = buildingStore.getBuilding(15)
+        return building && buildingStore.room
+          ? buildingStore.room.getBuildCurrentName(15)
+          : 'Radio'
+      }
       default: return ''
     }
   }

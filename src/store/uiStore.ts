@@ -32,6 +32,7 @@ export type Overlay =
   | 'dialog'
   | 'itemDialog'
   | 'attributeDialog'
+  | 'statusDialog'
   | null
 
 interface UIStore {

@@ -67,15 +67,6 @@ const WeatherSaveDataSchema = z.object({
   aa: z.boolean()
 })
 
-// Game save schema
-const GameSaveDataSchema = z.object({
-  time: z.number().min(0),
-  season: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-  day: z.number().int().min(0),
-  weather: WeatherSaveDataSchema,
-  map: MapSaveDataSchema.optional() // Optional for backward compatibility
-})
-
 // Building save schema
 const BuildingSaveDataSchema = z.object({
   id: z.number().int(),
@@ -136,6 +127,15 @@ const MapSaveDataSchema = z.object({
     y: z.number()
   }),
   needDeleteSiteList: z.array(z.number().int())
+})
+
+// Game save schema (must be after MapSaveDataSchema)
+const GameSaveDataSchema = z.object({
+  time: z.number().min(0),
+  season: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  day: z.number().int().min(0),
+  weather: WeatherSaveDataSchema,
+  map: MapSaveDataSchema.optional() // Optional for backward compatibility
 })
 
 // Complete save data schema
