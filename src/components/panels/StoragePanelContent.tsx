@@ -14,10 +14,12 @@ import { useEffect, useState, useMemo } from 'react'
 import { usePlayerStore } from '@/store/playerStore'
 import { useUIStore } from '@/store/uiStore'
 import { Storage } from '@/game/inventory/Storage'
+import { Item } from '@/game/inventory/Item'
 import { ItemSection } from '@/components/storage/ItemSection'
 import { BOTTOM_BAR_LAYOUT } from '@/components/layout/layoutConstants'
 import { emitter } from '@/utils/emitter'
 import { Sprite } from '@/components/sprites/Sprite'
+import { checkStarve } from '@/utils/uiUtil'
 
 // Item type categories (from string 3006)
 // English: ["Materials ", "Food ", "Medicines ", "Enhancement ", "Equipment ", "Miscellaneous "]
@@ -73,13 +75,43 @@ export function StoragePanelContent() {
     const handleItemUse = (data: { itemId: string; source: string }) => {
       if (data.source !== 'storage') return
       
-      // TODO: Implement item use logic
-      // const res = player.useItem(player.storage, data.itemId)
-      // if (res.result) {
-      //   setUpdateTrigger(prev => prev + 1)
-      // }
-      console.log('Item use:', data.itemId)
-      setUpdateTrigger(prev => prev + 1)
+      // Check if food item and starve is max
+      const item = new Item(data.itemId)
+      if (item.isType('11', '03')) {
+        // Food item - check starve
+        if (!checkStarve()) {
+          return // Can't eat when full
+        }
+      }
+      
+      // Create storage instance from playerStore.storage
+      const storage = new Storage('player')
+      storage.restore(playerStore.storage)
+      
+      // Use item
+      const res = playerStore.useItem(storage, data.itemId)
+      
+      // Close ItemDialog after item use (unless death occurred)
+      // Use setTimeout to ensure death overlay state has been set if death occurred
+      setTimeout(() => {
+        const currentOverlay = useUIStore.getState().activeOverlay
+        if (currentOverlay !== 'death') {
+          useUIStore.getState().hideOverlay()
+        }
+      }, 0)
+      
+      if (res.result) {
+        // Storage state is updated by useItem internally via set()
+        // Just trigger UI update
+        setUpdateTrigger(prev => prev + 1)
+      } else {
+        // Show error message if needed
+        if (res.type === 1) {
+          uiStore.addNotification('Not enough items', 'warning')
+        } else if (res.type === 2) {
+          uiStore.addNotification("This item can't be used", 'warning')
+        }
+      }
     }
     
     emitter.on('item_use', handleItemUse)
@@ -89,7 +121,7 @@ export function StoragePanelContent() {
       emitter.off('item_use', handleItemUse)
       emitter.off('btn_1_click', handleItemUse)
     }
-  }, [])
+  }, [playerStore, uiStore])
   
   // Listen to storage changes
   useEffect(() => {

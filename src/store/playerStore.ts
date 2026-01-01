@@ -1,8 +1,14 @@
 import { create } from 'zustand'
 import type { PlayerState, PlayerAttributes } from '@/types/player.types'
 import type { BuildingCost } from '@/types/building.types'
+import type { FoodEffect, MedicineEffect, BuffEffect } from '@/types/item.types'
 import { itemConfig } from '@/data/items'
+import { Item } from '@/game/inventory/Item'
+import { Storage } from '@/game/inventory/Storage'
 import { Map } from '@/game/world/Map'
+import { game } from '@/game/Game'
+import { useBuildingStore } from '@/store/buildingStore'
+import { checkDeathOnAttributeChange, handleDeath } from '@/utils/deathCheck'
 
 interface PlayerStore extends PlayerState {
   // Location state
@@ -51,6 +57,12 @@ interface PlayerStore extends PlayerState {
   // Map state
   map: Map | null
   
+  // Medicine treatment state
+  cured: boolean
+  binded: boolean
+  cureTime: number | null
+  bindTime: number | null
+  
   // Actions
   updateAttribute: (attr: keyof PlayerAttributes, value: number) => void
   setCurrency: (amount: number) => void
@@ -90,6 +102,16 @@ interface PlayerStore extends PlayerState {
   // Map actions
   initializeMap: () => void
   getMap: () => Map
+  
+  // Item use actions
+  useItem: (storage: Storage, itemId: string) => {result: boolean, type?: number, msg?: string}
+  cure: () => void
+  bindUp: () => void
+  isAttrMax: (attr: keyof PlayerAttributes) => boolean
+  isAttrChangeGood: (attr: keyof PlayerAttributes, changeValue: number) => boolean
+  applyEffect: (effectObj: Record<string, number>) => Array<{attrName: string, changeValue: number}>
+  itemEffect: (item: Item, effectObj: FoodEffect | MedicineEffect | BuffEffect | undefined) => void
+  item1104032Effect: (item: Item, effectObj: MedicineEffect | undefined) => boolean
 }
 
 const initialAttributes: PlayerAttributes = {
@@ -169,13 +191,53 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   // Map state
   map: null,
   
+  // Medicine treatment state
+  cured: false,
+  binded: false,
+  cureTime: null,
+  bindTime: null,
+  
   // Actions
-  updateAttribute: (attr: keyof PlayerAttributes, value: number) => set((state: PlayerStore) => {
-    const newValue = Math.max(0, Math.min(value, state[`${attr}Max` as keyof PlayerAttributes] as number || 100))
-    return {
-      [attr]: newValue
-    } as Partial<PlayerStore>
-  }),
+  updateAttribute: (attr: keyof PlayerAttributes, value: number) => {
+    const state = get()
+    const maxAttr = `${attr}Max` as keyof PlayerAttributes
+    const maxValue = state[maxAttr] as number || 100
+    
+    // Clamp value to valid range (matching original: cc.clampf)
+    let newValue: number
+    if (attr === 'temperature') {
+      newValue = Math.max(-2, Math.min(value, maxValue))
+    } else {
+      newValue = Math.max(0, Math.min(value, maxValue))
+    }
+    
+    // Round value (matching original: Math.round)
+    newValue = Math.round(newValue)
+    
+    // Update attribute
+    set({ [attr]: newValue } as Partial<PlayerStore>)
+    
+    // Check for death immediately after attribute change (matching original game)
+    // Original: OriginalGame/src/game/player.js:673-683
+    const deathReason = checkDeathOnAttributeChange(attr, newValue)
+    
+    if (deathReason) {
+      // Special handling for virus death: set HP to 0 first, then die
+      // Original: this.log.addMsg(stringUtil.getString(6671)); this.changeAttr("hp", -this["hp"]);
+      if (deathReason === 'virus_overload') {
+        // Log message (TODO: Use string system - message 6671)
+        console.log('Virus overload!')
+        
+        // Set HP to 0 using updateAttribute (this will trigger death check automatically)
+        // This matches original: this.changeAttr("hp", -this["hp"])
+        // The HP change will trigger death check, so we don't call handleDeath here
+        get().updateAttribute('hp', 0)
+      } else {
+        // HP death or infection death
+        handleDeath(deathReason)
+      }
+    }
+  },
   
   setCurrency: (amount: number) => set({ currency: amount, money: amount }),
   
@@ -392,7 +454,6 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   getSafeMaxWeight: () => {
     // Check building 20 level >= 0
     try {
-      const { useBuildingStore } = require('@/store/buildingStore')
       const buildingStore = useBuildingStore.getState()
       const safe = buildingStore.getBuilding(20) // Safe building ID
       if (safe && safe.level >= 0 && safe.active) {
@@ -546,6 +607,229 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       if (remaining > 0) {
         state.removeItemFromStorage(itemId, remaining)
       }
+    }
+  },
+  
+  // Item use actions
+  isAttrMax: (attr: keyof PlayerAttributes) => {
+    const state = get()
+    const maxAttr = `${attr}Max` as keyof PlayerAttributes
+    return state[attr] >= (state[maxAttr] as number || 100)
+  },
+  
+  isAttrChangeGood: (attr: keyof PlayerAttributes, changeValue: number) => {
+    // Positive change is good for most attributes
+    // Exception: infect, virus, injury - negative change is good
+    if (attr === 'infect' || attr === 'virus' || attr === 'injury') {
+      return changeValue <= 0
+    }
+    return changeValue >= 0
+  },
+  
+  cure: () => {
+    const timeManager = game.getTimeManager()
+    set({
+      cured: true,
+      cureTime: timeManager.now()
+    })
+  },
+  
+  bindUp: () => {
+    const timeManager = game.getTimeManager()
+    set({
+      binded: true,
+      bindTime: timeManager.now()
+    })
+  },
+  
+  // Apply effect to player attributes
+  applyEffect: (effectObj: Record<string, number>) => {
+    const state = get()
+    const badEffects: Array<{attrName: string, changeValue: number}> = []
+    
+    for (const key in effectObj) {
+      if (state.hasOwnProperty(key) && key !== 'id') {
+        const chanceKey = `${key}_chance`
+        const chance = effectObj[chanceKey]
+        const value = effectObj[key]
+        
+        // Apply effect if chance check passes (or no chance specified)
+        if (chance === undefined || Math.random() <= chance) {
+          const attr = key as keyof PlayerAttributes
+          const currentValue = state[attr] as number
+          const maxAttr = `${attr}Max` as keyof PlayerAttributes
+          const maxValue = state[maxAttr] as number || 100
+          const newValue = Math.max(0, Math.min(currentValue + value, maxValue))
+          state.updateAttribute(attr, newValue)
+          
+          // Track bad effects
+          if (!state.isAttrChangeGood(attr, value)) {
+            badEffects.push({ attrName: key, changeValue: value })
+          }
+        }
+      }
+    }
+    
+    return badEffects
+  },
+  
+  // Apply item effect and log bad effects
+  itemEffect: (item: Item, effectObj: FoodEffect | MedicineEffect | BuffEffect | undefined) => {
+    if (!effectObj) return
+    
+    const state = get()
+    const badEffects = state.applyEffect(effectObj as Record<string, number>)
+    
+    if (badEffects.length > 0) {
+      // TODO: Log warning message (string ID 1107)
+      // For now, just log to console
+      const effectStr = badEffects.map((e: {attrName: string, changeValue: number}) => `${e.attrName}: ${e.changeValue}`).join(' ')
+      console.warn(`Item ${item.id} had negative effects: ${effectStr}`)
+    }
+  },
+  
+  // Special effect for Homemade Penicillin (1104032)
+  item1104032Effect: (item: Item, effectObj: MedicineEffect | undefined) => {
+    if (!effectObj) return false
+    
+    const state = get()
+    const hpChance = effectObj.hp_chance || 0
+    
+    if (Math.random() <= hpChance) {
+      // Apply HP damage
+      // Original: this.changeHp(obj.hp) where obj.hp is -150
+      const hpChange = effectObj.hp || 0  // This is -150 (negative)
+      const currentHp = state.hp
+      const newHp = currentHp + hpChange  // e.g., 100 + (-150) = -50
+      
+      // Update HP (will clamp to 0 and trigger death check)
+      state.updateAttribute('hp', newHp)
+      return false // No cure
+    } else {
+      // Apply other effects (excluding hp)
+      const newObj: Record<string, number> = {}
+      for (const key in effectObj) {
+        if (key !== 'hp' && key !== 'hp_chance' && key !== 'id') {
+          newObj[key] = effectObj[key as keyof MedicineEffect] as number
+        }
+      }
+      state.itemEffect(item, newObj as MedicineEffect)
+      return true // Can cure
+    }
+  },
+  
+  // Main item use function
+  useItem: (storage: Storage, itemId: string) => {
+    const state = get()
+    
+    // Validate item exists and count >= 1
+    if (!storage.validateItem(itemId, 1)) {
+      return { result: false, type: 1, msg: 'not enough' }
+    }
+    
+    const item = new Item(itemId)
+    const itemName = `Item ${itemId}` // TODO: Get from string system
+    
+    // Get time manager
+    const timeManager = game.getTimeManager()
+    
+    // Handle by item type
+    if (item.isType('11', '03')) {
+      // Food items
+      // Check starve max (handled by checkStarve utility before calling useItem)
+      // Update time: 600 seconds = 10 minutes
+      timeManager.updateTime(600)
+      
+      // Decrease item
+      storage.removeItem(itemId, 1)
+      
+      // Update storage in playerStore if it's player storage
+      if (storage.name === 'player') {
+        const storageState = storage.save()
+        set({ storage: storageState })
+      }
+      
+      // Log message (TODO: Use string system - message 1093)
+      const remainingCount = storage.getItemCount(itemId)
+      console.log(`Consumed ${itemName}, remaining: ${remainingCount}`)
+      
+      // Apply effect
+      state.itemEffect(item, item.getFoodEffect())
+      
+      return { result: true }
+    } else if (item.isType('11', '04')) {
+      // Medicine items
+      // Update time: 600 seconds = 10 minutes
+      timeManager.updateTime(600)
+      
+      // Special case for bandage (1104011)
+      if (itemId === '1104011') {
+        storage.removeItem(itemId, 1)
+        
+        if (storage.name === 'player') {
+          const storageState = storage.save()
+          set({ storage: storageState })
+        }
+        
+        // Log message (TODO: Use string system - message 1094)
+        const remainingCount = storage.getItemCount(itemId)
+        console.log(`Used ${itemName}, remaining: ${remainingCount}`)
+        
+        // Apply effect and bind up
+        state.itemEffect(item, item.getMedicineEffect())
+        state.bindUp()
+      } else {
+        // Other medicines
+        storage.removeItem(itemId, 1)
+        
+        if (storage.name === 'player') {
+          const storageState = storage.save()
+          set({ storage: storageState })
+        }
+        
+        // Log message (TODO: Use string system - message 1095)
+        const remainingCount = storage.getItemCount(itemId)
+        console.log(`Used ${itemName}, remaining: ${remainingCount}`)
+        
+        // Special case for Homemade Penicillin (1104032)
+        if (itemId === '1104032') {
+          const canCure = state.item1104032Effect(item, item.getMedicineEffect())
+          if (canCure) {
+            state.cure()
+          }
+        } else {
+          // Other medicines: apply effect and cure
+          state.itemEffect(item, item.getMedicineEffect())
+          state.cure()
+        }
+      }
+      
+      return { result: true }
+    } else if (item.isType('11', '07')) {
+      // Buff items
+      // Update time: 600 seconds = 10 minutes
+      timeManager.updateTime(600)
+      
+      // Decrease item
+      storage.removeItem(itemId, 1)
+      
+      if (storage.name === 'player') {
+        const storageState = storage.save()
+        set({ storage: storageState })
+      }
+      
+      // Log message (TODO: Use string system - message 1095)
+      const remainingCount = storage.getItemCount(itemId)
+      console.log(`Used ${itemName}, remaining: ${remainingCount}`)
+      
+      // Apply buff (TODO: Implement buffManager.applyBuff)
+      // For now, just log
+      console.log(`Buff item ${itemId} used - buff system not yet implemented`)
+      
+      return { result: true }
+    } else {
+      // Other types can't be used
+      return { result: false, type: 2, msg: "this type can't use" }
     }
   }
 }))

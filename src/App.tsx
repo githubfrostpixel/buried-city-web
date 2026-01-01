@@ -13,10 +13,11 @@ import { ItemDialog } from './components/overlays/ItemDialog'
 // import { EndScene } from './components/scenes/EndScene'
 
 function App() {
-  const uiStore = useUIStore()
-  const currentScene = uiStore.currentScene
-  const activeOverlay = uiStore.activeOverlay
-  const deathReason = uiStore.deathReason
+  // Use selectors to ensure proper re-renders
+  const currentScene = useUIStore((state) => state.currentScene)
+  const activeOverlay = useUIStore((state) => state.activeOverlay)
+  const deathReason = useUIStore((state) => state.deathReason)
+  
   
   // Check for test mode (via URL parameter or localStorage)
   const isTestMode = window.location.search.includes('test=true') || 

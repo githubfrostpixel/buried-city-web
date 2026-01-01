@@ -144,7 +144,10 @@ export function ItemDialog() {
   const handleUse = () => {
     // Emit btn_1_click event (StoragePanelContent listens to this)
     emitter.emit('btn_1_click', { itemId, source })
-    handleClose()
+    // Don't close immediately - let the item use handler close it
+    // This prevents closing the dialog if death occurs during item use
+    // The dialog will be closed by handleDeath() if needed
+    // handleClose()
   }
   
   // Dialog dimensions (approximate, will be adjusted based on actual sprite)

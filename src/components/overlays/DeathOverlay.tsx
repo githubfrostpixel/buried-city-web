@@ -28,7 +28,18 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
     const updatePosition = () => {
       const bottomBar = document.querySelector('[data-test-id="bottombar-bg"]')
       if (bottomBar) {
-        setBottomBarRect(bottomBar.getBoundingClientRect())
+        const rect = bottomBar.getBoundingClientRect()
+        // Only update state if rect actually changed (prevents unnecessary re-renders)
+        setBottomBarRect((prev) => {
+          if (!prev || 
+              prev.x !== rect.x || 
+              prev.y !== rect.y || 
+              prev.width !== rect.width || 
+              prev.height !== rect.height) {
+            return rect
+          }
+          return prev
+        })
       }
     }
     
@@ -39,7 +50,8 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
     window.addEventListener('resize', updatePosition)
     
     // Update periodically in case BottomBar moves (e.g., during transitions)
-    const interval = setInterval(updatePosition, 100)
+    // Use a longer interval to reduce re-renders (1000ms instead of 100ms)
+    const interval = setInterval(updatePosition, 1000)
     
     return () => {
       window.removeEventListener('resize', updatePosition)
@@ -109,7 +121,29 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
 
   // Don't render if BottomBar not found
   if (!bottomBarRect) {
-    return null
+    // Return a placeholder that will update once BottomBar is found
+    // This ensures the overlay is in the DOM and will update when bottomBarRect is set
+    return (
+      <div
+        className="fixed z-[9999]"
+        style={{
+          left: 0,
+          top: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: 'rgba(0, 0, 0, 0.95)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+          fontSize: '24px',
+          pointerEvents: 'auto'
+        }}
+        data-test-id="death-overlay-loading"
+      >
+        <div>Loading...</div>
+      </div>
+    )
   }
 
   return (
@@ -128,7 +162,7 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
       <div
         className="absolute inset-0"
         style={{
-          backgroundColor: 'rgba(0, 0, 0, 0.95)',
+          backgroundColor: 'rgba(0, 0, 0, 1)',
           width: '100%',
           height: '100%'
         }}
