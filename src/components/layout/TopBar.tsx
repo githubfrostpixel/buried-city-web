@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import { useGameStore } from '@/store/gameStore'
 import { usePlayerStore } from '@/store/playerStore'
 import { useLogStore } from '@/store/logStore'
+import { useUIStore } from '@/store/uiStore'
 import { cocosToCssPosition } from '@/utils/position'
 import { Sprite } from '@/components/sprites/Sprite'
 import { StatusButton, AttrButton, LogBar } from '@/components/common'
@@ -41,8 +42,7 @@ function showStatusDialog(stringId: number, value: string | number, iconName: st
 }
 
 function showAttrStatusDialog(stringId: number, attr: string) {
-  console.log('Attribute status dialog:', { stringId, attr })
-  // TODO: Implement attribute status dialog
+  useUIStore.getState().showOverlay('attributeDialog', { stringId, attr })
 }
 
 interface TopBarProps {
