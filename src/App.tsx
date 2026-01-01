@@ -3,6 +3,7 @@ import { MenuScene } from './components/scenes/MenuScene'
 import { MainScene } from './components/scenes/MainScene'
 import { TestIndexScreen } from './components/test/TestIndexScreen'
 import { DeathOverlay } from './components/overlays/DeathOverlay'
+import { ItemDialog } from './components/overlays/ItemDialog'
 // Future scenes (to be implemented):
 // import { SaveFileScene } from './components/scenes/SaveFileScene'
 // import { ChooseScene } from './components/scenes/ChooseScene'
@@ -44,6 +45,9 @@ function App() {
       {/* Global overlays - rendered at App level to span full viewport */}
       {activeOverlay === 'death' && deathReason && (
         <DeathOverlay reason={deathReason} />
+      )}
+      {activeOverlay === 'itemDialog' && (
+        <ItemDialog />
       )}
     </>
   )

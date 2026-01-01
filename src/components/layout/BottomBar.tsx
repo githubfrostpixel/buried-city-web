@@ -54,9 +54,25 @@ export function BottomBar({
     height: `${bgHeight}px`
   }
   
-  // Calculate title position (centered, or offset if buttons present)
-  const leftBtnWidth = actionBar.buttonWidth
-  const titleX = actionBar.leftButtonX + leftBtnWidth / 2 + 10
+  // Determine if subtext exists
+  const hasSubtext = !!(leftSubtext || rightSubtext)
+  
+  // Calculate title position based on subtext presence
+  // With subtext: close to left button
+  // Without subtext: centered and moved down 20px
+  const titleLeftPosition = hasSubtext 
+    ? actionBar.leftButtonX + actionBar.buttonWidth + 15
+    : bgWidth / 2
+  const titleStyle: React.CSSProperties = hasSubtext
+    ? {
+        left: `${titleLeftPosition}px`,
+        top: `${actionBar.paddingTop - 10}px`,
+      }
+    : {
+        left: '50%',
+        top: `${actionBar.paddingTop - 10 + 10}px`,
+        transform: 'translateX(-50%)',
+      }
   
   return (
     <div className="absolute" style={bgStyle} data-test-id="bottombar-bg" data-test-label="BottomBar Background" data-test-position>
@@ -115,14 +131,13 @@ export function BottomBar({
             </button>
           )}
           
-          {/* Title - positioned after left button area */}
+          {/* Title - positioned close to left button if subtext exists, otherwise centered */}
           {title && (
             <div
               data-test-id="bottombar-title"
               className="absolute text-white"
               style={{
-                left: `${titleX + 30}px`,
-                top: `${actionBar.paddingTop - 10}px`,
+                ...titleStyle,
                 fontSize: '18px',
                 fontFamily: 'Arial, sans-serif',
                 fontWeight: 'bold',
@@ -164,11 +179,11 @@ export function BottomBar({
       )}
       
       {/* Subtext row - below action bar, above line - hidden if fullScreen */}
-      {!fullScreen && (leftSubtext || rightSubtext) && (
+      {!fullScreen && hasSubtext && (
         <div
           className="absolute flex justify-between items-center"
           style={{
-            left: `${titleX + 30}px`,
+            left: `${titleLeftPosition}px`,
             right: `${actionBar.rightButtonX + 10}px`,
             top: `${actionBar.top + actionBar.height - 20}px`,
             height: '20px',

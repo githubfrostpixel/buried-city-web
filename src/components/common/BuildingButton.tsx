@@ -67,17 +67,17 @@ export function BuildingButton({
           filter: isActive ? 'none' : 'brightness(0.3)'
         }}
       />
-      {/* Warning icons - positioned in top-right corner, exempt from grey filter */}
+      {/* Warning icons - centered on button, matching original createBuildWarn */}
       {activeWarnings.length > 0 && (
         <div 
           className="absolute"
           style={{
-            top: '0',
-            right: '0',
-            transform: 'translate(50%, -50%)',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
             display: 'flex',
             alignItems: 'center',
-            gap: '2px',
+            gap: '4px',
             height: '38px',
             zIndex: 11
           }}

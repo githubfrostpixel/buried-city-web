@@ -30,6 +30,7 @@ export type Overlay =
   | 'battleResult'
   | 'itemChange'
   | 'dialog'
+  | 'itemDialog'
   | null
 
 interface UIStore {
@@ -41,6 +42,9 @@ interface UIStore {
   
   // Active overlay
   activeOverlay: Overlay
+  
+  // Overlay data (for itemDialog, etc.)
+  overlayData: any
   
   // Death reason (stored when death overlay is shown)
   deathReason: DeathReason | null
@@ -65,6 +69,7 @@ interface UIStore {
   openPanelAction: (panel: Panel) => void
   closePanel: () => void
   showOverlay: (overlay: Overlay, data?: any) => void
+  showItemDialog: (itemId: string, source: 'storage' | 'bag' | 'bazaar', showOnly?: boolean) => void
   hideOverlay: () => void
   showDialog: (dialog: UIStore['dialog']) => void
   hideDialog: () => void
@@ -76,6 +81,7 @@ export const useUIStore = create<UIStore>((set) => ({
   currentScene: 'menu',
   openPanel: null,
   activeOverlay: null,
+  overlayData: null,
   deathReason: null,
   dialog: null,
   notifications: [],
@@ -88,13 +94,20 @@ export const useUIStore = create<UIStore>((set) => ({
   
   showOverlay: (overlay: Overlay, data?: any) => {
     if (overlay === 'death' && data?.reason) {
-      set({ activeOverlay: overlay, deathReason: data.reason })
+      set({ activeOverlay: overlay, deathReason: data.reason, overlayData: data })
     } else {
-      set({ activeOverlay: overlay })
+      set({ activeOverlay: overlay, overlayData: data })
     }
   },
   
-  hideOverlay: () => set({ activeOverlay: null, deathReason: null }),
+  showItemDialog: (itemId: string, source: 'storage' | 'bag' | 'bazaar', showOnly?: boolean) => {
+    set({ 
+      activeOverlay: 'itemDialog', 
+      overlayData: { itemId, source, showOnly } 
+    })
+  },
+  
+  hideOverlay: () => set({ activeOverlay: null, overlayData: null, deathReason: null }),
   
   showDialog: (dialog: UIStore['dialog']) => set({ dialog }),
   

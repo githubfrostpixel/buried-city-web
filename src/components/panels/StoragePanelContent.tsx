@@ -12,6 +12,7 @@
 
 import { useEffect, useState, useMemo } from 'react'
 import { usePlayerStore } from '@/store/playerStore'
+import { useUIStore } from '@/store/uiStore'
 import { Storage } from '@/game/inventory/Storage'
 import { ItemSection } from '@/components/storage/ItemSection'
 import { BOTTOM_BAR_LAYOUT } from '@/components/layout/layoutConstants'
@@ -40,6 +41,7 @@ const TYPE_PREFIXES = [
 
 export function StoragePanelContent() {
   const playerStore = usePlayerStore()
+  const uiStore = useUIStore()
   const [updateTrigger, setUpdateTrigger] = useState(0)
   
   // Create Storage instance from playerStore.storage
@@ -61,12 +63,9 @@ export function StoragePanelContent() {
     })).filter(section => section.items.length > 0)
   }, [storage])
   
-  // Handle item click - show item dialog (placeholder for now)
+  // Handle item click - show item dialog
   const handleItemClick = (itemId: string) => {
-    console.log('Item clicked:', itemId)
-    // TODO: Show item dialog
-    // uiUtil.showItemDialog(itemId, false, 'storage')
-    emitter.emit('item_click', { itemId, source: 'storage' })
+    uiStore.showItemDialog(itemId, 'storage', false)
   }
   
   // Handle item use - use item from storage
