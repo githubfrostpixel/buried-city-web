@@ -12,6 +12,7 @@ import { game } from '@/game/Game'
 import { usePlayerStore } from '@/store/playerStore'
 import { useBuildingStore } from '@/store/buildingStore'
 import { useGameStore } from '@/store/gameStore'
+import { itemConfig } from '@/data/items'
 import { ImageSprite } from '../sprites/ImageSprite'
 import { Sprite } from '../sprites/Sprite'
 
@@ -115,11 +116,12 @@ export function MenuScene() {
   const addTestItemsToStorage = () => {
     const playerStore = usePlayerStore.getState()
     
-    // Materials (1101 prefix)
-    playerStore.addItemToStorage('1101011', 5)  // Wood
-    playerStore.addItemToStorage('1101021', 3)  // Stone
-    playerStore.addItemToStorage('1101031', 2)  // Iron
-    playerStore.addItemToStorage('1101041', 4)  // Cloth
+    // Materials (1101 prefix) - 100 of each
+    Object.keys(itemConfig)
+      .filter(itemId => itemId.startsWith('1101'))
+      .forEach(itemId => {
+        playerStore.addItemToStorage(itemId, 100)
+      })
     
     // Food (1103 prefix)
     playerStore.addItemToStorage('1103011', 10) // Bread

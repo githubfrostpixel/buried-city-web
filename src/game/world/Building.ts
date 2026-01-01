@@ -14,9 +14,11 @@ import type {
 import { BuildUpgradeType } from '@/types/building.types'
 import { buildingConfig } from '@/data/buildings'
 import { Formula } from '@/game/systems/Formula'
+import { BedAction, BedActionType } from '@/game/systems/BedAction'
 import { TimeManager } from '@/game/systems/TimeManager'
 import { TimerCallback } from '@/game/systems/TimeManager'
 import { usePlayerStore } from '@/store/playerStore'
+import { emitter } from '@/utils/emitter'
 
 /**
  * Type for checking if building exists (used by canUpgrade)
@@ -71,8 +73,16 @@ export class Building {
 
   /**
    * Initialize building actions (formulas) from produceList
+   * Special handling for bed (ID 9) - creates sleep actions instead of recipes
    */
   private initBuildActions(): void {
+    // Special handling for bed (ID 9)
+    if (this.id === 9) {
+      this.initBedActions()
+      return
+    }
+    
+    // Normal recipe initialization for other buildings
     const produceList: Formula[] = []
     let levelIndex = 0
     
@@ -81,6 +91,11 @@ export class Building {
         for (const formulaId of config.produceList) {
           const formula = new Formula(formulaId, this.id)
           formula.needBuild = { bid: this.id, level: levelIndex }
+          formula.building = this // Add building reference (needed for activeBtnIndex)
+          // Unlock formula if building is at required level or higher
+          if (this.level >= levelIndex) {
+            formula.isLocked = false
+          }
           produceList.push(formula)
         }
       }
@@ -88,6 +103,24 @@ export class Building {
     }
     
     this.actions = produceList
+  }
+  
+  /**
+   * Initialize bed sleep actions
+   * Creates three sleep actions: 1 hour, 4 hours, until morning
+   */
+  private initBedActions(): void {
+    const bedActions: BedAction[] = []
+    
+    // Create three sleep actions
+    bedActions.push(
+      new BedAction(this.id, this.level, BedActionType.SLEEP_1_HOUR, this),
+      new BedAction(this.id, this.level, BedActionType.SLEEP_4_HOUR, this),
+      new BedAction(this.id, this.level, BedActionType.SLEEP_ALL_NIGHT, this)
+    )
+    
+    // Store as actions (type will be union of Formula | BedAction)
+    this.actions = bedActions as any[]
   }
 
   /**
@@ -203,8 +236,8 @@ export class Building {
     // Set active button index
     this.setActiveBtnIndex(-1)
     
-    // TODO: Emit build_node_update event when event system is ready
-    // utils.emitter.emit("build_node_update")
+    // Emit build_node_update event for UI updates
+    emitter.emit("build_node_update")
     
     // TODO: Play build upgrade sound when audio system is ready
     // audioManager.playEffect(audioManager.sound.BUILD_UPGRADE)
@@ -217,6 +250,28 @@ export class Building {
     this.level++
     this.currentConfig = this.configs[this.level]
     this.resetActiveBtnIndex()
+    
+    // Reinitialize actions for bed (to update action levels)
+    if (this.id === 9) {
+      this.initBedActions()
+    } else {
+      // Unlock formulas for the new level
+      let levelIndex = 0
+      for (const config of this.configs) {
+        if (config.produceList && this.level >= levelIndex) {
+          for (const formulaId of config.produceList) {
+            const formula = this.actions.find(f => f.id === formulaId)
+            if (formula && formula.needBuild?.level === levelIndex) {
+              formula.isLocked = false
+            }
+          }
+        }
+        levelIndex++
+      }
+    }
+    
+    // Emit build_node_update event for UI updates
+    emitter.emit("build_node_update")
     // TODO: Save game when save system integration is ready
     // Record.saveAll()
   }

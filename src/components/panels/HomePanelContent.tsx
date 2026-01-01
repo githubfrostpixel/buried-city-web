@@ -111,16 +111,8 @@ export function HomePanelContent({ onBuildingClick }: HomePanelContentProps) {
 
     switch (bid) {
       case 9:
-        // Bed building - show sleep options
-        if (building && building.level >= 0 && building.active) {
-          const survivalSystem = game.getSurvivalSystem()
-          const success = survivalSystem.startSleep('untilMorning')
-          if (success) {
-            uiStore.addNotification('Sleeping until morning...', 'info')
-          } else {
-            uiStore.addNotification('Cannot sleep right now', 'warning')
-          }
-        }
+        // Bed building - navigate to build panel to show sleep actions
+        uiStore.openPanelAction('build', 9)
         break
       case 13:
         // Navigate to Storage panel
@@ -138,7 +130,7 @@ export function HomePanelContent({ onBuildingClick }: HomePanelContentProps) {
         break
       default:
         // Navigate to Build panel with building info
-        uiStore.openPanelAction('build')
+        uiStore.openPanelAction('build', bid)
         break
     }
   }

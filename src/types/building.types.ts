@@ -77,7 +77,7 @@ export interface Building {
   active: boolean
   position?: { x: number; y: number }
   activeBtnIndex: number // For UI state
-  actions: any[] // Formula[] - using any[] for now, will be Formula[] when Formula system is ready
+  actions: any[] // Formula[] | BedAction[] - using any[] for now, will be properly typed when all action types are ready
 }
 
 

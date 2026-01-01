@@ -6,6 +6,8 @@ import { DeathOverlay } from './components/overlays/DeathOverlay'
 import { ItemDialog } from './components/overlays/ItemDialog'
 import { AttributeStatusDialog } from './components/overlays/AttributeStatusDialog'
 import { StatusDialog } from './components/overlays/StatusDialog'
+import { BuildDialog } from './components/overlays/BuildDialog'
+import { RecipeDialog } from './components/overlays/RecipeDialog'
 // Future scenes (to be implemented):
 // import { SaveFileScene } from './components/scenes/SaveFileScene'
 // import { ChooseScene } from './components/scenes/ChooseScene'
@@ -57,6 +59,12 @@ function App() {
       )}
       {activeOverlay === 'statusDialog' && (
         <StatusDialog />
+      )}
+      {activeOverlay === 'buildDialog' && (
+        <BuildDialog />
+      )}
+      {activeOverlay === 'recipeDialog' && (
+        <RecipeDialog />
       )}
     </>
   )

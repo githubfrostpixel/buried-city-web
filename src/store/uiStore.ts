@@ -33,6 +33,8 @@ export type Overlay =
   | 'itemDialog'
   | 'attributeDialog'
   | 'statusDialog'
+  | 'buildDialog'
+  | 'recipeDialog'
   | null
 
 interface UIStore {
@@ -41,6 +43,9 @@ interface UIStore {
   
   // Open panels
   openPanel: Panel
+  
+  // Building ID for build panel
+  buildPanelBuildingId: number | null
   
   // Active overlay
   activeOverlay: Overlay
@@ -68,10 +73,12 @@ interface UIStore {
   
   // Actions
   setScene: (scene: Scene) => void
-  openPanelAction: (panel: Panel) => void
+  openPanelAction: (panel: Panel, buildingId?: number) => void
   closePanel: () => void
   showOverlay: (overlay: Overlay, data?: any) => void
   showItemDialog: (itemId: string, source: 'storage' | 'bag' | 'bazaar', showOnly?: boolean) => void
+  showBuildDialog: (buildingId: number, level: number) => void
+  showRecipeDialog: (buildingId: number, recipeIndex: number) => void
   hideOverlay: () => void
   showDialog: (dialog: UIStore['dialog']) => void
   hideDialog: () => void
@@ -82,6 +89,7 @@ interface UIStore {
 export const useUIStore = create<UIStore>((set) => ({
   currentScene: 'menu',
   openPanel: null,
+  buildPanelBuildingId: null,
   activeOverlay: null,
   overlayData: null,
   deathReason: null,
@@ -90,9 +98,12 @@ export const useUIStore = create<UIStore>((set) => ({
   
   setScene: (scene: Scene) => set({ currentScene: scene }),
   
-  openPanelAction: (panel: Panel) => set({ openPanel: panel }),
+  openPanelAction: (panel: Panel, buildingId?: number) => set({ 
+    openPanel: panel,
+    buildPanelBuildingId: panel === 'build' ? (buildingId ?? null) : null
+  }),
   
-  closePanel: () => set({ openPanel: null }),
+  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null }),
   
   showOverlay: (overlay: Overlay, data?: any) => {
     if (overlay === 'death' && data?.reason) {
@@ -106,6 +117,20 @@ export const useUIStore = create<UIStore>((set) => ({
     set({ 
       activeOverlay: 'itemDialog', 
       overlayData: { itemId, source, showOnly } 
+    })
+  },
+  
+  showBuildDialog: (buildingId: number, level: number) => {
+    set({ 
+      activeOverlay: 'buildDialog', 
+      overlayData: { buildingId, level } 
+    })
+  },
+  
+  showRecipeDialog: (buildingId: number, recipeIndex: number) => {
+    set({ 
+      activeOverlay: 'recipeDialog', 
+      overlayData: { buildingId, recipeIndex } 
     })
   },
   

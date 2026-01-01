@@ -113,6 +113,11 @@ interface PlayerStore extends PlayerState {
   applyEffect: (effectObj: Record<string, number>) => Array<{attrName: string, changeValue: number}>
   itemEffect: (item: Item, effectObj: FoodEffect | MedicineEffect | BuffEffect | undefined) => void
   item1104032Effect: (item: Item, effectObj: MedicineEffect | undefined) => boolean
+  
+  // Building cost/item management
+  validateItems: (cost: BuildingCost[]) => boolean
+  costItems: (cost: BuildingCost[]) => void
+  gainItems: (items: Array<{ itemId: number | string; num: number }>) => void
 }
 
 const initialAttributes: PlayerAttributes = {
@@ -610,6 +615,24 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         state.removeItemFromStorage(itemId, remaining)
       }
     }
+  },
+  
+  // Gain items (add to storage)
+  // Ported from OriginalGame: player.gainItems(items)
+  gainItems: (items: Array<{ itemId: number | string; num: number }>) => {
+    set((state) => {
+      const newStorage = { ...state.storage }
+      
+      for (const item of items) {
+        const itemId = String(item.itemId)
+        const count = item.num
+        
+        // Add to storage (items go to storage, not bag)
+        newStorage[itemId] = (newStorage[itemId] || 0) + count
+      }
+      
+      return { storage: newStorage }
+    })
   },
   
   // Item use actions

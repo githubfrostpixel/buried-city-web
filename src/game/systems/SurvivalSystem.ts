@@ -10,6 +10,7 @@ import { useGameStore } from '@/store/gameStore'
 import { useBuildingStore } from '@/store/buildingStore'
 import { useUIStore } from '@/store/uiStore'
 import { useLogStore } from '@/store/logStore'
+import { emitter } from '@/utils/emitter'
 import { playerConfig, playerAttrEffect } from '@/data/player'
 import { weatherConfig } from '@/data/weather'
 import type { PlayerAttributes, AttributeEffect, PlayerAttributeEffectConfig } from '@/types/player.types'
@@ -671,6 +672,7 @@ export class SurvivalSystem {
 
   /**
    * End sleep
+   * Matches original: resets building activeBtnIndex and emits update event
    */
   endSleep(): void {
     if (!this.sleepState.isSleeping) {
@@ -690,6 +692,16 @@ export class SurvivalSystem {
       vigourRecoveryRate: 0,
       hpRecoveryRate: 0
     }
+    
+    // Reset bed building's active button index (like original: self.build.resetActiveBtnIndex())
+    const buildingStore = useBuildingStore.getState()
+    const bed = buildingStore.getBuilding(9) // Bed building ID
+    if (bed) {
+      bed.resetActiveBtnIndex()
+    }
+    
+    // Emit build_node_update event to refresh UI (like original)
+    emitter.emit('build_node_update')
     
     // Time acceleration will end automatically when target time is reached
   }

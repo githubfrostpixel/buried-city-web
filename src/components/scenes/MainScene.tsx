@@ -12,6 +12,7 @@ import { useEffect } from 'react'
 import { TopBar } from '@/components/layout/TopBar'
 import { BottomBar } from '@/components/layout/BottomBar'
 import { HomePanelContent } from '@/components/panels/HomePanelContent'
+import { BuildPanelContent } from '@/components/panels/BuildPanelContent'
 import { StoragePanelContent } from '@/components/panels/StoragePanelContent'
 import { RadioPanelContent } from '@/components/panels/RadioPanelContent'
 import { useUIStore } from '@/store/uiStore'
@@ -106,9 +107,13 @@ export function MainScene() {
       
       // Future panels (to be implemented in later phases)
       // These will be 1:1 ports of original panels
-      case 'build':
-        // return <BuildPanel />
-        return <div className="text-white p-4">Build Panel - Coming soon</div>
+      case 'build': {
+        const buildingId = uiStore.buildPanelBuildingId
+        if (buildingId) {
+          return <BuildPanelContent buildingId={buildingId} />
+        }
+        return <div className="text-white p-4">No building selected</div>
+      }
       
       case 'storage':
         return <StoragePanelContent />
@@ -126,7 +131,16 @@ export function MainScene() {
   const getPanelTitle = (): string => {
     switch (currentPanel) {
       case 'home': return ''
-      case 'build': return 'Building'
+      case 'build': {
+        const buildingId = uiStore.buildPanelBuildingId
+        if (buildingId) {
+          const building = buildingStore.getBuilding(buildingId)
+          return building && buildingStore.room
+            ? buildingStore.room.getBuildCurrentName(buildingId)
+            : 'Building'
+        }
+        return 'Building'
+      }
       case 'storage': {
         // Get building 13 (Storage Shelf) name
         const building = buildingStore.getBuilding(13)
