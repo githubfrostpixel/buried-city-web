@@ -5,7 +5,7 @@
 
 import { useEffect } from 'react'
 import { TestScreen } from './TestScreen'
-import { HomePanel } from '@/components/panels/HomePanel'
+import { HomePanelContent } from '@/components/panels/HomePanelContent'
 import { useBuildingStore } from '@/store/buildingStore'
 import { usePlayerStore } from '@/store/playerStore'
 import { testBuildingLevels } from '@/test-utils/test-data'
@@ -221,10 +221,11 @@ export function HomePanelTestScreen() {
         data-test-id="homepanel-container"
       >
         <div className="absolute inset-0 flex flex-col" style={{ overflow: 'hidden' }}>
-          <HomePanel />
+          <HomePanelContent />
         </div>
       </div>
     </TestScreen>
   )
 }
+
 

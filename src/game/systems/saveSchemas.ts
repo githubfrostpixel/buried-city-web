@@ -72,7 +72,8 @@ const GameSaveDataSchema = z.object({
   time: z.number().min(0),
   season: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   day: z.number().int().min(0),
-  weather: WeatherSaveDataSchema
+  weather: WeatherSaveDataSchema,
+  map: MapSaveDataSchema.optional() // Optional for backward compatibility
 })
 
 // Building save schema
@@ -96,11 +97,45 @@ const NPCSaveDataSchema = z.object({
   lastVisitDay: z.number().int().optional()
 })
 
-// Site save schema
+// Room schema for site save data
+const RoomSchema = z.object({
+  list: z.array(z.union([z.string(), z.any()])),
+  type: z.union([z.literal("battle"), z.literal("work")]),
+  difficulty: z.number().optional(),
+  workType: z.number().optional()
+})
+
+// Site save schema (matches Site.save() return type)
 const SiteSaveDataSchema = z.object({
-  id: z.number().int(),
-  explored: z.boolean().optional(),
-  cleared: z.boolean().optional()
+  pos: z.object({
+    x: z.number(),
+    y: z.number()
+  }),
+  step: z.number().int(),
+  rooms: z.array(RoomSchema),
+  storage: z.record(z.string(), z.number().int().min(0)), // Storage.save() returns Record<string, number>
+  secretRoomsShowedCount: z.number().int().optional(),
+  isSecretRoomsEntryShowed: z.boolean().optional(),
+  isInSecretRooms: z.boolean().optional(),
+  secretRooms: z.array(RoomSchema).optional(),
+  secretRoomsStep: z.number().int().optional(),
+  secretRoomType: z.number().int().optional(),
+  closed: z.boolean().optional(),
+  isUnderAttacked: z.boolean().optional(),
+  haveNewItems: z.boolean().optional(),
+  isActive: z.boolean().optional(),
+  fixedTime: z.number().optional()
+})
+
+// Map save schema
+const MapSaveDataSchema = z.object({
+  npcMap: z.array(z.number().int()),
+  siteMap: z.record(z.string(), SiteSaveDataSchema),
+  pos: z.object({
+    x: z.number(),
+    y: z.number()
+  }),
+  needDeleteSiteList: z.array(z.number().int())
 })
 
 // Complete save data schema
@@ -111,7 +146,11 @@ export const SaveDataSchema = z.object({
   game: GameSaveDataSchema,
   buildings: z.array(BuildingSaveDataSchema),
   npcs: z.array(NPCSaveDataSchema),
-  sites: z.array(SiteSaveDataSchema)
+  sites: z.array(z.object({
+    id: z.number().int(),
+    explored: z.boolean().optional(),
+    cleared: z.boolean().optional()
+  })) // Legacy site schema for backward compatibility
 })
 
 export type ValidatedSaveData = z.infer<typeof SaveDataSchema>

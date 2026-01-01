@@ -11,7 +11,7 @@
 import { useEffect } from 'react'
 import { TopBar } from '@/components/layout/TopBar'
 import { BottomBar } from '@/components/layout/BottomBar'
-import { HomePanel } from '@/components/panels/HomePanel'
+import { HomePanelContent } from '@/components/panels/HomePanelContent'
 import { useUIStore } from '@/store/uiStore'
 import { audioManager, MusicPaths } from '@/game/systems/AudioManager'
 
@@ -66,7 +66,7 @@ export function MainScene() {
   const renderPanel = () => {
     switch (currentPanel) {
       case 'home':
-        return <HomePanel />
+        return <HomePanelContent />
       
       // Future panels (to be implemented in later phases)
       // These will be 1:1 ports of original panels
@@ -84,7 +84,7 @@ export function MainScene() {
       
       default:
         // Default to home (matches Navigation.current() default)
-        return <HomePanel />
+        return <HomePanelContent />
     }
   }
   

@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import type { PlayerState, PlayerAttributes } from '@/types/player.types'
 import type { BuildingCost } from '@/types/building.types'
 import { itemConfig } from '@/data/items'
+import { Map } from '@/game/world/Map'
 
 interface PlayerStore extends PlayerState {
   // Location state
@@ -47,6 +48,9 @@ interface PlayerStore extends PlayerState {
     active: boolean
   }
   
+  // Map state
+  map: Map | null
+  
   // Actions
   updateAttribute: (attr: keyof PlayerAttributes, value: number) => void
   setCurrency: (amount: number) => void
@@ -82,6 +86,10 @@ interface PlayerStore extends PlayerState {
   updateDogMood: (value: number) => void
   updateDogInjury: (value: number) => void
   setDogActive: (active: boolean) => void
+  
+  // Map actions
+  initializeMap: () => void
+  getMap: () => Map
 }
 
 const initialAttributes: PlayerAttributes = {
@@ -157,6 +165,9 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     injuryMax: 100,
     active: false
   },
+  
+  // Map state
+  map: null,
   
   // Actions
   updateAttribute: (attr: keyof PlayerAttributes, value: number) => set((state: PlayerStore) => {
@@ -476,6 +487,21 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         active
       }
     }))
+  },
+  
+  // Map actions
+  initializeMap: () => {
+    const map = new Map()
+    map.init()
+    set({ map })
+  },
+  
+  getMap: () => {
+    const { map } = get()
+    if (!map) {
+      throw new Error('Map not initialized. Call initializeMap() first.')
+    }
+    return map
   },
   
   // Building cost validation

@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { useUIStore } from '@/store/uiStore'
 import { audioManager, MusicPaths, SoundPaths } from '@/game/systems/AudioManager'
 import { getImagePath } from '@/utils/assets'
+import { cocosPosition } from '@/utils/position'
 import { ImageSprite } from '../sprites/ImageSprite'
 import { Sprite } from '../sprites/Sprite'
 
@@ -94,9 +95,7 @@ export function MenuScene() {
       <div 
         className="absolute"
         style={{
-          left: '50%',
-          top: '938px',
-          transform: 'translateX(-50%)',
+          ...cocosPosition(320, 938, 0.5, 0.5, screenHeight),
           width: 'auto',
           height: 'auto'
         }}
@@ -108,109 +107,125 @@ export function MenuScene() {
       </div>
 
       {/* Main Buttons */}
-      <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
-        {/* Button 1: New Game */}
-        <div className="relative mb-5" style={{ width: '242px', height: '74px' }}>
-          <button
-            onClick={handleNewGame}
-            className="absolute inset-0 w-full h-full flex items-center justify-center"
-            style={{ 
-              background: 'transparent',
-              border: 'none',
-              padding: 0,
-              cursor: 'pointer'
-            }}
-          >
-            <Sprite 
-              atlas="ui" 
-              frame="btn_big_white_normal.png"
-              className="absolute inset-0"
-              style={{ width: '242px', height: '74px' }}
-            />
-            <span className="relative z-10 text-black font-bold text-lg">New Game</span>
-          </button>
-        </div>
+      {/* Button 1: New Game */}
+      <div 
+        className="absolute"
+        style={{
+          ...cocosPosition(320, 442, 0.5, 0.5, screenHeight),
+          width: '242px',
+          height: '74px'
+        }}
+      >
+        <button
+          onClick={handleNewGame}
+          className="absolute inset-0 w-full h-full flex items-center justify-center"
+          style={{ 
+            background: 'transparent',
+            border: 'none',
+            padding: 0,
+            cursor: 'pointer'
+          }}
+        >
+          <Sprite 
+            atlas="ui" 
+            frame="btn_big_white_normal.png"
+            className="absolute inset-0"
+            style={{ width: '242px', height: '74px' }}
+          />
+          <span className="relative z-10 text-black font-bold text-lg">New Game</span>
+        </button>
+      </div>
 
-        {/* Button 2: Hall of Fame */}
-        <div className="relative mb-5" style={{ width: '242px', height: '74px' }}>
-          <button
-            onClick={handleHallOfFame}
-            className="absolute inset-0 w-full h-full flex items-center justify-center"
-            style={{ 
-              background: 'transparent',
-              border: 'none',
-              padding: 0,
-              cursor: 'pointer'
-            }}
-          >
-            <Sprite 
-              atlas="ui" 
-              frame="btn_big_white_normal.png"
-              className="absolute inset-0"
-              style={{ width: '242px', height: '74px' }}
-            />
-            <span className="relative z-10 text-black font-bold text-lg">Hall of Fame</span>
-          </button>
-        </div>
+      {/* Button 2: Hall of Fame */}
+      <div 
+        className="absolute"
+        style={{
+          ...cocosPosition(320, 332, 0.5, 0.5, screenHeight),
+          width: '242px',
+          height: '74px'
+        }}
+      >
+        <button
+          onClick={handleHallOfFame}
+          className="absolute inset-0 w-full h-full flex items-center justify-center"
+          style={{ 
+            background: 'transparent',
+            border: 'none',
+            padding: 0,
+            cursor: 'pointer'
+          }}
+        >
+          <Sprite 
+            atlas="ui" 
+            frame="btn_big_white_normal.png"
+            className="absolute inset-0"
+            style={{ width: '242px', height: '74px' }}
+          />
+          <span className="relative z-10 text-black font-bold text-lg">Hall of Fame</span>
+        </button>
+      </div>
 
-        {/* Button 3: About */}
-        <div className="relative" style={{ width: '242px', height: '74px' }}>
-          <button
-            onClick={handleAbout}
-            className="absolute inset-0 w-full h-full flex items-center justify-center"
-            style={{ 
-              background: 'transparent',
-              border: 'none',
-              padding: 0,
-              cursor: 'pointer'
-            }}
-          >
-            <Sprite 
-              atlas="ui" 
-              frame="btn_big_white_normal.png"
-              className="absolute inset-0"
-              style={{ width: '242px', height: '74px' }}
-            />
-            <span className="relative z-10 text-black font-bold text-lg">About</span>
-          </button>
-        </div>
+      {/* Button 3: About */}
+      <div 
+        className="absolute"
+        style={{
+          ...cocosPosition(320, 222, 0.5, 0.5, screenHeight),
+          width: '242px',
+          height: '74px'
+        }}
+      >
+        <button
+          onClick={handleAbout}
+          className="absolute inset-0 w-full h-full flex items-center justify-center"
+          style={{ 
+            background: 'transparent',
+            border: 'none',
+            padding: 0,
+            cursor: 'pointer'
+          }}
+        >
+          <Sprite 
+            atlas="ui" 
+            frame="btn_big_white_normal.png"
+            className="absolute inset-0"
+            style={{ width: '242px', height: '74px' }}
+          />
+          <span className="relative z-10 text-black font-bold text-lg">About</span>
+        </button>
       </div>
 
       {/* Bottom Icon Buttons */}
-      <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center gap-4" style={{ bottom: '106px' }}>
-        {/* Medal Button */}
-        <button
-          onClick={handleMedal}
-          className="w-16 h-16"
-        >
-          <Sprite 
-            atlas="ui" 
-            frame="icon_medal.png"
-            className="w-full h-full"
-          />
-        </button>
+      {/* Medal Button */}
+      <button
+        onClick={handleMedal}
+        className="absolute w-16 h-16"
+        style={cocosPosition(248, 106, 0.5, 0.5, screenHeight)}
+      >
+        <Sprite 
+          atlas="ui" 
+          frame="icon_medal.png"
+          className="w-full h-full"
+        />
+      </button>
 
-        {/* Achievement Button */}
-        <button
-          onClick={handleAchievement}
-          className="w-16 h-16"
-        >
-          <Sprite 
-            atlas="ui" 
-            frame="btn_achievement.png"
-            className="w-full h-full"
-          />
-        </button>
-      </div>
+      {/* Achievement Button */}
+      <button
+        onClick={handleAchievement}
+        className="absolute w-16 h-16"
+        style={cocosPosition(392, 106, 0.5, 0.5, screenHeight)}
+      >
+        <Sprite 
+          atlas="ui" 
+          frame="btn_achievement.png"
+          className="w-full h-full"
+        />
+      </button>
 
       {/* Settings Button (Top Right) */}
       <button
         onClick={handleSettings}
         className="absolute w-16 h-16"
-        style={{ 
-          top: '91px',
-          right: '91px'
-        }}
+        style={cocosPosition(549, 1045, 0.5, 0.5, screenHeight)}
       >
         <Sprite 
           atlas="ui" 
@@ -222,11 +237,7 @@ export function MenuScene() {
       {/* Version Text (Bottom Center) */}
       <div 
         className="absolute text-white text-xs text-center"
-        style={{ 
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)'
-        }}
+        style={cocosPosition(320, 20, 0.5, 0.5, screenHeight)}
       >
         BuriedTown React Port - Phase 1
       </div>

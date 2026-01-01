@@ -25,6 +25,8 @@ const HomePanelTestScreen = lazy(() => import('./HomePanelTestScreen').then(m =>
 const MainSceneTestScreen = lazy(() => import('./MainSceneTestScreen').then(m => ({ default: m.MainSceneTestScreen })))
 const Phase2ETestScreen = lazy(() => import('./Phase2ETestScreen').then(m => ({ default: m.Phase2ETestScreen })))
 const WeatherSystemTestScreen = lazy(() => import('./WeatherSystemTestScreen').then(m => ({ default: m.WeatherSystemTestScreen })))
+const SiteSystemTestScreen = lazy(() => import('./SiteSystemTestScreen').then(m => ({ default: m.SiteSystemTestScreen })))
+const MapSystemTestScreen = lazy(() => import('./MapSystemTestScreen').then(m => ({ default: m.MapSystemTestScreen })))
 
 export const testRegistry: TestEntry[] = [
   {
@@ -68,6 +70,20 @@ export const testRegistry: TestEntry[] = [
     description: 'Test weather system functionality and effects',
     component: WeatherSystemTestScreen,
     color: 'teal',
+  },
+  {
+    id: 'site',
+    name: 'Site System Test',
+    description: 'Test site exploration, room generation, and secret rooms',
+    component: SiteSystemTestScreen,
+    color: 'orange',
+  },
+  {
+    id: 'map',
+    name: 'Map System Test',
+    description: 'Test map system, site unlocking, position management, and save/restore',
+    component: MapSystemTestScreen,
+    color: 'red',
   },
 ]
 

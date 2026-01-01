@@ -1,7 +1,10 @@
 /**
- * HomePanel Component
- * Home screen showing all buildings
+ * HomePanelContent Component
+ * Home screen content showing all buildings
  * Ported from OriginalGame/src/ui/home.js
+ * 
+ * This is the content-only component that goes inside BottomBar.
+ * BottomBar handles the frame/layout, this handles the home content.
  * 
  * Gate Light Effect:
  * - Positioned at center of gate button (building 14)
@@ -44,8 +47,11 @@ const BUILDING_POSITIONS = [
   { bid: 21, pos: { x: 525, y: 674 } }
 ]
 
+interface HomePanelContentProps {
+  onBuildingClick?: (bid: number) => void
+}
 
-export function HomePanel() {
+export function HomePanelContent({ onBuildingClick }: HomePanelContentProps) {
   const buildingStore = useBuildingStore()
   const playerStore = usePlayerStore()
   const uiStore = useUIStore()
@@ -67,17 +73,14 @@ export function HomePanel() {
   // Event listeners for building updates
   useEffect(() => {
     const handlePlacedSuccess = () => {
-      // Force re-render
       setUpdateTrigger(prev => prev + 1)
     }
 
     const handleDogStateChange = () => {
-      // Force re-render building 12
       setUpdateTrigger(prev => prev + 1)
     }
 
     const handleBombUsed = () => {
-      // Force re-render building 17
       setUpdateTrigger(prev => prev + 1)
     }
 
@@ -92,17 +95,23 @@ export function HomePanel() {
     }
   }, [])
 
-  // Use updateTrigger to force re-renders (even though we don't directly use it, it triggers re-render)
+  // Use updateTrigger to force re-renders
   void updateTrigger
 
-  // Building click handler
+  // Default building click handler
   const handleBuildingClick = (bid: number) => {
+    // If external handler provided, use it
+    if (onBuildingClick) {
+      onBuildingClick(bid)
+      return
+    }
+
+    // Default behavior
     const building = buildingStore.getBuilding(bid)
 
     switch (bid) {
       case 9:
         // Bed building - show sleep options
-        // For now, sleep until morning (full implementation in BuildPanel later)
         if (building && building.level >= 0 && building.active) {
           const survivalSystem = game.getSurvivalSystem()
           const success = survivalSystem.startSleep('untilMorning')
@@ -120,7 +129,6 @@ export function HomePanel() {
       case 14:
         // Navigate to Gate panel (only if level >= 0)
         if (building?.level !== undefined && building.level >= 0) {
-          // TODO: Add 'gate' to Panel type if needed, for now use null or handle differently
           console.log('Navigate to Gate panel')
         }
         break
@@ -131,21 +139,18 @@ export function HomePanel() {
       default:
         // Navigate to Build panel with building info
         uiStore.openPanelAction('build')
-        // TODO: Pass building info to build panel
         break
     }
   }
 
-  // Background container style - positioned at bottom of content area
-  // In Cocos: (bgRect.width / 2, 0) with anchor (0.5, 0) = center horizontally, bottom edge
+  // Background container style
   const bgContainerStyle: React.CSSProperties = {
     position: 'relative',
     width: '100%',
     height: 'auto',
-    marginTop: 'auto', // Push to bottom of flex container
-    zIndex: 1 // Below frame_bg_bottom
+    marginTop: 'auto',
+    zIndex: 1
   }
-
 
   return (
     <div className="absolute inset-0 flex flex-col" style={{ overflow: 'hidden' }}>
@@ -166,20 +171,13 @@ export function HomePanel() {
           // Determine active state based on building type
           let isActive = false
           if (bid === 17) {
-            // Bomb/Minefield - check player.isBombActive
-            // TODO: Add isBombActive to playerStore if not present
             isActive = (playerStore as any).isBombActive ?? false
           } else if (bid === 12) {
-            // Dog house - check player.isDogActive() && build.level >= 0
             isActive = isDogActive() && (building?.level !== undefined && building.level >= 0)
           } else {
-            // All other buildings
             isActive = building ? building.level >= 0 : false
           }
 
-          // Position: x from left, y from bottom (Cocos coordinates)
-          // Use bottom property for Y since positions are from bottom
-          // BuildingButton will be positioned relative to this wrapper
           const isGate = bid === 14
           const showLight = isGate && building && building.level >= 0
 
@@ -191,7 +189,7 @@ export function HomePanel() {
                 position: 'absolute',
                 left: `${pos.x}px`,
                 bottom: `${pos.y}px`,
-                transform: 'translate(-50%, 50%)', // Center horizontally, adjust for bottom anchor
+                transform: 'translate(-50%, 50%)',
                 pointerEvents: 'auto'
               }}
             >
@@ -199,10 +197,10 @@ export function HomePanel() {
                 bid={bid}
                 level={displayLevel}
                 isActive={isActive}
-                position={{ x: 0, y: 0 }} // Relative to wrapper
+                position={{ x: 0, y: 0 }}
                 onClick={() => handleBuildingClick(bid)}
               />
-              {/* Gate light effect - positioned at center of gate button */}
+              {/* Gate light effect */}
               {showLight && (
                 <div
                   className="absolute pointer-events-none"

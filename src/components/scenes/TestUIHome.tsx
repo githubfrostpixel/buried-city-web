@@ -5,7 +5,7 @@
 
 import { TopBar } from '@/components/layout/TopBar'
 import { BottomBar } from '@/components/layout/BottomBar'
-import { HomePanel } from '@/components/panels/HomePanel'
+import { HomePanelContent } from '@/components/panels/HomePanelContent'
 import { useGameStore } from '@/store/gameStore'
 import { usePlayerStore } from '@/store/playerStore'
 import { useBuildingStore } from '@/store/buildingStore'
@@ -100,7 +100,7 @@ export function TestUIHome() {
         rightBtn={false}
         fullScreen={true}
       >
-        <HomePanel />
+        <HomePanelContent />
       </BottomBar>
     </div>
   )

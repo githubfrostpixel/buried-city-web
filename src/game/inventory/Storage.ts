@@ -232,6 +232,20 @@ export class Storage {
   }
   
   /**
+   * Get total item count (sum of all item quantities)
+   */
+  getAllItemNum(): number {
+    return Object.values(this.items).reduce((sum, count) => sum + count, 0)
+  }
+  
+  /**
+   * Increase item count (used by Site.increaseItem)
+   */
+  increaseItem(itemId: string, num: number, includeWater?: boolean): void {
+    this.addItem(itemId, num, includeWater)
+  }
+  
+  /**
    * Get all items by type prefix (e.g., "1103" for food)
    */
   getItemsByType(typePrefix: string): Array<{ item: Item; num: number }> {
