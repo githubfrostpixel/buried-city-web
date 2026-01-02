@@ -8,6 +8,8 @@ import { Storage } from '@/game/inventory/Storage'
 import { Map } from '@/game/world/Map'
 import { game } from '@/game/Game'
 import { useBuildingStore } from '@/store/buildingStore'
+import { useGameStore } from '@/store/gameStore'
+import { weaponReturn } from '@/data/weaponReturn'
 import { checkDeathOnAttributeChange, handleDeath } from '@/utils/deathCheck'
 
 interface PlayerStore extends PlayerState {
@@ -34,6 +36,9 @@ interface PlayerStore extends PlayerState {
   bag: Record<string, number> // itemId -> count
   storage: Record<string, number> // itemId -> count
   safe: Record<string, number> // itemId -> count
+  
+  // Weapon usage tracking (for breaking system)
+  weaponRound: Record<string, number> // itemId -> usage count
   
   // Equipment (5 slots)
   equipment: {
@@ -140,6 +145,13 @@ interface PlayerStore extends PlayerState {
   validateItems: (cost: BuildingCost[]) => boolean
   costItems: (cost: BuildingCost[]) => void
   gainItems: (items: Array<{ itemId: number | string; num: number }>) => void
+  
+  // Weapon breaking system
+  incrementWeaponRound: (itemId: string) => void
+  resetWeaponRound: (itemId: string) => void
+  getWeaponRound: (itemId: string) => number
+  setWeaponRound: (itemId: string, count: number) => void
+  testWeaponBroken: (itemId: string, type: 0 | 1, multiplier: number) => boolean
 }
 
 const initialAttributes: PlayerAttributes = {
@@ -196,6 +208,9 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   bag: {},
   storage: {},
   safe: {},
+  
+  // Weapon usage tracking
+  weaponRound: {},
   
   // Equipment
   equipment: {
@@ -920,6 +935,126 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       // Other types can't be used
       return { result: false, type: 2, msg: "this type can't use" }
     }
+  },
+  
+  // Weapon breaking system
+  incrementWeaponRound: (itemId: string) => {
+    set((state) => ({
+      weaponRound: {
+        ...state.weaponRound,
+        [itemId]: (state.weaponRound[itemId] || 0) + 1
+      }
+    }))
+  },
+  
+  resetWeaponRound: (itemId: string) => {
+    set((state) => ({
+      weaponRound: {
+        ...state.weaponRound,
+        [itemId]: 0
+      }
+    }))
+  },
+  
+  getWeaponRound: (itemId: string) => {
+    return get().weaponRound[itemId] || 0
+  },
+  
+  setWeaponRound: (itemId: string, count: number) => {
+    set((state) => ({
+      weaponRound: {
+        ...state.weaponRound,
+        [itemId]: count
+      }
+    }))
+  },
+  
+  testWeaponBroken: (itemId: string, type: 0 | 1, multiplier: number) => {
+    const state = get()
+    
+    // Newbie protection: weapons don't break in first 2 days
+    const gameStore = useGameStore.getState()
+    if (gameStore.day < 2) {
+      return false
+    }
+    
+    const config = itemConfig[itemId]
+    if (!config) {
+      return false
+    }
+    
+    // Get break probability
+    let weaponBrokenProbability = 0
+    if (type === 0) {
+      // Weapon
+      weaponBrokenProbability = (config.effect_weapon?.brokenProbability || 0) * multiplier
+    } else {
+      // Armor
+      weaponBrokenProbability = config.effect_arm?.brokenProbability || 0
+    }
+    
+    // IAP reduction (75% reduction if unlocked)
+    // TODO: Implement IAP package check
+    // For now, skip IAP reduction
+    // if (IAPPackage.isWeaponEffectUnlocked()) {
+    //   weaponBrokenProbability -= weaponBrokenProbability * 0.75
+    // }
+    
+    // Random roll
+    const rand = Math.random()
+    const isBroken = rand <= weaponBrokenProbability
+    
+    const currentRound = state.getWeaponRound(itemId)
+    
+    if (isBroken && currentRound > 2) {
+      // Weapon breaks - remove item
+      const currentCount = state.getBagItemCount(itemId)
+      if (currentCount > 0) {
+        state.removeItemFromBag(itemId, 1)
+        
+        // If no more items, unequip
+        if (state.getBagItemCount(itemId) === 0) {
+          // Find which slot has this item and unequip it
+          if (state.equipment.gun === itemId) {
+            state.unequipItem('gun')
+          } else if (state.equipment.weapon === itemId) {
+            state.unequipItem('weapon')
+          } else if (state.equipment.equip === itemId) {
+            state.unequipItem('equip')
+          } else if (state.equipment.tool === itemId) {
+            state.unequipItem('tool')
+          } else if (state.equipment.special === itemId) {
+            state.unequipItem('special')
+          }
+        }
+        
+        // Add return items (scrap)
+        const returnItems = weaponReturn[itemId] || []
+        if (returnItems.length > 0) {
+          returnItems.forEach((scrapId) => {
+            state.addItemToBag(scrapId, 1)
+          })
+        }
+        
+        // Reset weapon round
+        state.resetWeaponRound(itemId)
+        
+        // TODO: Log message (string ID 1205)
+        console.log(`Weapon ${itemId} broke!`)
+        
+        return true
+      }
+    } else if (isBroken) {
+      // Warning state - weapon would break but round <= 2
+      state.setWeaponRound(itemId, 3)
+      return false
+    } else {
+      // Increment usage count
+      state.incrementWeaponRound(itemId)
+      return false
+    }
+    
+    return false
   }
 }))
 

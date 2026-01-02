@@ -52,6 +52,7 @@ export interface PlayerSaveData {
     injuryMax: number
     active: boolean
   }
+  weaponRound?: Record<string, number> // itemId -> usage count
 }
 
 export interface AttributeEffect {

@@ -161,7 +161,8 @@ export async function saveAll(): Promise<void> {
         injury: 0,
         injuryMax: 100,
         active: false
-      }
+      },
+      weaponRound: playerState.weaponRound || {}
     },
     game: {
       time: gameState.time,
@@ -238,6 +239,11 @@ export async function restoreFromSave(saveData: ValidatedSaveData): Promise<void
   
   // Restore dog
   playerStore.dog = saveData.player.dog
+  
+  // Restore weaponRound
+  if (saveData.player.weaponRound) {
+    playerStore.weaponRound = saveData.player.weaponRound
+  }
   
   // Restore other player data
   playerStore.level = saveData.player.level

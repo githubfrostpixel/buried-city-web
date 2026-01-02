@@ -27,6 +27,7 @@ const Phase2ETestScreen = lazy(() => import('./Phase2ETestScreen').then(m => ({ 
 const WeatherSystemTestScreen = lazy(() => import('./WeatherSystemTestScreen').then(m => ({ default: m.WeatherSystemTestScreen })))
 const SiteSystemTestScreen = lazy(() => import('./SiteSystemTestScreen').then(m => ({ default: m.SiteSystemTestScreen })))
 const MapSystemTestScreen = lazy(() => import('./MapSystemTestScreen').then(m => ({ default: m.MapSystemTestScreen })))
+const BattleSystemTestScreen = lazy(() => import('./BattleSystemTestScreen').then(m => ({ default: m.BattleSystemTestScreen })))
 
 export const testRegistry: TestEntry[] = [
   {
@@ -84,6 +85,13 @@ export const testRegistry: TestEntry[] = [
     description: 'Test map system, site unlocking, position management, and save/restore',
     component: MapSystemTestScreen,
     color: 'red',
+  },
+  {
+    id: 'battle',
+    name: 'Battle System Test',
+    description: 'Test battle system, combat mechanics, weapons, and battle UI',
+    component: BattleSystemTestScreen,
+    color: 'pink',
   },
 ]
 

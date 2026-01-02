@@ -503,3 +503,4 @@ const dialogStyle: React.CSSProperties = {
 This plan provides a comprehensive guide for implementing the Build Dialog when clicking on the building icon in the UpgradeView. The dialog should match the original game's appearance and functionality as closely as possible, showing building information and upgrade costs when available.
 
 
+

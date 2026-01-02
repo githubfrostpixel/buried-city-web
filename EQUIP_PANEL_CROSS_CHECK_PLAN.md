@@ -246,3 +246,4 @@ Compare the current `EquipPanel` implementation with the original game's `EquipN
 - Scale9Sprite component (may need to create or use existing)
 - Font size constants (COMMON_2, COMMON_3)
 
+

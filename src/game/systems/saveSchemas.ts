@@ -52,7 +52,8 @@ const PlayerSaveDataSchema = z.object({
     injury: z.number().min(0),
     injuryMax: z.number().min(0),
     active: z.boolean()
-  })
+  }),
+  weaponRound: z.record(z.string(), z.number().int().min(0)).optional()
 })
 
 // Weather save schema

@@ -379,3 +379,4 @@ The status button click handlers are correctly implemented, but the actual dialo
 Once these are implemented, status clicking should match the original game behavior.
 
 
+

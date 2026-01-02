@@ -392,3 +392,4 @@ const dialogStyle: React.CSSProperties = {
 This plan provides a comprehensive guide for implementing the Recipe Dialog when clicking on the recipe icon in the RecipeListItem. The dialog should match the original game's appearance and functionality as closely as possible, showing recipe information using DialogSmall structure.
 
 
+

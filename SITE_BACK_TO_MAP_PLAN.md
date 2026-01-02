@@ -97,3 +97,4 @@ const handleBackButton = () => {
 - Other panels (build, storage, radio, etc.) will continue to navigate back to home
 - The map panel itself may or may not have a back button (check original game behavior)
 
+

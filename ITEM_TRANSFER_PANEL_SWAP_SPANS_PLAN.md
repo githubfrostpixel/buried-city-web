@@ -67,3 +67,4 @@ So we need to:
 - Top section: Shows "Storage" label, displays Storage items, no weight
 - Bottom section: Shows "Bag" label, displays Bag items, shows weight (current/max)
 
+

@@ -315,3 +315,4 @@ After fixes:
 - Layout matches original game appearance
 
 
+
