@@ -15,6 +15,7 @@ import { Storage } from '@/game/inventory/Storage'
 import { Item } from '@/game/inventory/Item'
 import { ItemCell } from '@/components/storage/ItemCell'
 import { Sprite } from '@/components/sprites/Sprite'
+import { audioManager, SoundPaths } from '@/game/systems/AudioManager'
 
 interface ItemTransferPanelProps {
   topStorage: Storage // Used for reference, but we get data from playerStore based on storageName
@@ -22,6 +23,8 @@ interface ItemTransferPanelProps {
   bottomStorage: Storage // Used for reference, but we get data from playerStore based on storageName
   bottomStorageName: string
   showWeight?: boolean
+  withTakeAll?: boolean // Show "Take All" button on bottom section
+  siteId?: number // Site ID if bottom storage is site storage
 }
 
 const PANEL_WIDTH = 596
@@ -32,11 +35,13 @@ const CELL_HEIGHT = 100
 const COLUMNS = 5
 
 export function ItemTransferPanel({
-  topStorage,
+  topStorage: _topStorage, // Used for reference type, actual data comes from playerStore
   topStorageName,
-  bottomStorage,
+  bottomStorage: _bottomStorage, // Used for reference type, actual data comes from playerStore
   bottomStorageName,
-  showWeight = false
+  showWeight = false,
+  withTakeAll = false,
+  siteId
 }: ItemTransferPanelProps) {
   const playerStore = usePlayerStore()
   const [updateTrigger, setUpdateTrigger] = useState(0)
@@ -56,6 +61,20 @@ export function ItemTransferPanel({
   }, [topStorageName, playerStore.bag, playerStore.storage, updateTrigger])
   
   const bottomStorageInstance = useMemo(() => {
+    // Handle site storage (Depository)
+    if (bottomStorageName === 'Depository' && siteId) {
+      const map = playerStore.map
+      if (map) {
+        const site = map.getSite(siteId)
+        if (site) {
+          const storage = new Storage('site')
+          storage.restore(site.storage.save())
+          return storage
+        }
+      }
+      return new Storage('site')
+    }
+    
     const storage = new Storage('player')
     // Match by storageName to get the right data from playerStore
     if (bottomStorageName === 'Bag') {
@@ -64,7 +83,7 @@ export function ItemTransferPanel({
       storage.restore(playerStore.storage)
     }
     return storage
-  }, [bottomStorageName, playerStore.bag, playerStore.storage, updateTrigger])
+  }, [bottomStorageName, playerStore.bag, playerStore.storage, playerStore.map, siteId, updateTrigger])
   
   // Get items from storages
   // topItems should come from topStorageInstance (which matches topStorageName)
@@ -92,6 +111,20 @@ export function ItemTransferPanel({
   }, [topStorageName, playerStore.bag, playerStore.storage, updateTrigger])
   
   const bottomItems = useMemo(() => {
+    // Handle site storage (Depository)
+    if (bottomStorageName === 'Depository' && siteId) {
+      const map = playerStore.map
+      if (map) {
+        const site = map.getSite(siteId)
+        if (site) {
+          const storage = new Storage('site')
+          storage.restore(site.storage.save())
+          return storage.getItemsByType('')
+        }
+      }
+      return []
+    }
+    
     // Use the prop storage and refresh from playerStore to ensure latest data
     const storage = new Storage('player')
     if (bottomStorageName === 'Bag') {
@@ -100,7 +133,7 @@ export function ItemTransferPanel({
       storage.restore(playerStore.storage)
     }
     return storage.getItemsByType('')
-  }, [bottomStorageName, playerStore.bag, playerStore.storage, updateTrigger])
+  }, [bottomStorageName, playerStore.bag, playerStore.storage, playerStore.map, siteId, updateTrigger])
   
   // Get weight for top storage (Bag) - should show bag weight / bag max weight
   const topWeight = showWeight && topStorageName === 'Bag' ? topStorageInstance.getWeight() : 0
@@ -158,24 +191,108 @@ export function ItemTransferPanel({
     }
     
     // Update player store - determine which is bag and which is storage
-    let bagData: Record<string, number>
-    let storageData: Record<string, number>
+    const bagData = topStorageInstance.save() // Top is always Bag in site storage panel
+    const storageData = bottomStorageInstance.save() // Bottom is always Depository (site storage) in site storage panel
     
-    if (topStorageName === 'Bag') {
-      // Top is bag, bottom is storage
-      bagData = topStorageInstance.save()
-      storageData = bottomStorageInstance.save()
+    // Update bag in player store
+    const updateState: any = { bag: bagData }
+    
+    // If this is site storage panel, update site storage in map
+    if (siteId && bottomStorageName === 'Depository') {
+      const map = playerStore.map
+      if (map) {
+        const site = map.getSite(siteId)
+        if (site) {
+          site.storage.restore(storageData)
+          // Force map update in playerStore to trigger re-render
+          // Save and restore map to create new reference
+          const mapSave = map.save()
+          map.restore(mapSave)
+          // Update playerStore with new map reference
+          updateState.map = map
+        }
+      }
     } else {
-      // Top is storage, bottom is bag
-      bagData = bottomStorageInstance.save()
-      storageData = topStorageInstance.save()
+      // Regular player storage (Gate panel)
+      updateState.storage = storageData
     }
     
-    // Update store state directly (zustand pattern - access store's setState)
-    ;(usePlayerStore as any).setState({ bag: bagData, storage: storageData })
+    ;(usePlayerStore as any).setState(updateState)
     
     // Trigger update to refresh the component
     setUpdateTrigger(prev => prev + 1)
+  }
+  
+  // Handle "Take All" button - transfer all items from bottom storage (site storage) to top storage (bag)
+  const handleTakeAll = () => {
+    if (!withTakeAll || !siteId) return
+    
+    const sourceStorage = bottomStorageInstance // Site storage
+    const targetStorage = topStorageInstance // Bag
+    
+    // Get all items from source
+    const allItems = sourceStorage.getItemsByType('')
+    
+    // Transfer each item, respecting weight limits
+    let transferred = false
+    for (const cell of allItems) {
+      const itemId = cell.item.id
+      const count = cell.num
+      
+      // Check weight for each item
+      const item = new Item(itemId)
+      const itemConfig = item.config
+      if (itemConfig) {
+        const itemWeight = itemConfig.weight === 0 ? Math.ceil(1 / 50) : itemConfig.weight
+        const currentWeight = targetStorage.getWeight()
+        const maxWeight = playerStore.getBagMaxWeight()
+        
+        // Calculate how many items can fit
+        const availableWeight = maxWeight - currentWeight
+        if (availableWeight <= 0) break // Bag is full
+        
+        const canFitCount = Math.floor(availableWeight / itemWeight)
+        const transferCount = Math.min(count, canFitCount)
+        
+        if (transferCount > 0) {
+          // Transfer items
+          sourceStorage.removeItem(itemId, transferCount)
+          targetStorage.addItem(itemId, transferCount, false)
+          transferred = true
+        }
+      } else {
+        // No weight config, transfer all
+        sourceStorage.removeItem(itemId, count)
+        targetStorage.addItem(itemId, count, false)
+        transferred = true
+      }
+    }
+    
+    if (transferred) {
+      // Update site storage in map
+      const map = playerStore.map
+      if (map) {
+        const site = map.getSite(siteId)
+        if (site) {
+          site.storage.restore(sourceStorage.save())
+          // Force map update in playerStore to trigger re-render
+          const mapSave = map.save()
+          map.restore(mapSave)
+        }
+      }
+      
+      // Update bag and map in player store
+      ;(usePlayerStore as any).setState({ 
+        bag: targetStorage.save(),
+        map: map // Update map reference to trigger re-render
+      })
+      
+      // Play sound effect
+      audioManager.playEffect(SoundPaths.EXCHANGE)
+      
+      // Trigger update to refresh the component
+      setUpdateTrigger(prev => prev + 1)
+    }
   }
   
   // Render item grid
@@ -342,7 +459,7 @@ export function ItemTransferPanel({
             className="w-full h-full"
           />
       <div
-            className="absolute flex items-center"
+            className="absolute flex items-center justify-between"
             style={{
               left: '10px',
               top: '50%',
@@ -361,6 +478,52 @@ export function ItemTransferPanel({
              >
                {bottomStorageName}
              </span>
+             {withTakeAll && siteId && (
+               <button
+                 onClick={handleTakeAll}
+                 className="relative"
+                 style={{
+                   width: '120px',
+                   height: '40px',
+                   background: 'transparent',
+                   border: 'none',
+                   cursor: 'pointer',
+                   padding: 0
+                 }}
+                 data-test-id="take-all-btn"
+               >
+                 <Sprite
+                   atlas="ui"
+                   frame="btn_common_black_normal.png"
+                   className="w-full h-full"
+                 />
+                 <div className="absolute inset-0 flex items-center justify-center">
+                   <Sprite
+                     atlas="ui"
+                     frame="btn_icon_take_all.png"
+                     className="absolute"
+                     style={{
+                       left: '27px',
+                       top: '50%',
+                       transform: 'translateY(-50%)',
+                       width: '20px',
+                       height: '20px'
+                     }}
+                   />
+                   <span
+                     className="text-white"
+                     style={{
+                       fontSize: '14px',
+                       fontFamily: "'Noto Sans', sans-serif",
+                       fontWeight: 'normal',
+                       marginLeft: '10px'
+                     }}
+                   >
+                     Take All
+                   </span>
+                 </div>
+               </button>
+             )}
           </div>
           
          </div>

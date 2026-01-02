@@ -207,7 +207,7 @@ export class Map {
     // Add to map
     this.siteMap[siteId] = site
 
-    // Emit event for UI updates (MapScene listens to this)
+    // Emit event for UI updates (MapPanelContent listens to this)
     emitter.emit("unlock_site", site)
 
     // Add log message
@@ -228,7 +228,7 @@ export class Map {
     // Queue for deletion
     this.needDeleteSiteList.push(siteId)
 
-    // Emit event (MapScene may listen to this)
+    // Emit event (MapPanelContent may listen to this)
     emitter.emit("close_site", siteId)
   }
 

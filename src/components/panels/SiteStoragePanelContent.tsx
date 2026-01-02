@@ -1,0 +1,116 @@
+/**
+ * SiteStoragePanelContent Component
+ * Site storage panel showing equipment and item transfer between Bag and Site Storage
+ * Ported from OriginalGame/src/ui/siteStorageNode.js
+ * 
+ * Structure:
+ * - EquipPanel at top (equipment management)
+ * - ItemTransferPanel at bottom (bag <-> site storage transfer)
+ */
+
+import { useMemo } from 'react'
+import { usePlayerStore } from '@/store/playerStore'
+import { EquipPanel } from '@/components/common/EquipPanel'
+import { ItemTransferPanel } from '@/components/common/ItemTransferPanel'
+import { Storage } from '@/game/inventory/Storage'
+import { BOTTOM_BAR_LAYOUT } from '@/components/layout/layoutConstants'
+
+interface SiteStoragePanelContentProps {
+  siteId: number
+}
+
+export function SiteStoragePanelContent({ siteId }: SiteStoragePanelContentProps) {
+  const playerStore = usePlayerStore()
+  
+  // Get site from map
+  const site = useMemo(() => {
+    const map = playerStore.map
+    if (!map) return null
+    return map.getSite(siteId)
+  }, [playerStore.map, siteId])
+  
+  if (!site) {
+    return <div className="text-white p-4">Site not found</div>
+  }
+  
+  // Create storage instances for item transfer - refresh when store updates
+  const bagStorage = useMemo(() => {
+    const storage = new Storage('player')
+    storage.restore(playerStore.bag)
+    return storage
+  }, [playerStore.bag]) // Refresh when bag changes
+  
+  const siteStorage = useMemo(() => {
+    const storage = new Storage('site')
+    storage.restore(site.storage.save())
+    return storage
+  }, [site, playerStore.map]) // Refresh when site or map changes
+  
+  // Calculate positions
+  // Layout: EquipPanel at top, separator line, then ItemTransferPanel below
+  const contentTopLineHeight = BOTTOM_BAR_LAYOUT.cocosRef.contentTopLineHeight
+  const contentHeight = BOTTOM_BAR_LAYOUT.content.height
+  const equipPanelHeight = 125 // EquipPanel height
+  const separatorHeight = 10 // Space between EquipPanel and ItemTransferPanel
+  const equipPanelTop = contentHeight - contentTopLineHeight // Top of content area
+  const itemTransferPanelTop = equipPanelTop + equipPanelHeight + separatorHeight // Below EquipPanel
+  
+  return (
+    <div className="relative w-full h-full">
+      {/* EquipPanel at top */}
+      <div
+        className="absolute"
+        style={{
+          left: '50%',
+          top: `${equipPanelTop}px`,
+          transform: 'translateX(-50%)',
+          width: '572px',
+          height: `${equipPanelHeight}px`,
+          zIndex: 1,
+          overflow: 'visible' // Allow dropdown to extend beyond EquipPanel bounds
+        }}
+      >
+        <EquipPanel />
+      </div>
+      
+      {/* Separator line */}
+      <div
+        className="absolute"
+        style={{
+          left: '50%',
+          top: `${equipPanelTop + equipPanelHeight}px`,
+          transform: 'translateX(-50%)',
+          width: '596px',
+          height: `${separatorHeight}px`,
+          zIndex: 1
+        }}
+      >
+        {/* Visual separator - optional, can be removed if not needed */}
+      </div>
+      
+      {/* ItemTransferPanel below EquipPanel */}
+      <div
+        className="absolute"
+        style={{
+          left: '50%',
+          top: `${itemTransferPanelTop}px`,
+          transform: 'translateX(-50%)',
+          width: '596px',
+          height: '400px',
+          zIndex: 0
+        }}
+      >
+        <ItemTransferPanel
+          topStorage={bagStorage}
+          topStorageName="Bag"
+          bottomStorage={siteStorage}
+          bottomStorageName="Depository"
+          showWeight={true}
+          withTakeAll={true}
+          siteId={siteId}
+        />
+      </div>
+    </div>
+  )
+}
+

@@ -142,9 +142,41 @@ export class TimeManager {
   update(dt: number): void {
     if (this.isPaused()) return
 
+    const beforeRealTime = this.realTime
     this.realTime += dt
+    const realTimeDelta = this.realTime - beforeRealTime
     const dtTime = dt * this.timeScale
-    this.updateTime(dtTime)
+    
+    // Log time updates when accelerated (every 0.1 real seconds to avoid spam)
+    const wasAccelerated = this.isAccelerated
+    const shouldLog = wasAccelerated && Math.floor(this.realTime * 10) % 1 === 0
+    if (shouldLog) {
+      const beforeTime = this.time
+      const beforeTimeFormat = this.formatTime()
+      this.updateTime(dtTime)
+      const afterTime = this.time
+      const afterTimeFormat = this.formatTime()
+      const timeDelta = afterTime - beforeTime
+      const accelerationRatio = realTimeDelta > 0 ? (timeDelta / realTimeDelta).toFixed(2) + 'x' : 'N/A'
+      console.log('[TimeManager] Time update (accelerated):', {
+        realTime: this.realTime.toFixed(3),
+        realTimeDelta: realTimeDelta.toFixed(4),
+        dt,
+        timeScale: this.timeScale,
+        dtTime: dtTime.toFixed(4),
+        beforeTime: beforeTime.toFixed(2),
+        afterTime: afterTime.toFixed(2),
+        timeDelta: timeDelta.toFixed(4),
+        accelerationRatio,
+        isAccelerated: this.isAccelerated,
+        accelerateEndTime: this.accelerateEndTime,
+        timeRemaining: (this.accelerateEndTime - this.time).toFixed(2),
+        beforeFormatted: `${beforeTimeFormat.d}d ${beforeTimeFormat.h}h ${beforeTimeFormat.m}m ${beforeTimeFormat.s}s`,
+        afterFormatted: `${afterTimeFormat.d}d ${afterTimeFormat.h}h ${afterTimeFormat.m}m ${afterTimeFormat.s}s`
+      })
+    } else {
+      this.updateTime(dtTime)
+    }
   }
 
   /**
@@ -164,6 +196,12 @@ export class TimeManager {
 
     // Check acceleration end
     if (this.isAccelerated && this.time >= this.accelerateEndTime) {
+      console.log('[TimeManager] Acceleration ended:', {
+        currentTime: this.time,
+        accelerateEndTime: this.accelerateEndTime,
+        timeScaleBefore: this.timeScale,
+        timeScaleAfter: this.timeScaleOrigin
+      })
       this.isAccelerated = false
       this.timeScale = this.timeScaleOrigin
     }
@@ -216,12 +254,74 @@ export class TimeManager {
     }
   }
 
-  accelerate(time: number, realTime: number): void {
-    if (this.isAccelerated) return
+  /**
+   * Accelerate time (public method for travel acceleration)
+   * @param time Game time duration to accelerate (in game seconds)
+   * @param realTime Real-world time it should take (in real seconds)
+   * @param force If true, override existing acceleration (for travel)
+   */
+  accelerate(time: number, realTime: number, force: boolean = false): void {
+    if (this.isAccelerated && !force) {
+      console.log('[TimeManager] Already accelerated, skipping. Use force=true to override.')
+      return
+    }
 
+    // Calculate timeScale: how many game seconds per real second
+    // Normal: timeScale = 100 (100 game seconds per 1 real second)
+    // Accelerated: timeScale = time / realTime
     this.timeScale = time / realTime
     this.isAccelerated = true
     this.accelerateEndTime = this.time + time
+    console.log('[TimeManager] Time accelerated:', { 
+      time, 
+      realTime, 
+      timeScale: this.timeScale, 
+      accelerateEndTime: this.accelerateEndTime,
+      currentTime: this.time
+    })
+  }
+
+  /**
+   * Accelerate time by factor (for travel - matches original game API)
+   * @param time Game time duration to accelerate (in game seconds)
+   * @param factor Acceleration factor (2 or 3 - how many times faster)
+   * @param force If true, override existing acceleration (for travel)
+   */
+  accelerateByFactor(time: number, factor: number, force: boolean = false): void {
+    if (this.isAccelerated && !force) {
+      console.log('[TimeManager] Already accelerated, skipping. Use force=true to override.')
+      return
+    }
+
+    // Make time pass factor times faster by multiplying timeScale
+    // Normal: timeScale = 100 (100 game seconds per 1 real second)
+    // Accelerated by factor: timeScale = 100 * factor (e.g., 300 for 3x faster)
+    const beforeTime = this.time
+    const beforeTimeScale = this.timeScale
+    const beforeRealTime = this.realTime
+    
+    // Calculate end time BEFORE changing timeScale (to avoid timing issues)
+    // Use beforeTime (captured before any changes) to calculate end time correctly
+    this.accelerateEndTime = beforeTime + time
+    
+    // Now set the accelerated timeScale
+    this.timeScale = this.timeScaleOrigin * factor
+    this.isAccelerated = true
+    
+    console.log('[TimeManager] Time accelerated by factor:', { 
+      time, 
+      factor,
+      timeScaleOrigin: this.timeScaleOrigin,
+      beforeTimeScale,
+      afterTimeScale: this.timeScale,
+      accelerateEndTime: this.accelerateEndTime,
+      currentTime: this.time,
+      beforeTime,
+      beforeRealTime,
+      expectedTimeDelta: time,
+      expectedRealTime: time / this.timeScale,
+      timeUntilEnd: (this.accelerateEndTime - this.time)
+    })
   }
 
   /**

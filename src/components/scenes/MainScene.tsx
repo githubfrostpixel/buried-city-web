@@ -16,9 +16,13 @@ import { BuildPanelContent } from '@/components/panels/BuildPanelContent'
 import { StoragePanelContent } from '@/components/panels/StoragePanelContent'
 import { RadioPanelContent } from '@/components/panels/RadioPanelContent'
 import { GatePanelContent } from '@/components/panels/GatePanelContent'
+import { GateOutPanelContent } from '@/components/panels/GateOutPanelContent'
+import { MapPanelContent } from '@/components/panels/MapPanelContent'
+import { SitePanelContent, getSiteBottomBarProps } from '@/components/panels/SitePanelContent'
+import { SiteStoragePanelContent } from '@/components/panels/SiteStoragePanelContent'
 import { useUIStore } from '@/store/uiStore'
-import { useBuildingStore } from '@/store/buildingStore'
 import { usePlayerStore } from '@/store/playerStore'
+import { useBuildingStore } from '@/store/buildingStore'
 import { audioManager, MusicPaths, SoundPaths } from '@/game/systems/AudioManager'
 import { game } from '@/game/Game'
 
@@ -110,6 +114,18 @@ export function MainScene() {
       
       // Navigate back to home
       uiStore.openPanelAction('home')
+    } else if (currentPanel === 'site') {
+      // When at a site, navigate back to map (not home)
+      // This matches the navigation flow: Home → Map → Site → (back) → Map
+      uiStore.openPanelAction('map')
+    } else if (currentPanel === 'siteStorage') {
+      // When at site storage, navigate back to site panel
+      const siteId = uiStore.siteStoragePanelSiteId
+      if (siteId) {
+        uiStore.openPanelAction('site', undefined, siteId)
+      } else {
+        uiStore.openPanelAction('map')
+      }
     } else {
       // Navigate back to home (matches Navigation.back() behavior)
       uiStore.openPanelAction('home')
@@ -141,6 +157,45 @@ export function MainScene() {
       
       case 'gate':
         return <GatePanelContent />
+      
+      case 'gateOut':
+        return <GateOutPanelContent />
+      
+      case 'map':
+        return <MapPanelContent />
+      
+      case 'site': {
+        const siteId = uiStore.sitePanelSiteId
+        if (siteId) {
+          const playerStore = usePlayerStore.getState()
+          const map = playerStore.map
+          if (map) {
+            const site = map.getSite(siteId)
+            if (site) {
+              return (
+                <SitePanelContent 
+                  site={site}
+                  onStorageClick={() => {
+                    // Clear haveNewItems flag when opening storage (matches original game)
+                    site.haveNewItems = false
+                    // Navigate to site storage panel
+                    uiStore.openPanelAction('siteStorage', undefined, siteId)
+                  }}
+                />
+              )
+            }
+          }
+        }
+        return <div className="text-white p-4">Site not found</div>
+      }
+      
+      case 'siteStorage': {
+        const siteId = uiStore.siteStoragePanelSiteId
+        if (siteId) {
+          return <SiteStoragePanelContent siteId={siteId} />
+        }
+        return <div className="text-white p-4">Site not found</div>
+      }
       
       default:
         // Default to home (matches Navigation.current() default)
@@ -183,18 +238,85 @@ export function MainScene() {
           ? buildingStore.room.getBuildCurrentName(14)
           : 'Gate'
       }
+      case 'site': {
+        // Get site name for site panel
+        const siteId = uiStore.sitePanelSiteId
+        if (siteId) {
+          const playerStore = usePlayerStore.getState()
+          const map = playerStore.map
+          if (map) {
+            const site = map.getSite(siteId)
+            if (site) {
+              return site.getName()
+            }
+          }
+        }
+        return ''
+      }
+      case 'siteStorage': {
+        // Get site name for site storage panel
+        const siteId = uiStore.siteStoragePanelSiteId
+        if (siteId) {
+          const playerStore = usePlayerStore.getState()
+          const map = playerStore.map
+          if (map) {
+            const site = map.getSite(siteId)
+            if (site) {
+              return site.getName()
+            }
+          }
+        }
+        return ''
+      }
+      case 'gateOut':
+        return '' // Empty title for gate out panel
+      case 'map':
+        return '' // Empty title for map panel (matches original uiConfig)
       default: return ''
     }
   }
   
+  // Get site bottom bar props (progress and item count) for site panel
+  const getSiteBottomBarSubtexts = () => {
+    if (currentPanel !== 'site') {
+      return { leftSubtext: undefined, rightSubtext: undefined }
+    }
+    
+    const siteId = uiStore.sitePanelSiteId
+    if (siteId) {
+      const playerStore = usePlayerStore.getState()
+      const map = playerStore.map
+      if (map) {
+        const site = map.getSite(siteId)
+        if (site) {
+          const props = getSiteBottomBarProps(site)
+          return {
+            leftSubtext: props.leftSubtext,
+            rightSubtext: props.rightSubtext
+          }
+        }
+      }
+    }
+    
+    return { leftSubtext: undefined, rightSubtext: undefined }
+  }
+  
   // Determine if back button should be shown (from original uiConfig.leftBtn)
   const shouldShowBackButton = (): boolean => {
+    // Gate out panel has no buttons
+    if (currentPanel === 'gateOut') return false
+    // Map panel has no buttons (matches original uiConfig.leftBtn: false)
+    if (currentPanel === 'map') return false
     // Show back button if not on home panel
     return currentPanel !== 'home' && currentPanel !== null
   }
   
   // Determine if forward button should be shown (from original uiConfig.rightBtn)
   const shouldShowForwardButton = (): boolean => {
+    // Gate out panel has no buttons
+    if (currentPanel === 'gateOut') return false
+    // Map panel has no buttons (matches original uiConfig.rightBtn: false)
+    if (currentPanel === 'map') return false
     // Gate panel has forward button (Go Out)
     return currentPanel === 'gate'
   }
@@ -209,11 +331,23 @@ export function MainScene() {
       // Play FOOT_STEP sound
       audioManager.playEffect(SoundPaths.FOOT_STEP)
       
-      // Navigate to map scene
-      // TODO: For now, navigate to map scene directly
-      // In original game, it goes to GATE_OUT_NODE first, then to MAP_NODE
-      // We'll skip the gate out transition for now
-      uiStore.setScene('map')
+      // Call deleteUnusableSite if map exists
+      // Note: Map should always be initialized in new game, but check for safety
+      let map = playerStore.map
+      if (!map) {
+        // Edge case: Map not initialized (shouldn't happen in new game)
+        // Initialize map if missing (defensive programming)
+        console.warn('Map is null, initializing map...')
+        playerStore.initializeMap()
+        map = playerStore.map
+      }
+      if (map) {
+        map.deleteUnusableSite()
+      }
+      
+      // Navigate to gate out panel (transition)
+      // Gate out panel will auto-navigate to map after 3 seconds
+      uiStore.openPanelAction('gateOut')
     }
   }
   
@@ -241,11 +375,13 @@ export function MainScene() {
         rightBtn={shouldShowForwardButton()}
         onLeftClick={handleBackButton}
         onRightClick={handleForwardButton}
-        fullScreen={currentPanel === 'home'} // Home panel uses fullScreen mode
+        fullScreen={currentPanel === 'home' || currentPanel === 'gateOut' || currentPanel === 'map'} // Home, gate out, and map panels use fullScreen mode
+        {...getSiteBottomBarSubtexts()}
       >
         {renderPanel()}
       </BottomBar>
     </div>
   )
 }
+
 

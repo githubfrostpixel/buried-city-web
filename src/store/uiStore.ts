@@ -19,10 +19,13 @@ export type Panel =
   | 'equipment'
   | 'npc'
   | 'site'
+  | 'siteStorage'
   | 'bazaar'
   | 'dog'
   | 'radio'
   | 'gate'
+  | 'gateOut'
+  | 'map'
   | null
 
 export type Overlay = 
@@ -36,6 +39,7 @@ export type Overlay =
   | 'statusDialog'
   | 'buildDialog'
   | 'recipeDialog'
+  | 'siteDialog'
   | null
 
 interface UIStore {
@@ -47,6 +51,12 @@ interface UIStore {
   
   // Building ID for build panel
   buildPanelBuildingId: number | null
+  
+  // Site ID for site panel
+  sitePanelSiteId: number | null
+  
+  // Site ID for site storage panel
+  siteStoragePanelSiteId: number | null
   
   // Active overlay
   activeOverlay: Overlay
@@ -74,7 +84,7 @@ interface UIStore {
   
   // Actions
   setScene: (scene: Scene) => void
-  openPanelAction: (panel: Panel, buildingId?: number) => void
+  openPanelAction: (panel: Panel, buildingId?: number, siteId?: number) => void
   closePanel: () => void
   showOverlay: (overlay: Overlay, data?: any) => void
   showItemDialog: (itemId: string, source: 'storage' | 'bag' | 'bazaar', showOnly?: boolean) => void
@@ -91,6 +101,8 @@ export const useUIStore = create<UIStore>((set) => ({
   currentScene: 'menu',
   openPanel: null,
   buildPanelBuildingId: null,
+  sitePanelSiteId: null,
+  siteStoragePanelSiteId: null,
   activeOverlay: null,
   overlayData: null,
   deathReason: null,
@@ -99,12 +111,14 @@ export const useUIStore = create<UIStore>((set) => ({
   
   setScene: (scene: Scene) => set({ currentScene: scene }),
   
-  openPanelAction: (panel: Panel, buildingId?: number) => set({ 
+  openPanelAction: (panel: Panel, buildingId?: number, siteId?: number) => set({ 
     openPanel: panel,
-    buildPanelBuildingId: panel === 'build' ? (buildingId ?? null) : null
+    buildPanelBuildingId: panel === 'build' ? (buildingId ?? null) : null,
+    sitePanelSiteId: panel === 'site' ? (siteId ?? null) : null,
+    siteStoragePanelSiteId: panel === 'siteStorage' ? (siteId ?? null) : null
   }),
   
-  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null }),
+  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null, sitePanelSiteId: null, siteStoragePanelSiteId: null }),
   
   showOverlay: (overlay: Overlay, data?: any) => {
     if (overlay === 'death' && data?.reason) {

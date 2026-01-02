@@ -1,0 +1,416 @@
+/**
+ * MapPanelContent Component
+ * World map panel for exploring locations
+ * 
+ * Ported from OriginalGame/src/ui/MapNode.js
+ * 
+ * Structure:
+ * - Map background (map_bg_new.png) spans bottom bar content area
+ * - Sites positioned on map
+ * - Player actor showing current position
+ * - Clickable sites for navigation
+ * 
+ * Original Game Reference:
+ * - MapNode extends BottomFrameNode (panel, not scene)
+ * - uiConfig: { title: "", leftBtn: false, rightBtn: false }
+ * - MapView size: (bgRect.width - 12, bgRect.height - 12)
+ * - MapView position: ((bgRect.width - mapView.getViewSize().width) / 2 + 1, 6)
+ */
+
+import { useEffect, useState } from 'react'
+import { useUIStore } from '@/store/uiStore'
+import { usePlayerStore } from '@/store/playerStore'
+import { game } from '@/game/Game'
+import { Sprite } from '@/components/sprites/Sprite'
+import { HOME_SITE, AD_SITE, BOSS_SITE, WORK_SITE, GAS_SITE, BAZAAR_SITE } from '@/game/world/Site'
+import { BOTTOM_BAR_LAYOUT } from '@/components/layout/layoutConstants'
+import { cocosToCssY } from '@/utils/position'
+import { calculateDistance } from '@/utils/distance'
+import { getMaxVelocityGameTime } from '@/utils/actor'
+import { useActorMovement } from '@/hooks/useActorMovement'
+import type { Site } from '@/game/world/Site'
+import type { Panel } from '@/store/uiStore'
+
+export function MapPanelContent() {
+  const uiStore = useUIStore()
+  const playerStore = usePlayerStore()
+  const map = playerStore.map
+  const isMoving = playerStore.isMoving
+  const [sites, setSites] = useState<Site[]>([])
+  const [actorPos, setActorPos] = useState<{ x: number; y: number } | null>(map?.pos || null)
+
+  // Use actor movement hook for smooth animation
+  useActorMovement()
+
+  // Update actor position state when map position changes (for re-rendering)
+  useEffect(() => {
+    if (!map) return
+    
+    // Initial position
+    setActorPos(map.pos)
+    
+    // When moving, poll position updates to trigger re-renders
+    if (isMoving) {
+      const interval = setInterval(() => {
+        if (map.pos) {
+          setActorPos({ ...map.pos })
+        }
+      }, 16) // ~60fps
+      
+      return () => clearInterval(interval)
+    } else {
+      // Update once when not moving
+      setActorPos(map.pos)
+    }
+  }, [map, isMoving])
+
+  // Get content area dimensions (for coordinate conversion)
+  const contentHeight = BOTTOM_BAR_LAYOUT.content.fullScreenHeight
+
+  // Get all sites from map
+  useEffect(() => {
+    if (!map) return
+
+    const siteList: Site[] = []
+    map.forEach((entity) => {
+      // Check if entity is a Site (has id and getName method)
+      if (entity && typeof (entity as any).id === 'number' && typeof (entity as any).getName === 'function') {
+        siteList.push(entity as Site)
+      }
+    })
+    setSites(siteList)
+  }, [map])
+
+  // Enter site after travel completes
+  const enterSite = (site: Site) => {
+    // Determine panel to navigate to
+    let panel: Panel | null = null
+    let siteId: number | null = null
+    
+    if (site.id === HOME_SITE) {
+      panel = 'home'
+      // TODO: Add log message 1111
+      // TODO: Call player.trySteal()
+    } else if (site.id === AD_SITE) {
+      panel = 'site'  // TODO: Create AD_SITE panel
+      siteId = site.id
+    } else if (site.id === BOSS_SITE) {
+      panel = 'site'  // TODO: Create BOSS_SITE panel
+      siteId = site.id
+    } else if (site.id === WORK_SITE || site.id === GAS_SITE) {
+      panel = 'site'  // TODO: Create WORK_SITE panel
+      siteId = site.id
+    } else if (site.id === BAZAAR_SITE) {
+      panel = 'bazaar'
+      siteId = site.id
+    } else {
+      panel = 'site'
+      siteId = site.id
+    }
+    
+    // TODO: Add log message 1116 with site name
+    
+    // Set location
+    playerStore.setLocation({
+      isAtHome: site.id === HOME_SITE,
+      isAtBazaar: site.id === BAZAAR_SITE,
+      isAtSite: panel === 'site',
+      siteId: site.id
+    })
+    
+    // Navigate to panel
+    uiStore.setScene('main')
+    if (panel === 'site' && siteId) {
+      uiStore.openPanelAction('site', undefined, siteId)
+    } else {
+      uiStore.openPanelAction(panel)
+    }
+    
+    // TODO: Save game (Record.saveAll())
+  }
+
+  // Handle site click
+  const handleSiteClick = (site: Site) => {
+    // 1. Check if moving (prevent clicks during movement)
+    if (playerStore.isMoving) return
+    
+    // 2. Get current position
+    if (!map || !map.pos) return
+    const startPos = map.pos
+    const endPos = site.pos
+    
+    // 3. Calculate distance
+    const distance = calculateDistance(startPos, endPos)
+    
+    // 4. Calculate fuel needed
+    let fuelNeed = Math.ceil(distance / 80)
+    let canAfford = false
+    if (playerStore.fuel >= fuelNeed) {
+      canAfford = true
+    }
+    
+    // 5. Check motorcycle availability
+    const hasMotorcycle = playerStore.getStorageItemCount('1305034') > 0 || 
+                          playerStore.getBagItemCount('1305034') > 0
+    if (!hasMotorcycle || !playerStore.useMoto) {
+      fuelNeed = -1  // No fuel needed
+    }
+    
+    // 6. Calculate travel time (in game seconds)
+    // TODO: Get weather speed multiplier from gameStore
+    const weatherSpeedMultiplier = 0  // Stub for now
+    // Use game-time velocity for time calculation (matches original game)
+    const maxVelocityGameTime = getMaxVelocityGameTime(playerStore, canAfford, weatherSpeedMultiplier)
+    const time = distance / maxVelocityGameTime
+    
+    // 7. Create movement completion callback
+    // This is called AFTER movement animation completes
+    const handleMovementComplete = () => {
+      // Consume fuel if needed
+      if (fuelNeed > 0 && canAfford) {
+        playerStore.fuel = Math.max(0, playerStore.fuel - fuelNeed)
+      }
+      
+      // Update total distance
+      playerStore.totalDistance += Math.round(distance)
+      
+      // TODO: Update dog distance if dog is active
+      
+      // Navigate to site
+      enterSite(site)
+    }
+    
+    // 8. Create OK callback (initiates movement)
+    const okFunc = () => {
+      console.log('[MapPanelContent] okFunc called - initiating movement', {
+        startPos,
+        endPos,
+        distance,
+        fuelNeed,
+        canAfford,
+        time,
+        weatherSpeedMultiplier
+      })
+      
+      // Set moving state
+      playerStore.setIsMoving(true)
+      console.log('[MapPanelContent] Set isMoving = true')
+      
+      // Highlight site (TODO: Implement site highlighting)
+      
+      // Accelerate time during travel
+      // Animation always takes 3 real seconds, but game time should advance by calculated amount
+      // So we accelerate the game time to pass in 3 real seconds
+      const TRAVEL_ANIMATION_DURATION = 3 // Always 3 real seconds for animation
+      console.log('[MapPanelContent] Accelerating time:', { 
+        gameTime: time, 
+        realTime: TRAVEL_ANIMATION_DURATION,
+        timeScale: time / TRAVEL_ANIMATION_DURATION
+      })
+      
+      // Get TimeManager from game and accelerate time
+      const timeManager = game.getTimeManager()
+      if (timeManager) {
+        // Accelerate game time to pass in 3 real seconds
+        // time: game time duration (in game seconds)
+        // TRAVEL_ANIMATION_DURATION: real-world time (in real seconds)
+        timeManager.accelerate(time, TRAVEL_ANIMATION_DURATION, true)
+        console.log('[MapPanelContent] Time acceleration applied:', { 
+          gameTime: time, 
+          realTime: TRAVEL_ANIMATION_DURATION,
+          expectedTimeScale: time / TRAVEL_ANIMATION_DURATION
+        })
+      } else {
+        console.warn('[MapPanelContent] TimeManager not available')
+      }
+      
+      // Draw path line (TODO: Implement path line)
+      // makeLine(startPos, endPos)
+      
+      // Calculate animation velocity for constant 3-second movement
+      // Animation always takes 3 seconds regardless of distance
+      const ANIMATION_DURATION = 3 // seconds
+      const animationVelocity = distance / ANIMATION_DURATION
+      console.log('[MapPanelContent] Calculated animation velocity (3s constant):', animationVelocity)
+      playerStore.setActorMaxVelocity(animationVelocity)
+      
+      // Set target position (triggers movement animation via useActorMovement hook)
+      console.log('[MapPanelContent] Setting target position:', endPos)
+      playerStore.setActorTargetPos(endPos)
+      
+      // Store completion callback (called by useActorMovement when movement finishes)
+      console.log('[MapPanelContent] Setting movement completion callback')
+      playerStore.setActorMovementCallback(handleMovementComplete)
+      
+      // Verify state was set
+      const verifyState = usePlayerStore.getState()
+      console.log('[MapPanelContent] State after setup:', {
+        isMoving: verifyState.isMoving,
+        actorTargetPos: verifyState.actorTargetPos,
+        actorMaxVelocity: verifyState.actorMaxVelocity,
+        hasCallback: !!verifyState.actorMovementCallback
+      })
+    }
+    
+    // 9. Create cancel callback
+    const cancelFunc = () => {
+      // Unhighlight site (TODO: Implement site highlighting)
+    }
+    
+    // 10. Show dialog
+    const isHome = site.id === HOME_SITE
+    uiStore.showOverlay('siteDialog', {
+      site,
+      time,
+      fuelNeed,
+      canAfford,
+      onConfirm: okFunc,
+      onCancel: cancelFunc,
+      isHome
+    })
+  }
+
+  // Convert Cocos Y to CSS Y (map uses Cocos coordinates relative to map background)
+  // Map background is larger than content area, but we use content area for visible portion
+  const cocosToCssYMap = (cocosY: number): number => {
+    // Map coordinates are relative to map background (which is larger than screen)
+    // For now, use content area height as reference
+    // In original: MapView is scrollable, but for initial implementation we use content area
+    return cocosToCssY(cocosY, contentHeight)
+  }
+
+  // Render map content
+  if (!map) {
+    return (
+      <div className="text-center p-8 text-white">
+        <p>Map not initialized</p>
+        <button
+          onClick={() => {
+            playerStore.setLocation({ isAtHome: true, isAtBazaar: false, isAtSite: false, siteId: null })
+            uiStore.setScene('main')
+            uiStore.openPanelAction('home')
+          }}
+          className="mt-4 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Back to Home
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div 
+      className="relative w-full h-full"
+      style={{
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden'
+      }}
+    >
+      {/* Map background - spans bottom bar content area */}
+      {/* Original: map_bg_new.png, anchor (0, 0), fills MapView container */}
+      <div
+        className="absolute inset-0"
+        style={{
+          zIndex: -1
+        }}
+      >
+        <Sprite
+          atlas="new"
+          frame="map_bg_new.png"
+          className="w-full h-full object-cover"
+          style={{
+            width: '100%',
+            height: '100%'
+          }}
+        />
+      </div>
+
+      {/* Map content - sites and player */}
+      {/* Original: Actor and Entity list are children of MapView container */}
+      <div
+        className="absolute inset-0"
+        style={{
+          zIndex: 1,
+          pointerEvents: 'auto'
+        }}
+      >
+        {/* Player actor (current position) */}
+        {/* Original: Actor extends cc.Node, anchor (0.5, 0.5), positioned at player.map.pos */}
+        {actorPos && (
+          <div
+            className="absolute"
+            style={{
+              left: `${actorPos.x}px`,
+              top: `${cocosToCssYMap(actorPos.y)}px`,
+              transform: 'translate(-50%, -50%)',
+              zIndex: 10,
+              pointerEvents: 'none'  // Allow clicks to pass through to sites
+            }}
+          >
+            <Sprite
+              atlas="new"
+              frame="map_actor.png"
+              style={{
+                width: '32px',
+                height: '32px'
+              }}
+            />
+          </div>
+        )}
+
+        {/* Sites */}
+        {/* Original: Entity extends Button, anchor (0.5, 0.5), positioned at baseSite.pos */}
+        {sites.map((site) => {
+          const sitePos = site.pos || { x: 0, y: 0 }
+          const isHome = site.id === HOME_SITE
+          
+          return (
+            <button
+              key={site.id}
+              onClick={() => handleSiteClick(site)}
+              className="absolute cursor-pointer"
+              style={{
+                left: `${sitePos.x}px`,
+                top: `${cocosToCssYMap(sitePos.y)}px`,
+                transform: 'translate(-50%, -50%)',
+                zIndex: 5,
+                background: 'transparent',
+                border: 'none',
+                padding: 0
+              }}
+              title={site.getName()}
+            >
+              {/* Site background */}
+              {/* Original: site_big_bg.png for HOME_SITE, site_bg.png for others, scale 0.8 */}
+              <Sprite
+                atlas="site"
+                frame={isHome ? "site_big_bg.png" : "site_bg.png"}
+                style={{
+                  width: isHome ? '80px' : '60px',
+                  height: isHome ? '80px' : '60px',
+                  transform: 'scale(0.8)'
+                }}
+              />
+              
+              {/* Site icon */}
+              {/* Original: site_{id}.png or npc_{id}.png, scale 0.8, centered on bg */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Sprite
+                  atlas="site"
+                  frame={`site_${site.id}.png`}
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    transform: 'scale(0.8)'
+                  }}
+                />
+              </div>
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+

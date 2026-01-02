@@ -58,6 +58,16 @@ interface PlayerStore extends PlayerState {
   // Map state
   map: Map | null
   
+  // Travel state
+  useMoto: boolean  // Whether player wants to use motorcycle
+  isMoving: boolean  // Whether actor is currently moving (prevents clicks)
+  
+  // Actor movement state
+  actorTargetPos: { x: number; y: number } | null  // Target position for movement
+  actorVelocity: number  // Current movement velocity (pixels per second)
+  actorMaxVelocity: number  // Maximum velocity for current trip
+  actorMovementCallback: (() => void) | null  // Callback to call when movement completes
+  
   // Medicine treatment state
   cured: boolean
   binded: boolean
@@ -104,6 +114,17 @@ interface PlayerStore extends PlayerState {
   // Map actions
   initializeMap: () => void
   getMap: () => Map
+  
+  // Travel actions
+  setUseMoto: (use: boolean) => void
+  setIsMoving: (moving: boolean) => void
+  
+  // Actor movement actions
+  setActorTargetPos: (pos: { x: number; y: number } | null) => void
+  setActorVelocity: (velocity: number) => void
+  setActorMaxVelocity: (maxVelocity: number) => void
+  setActorMovementCallback: (callback: (() => void) | null) => void
+  clearActorMovement: () => void
   
   // Item use actions
   useItem: (storage: Storage, itemId: string) => {result: boolean, type?: number, msg?: string}
@@ -198,6 +219,16 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   
   // Map state
   map: null,
+  
+  // Travel state
+  useMoto: false,
+  isMoving: false,
+  
+  // Actor movement state
+  actorTargetPos: null,
+  actorVelocity: 0,
+  actorMaxVelocity: 0,
+  actorMovementCallback: null,
   
   // Medicine treatment state
   cured: false,
@@ -588,6 +619,22 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     }
     return map
   },
+  
+  // Travel actions
+  setUseMoto: (use: boolean) => set({ useMoto: use }),
+  setIsMoving: (moving: boolean) => set({ isMoving: moving }),
+  
+  // Actor movement actions
+  setActorTargetPos: (pos: { x: number; y: number } | null) => set({ actorTargetPos: pos }),
+  setActorVelocity: (velocity: number) => set({ actorVelocity: velocity }),
+  setActorMaxVelocity: (maxVelocity: number) => set({ actorMaxVelocity: maxVelocity }),
+  setActorMovementCallback: (callback: (() => void) | null) => set({ actorMovementCallback: callback }),
+  clearActorMovement: () => set({ 
+    actorTargetPos: null, 
+    actorVelocity: 0, 
+    actorMaxVelocity: 0, 
+    actorMovementCallback: null 
+  }),
   
   // Building cost validation
   validateItems: (cost: BuildingCost[]) => {

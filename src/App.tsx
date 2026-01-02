@@ -8,12 +8,12 @@ import { AttributeStatusDialog } from './components/overlays/AttributeStatusDial
 import { StatusDialog } from './components/overlays/StatusDialog'
 import { BuildDialog } from './components/overlays/BuildDialog'
 import { RecipeDialog } from './components/overlays/RecipeDialog'
+import { SiteDialog } from './components/overlays/SiteDialog'
 // Future scenes (to be implemented):
 // import { SaveFileScene } from './components/scenes/SaveFileScene'
 // import { ChooseScene } from './components/scenes/ChooseScene'
 // import { StoryScene } from './components/scenes/StoryScene'
 // import { BattleScene } from './components/scenes/BattleScene'
-// import { MapScene } from './components/scenes/MapScene'
 // import { EndScene } from './components/scenes/EndScene'
 
 function App() {
@@ -41,7 +41,6 @@ function App() {
             {/* {currentScene === 'choose' && <ChooseScene />} */}
             {/* {currentScene === 'story' && <StoryScene />} */}
             {/* {currentScene === 'battle' && <BattleScene />} */}
-            {/* {currentScene === 'map' && <MapScene />} */}
             {/* {currentScene === 'end' && <EndScene />} */}
           </>
         )}
@@ -65,6 +64,9 @@ function App() {
       )}
       {activeOverlay === 'recipeDialog' && (
         <RecipeDialog />
+      )}
+      {activeOverlay === 'siteDialog' && (
+        <SiteDialog />
       )}
     </>
   )
