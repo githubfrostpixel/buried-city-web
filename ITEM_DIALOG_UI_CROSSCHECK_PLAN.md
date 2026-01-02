@@ -441,3 +441,4 @@ txt1.setString(cc.formatStr(txt1.getString(), storage.getNumByItemId(itemId)));
 
 6. **Auto-dismiss**: The original game has `autoDismiss = true`, meaning clicking outside the dialog closes it. Current implementation supports this.
 
+

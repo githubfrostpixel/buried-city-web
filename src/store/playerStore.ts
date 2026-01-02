@@ -70,6 +70,7 @@ interface PlayerStore extends PlayerState {
   addCurrency: (amount: number) => void
   setLocation: (location: { isAtHome?: boolean; isAtBazaar?: boolean; isAtSite?: boolean; siteId?: number | null }) => void
   setSetting: (key: string, value: any) => void
+  out: () => void
   
   // Inventory actions
   addItemToBag: (itemId: string, count: number) => boolean
@@ -266,6 +267,17 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       [key]: value
     }
   })),
+  
+  out: () => {
+    // Get current time from game time manager
+    const currentTime = game.getTimeManager().getTimeNum()
+    set({
+      isAtHome: false,
+      leftHomeTime: currentTime
+    })
+    // TODO: Add log message 1110 when log system is ready
+    // player.log.addMsg(1110)
+  },
   
   // Inventory actions - Bag
   addItemToBag: (itemId: string, count: number) => {

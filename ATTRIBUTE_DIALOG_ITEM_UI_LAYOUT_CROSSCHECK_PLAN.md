@@ -292,3 +292,4 @@ data = itemList.filter(function(storageCell) {
 
 **High Priority**: The item UI/layout is completely different from the original game. This affects the visual consistency and user experience. Should be fixed to match the original game's horizontal scrollable grid layout.
 
+

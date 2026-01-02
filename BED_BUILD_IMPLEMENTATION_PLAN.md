@@ -859,3 +859,4 @@ The original game has `showBuildActionDialog()` for showing action details. This
 ✅ Bed build dialog works correctly
 ✅ All cross-check items pass
 
+

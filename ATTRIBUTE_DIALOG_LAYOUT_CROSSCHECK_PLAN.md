@@ -314,3 +314,4 @@ After fixes:
 - Proper spacing throughout dialog
 - Layout matches original game appearance
 
+

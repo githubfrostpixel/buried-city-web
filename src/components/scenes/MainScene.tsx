@@ -15,9 +15,11 @@ import { HomePanelContent } from '@/components/panels/HomePanelContent'
 import { BuildPanelContent } from '@/components/panels/BuildPanelContent'
 import { StoragePanelContent } from '@/components/panels/StoragePanelContent'
 import { RadioPanelContent } from '@/components/panels/RadioPanelContent'
+import { GatePanelContent } from '@/components/panels/GatePanelContent'
 import { useUIStore } from '@/store/uiStore'
 import { useBuildingStore } from '@/store/buildingStore'
-import { audioManager, MusicPaths } from '@/game/systems/AudioManager'
+import { usePlayerStore } from '@/store/playerStore'
+import { audioManager, MusicPaths, SoundPaths } from '@/game/systems/AudioManager'
 import { game } from '@/game/Game'
 
 export function MainScene() {
@@ -43,6 +45,7 @@ export function MainScene() {
     if (currentPanel === 'home' || 
         currentPanel === 'build' || 
         currentPanel === 'storage' || 
+        currentPanel === 'gate' ||
         currentPanel === 'radio') {
       audioManager.playMusic(MusicPaths.HOME, true)
     }
@@ -92,6 +95,21 @@ export function MainScene() {
       // On home panel, back button should show exit dialog
       // For now, just log (exit dialog to be implemented later)
       console.log('Exit to menu - dialog to be implemented')
+    } else if (currentPanel === 'gate') {
+      // When leaving Gate panel, transfer all items from bag to storage
+      const playerStore = usePlayerStore.getState()
+      const bagItems = { ...playerStore.bag }
+      
+      // Transfer all items from bag to storage
+      Object.entries(bagItems).forEach(([itemId, count]) => {
+        if (count > 0) {
+          playerStore.addItemToStorage(itemId, count)
+          playerStore.removeItemFromBag(itemId, count)
+        }
+      })
+      
+      // Navigate back to home
+      uiStore.openPanelAction('home')
     } else {
       // Navigate back to home (matches Navigation.back() behavior)
       uiStore.openPanelAction('home')
@@ -120,6 +138,9 @@ export function MainScene() {
       
       case 'radio':
         return <RadioPanelContent />
+      
+      case 'gate':
+        return <GatePanelContent />
       
       default:
         // Default to home (matches Navigation.current() default)
@@ -155,6 +176,13 @@ export function MainScene() {
           ? buildingStore.room.getBuildCurrentName(15)
           : 'Radio'
       }
+      case 'gate': {
+        // Get building 14 (Gate) name
+        const building = buildingStore.getBuilding(14)
+        return building && buildingStore.room
+          ? buildingStore.room.getBuildCurrentName(14)
+          : 'Gate'
+      }
       default: return ''
     }
   }
@@ -167,8 +195,26 @@ export function MainScene() {
   
   // Determine if forward button should be shown (from original uiConfig.rightBtn)
   const shouldShowForwardButton = (): boolean => {
-    // Most panels don't need forward button in original game
-    return false
+    // Gate panel has forward button (Go Out)
+    return currentPanel === 'gate'
+  }
+  
+  // Handle forward button click
+  const handleForwardButton = () => {
+    if (currentPanel === 'gate') {
+      // Gate panel: Go Out
+      const playerStore = usePlayerStore.getState()
+      playerStore.out()
+      
+      // Play FOOT_STEP sound
+      audioManager.playEffect(SoundPaths.FOOT_STEP)
+      
+      // Navigate to map scene
+      // TODO: For now, navigate to map scene directly
+      // In original game, it goes to GATE_OUT_NODE first, then to MAP_NODE
+      // We'll skip the gate out transition for now
+      uiStore.setScene('map')
+    }
   }
   
   return (
@@ -194,7 +240,7 @@ export function MainScene() {
         leftBtn={shouldShowBackButton()}
         rightBtn={shouldShowForwardButton()}
         onLeftClick={handleBackButton}
-        onRightClick={() => {}}
+        onRightClick={handleForwardButton}
         fullScreen={currentPanel === 'home'} // Home panel uses fullScreen mode
       >
         {renderPanel()}

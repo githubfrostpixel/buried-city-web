@@ -121,7 +121,7 @@ export function HomePanelContent({ onBuildingClick }: HomePanelContentProps) {
       case 14:
         // Navigate to Gate panel (only if level >= 0)
         if (building?.level !== undefined && building.level >= 0) {
-          console.log('Navigate to Gate panel')
+          uiStore.openPanelAction('gate')
         }
         break
       case 15:

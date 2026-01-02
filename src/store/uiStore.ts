@@ -22,6 +22,7 @@ export type Panel =
   | 'bazaar'
   | 'dog'
   | 'radio'
+  | 'gate'
   | null
 
 export type Overlay = 
