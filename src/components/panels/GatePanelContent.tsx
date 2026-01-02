@@ -60,10 +60,13 @@ export function GatePanelContent() {
   }, [playerStore.bag, playerStore.storage]) // Include both to refresh when either changes
   
   // Calculate positions
-  // EquipPanel: top of content area (at contentTopLineHeight from bottom)
-  // ItemTransferPanel: below EquipPanel or at bottom
+  // Layout: EquipPanel at top, separator line, then ItemTransferPanel below
   const contentTopLineHeight = BOTTOM_BAR_LAYOUT.cocosRef.contentTopLineHeight
-  const equipPanelTop = BOTTOM_BAR_LAYOUT.content.height - contentTopLineHeight
+  const contentHeight = BOTTOM_BAR_LAYOUT.content.height
+  const equipPanelHeight = 125 // EquipPanel height
+  const separatorHeight = 10 // Space between EquipPanel and ItemTransferPanel
+  const equipPanelTop = contentHeight - contentTopLineHeight // Top of content area
+  const itemTransferPanelTop = equipPanelTop + equipPanelHeight + separatorHeight // Below EquipPanel
   
   return (
     <div className="relative w-full h-full">
@@ -75,21 +78,39 @@ export function GatePanelContent() {
           top: `${equipPanelTop}px`,
           transform: 'translateX(-50%)',
           width: '572px',
-          height: '100px'
+          height: `${equipPanelHeight}px`,
+          zIndex: 1,
+          overflow: 'visible' // Allow dropdown to extend beyond EquipPanel bounds
         }}
       >
         <EquipPanel />
       </div>
       
-      {/* ItemTransferPanel at bottom */}
+      {/* Separator line */}
       <div
         className="absolute"
         style={{
           left: '50%',
-          top: '0',
+          top: `${equipPanelTop + equipPanelHeight}px`,
           transform: 'translateX(-50%)',
           width: '596px',
-          height: '670px'
+          height: `${separatorHeight}px`,
+          zIndex: 1
+        }}
+      >
+        {/* Visual separator - optional, can be removed if not needed */}
+      </div>
+      
+      {/* ItemTransferPanel below EquipPanel */}
+      <div
+        className="absolute"
+        style={{
+          left: '50%',
+          top: `${itemTransferPanelTop}px`,
+          transform: 'translateX(-50%)',
+          width: '596px',
+          height: '400px',
+          zIndex: 0
         }}
       >
         <ItemTransferPanel

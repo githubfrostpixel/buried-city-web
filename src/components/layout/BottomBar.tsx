@@ -98,7 +98,8 @@ export function BottomBar({
             width: `${bgWidth}px`,
             height: `${actionBar.height}px`,
             paddingTop: `${actionBar.paddingTop}px`,
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            zIndex: 20
           }}
           data-test-id="bottombar-action-bar"
           data-test-label="Action Bar Row"
@@ -117,7 +118,8 @@ export function BottomBar({
                 background: 'transparent',
                 border: 'none',
                 padding: 0,
-                cursor: 'pointer'
+                cursor: 'pointer',
+                zIndex: 21
               }}
               data-test-id="bottombar-left-btn"
               data-test-label="Left Button"
@@ -162,7 +164,8 @@ export function BottomBar({
                 background: 'transparent',
                 border: 'none',
                 padding: 0,
-                cursor: 'pointer'
+                cursor: 'pointer',
+                zIndex: 21
               }}
               data-test-id="bottombar-right-btn"
               data-test-label="Right Button"

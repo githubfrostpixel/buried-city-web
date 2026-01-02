@@ -7,42 +7,75 @@
  * Clicking a slot opens dropdown to select/change equipment
  */
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { usePlayerStore } from '@/store/playerStore'
 import { Storage } from '@/game/inventory/Storage'
 import { Item } from '@/game/inventory/Item'
 import { Sprite } from '@/components/sprites/Sprite'
+import { emitter } from '@/utils/emitter'
+import { saveAll } from '@/game/systems/SaveSystem'
 
 const EQUIPMENT_SLOTS = [
-  { key: 'gun' as const, label: 'Gun', itemType: '1301' },
-  { key: 'weapon' as const, label: 'Weapon', itemType: '1302' },
-  { key: 'equip' as const, label: 'Equip', itemType: '1304' },
-  { key: 'tool' as const, label: 'Tool', itemType: '1303' },
-  { key: 'special' as const, label: 'Special', itemType: 'special' }
+  { key: 'gun' as const, label: 'Gun', itemType: '1301', emptyIcon: 'icon_tab_gun.png' },
+  { key: 'weapon' as const, label: 'Weapon', itemType: '1302', emptyIcon: 'icon_tab_weapon.png' },
+  { key: 'equip' as const, label: 'Equip', itemType: '1304', emptyIcon: 'icon_tab_equip.png' },
+  { key: 'tool' as const, label: 'Tool', itemType: '1303', emptyIcon: 'icon_tab_tool.png' },
+  { key: 'special' as const, label: 'Special', itemType: 'special', emptyIcon: 'build_action_fix.png' }
 ]
 
 const SLOT_SIZE = 100
 const PANEL_WIDTH = 572
-const PANEL_HEIGHT = 100
+const PANEL_HEIGHT = 125 // Fixed: Original is 100, not 125
 const PADDING = (PANEL_WIDTH - 5 * SLOT_SIZE) / 6
+const DROPDOWN_V_PADDING = 10
+const DROPDOWN_ITEM_HEIGHT = 72
 
 export function EquipPanel() {
   const playerStore = usePlayerStore()
   const [selectedSlot, setSelectedSlot] = useState<number | null>(null)
   const [dropdownItems, setDropdownItems] = useState<string[]>([])
+  const [, forceUpdate] = useState(0)
   
   // Get items from bag
   const bag = new Storage('player')
   bag.restore(playerStore.bag)
+  
+  // Listen to equipment update events
+  useEffect(() => {
+    const handleEquipDecrease = () => {
+      forceUpdate(prev => prev + 1)
+    }
+    
+    const handleEquipGuide = (_itemId: string) => {
+      // TODO: Handle tutorial guide integration
+      // For now, just update view
+      forceUpdate(prev => prev + 1)
+    }
+    
+    emitter.on('equiped_item_decrease_in_bag', handleEquipDecrease)
+    emitter.on('equip_item_need_guide', handleEquipGuide)
+    
+    return () => {
+      emitter.off('equiped_item_decrease_in_bag', handleEquipDecrease)
+      emitter.off('equip_item_need_guide', handleEquipGuide)
+    }
+  }, [])
   
   // Open dropdown for slot
   const handleSlotClick = (slotIndex: number) => {
     const slot = EQUIPMENT_SLOTS[slotIndex]
     
     if (selectedSlot === slotIndex) {
-      // Close dropdown if clicking same slot
+      // Toggle: close dropdown if clicking same slot
       setSelectedSlot(null)
+      setDropdownItems([])
       return
+    }
+    
+    // Switching to different slot: previous dropdown will close automatically
+    // when selectedSlot changes, but we clear dropdown items explicitly
+    if (selectedSlot !== null) {
+      setDropdownItems([])
     }
     
     // Get available items for this slot
@@ -70,6 +103,12 @@ export function EquipPanel() {
     
     setDropdownItems(items)
     setSelectedSlot(slotIndex)
+    
+    // TODO: Tutorial integration
+    // if (userGuide.isStep(userGuide.stepName.GATE_EQUIP_1)) {
+    //   userGuide.step()
+    //   uiUtil.removeIconWarn(this)
+    // }
   }
   
   // Equip item
@@ -80,32 +119,75 @@ export function EquipPanel() {
     const itemIdToEquip = itemId === '0' ? null : (itemId === '1' ? null : itemId)
     
     // Equip item
+    let success = false
     if (itemIdToEquip) {
-      playerStore.equipItem(slot.key, itemIdToEquip)
+      success = playerStore.equipItem(slot.key, itemIdToEquip)
+      if (!success) {
+        // Failed to equip (item not in bag)
+        // Close dropdown anyway
+        setSelectedSlot(null)
+        setDropdownItems([])
+        return
+      }
     } else {
       // Unequip (for weapon, null means hand)
       if (slot.key === 'weapon') {
-        playerStore.equipItem(slot.key, null)
+        success = playerStore.equipItem(slot.key, null)
       } else {
         playerStore.unequipItem(slot.key)
+        success = true
       }
     }
     
-    // Close dropdown
-    setSelectedSlot(null)
+    if (success) {
+      // Update view to refresh icons
+      forceUpdate(prev => prev + 1)
+      
+      // Close dropdown
+      setSelectedSlot(null)
+      setDropdownItems([])
+      
+      // Save game state
+      saveAll().catch(err => {
+        console.error('Failed to save game state after equipping:', err)
+      })
+      
+      // TODO: Tutorial integration
+      // if (userGuide.isStep(userGuide.stepName.GATE_EQUIP_2) && userGuide.isItemCreate(itemId)) {
+      //   userGuide.step()
+      //   emitter.emit('nextStep')
+      // }
+      // if (userGuide.equipNeedGuide2(itemId)) {
+      //   userGuide.guide2Step(itemId)
+      // }
+    }
   }
   
-  // Get equipped item icon for slot
+  // Get equipped item icon for slot (matches original icon naming)
   const getEquippedIcon = (slotKey: typeof EQUIPMENT_SLOTS[number]['key']): string | null => {
     const equipped = playerStore.getEquippedItem(slotKey)
     if (!equipped) {
-      // For weapon, null means hand
-      if (slotKey === 'weapon') {
-        return 'icon_item_1.png' // HAND icon
-      }
-      return null
+      return null // Empty slot - will show default icon
     }
-    return `icon_item_${equipped}.png`
+    
+    // Hand icon for weapon slot
+    if (equipped === '1' || (slotKey === 'weapon' && !equipped)) {
+      return 'icon_tab_hand.png'
+    }
+    
+    // Special items use icon_item_ prefix
+    if (equipped === '1305053' || equipped === '1305064' || equipped === '1305075') {
+      return `icon_item_${equipped}.png`
+    }
+    
+    // Other items use icon_tab_ prefix
+    return `icon_tab_${equipped}.png`
+  }
+  
+  // Get empty slot icon
+  const getEmptySlotIcon = (slotKey: typeof EQUIPMENT_SLOTS[number]['key']): string => {
+    const slot = EQUIPMENT_SLOTS.find(s => s.key === slotKey)
+    return slot?.emptyIcon || 'build_icon_bg.png'
   }
   
   return (
@@ -114,7 +196,8 @@ export function EquipPanel() {
       style={{
         width: `${PANEL_WIDTH}px`,
         height: `${PANEL_HEIGHT}px`,
-        margin: '0 auto'
+        margin: '0 auto',
+        overflow: 'visible' // Allow dropdown to extend beyond panel bounds
       }}
       data-test-id="equip-panel"
     >
@@ -145,13 +228,13 @@ export function EquipPanel() {
                 frame="build_icon_bg.png"
                 className="w-full h-full"
               />
-              {/* Equipped item icon */}
-              {equippedIcon && (
+              {/* Equipped item icon or empty slot icon */}
+              {equippedIcon ? (
                 <div
                   className="absolute"
                   style={{
                     left: '50%',
-                    top: '50%',
+                    top: '55%', // Moved down from 50% to 55%
                     transform: 'translate(-50%, -50%)',
                     width: '64px',
                     height: '64px'
@@ -163,22 +246,40 @@ export function EquipPanel() {
                     className="w-full h-full"
                   />
                 </div>
+              ) : (
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    left: '50%',
+                    top: '60%', // Moved down from 50% to 55%
+                    transform: 'translate(-50%, -50%)',
+                    width: '64px',
+                    height: '64px'
+                  }}
+                >
+                  <Sprite
+                    atlas="gate"
+                    frame={getEmptySlotIcon(slot.key)}
+                    className="w-full h-full"
+                  />
+                </div>
               )}
             </button>
             
-            {/* Selected indicator (frame_tab_head.png) */}
+            {/* Selected indicator (frame_tab_head.png) - positioned above slot */}
             {selectedSlot === index && (
               <div
                 className="absolute pointer-events-none"
                 style={{
                   left: `${slotX - SLOT_SIZE / 2}px`,
-                  top: `${PANEL_HEIGHT / 2 + SLOT_SIZE / 2}px`,
+                  top: `${PANEL_HEIGHT / 2 - SLOT_SIZE / 2 - 20}px`, // Above slot, not below
                   width: `${SLOT_SIZE}px`,
-                  height: '20px'
+                  height: '20px',
+                  transform: 'translateY(-100%)' // Anchor at bottom
                 }}
               >
                 <Sprite
-                  atlas="ui"
+                  atlas="gate"
                   frame="frame_tab_head.png"
                   className="w-full h-full"
                 />
@@ -188,50 +289,254 @@ export function EquipPanel() {
         )
       })}
       
-      {/* Dropdown view */}
+      {/* Dropdown view - matches original frame_tab_content.png Scale9Sprite */}
       {selectedSlot !== null && dropdownItems.length > 0 && (
         <div
-          className="absolute bg-gray-800 border-2 border-gray-600 rounded"
+          className="absolute"
           style={{
             left: '50%',
-            top: `${PANEL_HEIGHT + 10}px`,
+            top: `${PANEL_HEIGHT - 5}px`, // 5px from bottom (anchored at top)
             transform: 'translateX(-50%)',
             width: '565px',
-            maxHeight: '300px',
+            height: `${DROPDOWN_ITEM_HEIGHT * dropdownItems.length + 2 * DROPDOWN_V_PADDING}px`,
             overflowY: 'auto',
-            zIndex: 100
+            overflowX: 'hidden',
+            zIndex: 100,
+            pointerEvents: 'auto'
           }}
           data-test-id="equip-dropdown"
         >
-          {dropdownItems.map((itemId, idx) => {
-            const isHand = itemId === '1'
-            const isEmpty = itemId === '0'
-            const displayName = isHand ? 'Hand' : isEmpty ? 'Empty' : `Item ${itemId}`
-            const iconFrame = isHand ? 'icon_item_1.png' : isEmpty ? null : `icon_item_${itemId}.png`
-            
-            return (
-              <button
-                key={`${itemId}-${idx}`}
-                onClick={() => handleEquipItem(itemId)}
-                className="w-full flex items-center p-2 hover:bg-gray-700 text-white"
-                style={{
-                  height: '72px'
-                }}
-                data-test-id={`equip-dropdown-item-${itemId}`}
-              >
-                {iconFrame && (
-                  <div className="w-16 h-16 flex-shrink-0 mr-4">
-                    <Sprite
-                      atlas="icon"
-                      frame={iconFrame}
-                      className="w-full h-full"
-                    />
-                  </div>
-                )}
-                <span className="text-lg">{displayName}</span>
-              </button>
-            )
-          })}
+          {/* Background using frame_tab_content.png (Scale9Sprite equivalent) */}
+          <div
+            className="absolute inset-0"
+            style={{
+              width: '100%',
+              height: '100%'
+            }}
+          >
+            <Sprite
+              atlas="gate"
+              frame="frame_tab_content.png"
+              className="w-full h-full"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'fill'
+              }}
+            />
+          </div>
+          
+          {/* Dropdown items */}
+          <div
+            className="absolute"
+            style={{
+              left: '0',
+              top: '0',
+              width: '100%',
+              height: '100%',
+              paddingTop: `${DROPDOWN_V_PADDING}px`,
+              paddingBottom: `${DROPDOWN_V_PADDING}px`
+            }}
+          >
+            {dropdownItems.map((itemId, idx) => {
+              const isHand = itemId === '1'
+              const isEmpty = itemId === '0'
+              const slot = EQUIPMENT_SLOTS[selectedSlot]
+              
+              // Get item info
+              let itemInfo: { name: string; weight: number; count: number; atkCD?: number } | null = null
+              let iconFrame: string | null = null
+              let iconScale = 0.8
+              
+              if (isHand) {
+                itemInfo = {
+                  name: 'Hand', // TODO: Get from string 1170
+                  weight: 0,
+                  count: 0,
+                  atkCD: 1
+                }
+                iconFrame = 'icon_tab_content_hand.png'
+              } else if (isEmpty) {
+                itemInfo = null
+                iconFrame = null
+              } else {
+                const item = new Item(itemId)
+                const config = item.config
+                const count = playerStore.getBagItemCount(itemId)
+                
+                // TODO: Get name from string system - stringUtil.getString(itemId).title
+                const name = `Item ${itemId}`
+                
+                itemInfo = {
+                  name,
+                  weight: config.weight,
+                  count,
+                  atkCD: config.effect_weapon?.atkCD
+                }
+                
+                // Icon naming and scale
+                if (itemId === '1305053' || itemId === '1305064' || itemId === '1305075') {
+                  iconFrame = `icon_item_${itemId}.png`
+                  iconScale = 1.0
+                } else {
+                  iconFrame = `icon_tab_content_${itemId}.png`
+                  iconScale = 0.8
+                }
+              }
+              
+              return (
+                <div
+                  key={`${itemId}-${idx}`}
+                  className="relative"
+                  style={{
+                    width: '520px',
+                    height: `${DROPDOWN_ITEM_HEIGHT}px`,
+                    margin: '0 auto',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s'
+                  }}
+                  onClick={() => handleEquipItem(itemId)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.1)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent'
+                  }}
+                  data-test-id={`equip-dropdown-item-${itemId}`}
+                >
+                  {/* Separator line (except for first item) */}
+                  {idx > 0 && (
+                    <div
+                      className="absolute"
+                      style={{
+                        left: '50%',
+                        top: '0',
+                        transform: 'translateX(-50%)',
+                        width: '520px',
+                        height: '1px'
+                      }}
+                    >
+                      <Sprite
+                        atlas="gate"
+                        frame="frame_tab_line.png"
+                        className="w-full h-full"
+                      />
+                    </div>
+                  )}
+                  
+                  {/* Item content */}
+                  {itemInfo ? (
+                    <>
+                      {/* Icon */}
+                      {iconFrame && (
+                        <div
+                          className="absolute"
+                          style={{
+                            left: '0',
+                            top: '50%',
+                            transform: `translateY(-50%) scale(${iconScale})`,
+                            transformOrigin: 'left center',
+                            width: '64px',
+                            height: '64px'
+                          }}
+                        >
+                          <Sprite
+                            atlas="icon"
+                            frame={iconFrame}
+                            className="w-full h-full"
+                          />
+                        </div>
+                      )}
+                      
+                      {/* Item name */}
+                      <div
+                        className="absolute"
+                        style={{
+                          left: iconFrame ? '64px' : '0',
+                          top: '5px',
+                          fontSize: '16px', // COMMON_2
+                          fontFamily: "'Noto Sans', sans-serif",
+                          fontWeight: 'normal',
+                          color: '#000000'
+                        }}
+                      >
+                        {itemInfo.name}
+                      </div>
+                      
+                      {/* Weight */}
+                      <div
+                        className="absolute"
+                        style={{
+                          left: iconFrame ? '64px' : '0',
+                          top: '25px',
+                          fontSize: '14px', // COMMON_3
+                          fontFamily: "'Noto Sans', sans-serif",
+                          fontWeight: 'normal',
+                          color: '#000000'
+                        }}
+                      >
+                        Weight: {itemInfo.weight}
+                      </div>
+                      
+                      {/* Count (right-aligned) */}
+                      <div
+                        className="absolute"
+                        style={{
+                          right: '10px',
+                          top: '5px',
+                          fontSize: '14px', // COMMON_3
+                          fontFamily: "'Noto Sans', sans-serif",
+                          fontWeight: 'normal',
+                          color: '#000000',
+                          textAlign: 'right'
+                        }}
+                      >
+                        Count: {itemInfo.count}
+                      </div>
+                      
+                      {/* Attack Cooldown (if weapon, right-aligned below count) */}
+                      {itemInfo.atkCD !== undefined && (
+                        <div
+                          className="absolute"
+                          style={{
+                            right: '10px',
+                            top: '25px',
+                            fontSize: '14px', // COMMON_3
+                            fontFamily: "'Noto Sans', sans-serif",
+                            fontWeight: 'normal',
+                            color: '#000000',
+                            textAlign: 'right'
+                          }}
+                        >
+                          CD: {itemInfo.atkCD}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    /* Empty state */
+                    <div
+                      className="absolute"
+                      style={{
+                        left: '50%',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        fontSize: '16px', // COMMON_2
+                        fontFamily: "'Noto Sans', sans-serif",
+                        fontWeight: 'normal',
+                        color: '#000000',
+                        textAlign: 'center'
+                      }}
+                    >
+                      {slot.key === 'special' 
+                        ? '1305053 / 1305064 / 1305075' // TODO: Get item names from string system
+                        : 'Empty' // TODO: Get from string 1024
+                      }
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
         </div>
       )}
     </div>

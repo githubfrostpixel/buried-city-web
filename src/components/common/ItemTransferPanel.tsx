@@ -107,11 +107,11 @@ export function ItemTransferPanel({
   const topMaxWeight = showWeight && topStorageName === 'Bag' ? playerStore.getBagMaxWeight() : 0
   
   // Handle item click - transfer to opposite storage
-  // FIX: Items are swapped in UI, so we need to swap the storage logic too
-  // If fromTop=true (clicking in top section), but top section shows bottomItems (Storage),
-  // then we need to use bottomStorageInstance as source
+  // Top section: displays Storage items (bottomItems) but has Bag label
+  // Bottom section: displays Bag items (topItems) but has Storage label
   const handleItemClick = (itemId: string, fromTop: boolean) => {
-    // Swap the storage instances to match the swapped items display
+    // Items are swapped in display, so swap storage instances
+    // Top section shows Storage items, bottom section shows Bag items
     const sourceStorage = fromTop ? bottomStorageInstance : topStorageInstance
     const targetStorage = fromTop ? topStorageInstance : bottomStorageInstance
     
@@ -129,10 +129,7 @@ export function ItemTransferPanel({
       let maxWeight: number
       
        // Get max weight based on storage type
-       // FIX: Items are swapped, so logic needs to match
-       // Top section shows Storage items (but label says Bag), bottom section shows Bag items (but label says Storage)
-       // So when fromTop=true, we're transferring from Storage to Bag
-       // When fromTop=false, we're transferring from Bag to Storage
+       // Top section shows Storage items, bottom section shows Bag items
        if (fromTop) {
          // Transferring from Storage (top section) to Bag (bottom section) - use bag max weight
          maxWeight = playerStore.getBagMaxWeight()
@@ -235,25 +232,23 @@ export function ItemTransferPanel({
       }}
       data-test-id="item-transfer-panel"
     >
-      {/* Top section - positioned at top with anchor (0.5, 1) */}
-      {/* Note: This section displays Storage items (swapped) but has Bag label */}
       <div
         className="absolute"
         style={{
           left: '50%',
-          top: `${PANEL_HEIGHT}px`,
+          top: '-20px',
           transform: 'translateX(-50%)',
           width: `${PANEL_WIDTH}px`,
-          height: `${SECTION_HEIGHT + 50}px`
+          height: `${SECTION_HEIGHT}px`
         }}
-        data-test-id="item-transfer-bottom"
+        data-test-id="item-transfer-top"
       >
-        {/* Header section background - at top of section with anchor (0.5, 1) */}
+
         <div
           className="absolute"
           style={{
             left: '50%',
-            top: `${-300}px`,
+            top: `0px`,
             transform: 'translateX(-50%)',
             width: `${PANEL_WIDTH}px`,
             height: '50px'
@@ -264,8 +259,7 @@ export function ItemTransferPanel({
             frame="frame_section_bg.png"
             className="w-full h-full"
           />
-          {/* Header text and weight - positioned at (10, section.height/2) with anchor (0, 0.5) */}
-          <div
+        <div
             className="absolute flex items-center justify-between"
             style={{
               left: '10px',
@@ -299,9 +293,10 @@ export function ItemTransferPanel({
                </span>
              )}
            </div>
-         </div>
+          
+        </div>
         
-        {/* Item grid (TableView) - positioned at y=10 from bottom of section */}
+ 
         <div
           className="absolute"
           style={{
@@ -309,35 +304,33 @@ export function ItemTransferPanel({
             bottom: '10px',
             transform: 'translateX(-50%)',
             width: `${PANEL_WIDTH}px`,
-            height: `${SECTION_HEIGHT }px`,
+            height: `${SECTION_HEIGHT - 50 - 10}px`,
             overflowY: 'auto',
             overflowX: 'hidden'
           }}
         >
-          {/* FIX: Swap items to match labels - top section should show Bag items but currently shows Storage items */}
-          {renderItemGrid(bottomItems, true)}
+          
+          {renderItemGrid(topItems, false)}
         </div>
       </div>
-      
-      {/* Bottom section - positioned at bottom with anchor (0.5, 0) */}
-      {/* Note: This section displays Bag items (swapped) but has Storage label */}
+
       <div
         className="absolute"
         style={{
           left: '50%',
-          bottom: '0',
+          bottom: `-220px`,
           transform: 'translateX(-50%)',
           width: `${PANEL_WIDTH}px`,
-          height: `${SECTION_HEIGHT}px`
+          height: `${SECTION_HEIGHT + 50}px`
         }}
-        data-test-id="item-transfer-top"
+        data-test-id="item-transfer-bottom"
       >
-        {/* Header section background - at top of section with anchor (0.5, 1) */}
+
         <div
           className="absolute"
           style={{
             left: '50%',
-            top: `${SECTION_HEIGHT}px`,
+            top: `-10px`,
             transform: 'translateX(-50%)',
             width: `${PANEL_WIDTH}px`,
             height: '50px'
@@ -348,8 +341,7 @@ export function ItemTransferPanel({
             frame="frame_section_bg.png"
             className="w-full h-full"
           />
-          {/* Header text - positioned at (10, section.height/2) with anchor (0, 0.5) */}
-          <div
+      <div
             className="absolute flex items-center"
             style={{
               left: '10px',
@@ -370,9 +362,10 @@ export function ItemTransferPanel({
                {bottomStorageName}
              </span>
           </div>
-        </div>
+          
+         </div>
         
-        {/* Item grid (TableView) - positioned at y=10 from bottom of section */}
+
         <div
           className="absolute"
           style={{
@@ -380,15 +373,18 @@ export function ItemTransferPanel({
             bottom: '10px',
             transform: 'translateX(-50%)',
             width: `${PANEL_WIDTH}px`,
-            height: `${SECTION_HEIGHT - 50 - 10}px`,
+            height: `${SECTION_HEIGHT }px`,
             overflowY: 'auto',
             overflowX: 'hidden'
           }}
         >
-          {/* FIX: Swap items to match labels - bottom section should show Storage items but currently shows Bag items */}
-          {renderItemGrid(topItems, false)}
+
+          {renderItemGrid(bottomItems, true)}
         </div>
       </div>
+      
+
+      
     </div>
   )
 }
