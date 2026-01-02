@@ -179,7 +179,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   // Equipment
   equipment: {
     gun: null,
-    weapon: null, // Default to hand (null means hand)
+    weapon: "1", // Default to hand (always hand, never null)
     equip: null,
     tool: null,
     special: null
@@ -488,8 +488,8 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   equipItem: (slot: 'gun' | 'weapon' | 'equip' | 'tool' | 'special', itemId: string | null) => {
     const state = get()
     
-    // If equipping an item, it must be in bag
-    if (itemId !== null) {
+    // If equipping an item (not hand), it must be in bag
+    if (itemId !== null && itemId !== "1") {
       if (state.getBagItemCount(itemId) < 1) {
         return false
       }
@@ -508,8 +508,8 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     set((state) => {
       const newEquipment = { ...state.equipment }
       if (slot === 'weapon') {
-        // Weapon defaults to hand (null)
-        newEquipment[slot] = null
+        // Weapon always defaults to hand
+        newEquipment[slot] = "1"
       } else {
         newEquipment[slot] = null
       }
@@ -518,7 +518,12 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   },
   
   getEquippedItem: (slot: 'gun' | 'weapon' | 'equip' | 'tool' | 'special') => {
-    return get().equipment[slot]
+    const item = get().equipment[slot]
+    // For weapon slot, null means hand (backward compatibility with old saves)
+    if (slot === 'weapon' && item === null) {
+      return "1"
+    }
+    return item
   },
   
   isEquipped: (itemId: string) => {

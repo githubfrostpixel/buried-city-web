@@ -116,7 +116,7 @@ export function EquipPanel() {
     if (selectedSlot === null) return
     
     const slot = EQUIPMENT_SLOTS[selectedSlot]
-    const itemIdToEquip = itemId === '0' ? null : (itemId === '1' ? null : itemId)
+    const itemIdToEquip = itemId === '0' ? null : (itemId === '1' ? "1" : itemId)
     
     // Equip item
     let success = false
@@ -130,9 +130,9 @@ export function EquipPanel() {
         return
       }
     } else {
-      // Unequip (for weapon, null means hand)
+      // Unequip (for weapon, set to hand)
       if (slot.key === 'weapon') {
-        success = playerStore.equipItem(slot.key, null)
+        success = playerStore.equipItem(slot.key, "1") // Equip hand instead of null
       } else {
         playerStore.unequipItem(slot.key)
         success = true
@@ -223,11 +223,20 @@ export function EquipPanel() {
               }}
               data-test-id={`equip-slot-${slot.key}`}
             >
-              <Sprite
-                atlas="ui"
-                frame="build_icon_bg.png"
-                className="w-full h-full"
-              />
+              <div
+                className="absolute"
+                style={{
+                  top: '15px',
+                  width: '100%',
+                  height: '100%'
+                }}
+              >
+                <Sprite
+                  atlas={selectedSlot === index ? "gate" : "ui"}
+                  frame={selectedSlot === index ? "frame_tab_head.png" : "build_icon_bg.png"}
+                  className="w-full h-full"
+                />
+              </div>
               {/* Equipped item icon or empty slot icon */}
               {equippedIcon ? (
                 <div
@@ -237,11 +246,12 @@ export function EquipPanel() {
                     top: '55%', // Moved down from 50% to 55%
                     transform: 'translate(-50%, -50%)',
                     width: '64px',
-                    height: '64px'
+                    height: '64px',
+                    zIndex: 2 // In front of frame_tab_head
                   }}
                 >
                   <Sprite
-                    atlas="icon"
+                    atlas="gate"
                     frame={equippedIcon}
                     className="w-full h-full"
                   />
@@ -254,7 +264,8 @@ export function EquipPanel() {
                     top: '60%', // Moved down from 50% to 55%
                     transform: 'translate(-50%, -50%)',
                     width: '64px',
-                    height: '64px'
+                    height: '64px',
+                    zIndex: 2 // In front of frame_tab_head
                   }}
                 >
                   <Sprite
@@ -265,26 +276,6 @@ export function EquipPanel() {
                 </div>
               )}
             </button>
-            
-            {/* Selected indicator (frame_tab_head.png) - positioned above slot */}
-            {selectedSlot === index && (
-              <div
-                className="absolute pointer-events-none"
-                style={{
-                  left: `${slotX - SLOT_SIZE / 2}px`,
-                  top: `${PANEL_HEIGHT / 2 - SLOT_SIZE / 2 - 20}px`, // Above slot, not below
-                  width: `${SLOT_SIZE}px`,
-                  height: '20px',
-                  transform: 'translateY(-100%)' // Anchor at bottom
-                }}
-              >
-                <Sprite
-                  atlas="gate"
-                  frame="frame_tab_head.png"
-                  className="w-full h-full"
-                />
-              </div>
-            )}
           </div>
         )
       })}
@@ -295,10 +286,10 @@ export function EquipPanel() {
           className="absolute"
           style={{
             left: '50%',
-            top: `${PANEL_HEIGHT - 5}px`, // 5px from bottom (anchored at top)
+            top: `${PANEL_HEIGHT -25}px`, // 5px from bottom (anchored at top)
             transform: 'translateX(-50%)',
             width: '565px',
-            height: `${DROPDOWN_ITEM_HEIGHT * dropdownItems.length + 2 * DROPDOWN_V_PADDING}px`,
+            height: `${DROPDOWN_ITEM_HEIGHT * dropdownItems.length + 2 * DROPDOWN_V_PADDING }px`,
             overflowY: 'auto',
             overflowX: 'hidden',
             zIndex: 100,
@@ -306,25 +297,64 @@ export function EquipPanel() {
           }}
           data-test-id="equip-dropdown"
         >
-          {/* Background using frame_tab_content.png (Scale9Sprite equivalent) */}
+          {/* Background with solid color - no top border */}
           <div
             className="absolute inset-0"
             style={{
               width: '100%',
-              height: '100%'
+              height: '100%',
+              backgroundColor: '#222222',
+              borderLeft: '6px solid #666666',
+              borderRight: '6px solid #666666',
+              borderBottom: '6px solid #666666',
+              borderTop: 'none'
             }}
-          >
-            <Sprite
-              atlas="gate"
-              frame="frame_tab_content.png"
-              className="w-full h-full"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'fill'
-              }}
-            />
-          </div>
+          />
+          
+          {/* Top border segments with gap for selected slot */}
+          {(() => {
+            const dropdownLeft = (PANEL_WIDTH - 565) / 2; // 3.5px - dropdown left edge relative to panel
+            const selectedSlotX = PADDING * (selectedSlot + 1) + SLOT_SIZE * (selectedSlot + 0.5);
+            const slotLeftEdge = selectedSlotX - SLOT_SIZE / 2;
+            const slotRightEdge = selectedSlotX + SLOT_SIZE / 2;
+            
+            // Positions relative to dropdown (dropdown starts at dropdownLeft from panel left)
+            // Narrow gap by 6px on both sides
+            const gapStart = slotLeftEdge - dropdownLeft + 6;
+            const gapEnd = slotRightEdge - dropdownLeft - 6;
+            
+            return (
+              <>
+                {/* Left border segment */}
+                {gapStart > 0 && (
+                  <div
+                    className="absolute"
+                    style={{
+                      left: '0',
+                      top: '0',
+                      width: `${gapStart}px`,
+                      height: '6px',
+                      backgroundColor: '#666666'
+                    }}
+                  />
+                )}
+                
+                {/* Right border segment */}
+                {gapEnd < 565 && (
+                  <div
+                    className="absolute"
+                    style={{
+                      left: `${gapEnd}px`,
+                      top: '0',
+                      width: `${565 - gapEnd}px`,
+                      height: '6px',
+                      backgroundColor: '#666666'
+                    }}
+                  />
+                )}
+              </>
+            );
+          })()}
           
           {/* Dropdown items */}
           <div
@@ -413,15 +443,10 @@ export function EquipPanel() {
                         top: '0',
                         transform: 'translateX(-50%)',
                         width: '520px',
-                        height: '1px'
+                        height: '1px',
+                        backgroundColor: '#666666'
                       }}
-                    >
-                      <Sprite
-                        atlas="gate"
-                        frame="frame_tab_line.png"
-                        className="w-full h-full"
-                      />
-                    </div>
+                    />
                   )}
                   
                   {/* Item content */}
@@ -441,7 +466,7 @@ export function EquipPanel() {
                           }}
                         >
                           <Sprite
-                            atlas="icon"
+                            atlas="gate"
                             frame={iconFrame}
                             className="w-full h-full"
                           />
