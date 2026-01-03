@@ -65,6 +65,9 @@ interface UIStore {
   // Flag to track if we're in work storage view (for handling back button)
   isInWorkStorageView: boolean
   
+  // Flush function for work storage items (set by SiteExploreContent)
+  workStorageFlushFunction: (() => void) | null
+  
   // Flag to track if we're in battle (for disabling back button)
   isInBattle: boolean
   
@@ -97,6 +100,7 @@ interface UIStore {
   openPanelAction: (panel: Panel, buildingId?: number, siteId?: number) => void
   closePanel: () => void
   setWorkStorageView: (isInWorkStorageView: boolean) => void
+  setWorkStorageFlushFunction: (flushFunction: (() => void) | null) => void
   setInBattle: (isInBattle: boolean) => void
   showOverlay: (overlay: Overlay, data?: any) => void
   showItemDialog: (itemId: string, source: 'storage' | 'bag' | 'bazaar', showOnly?: boolean) => void
@@ -117,6 +121,7 @@ export const useUIStore = create<UIStore>((set) => ({
   siteStoragePanelSiteId: null,
   siteExplorePanelSiteId: null,
   isInWorkStorageView: false,
+  workStorageFlushFunction: null,
   isInBattle: false,
   activeOverlay: null,
   overlayData: null,
@@ -134,9 +139,11 @@ export const useUIStore = create<UIStore>((set) => ({
     siteExplorePanelSiteId: panel === 'siteExplore' ? (siteId ?? null) : null
   }),
   
-  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null, sitePanelSiteId: null, siteStoragePanelSiteId: null, siteExplorePanelSiteId: null, isInWorkStorageView: false, isInBattle: false }),
+  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null, sitePanelSiteId: null, siteStoragePanelSiteId: null, siteExplorePanelSiteId: null, isInWorkStorageView: false, workStorageFlushFunction: null, isInBattle: false }),
   
   setWorkStorageView: (isInWorkStorageView: boolean) => set({ isInWorkStorageView }),
+  
+  setWorkStorageFlushFunction: (flushFunction: (() => void) | null) => set({ workStorageFlushFunction: flushFunction }),
   
   setInBattle: (isInBattle: boolean) => set({ isInBattle }),
   

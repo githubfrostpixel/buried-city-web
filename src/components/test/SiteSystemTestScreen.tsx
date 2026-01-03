@@ -742,6 +742,80 @@ export function SiteSystemTestScreen() {
     }
   }
 
+  // Create Site 2 (longer site with 15 rooms, using original game data)
+  const createSite2 = () => {
+    try {
+      const testSiteId = 2
+      const site = new Site(testSiteId)
+      site.init()
+      
+      // Ensure map is initialized
+      const playerStore = usePlayerStore.getState()
+      if (!playerStore.map) {
+        playerStore.initializeMap()
+      }
+      
+      // Add site to map so storage panel can access it
+      if (playerStore.map) {
+        ;(playerStore.map as any).siteMap[site.id] = site
+      }
+      
+      setCurrentSite(site)
+      const battleRooms = site.rooms.filter(r => r.type === 'battle').length
+      const workRooms = site.rooms.filter(r => r.type === 'work').length
+      const hasSecretRooms = !!site.secretRoomsConfig
+      
+      runTest(
+        'Create Site 2',
+        'Site 2 created',
+        () => `Site ID: ${site.id}, Normal Rooms: ${site.rooms.length} (Battle: ${battleRooms}, Work: ${workRooms}), Has Secret Rooms: ${hasSecretRooms}`
+      )
+    } catch (error) {
+      runTest(
+        'Create Site 2',
+        'Failed to create site',
+        () => `Error: ${error instanceof Error ? error.message : String(error)}`
+      )
+    }
+  }
+
+  // Create Site 3 (with secret rooms, using original game data)
+  const createSite3 = () => {
+    try {
+      const testSiteId = 3
+      const site = new Site(testSiteId)
+      site.init()
+      
+      // Ensure map is initialized
+      const playerStore = usePlayerStore.getState()
+      if (!playerStore.map) {
+        playerStore.initializeMap()
+      }
+      
+      // Add site to map so storage panel can access it
+      if (playerStore.map) {
+        ;(playerStore.map as any).siteMap[site.id] = site
+      }
+      
+      setCurrentSite(site)
+      const battleRooms = site.rooms.filter(r => r.type === 'battle').length
+      const workRooms = site.rooms.filter(r => r.type === 'work').length
+      const hasSecretRooms = !!site.secretRoomsConfig
+      
+      runTest(
+        'Create Site 3',
+        'Site 3 created',
+        () => `Site ID: ${site.id}, Normal Rooms: ${site.rooms.length} (Battle: ${battleRooms}, Work: ${workRooms}), Has Secret Rooms: ${hasSecretRooms}`
+      )
+    } catch (error) {
+      runTest(
+        'Create Site 3',
+        'Failed to create site',
+        () => `Error: ${error instanceof Error ? error.message : String(error)}`
+      )
+    }
+  }
+
   // Heal Player (restore HP to max)
   const healPlayer = () => {
     const playerStore = usePlayerStore.getState()
@@ -1128,6 +1202,12 @@ export function SiteSystemTestScreen() {
                 </TestButton>
                 <TestButton variant="state" onClick={createSiteWithSecretRooms}>
                   Create Site with Secret Rooms
+                </TestButton>
+                <TestButton variant="state" onClick={createSite2}>
+                  Create Site 2 (Long)
+                </TestButton>
+                <TestButton variant="state" onClick={createSite3}>
+                  Create Site 3 (With Secret)
                 </TestButton>
               </TestSection>
 

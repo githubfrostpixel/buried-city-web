@@ -55,6 +55,7 @@ export interface Room {
   type: "battle" | "work"
   difficulty?: number  // Only for battle rooms
   workType?: number    // Only for work rooms (0-2)
+  itemsFlushed?: boolean  // Track if items from this room have been flushed to site storage
 }
 
 export interface SiteSaveData {

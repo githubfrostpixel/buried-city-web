@@ -94,7 +94,8 @@ const RoomSchema = z.object({
   list: z.array(z.union([z.string(), z.any()])),
   type: z.union([z.literal("battle"), z.literal("work")]),
   difficulty: z.number().optional(),
-  workType: z.number().optional()
+  workType: z.number().optional(),
+  itemsFlushed: z.boolean().optional()  // Track if items from this room have been flushed to site storage
 })
 
 // Site save schema (matches Site.save() return type)

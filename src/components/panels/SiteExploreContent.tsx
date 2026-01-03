@@ -10,7 +10,7 @@
  * - Site completion
  */
 
-import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { Site } from '@/game/world/Site'
 import { Room } from '@/types/site.types'
 import { Battle, BattleInfo, BattleResult } from '@/game/combat/Battle'
@@ -27,6 +27,7 @@ import { CommonListItemButton } from '@/components/common/CommonListItemButton'
 import { EquipPanel } from '@/components/common/EquipPanel'
 import { ItemTransferPanel } from '@/components/common/ItemTransferPanel'
 import { Storage } from '@/game/inventory/Storage'
+import { Bag } from '@/game/inventory/Bag'
 import { Item } from '@/game/inventory/Item'
 import { game } from '@/game/Game'
 import { saveAll } from '@/game/systems/SaveSystem'
@@ -61,6 +62,7 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
   const isInWorkStorageView = useUIStore(state => state.isInWorkStorageView)
   const setInBattle = useUIStore(state => state.setInBattle)
   const isInWorkStorageRef = useRef(false)
+  const workStorageFlushRef = useRef<(() => void) | null>(null)
   const { leftEdge, rightEdge, content, screenWidth } = BOTTOM_BAR_LAYOUT
 
   // Check if we should restore work storage view on mount (after remount)
@@ -199,6 +201,16 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
       }
     }
   }, [setWorkStorageView, viewMode])
+
+  // Flush items when leaving work storage view (when MainScene navigates away)
+  // This must be at the top level with other hooks, before any conditional returns
+  useEffect(() => {
+    // If we were in work storage view but now we're not, and we have a flush function, call it
+    if (!isInWorkStorageView && workStorageFlushRef.current && viewMode === 'workStorage') {
+      workStorageFlushRef.current()
+      workStorageFlushRef.current = null // Clear ref after flushing
+    }
+  }, [isInWorkStorageView, viewMode])
 
   const updateView = () => {
     // Debug: Log site state
@@ -462,6 +474,7 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
       console.log('[SiteExploreContent] handleWorkComplete: Set currentRoom:', room)
     }
 
+
     // Set work storage flags FIRST to prevent updateView() from navigating away
     // This is critical because roomEnd() may cause isSiteEnd() to be true
     console.log('[SiteExploreContent] handleWorkComplete: Setting work storage flags')
@@ -508,11 +521,11 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
   }
 
   // Handle back button from work room storage view
-  // Note: Item flushing is handled by WorkRoomStorageView's unmount effect
+  // Note: Item flushing is now handled by WorkRoomStorageView's handleBack
   // Room is already marked as done in handleWorkComplete()
   const handleWorkStorageBack = () => {
     console.log('[SiteExploreContent] handleWorkStorageBack called - navigating back')
-    // Items will be flushed by WorkRoomStorageView's unmount effect
+    // Items will be flushed by WorkRoomStorageView's handleBack before calling this
     // Room is already marked as done in handleWorkComplete()
     // Check if we need to end secret rooms
     if (site.isInSecretRooms && site.isSecretRoomsEnd()) {
@@ -521,7 +534,9 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
       site.isSecretRoomsEntryShowed = false
     }
     // Just navigate back
-    onBack()
+    if (onBack) {
+      onBack()
+    }
   }
 
   // Secret room handlers
@@ -617,7 +632,8 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
   }
 
   if (viewMode === 'workStorage' && currentRoom) {
-    return <WorkRoomStorageView room={currentRoom} site={site} onNextRoom={handleWorkStorageNext} onBack={handleWorkStorageBack} />
+    // WorkRoomStorageView exposes flush function via ref
+    return <WorkRoomStorageView room={currentRoom} site={site} onNextRoom={handleWorkStorageNext} onBack={handleWorkStorageBack} flushRef={workStorageFlushRef} />
   }
 
   if (viewMode === 'siteEnd') {
@@ -1322,35 +1338,57 @@ function WorkProcessView({ progress }: { progress: number }) {
 }
 
 // Work Room Storage View
-function WorkRoomStorageView({ room, site, onNextRoom, onBack }: { room: Room; site: Site; onNextRoom: () => void; onBack: () => void }) {
+function WorkRoomStorageView({ room, site, onNextRoom, onBack, flushRef }: { room: Room; site: Site; onNextRoom: () => void; onBack: () => void; flushRef?: React.MutableRefObject<(() => void) | null> }) {
   const playerStore = usePlayerStore.getState()
   const { content } = BOTTOM_BAR_LAYOUT
+  const setWorkStorageFlushFunction = useUIStore(state => state.setWorkStorageFlushFunction)
   const hasFlushedRef = useRef(false)
+  // Store initial items in ref to prevent recreation from empty room.list
+  const initialItemsRef = useRef<Record<string, number> | null>(null)
 
   // Create temporary storage from room.list
+  // CRITICAL: Check if items have already been flushed (room-level flag) to prevent duplication
   const tempStorage = useMemo(() => {
     const storage = new Storage('temp')
     console.log('[WorkRoomStorageView] Creating temp storage from room:', {
       roomType: room.type,
       listLength: Array.isArray(room.list) ? room.list.length : 'not array',
-      list: room.list
+      list: room.list,
+      itemsFlushed: room.itemsFlushed
     })
     
-    if (room.type === 'work' && Array.isArray(room.list)) {
-      // Count occurrences of each item ID in the array
-      const itemCounts: Record<string, number> = {}
-      room.list.forEach((item: Item) => {
-        if (item && item.id) {
-          itemCounts[item.id] = (itemCounts[item.id] || 0) + 1
-        } else {
-          console.warn('[WorkRoomStorageView] Invalid item in room.list:', item)
-        }
-      })
+    // CRITICAL: If items have already been flushed from this room, don't create tempStorage from room.list
+    // This prevents duplication when room.list is restored from save data
+    if (room.type === 'work' && Array.isArray(room.list) && !room.itemsFlushed) {
+      let itemCounts: Record<string, number> = {}
+      
+      // If we have stored initial items (from previous render), use those instead of room.list
+      // This prevents recreation from empty room.list after it's been cleared
+      if (initialItemsRef.current) {
+        itemCounts = { ...initialItemsRef.current }
+      } else if (room.list.length > 0) {
+        // First time: count items from room.list and store in ref
+        room.list.forEach((item: Item) => {
+          if (item && item.id) {
+            itemCounts[item.id] = (itemCounts[item.id] || 0) + 1
+          } else {
+            console.warn('[WorkRoomStorageView] Invalid item in room.list:', item)
+          }
+        })
+        // Store initial items in ref for future recreations
+        initialItemsRef.current = { ...itemCounts }
+      } else {
+        // room.list is empty and no stored items - this shouldn't happen on first render
+        console.warn('[WorkRoomStorageView] room.list is empty and no stored items - creating empty tempStorage')
+      }
+      
       // Add items to storage
       Object.entries(itemCounts).forEach(([itemId, count]) => {
         storage.increaseItem(itemId, count, false)
       })
       console.log('[WorkRoomStorageView] Temp storage created with items:', storage.items)
+    } else if (room.type === 'work' && room.itemsFlushed) {
+      console.log('[WorkRoomStorageView] Items already flushed from this room, creating empty tempStorage')
     } else {
       console.warn('[WorkRoomStorageView] Room is not work type or list is not array:', {
         type: room.type,
@@ -1360,17 +1398,30 @@ function WorkRoomStorageView({ room, site, onNextRoom, onBack }: { room: Room; s
     return storage
   }, [room])
 
-  // Create bag storage
+  // Create bag storage - use Bag class for dynamic maxWeight
   const bagStorage = useMemo(() => {
-    const storage = new Storage('player')
-    storage.restore(playerStore.bag)
-    return storage
+    const bag = new Bag()
+    bag.restore(playerStore.bag)
+    return bag
   }, [playerStore.bag])
+  
+  // Callbacks to persist storage changes
+  const handleTopStorageUpdate = (storage: Storage) => {
+    // Save bag back to playerStore
+    usePlayerStore.setState({ bag: storage.save() })
+  }
+  
+  const handleBottomStorageUpdate = (storage: Storage) => {
+    // For work room, tempStorage is temporary UI state that will be flushed to site.storage later
+    // No need to persist tempStorage - flushItems() handles that
+    // This callback can be empty or just trigger a re-render if needed
+  }
 
   // Flush items to site storage (only once)
   const flushItems = useCallback(() => {
-    if (hasFlushedRef.current) {
-      console.log('[WorkRoomStorageView] Items already flushed, skipping')
+    // Check both component-level ref and room-level flag to prevent duplication
+    if (hasFlushedRef.current || room.itemsFlushed) {
+      console.log('[WorkRoomStorageView] Items already flushed, skipping', { hasFlushedRef: hasFlushedRef.current, roomItemsFlushed: room.itemsFlushed })
       return
     }
     
@@ -1381,21 +1432,46 @@ function WorkRoomStorageView({ room, site, onNextRoom, onBack }: { room: Room; s
         site.increaseItem(itemId, count)
       }
     })
+    // CRITICAL FIX: Mark room as flushed and clear room.list to prevent duplication
+    // This prevents tempStorage from being recreated with original items when room.list is restored from save data
+    if (room.type === 'work' && Array.isArray(room.list)) {
+      // Mark room as flushed - this flag is saved/restored, preventing duplication on restore
+      room.itemsFlushed = true
+      room.list = []
+      // Also clear the initial items ref since we've flushed
+      initialItemsRef.current = null
+    }
     console.log('[WorkRoomStorageView] Site storage after flush:', site.storage.items)
     saveAll().catch(err => console.error('Auto-save failed:', err))
-  }, [tempStorage, site])
+  }, [tempStorage, site, room])
 
-  // Flush items when component unmounts (e.g., when back button is clicked)
-  // This ensures remaining items go to depository regardless of how user exits
+  // Expose flush function via ref so parent can call it when navigating away
   useEffect(() => {
-    return () => {
-      console.log('[WorkRoomStorageView] Component unmounting, flushing remaining items')
-      flushItems()
+    if (flushRef) {
+      flushRef.current = flushItems
     }
-  }, [flushItems])
+    // Also expose via uiStore so MainScene can call it
+    setWorkStorageFlushFunction(flushItems)
+    return () => {
+      // CRITICAL: Call flush function before clearing it, in case component unmounts before MainScene can call it
+      const flushFn = useUIStore.getState().workStorageFlushFunction
+      if (flushFn) {
+        console.log('[WorkRoomStorageView] Component unmounting, calling flush function')
+        flushFn()
+      }
+      if (flushRef) {
+        flushRef.current = null
+      }
+      setWorkStorageFlushFunction(null)
+    }
+  }, [flushItems, flushRef, setWorkStorageFlushFunction])
+
+  // DO NOT flush on unmount - this causes issues with React Strict Mode double renders
+  // Items should only be flushed when user explicitly navigates (via handleNextRoom or handleWorkStorageBack)
+  // The unmount effect is removed to prevent premature flushing
 
   const handleNextRoom = () => {
-    // Explicitly flush before navigating (in case unmount effect doesn't fire)
+    // Explicitly flush before navigating
     flushItems()
     onNextRoom()
   }
@@ -1461,7 +1537,8 @@ function WorkRoomStorageView({ room, site, onNextRoom, onBack }: { room: Room; s
           bottomStorageName={workRoomTypeName}
           showWeight={true}
           withTakeAll={true}
-          siteId={site.id}
+          onTopStorageUpdate={handleTopStorageUpdate}
+          onBottomStorageUpdate={handleBottomStorageUpdate}
         />
       </div>
 

@@ -387,6 +387,13 @@ export class Site extends BaseSite {
   testSecretRoomsBegin(): void {
     if (!this.secretRoomsConfig) return
     
+    // Don't test if we're already in secret rooms or already showing the entry
+    // This prevents multiple discoveries during the same exploration session
+    if (this.isInSecretRooms || this.isSecretRoomsEntryShowed) {
+      console.log('[Site] testSecretRoomsBegin() skipped - already in secret rooms or entry already showed')
+      return
+    }
+    
     // Check max count (can be increased by item 1305064)
     let maxCount = Number.parseInt(this.secretRoomsConfig.maxCount)
     // TODO: Check if player.equip.isEquiped(1305064)

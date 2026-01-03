@@ -13,6 +13,7 @@ import { usePlayerStore } from '@/store/playerStore'
 import { EquipPanel } from '@/components/common/EquipPanel'
 import { ItemTransferPanel } from '@/components/common/ItemTransferPanel'
 import { Storage } from '@/game/inventory/Storage'
+import { Bag } from '@/game/inventory/Bag'
 import { BOTTOM_BAR_LAYOUT } from '@/components/layout/layoutConstants'
 
 interface SiteStoragePanelContentProps {
@@ -35,10 +36,11 @@ export function SiteStoragePanelContent({ siteId, onStorageUpdate }: SiteStorage
   }
   
   // Create storage instances for item transfer - refresh when store updates
+  // Use Bag class for bag to get dynamic maxWeight
   const bagStorage = useMemo(() => {
-    const storage = new Storage('player')
-    storage.restore(playerStore.bag)
-    return storage
+    const bag = new Bag()
+    bag.restore(playerStore.bag)
+    return bag
   }, [playerStore.bag]) // Refresh when bag changes
   
   const siteStorage = useMemo(() => {
@@ -46,6 +48,28 @@ export function SiteStoragePanelContent({ siteId, onStorageUpdate }: SiteStorage
     storage.restore(site.storage.save())
     return storage
   }, [site, playerStore.map]) // Refresh when site or map changes
+  
+  // Callbacks to persist storage changes
+  const handleTopStorageUpdate = (storage: Storage) => {
+    // Save bag back to playerStore
+    usePlayerStore.setState({ bag: storage.save() })
+  }
+  
+  const handleBottomStorageUpdate = (storage: Storage) => {
+    // Save site storage back to map
+    const map = playerStore.map
+    if (map) {
+      const site = map.getSite(siteId)
+      if (site) {
+        site.storage.restore(storage.save())
+        // Force map update
+        const mapSave = map.save()
+        map.restore(mapSave)
+        usePlayerStore.setState({ map })
+      }
+    }
+    onStorageUpdate?.()
+  }
   
   // Calculate positions
   // Layout: EquipPanel at top, separator line, then ItemTransferPanel below
@@ -108,7 +132,8 @@ export function SiteStoragePanelContent({ siteId, onStorageUpdate }: SiteStorage
           bottomStorageName="Depository"
           showWeight={true}
           withTakeAll={true}
-          siteId={siteId}
+          onTopStorageUpdate={handleTopStorageUpdate}
+          onBottomStorageUpdate={handleBottomStorageUpdate}
           onStorageUpdate={onStorageUpdate}
         />
       </div>

@@ -98,6 +98,10 @@ export function MainScene() {
   
   // Handle back button - matches original back button behavior
   const handleBackButton = () => {
+    console.log('[MainScene] handleBackButton called', { currentPanel, isInWorkStorageView: uiStore.isInWorkStorageView, hasFlushFunction: !!uiStore.workStorageFlushFunction })
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:100',message:'handleBackButton called',data:{currentPanel,isInWorkStorageView:uiStore.isInWorkStorageView,hasFlushFunction:!!uiStore.workStorageFlushFunction},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'A'})}).catch((err)=>{console.error('[MainScene] Log fetch failed:', err)});
+    // #endregion
     try {
       if (currentPanel === 'home') {
       // On home panel, back button should show exit dialog
@@ -177,15 +181,40 @@ export function MainScene() {
       
       // Check if we're in work storage view - if so, handle work storage back
       if (uiStore.isInWorkStorageView) {
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:179',message:'Back button clicked in work storage view',data:{siteId,isInWorkStorageView:uiStore.isInWorkStorageView,hasFlushFunction:!!uiStore.workStorageFlushFunction},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+        // #endregion
         console.log('[MainScene] In work storage view, handling work storage back')
         
-        // Item flushing is handled by WorkRoomStorageView's unmount effect
-        // Just need to clear the flag and navigate back
+        // Call flush function BEFORE clearing flag and navigating
+        if (uiStore.workStorageFlushFunction) {
+          // #region agent log
+          fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:190',message:'Calling flush function from MainScene',data:{source:'MainScene'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+          // #endregion
+          uiStore.workStorageFlushFunction()
+          // #region agent log
+          fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:193',message:'Flush function called from MainScene, clearing flag',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+          // #endregion
+        } else {
+          // #region agent log
+          fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:191',message:'WARNING: No flush function available',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+          // #endregion
+          console.warn('[MainScene] No flush function available when clicking back from work storage')
+        }
+        
+        // Clear the flag and flush function
         uiStore.setWorkStorageView(false)
-        console.log('[MainScene] Work room back - cleared flag, navigating to site panel')
+        uiStore.setWorkStorageFlushFunction(null)
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:197',message:'Cleared flags, navigating to site panel',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+        // #endregion
+        console.log('[MainScene] Work room back - flushed items, cleared flag, navigating to site panel')
         
         // Navigate back to site panel
         if (siteId) {
+          // #region agent log
+          fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:203',message:'Navigating to site panel',data:{siteId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+          // #endregion
           uiStore.openPanelAction('site', undefined, siteId)
         } else {
           uiStore.openPanelAction('map')

@@ -16,6 +16,7 @@ import { emitter } from '@/utils/emitter'
 import { EquipPanel } from '@/components/common/EquipPanel'
 import { ItemTransferPanel } from '@/components/common/ItemTransferPanel'
 import { Storage } from '@/game/inventory/Storage'
+import { Bag } from '@/game/inventory/Bag'
 import { BOTTOM_BAR_LAYOUT } from '@/components/layout/layoutConstants'
 
 export function GatePanelContent() {
@@ -47,10 +48,11 @@ export function GatePanelContent() {
   }, []) // Empty dependency array - only run on mount/unmount
   
   // Create storage instances for item transfer - refresh when store updates
+  // Use Bag class for bag to get dynamic maxWeight
   const bagStorage = useMemo(() => {
-    const storage = new Storage('player')
-    storage.restore(playerStore.bag)
-    return storage
+    const bag = new Bag()
+    bag.restore(playerStore.bag)
+    return bag
   }, [playerStore.bag, playerStore.storage]) // Include both to refresh when either changes
   
   const storageStorage = useMemo(() => {
@@ -58,6 +60,17 @@ export function GatePanelContent() {
     storage.restore(playerStore.storage)
     return storage
   }, [playerStore.bag, playerStore.storage]) // Include both to refresh when either changes
+  
+  // Callbacks to persist storage changes
+  const handleTopStorageUpdate = (storage: Storage) => {
+    // Save bag back to playerStore
+    usePlayerStore.setState({ bag: storage.save() })
+  }
+  
+  const handleBottomStorageUpdate = (storage: Storage) => {
+    // Save storage back to playerStore
+    usePlayerStore.setState({ storage: storage.save() })
+  }
   
   // Calculate positions
   // Layout: EquipPanel at top, separator line, then ItemTransferPanel below
@@ -119,6 +132,8 @@ export function GatePanelContent() {
           bottomStorage={storageStorage}
           bottomStorageName="Storage"
           showWeight={true}
+          onTopStorageUpdate={handleTopStorageUpdate}
+          onBottomStorageUpdate={handleBottomStorageUpdate}
         />
       </div>
     </div>
