@@ -3,7 +3,7 @@
  * Top-level layout components for the game UI
  */
 
-export { TopBar } from './TopBar'
-export { BottomBar } from './BottomBar'
+export { TopSection } from './TopSection'
+export { BottomSection } from './BottomSection'
 export { BOTTOM_BAR_LAYOUT, TOP_BAR_LAYOUT, getBottomBarTop } from './layoutConstants'
 

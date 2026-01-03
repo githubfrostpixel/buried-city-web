@@ -1,16 +1,16 @@
 /**
  * MainScene Component
- * Main game scene with TopBar and BottomBar
+ * Main game scene with TopSection and BottomSection
  * Ported from OriginalGame/src/ui/MainScene.js
  * 
  * Structure matches original:
- * - TopFrame (TopBar) at z-index 1
- * - BottomFrame (BottomBar) with current panel at z-index 0
+ * - TopFrame (TopSection) at z-index 1
+ * - BottomFrame (BottomSection) with current panel at z-index 0
  */
 
 import { useEffect } from 'react'
-import { TopBar } from '@/components/layout/TopBar'
-import { BottomBar } from '@/components/layout/BottomBar'
+import { TopSection } from '@/components/layout/TopSection'
+import { BottomSection } from '@/components/layout/BottomSection'
 import { HomePanelContent } from '@/components/panels/HomePanelContent'
 import { BuildPanelContent } from '@/components/panels/BuildPanelContent'
 import { StoragePanelContent } from '@/components/panels/StoragePanelContent'
@@ -18,9 +18,9 @@ import { RadioPanelContent } from '@/components/panels/RadioPanelContent'
 import { GatePanelContent } from '@/components/panels/GatePanelContent'
 import { GateOutPanelContent } from '@/components/panels/GateOutPanelContent'
 import { MapPanelContent } from '@/components/panels/MapPanelContent'
-import { SitePanelContent, getSiteBottomBarProps } from '@/components/panels/SitePanelContent'
+import { SitePanelContent, getSiteBottomBarProps } from '@/components/panels/site/SitePanelContent'
 import { SiteStoragePanelContent } from '@/components/panels/SiteStoragePanelContent'
-import { SiteExploreContent } from '@/components/panels/SiteExploreContent'
+import { SiteExploreContent } from '@/components/panels/site/SiteExploreContent'
 import { useUIStore } from '@/store/uiStore'
 import { usePlayerStore } from '@/store/playerStore'
 import { useBuildingStore } from '@/store/buildingStore'
@@ -683,11 +683,11 @@ export function MainScene() {
         backgroundColor: '#000000' // Black background like original game
       }}
     >
-      {/* TopFrame (TopBar) - z-index 1, always visible */}
-      <TopBar />
+      {/* TopFrame (TopSection) - z-index 1, always visible */}
+      <TopSection />
       
-      {/* BottomFrame (BottomBar) - z-index 0, contains current panel */}
-      <BottomBar
+      {/* BottomFrame (BottomSection) - z-index 0, contains current panel */}
+      <BottomSection
         title={getPanelTitle()}
         leftBtn={shouldShowBackButton()}
         rightBtn={shouldShowForwardButton()}
@@ -697,7 +697,7 @@ export function MainScene() {
         {...getSiteBottomBarSubtexts()}
       >
         {renderPanel()}
-      </BottomBar>
+      </BottomSection>
     </div>
   )
 }

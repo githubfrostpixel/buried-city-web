@@ -113,6 +113,36 @@ export class Storage {
     
     return true
   }
+
+  /**
+   * Transfer all items to another storage
+   * @param target - Target storage to transfer items to
+   * @param removeFromSource - If true, remove items from source after successful transfer. Default: true
+   * @returns Object with transferred and failed counts
+   */
+  transferAll(target: Storage, removeFromSource: boolean = true): { transferred: number; failed: number } {
+    let transferred = 0
+    let failed = 0
+    
+    // Create a copy to avoid modification during iteration
+    const itemsToTransfer = { ...this.items }
+    
+    Object.entries(itemsToTransfer).forEach(([itemId, count]) => {
+      if (count > 0) {
+        if (target.addItem(itemId, count)) {
+          if (removeFromSource) {
+            this.removeItem(itemId, count)
+          }
+          transferred++
+        } else {
+          // Target couldn't accept item (weight limit, invalid item, etc.)
+          failed++
+        }
+      }
+    })
+    
+    return { transferred, failed }
+  }
   
   /**
    * Get random item for raids

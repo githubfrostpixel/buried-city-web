@@ -206,8 +206,8 @@ export function StoragePanelContent() {
       </div>
       
       {/* Shop button - positioned relative to content area (if IAP unlocked) */}
-      {/* Note: Shop button should be in action bar, but action bar is in BottomBar, not here */}
-      {/* For now, this is a placeholder - shop button should be handled by BottomBar if needed */}
+      {/* Note: Shop button should be in action bar, but action bar is in BottomSection, not here */}
+      {/* For now, this is a placeholder - shop button should be handled by BottomSection if needed */}
       {showShopButton && (
         <button
           onClick={() => {

@@ -19,12 +19,12 @@ import {
 } from '@/game/world/Site'
 import { siteConfig } from '@/data/sites'
 import { secretRooms } from '@/data/secretRooms'
-import { SitePanelContent, getSiteBottomBarProps } from '@/components/panels/SitePanelContent'
-import { BottomBar } from '@/components/layout/BottomBar'
+import { SitePanelContent, getSiteBottomBarProps } from '@/components/panels/site/SitePanelContent'
+import { BottomSection } from '@/components/layout/BottomSection'
 import { TestPanel, TestSection, TestButton, TestResultsList, useTestResults } from './component'
 import { usePlayerStore } from '@/store/playerStore'
 import { BattleConfig } from '@/game/combat/BattleConfig'
-import { SiteExploreContent } from '@/components/panels/SiteExploreContent'
+import { SiteExploreContent } from '@/components/panels/site/SiteExploreContent'
 import { SiteStoragePanelContent } from '@/components/panels/SiteStoragePanelContent'
 import { useUIStore } from '@/store/uiStore'
 
@@ -983,7 +983,7 @@ export function SiteSystemTestScreen() {
         {currentSite ? (
           <div className="absolute inset-0">
             {isExploring ? (
-              <BottomBar
+              <BottomSection
                 title={currentSite.isInSecretRooms ? `Secret Room ${currentSite.secretRoomType ?? 0}` : currentSite.getName()}
                 leftSubtext={(() => {
                   // Reference secretRoomStateTrigger to ensure re-render when it changes
@@ -1013,7 +1013,7 @@ export function SiteSystemTestScreen() {
                     setIsExploring(false)
                   }}
                 />
-              </BottomBar>
+              </BottomSection>
             ) : isViewingStorage ? (
               <SiteStorageBottomBar 
                 siteId={currentSite.id}
@@ -1028,7 +1028,7 @@ export function SiteSystemTestScreen() {
                 }}
               />
             ) : (
-              <BottomBar
+              <BottomSection
                 {...getSiteBottomBarProps(currentSite)}
                 leftBtn={true}
                 rightBtn={false}
@@ -1050,7 +1050,7 @@ export function SiteSystemTestScreen() {
                     setIsExploring(true)
                   }}
                 />
-              </BottomBar>
+              </BottomSection>
             )}
           </div>
         ) : (
@@ -1298,7 +1298,7 @@ function SiteStorageBottomBar({
   }
   
   return (
-    <BottomBar
+    <BottomSection
       title={site.getName()}
       leftSubtext="Depository"
       rightSubtext={String(site.storage.getAllItemNum())}
@@ -1310,7 +1310,7 @@ function SiteStorageBottomBar({
         siteId={siteId} 
         onStorageUpdate={onStorageUpdate}
       />
-    </BottomBar>
+    </BottomSection>
   )
 }
 

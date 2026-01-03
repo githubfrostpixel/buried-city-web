@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react'
 import { TestScreen } from './TestScreen'
-import { TopBar } from '@/components/layout/TopBar'
+import { TopSection } from '@/components/layout/TopSection'
 import { useGameStore } from '@/store/gameStore'
 import { usePlayerStore } from '@/store/playerStore'
 import { weatherSystemConfig } from '@/data/weather'
@@ -227,7 +227,7 @@ export function WeatherSystemTestScreen() {
   return (
     <TestScreen title="Weather System Test" expectedPositions={[]}>
       {/* TopBar at the top */}
-      <TopBar />
+      <TopSection />
       
       {/* Test Controls Panel - Draggable */}
       <TestPanel title="Weather Tests" defaultPosition={{ x: 16, y: 280 }} width={380}>

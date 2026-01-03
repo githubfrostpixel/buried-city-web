@@ -208,7 +208,7 @@ export function HomePanelTestScreen() {
         <TestResultsList results={results} onClear={clearResults} />
       </TestPanel>
 
-      {/* HomePanel Component - wrapped in BottomBar content area */}
+      {/* HomePanel Component - wrapped in BottomSection content area */}
       <div 
         className="absolute inset-0"
         style={{

@@ -3,8 +3,8 @@
  * Home screen content showing all buildings
  * Ported from OriginalGame/src/ui/home.js
  * 
- * This is the content-only component that goes inside BottomBar.
- * BottomBar handles the frame/layout, this handles the home content.
+ * This is the content-only component that goes inside BottomSection.
+ * BottomSection handles the frame/layout, this handles the home content.
  * 
  * Gate Light Effect:
  * - Positioned at center of gate button (building 14)

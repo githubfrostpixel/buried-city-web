@@ -6,7 +6,7 @@
 import { useState } from 'react'
 import { TestScreen } from './TestScreen'
 import { BattlePanelContent } from '@/components/panels/BattlePanelContent'
-import { BottomBar } from '@/components/layout/BottomBar'
+import { BottomSection } from '@/components/layout/BottomSection'
 import { BattleInfo } from '@/game/combat/Battle'
 import { BattleConfig } from '@/game/combat/BattleConfig'
 import { monsterList } from '@/data/monsters'
@@ -276,7 +276,7 @@ export function BattleSystemTestScreen() {
         {/* Main Battle Panel */}
         {currentBattle ? (
           <div className="absolute inset-0">
-            <BottomBar
+            <BottomSection
               title="Battle Test"
               leftBtn={true}
               rightBtn={false}
@@ -289,7 +289,7 @@ export function BattleSystemTestScreen() {
                 onBattleEnd={handleBattleEnd}
                 onBack={() => setCurrentBattle(null)}
               />
-            </BottomBar>
+            </BottomSection>
           </div>
         ) : (
           <div className="w-full h-full bg-gray-900 text-white p-4 overflow-auto">

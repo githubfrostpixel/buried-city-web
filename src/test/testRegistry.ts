@@ -19,8 +19,8 @@ export interface TestEntry {
 }
 
 // Lazy load test components for better performance
-const TopBarTestScreen = lazy(() => import('./TopBarTestScreen').then(m => ({ default: m.TopBarTestScreen })))
-const BottomBarTestScreen = lazy(() => import('./BottomBarTestScreen').then(m => ({ default: m.BottomBarTestScreen })))
+const TopSectionTestScreen = lazy(() => import('./TopSectionTestScreen').then(m => ({ default: m.TopSectionTestScreen })))
+const BottomSectionTestScreen = lazy(() => import('./BottomSectionTestScreen').then(m => ({ default: m.BottomSectionTestScreen })))
 const HomePanelTestScreen = lazy(() => import('./HomePanelTestScreen').then(m => ({ default: m.HomePanelTestScreen })))
 const MainSceneTestScreen = lazy(() => import('./MainSceneTestScreen').then(m => ({ default: m.MainSceneTestScreen })))
 const Phase2ETestScreen = lazy(() => import('./Phase2ETestScreen').then(m => ({ default: m.Phase2ETestScreen })))
@@ -29,16 +29,16 @@ const WeatherSystemTestScreen = lazy(() => import('./WeatherSystemTestScreen').t
 export const testRegistry: TestEntry[] = [
   {
     id: 'topbar',
-    name: 'TopBar Test',
-    description: 'Test TopBar component positions, scaling, and interactions',
-    component: TopBarTestScreen,
+    name: 'TopSection Test',
+    description: 'Test TopSection component positions, scaling, and interactions',
+    component: TopSectionTestScreen,
     color: 'blue',
   },
   {
     id: 'bottombar',
-    name: 'BottomBar Test',
-    description: 'Test BottomBar component positions and panel switching',
-    component: BottomBarTestScreen,
+    name: 'BottomSection Test',
+    description: 'Test BottomSection component positions and panel switching',
+    component: BottomSectionTestScreen,
     color: 'green',
   },
   {
@@ -51,7 +51,7 @@ export const testRegistry: TestEntry[] = [
   {
     id: 'mainscene',
     name: 'MainScene Test',
-    description: 'Test MainScene integration with TopBar and BottomBar',
+    description: 'Test MainScene integration with TopSection and BottomSection',
     component: MainSceneTestScreen,
     color: 'yellow',
   },

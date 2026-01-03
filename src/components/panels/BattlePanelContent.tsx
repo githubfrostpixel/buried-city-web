@@ -3,8 +3,8 @@
  * Battle panel showing battle begin, process, and end views
  * Ported from OriginalGame/src/ui/battleAndWorkNode.js (battle sections)
  * 
- * This is the content-only component that goes inside BottomBar.
- * BottomBar handles the frame/layout and action bar.
+ * This is the content-only component that goes inside BottomSection.
+ * BottomSection handles the frame/layout and action bar.
  * This component handles the battle UI (begin, process, end views).
  */
 

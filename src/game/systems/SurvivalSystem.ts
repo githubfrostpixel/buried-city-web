@@ -663,7 +663,7 @@ export class SurvivalSystem {
   // Can be re-enabled later when needed
 
   /**
-   * Add log message to TopBar log
+   * Add log message to TopSection log
    */
   private addLogMessage(message: string): void {
     const logStore = useLogStore.getState()

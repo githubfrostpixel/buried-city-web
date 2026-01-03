@@ -84,9 +84,13 @@ export function BottomSectionTestScreen() {
   }
 
   const testPanelSwitching = () => {
-    const panels = ['home', 'build', 'storage', 'radio']
+    const panels = ['home', 'build', 'storage', 'radio'] as const
     const currentPanel = uiStore.openPanel
-    const nextPanel = panels[(panels.indexOf(currentPanel || 'home') + 1) % panels.length]
+    const currentIndex = currentPanel && panels.includes(currentPanel as typeof panels[number]) 
+      ? panels.indexOf(currentPanel as typeof panels[number]) 
+      : -1
+    const nextIndex = (currentIndex + 1) % panels.length
+    const nextPanel = panels[nextIndex]
     uiStore.openPanelAction(nextPanel)
     
     setTimeout(() => {

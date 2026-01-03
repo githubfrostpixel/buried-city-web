@@ -18,12 +18,12 @@ export function MainSceneTestScreen() {
   const expectedPositions = [
     {
       id: 'topbar-bg',
-      label: 'TopBar Background',
+      label: 'TopSection Background',
       expected: { x: 22, y: 18, width: 596, height: 244 },
     },
     {
       id: 'bottombar-bg',
-      label: 'BottomBar Background',
+      label: 'BottomSection Background',
       expected: { x: 22, y: bottomBarTop, width: 596, height: 834 },
     },
   ]
@@ -33,7 +33,7 @@ export function MainSceneTestScreen() {
     if (topBar) {
       const rect = topBar.getBoundingClientRect()
       const actual = `top: ${Math.round(rect.top)}px, left: ${Math.round(rect.left)}px`
-      runTest('TopBar Position', 'top: 18px, left: 22px (centered)', () => actual)
+      runTest('TopSection Position', 'top: 18px, left: 22px (centered)', () => actual)
     }
   }
 
@@ -42,7 +42,7 @@ export function MainSceneTestScreen() {
     if (bottomBar) {
       const rect = bottomBar.getBoundingClientRect()
       const actual = `top: ${Math.round(rect.top)}px, left: ${Math.round(rect.left)}px`
-      runTest('BottomBar Position', `top: ${bottomBarTop}px, left: 22px (centered)`, () => actual)
+      runTest('BottomSection Position', `top: ${bottomBarTop}px, left: 22px (centered)`, () => actual)
     }
   }
 
@@ -115,8 +115,8 @@ export function MainSceneTestScreen() {
       
       runTest(
         'Z-Index Layering',
-        'TopBar z-index > BottomBar z-index',
-        () => `TopBar: ${topBarZ}, BottomBar: ${bottomBarZ}, TopBar higher: ${topBarHigher}`
+        'TopSection z-index > BottomSection z-index',
+        () => `TopSection: ${topBarZ}, BottomSection: ${bottomBarZ}, TopSection higher: ${topBarHigher}`
       )
     }
   }
@@ -136,10 +136,10 @@ export function MainSceneTestScreen() {
       <TestPanel title="Test Controls" defaultPosition={{ x: 16, y: 16 }} width={280}>
         <TestSection title="Position Tests">
           <TestButton variant="position" onClick={testTopBarPosition}>
-            Test TopBar Position
+            Test TopSection Position
           </TestButton>
           <TestButton variant="position" onClick={testBottomBarPosition}>
-            Test BottomBar Position
+            Test BottomSection Position
           </TestButton>
           <TestButton variant="position" onClick={testScreenDimensions}>
             Test Screen Dimensions
