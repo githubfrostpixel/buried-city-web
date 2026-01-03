@@ -1,6 +1,15 @@
 /**
  * Building Store
  * Zustand store for managing building state
+ * Manages Room instance and building placement, upgrades, and interactions
+ * 
+ * Used by:
+ * - MainScene.tsx (building display and interactions)
+ * - Game systems: Formula, BedAction, SaveSystem, FoodExpirationSystem
+ * - Panels: HomePanelContent, BuildPanelContent, RecipeDialog, BuildDialog
+ * - Components: BuildingButton, RadioPanelContent
+ * - Game world: Building, Safe (inventory system)
+ * - PlayerStore (for safe weight calculations)
  */
 
 import { create } from 'zustand'

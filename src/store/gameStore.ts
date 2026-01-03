@@ -1,3 +1,18 @@
+/**
+ * Game Store
+ * Manages core game state including time, weather, seasons, and game pause/resume functionality
+ * Handles time progression, day/night cycles, seasonal changes, and weather system integration
+ * 
+ * Used by:
+ * - Game.ts (game initialization and time management)
+ * - TimeManager.ts (time updates and synchronization)
+ * - SurvivalSystem.ts (time-based survival mechanics)
+ * - TopSection.tsx (time, weather, season display)
+ * - MapPanelContent.tsx (time display)
+ * - Combat systems: Monster, Gun (time-based effects)
+ * - SaveSystem.ts (save/load game state)
+ */
+
 import { create } from 'zustand'
 import type { GameState, Season, TimeOfDay, WeatherType } from '@/types/game.types'
 import { WeatherSystem } from '@/game/systems/WeatherSystem'

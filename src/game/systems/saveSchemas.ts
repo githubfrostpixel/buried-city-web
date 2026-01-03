@@ -96,6 +96,7 @@ const RoomSchema = z.object({
   difficulty: z.number().optional(),
   workType: z.number().optional(),
   itemsFlushed: z.boolean().optional()  // Track if items from this room have been flushed to site storage
+  // Note: tempStorage is not persisted (it's temporary)
 })
 
 // Site save schema (matches Site.save() return type)

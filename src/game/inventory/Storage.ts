@@ -3,12 +3,20 @@ import { Item } from './Item'
 
 export class Storage {
   name: string
-  items: Record<string, number> // itemId -> count
+  private _items: Record<string, number> = {} // itemId -> count
   maxWeight: number | null // null = unlimited
+  
+  get items(): Record<string, number> {
+    return this._items
+  }
+  
+  set items(value: Record<string, number>) {
+    this._items = value
+  }
   
   constructor(name: string, maxWeight?: number) {
     this.name = name
-    this.items = {}
+    this._items = {}
     this.maxWeight = maxWeight ?? null
   }
   

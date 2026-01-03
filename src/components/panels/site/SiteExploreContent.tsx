@@ -62,6 +62,7 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
   const setInBattle = useUIStore(state => state.setInBattle)
   const isInWorkStorageRef = useRef(false)
   const workStorageFlushRef = useRef<(() => void) | null>(null)
+  const battleResultRef = useRef<BattleResult | null>(null)
 
   // Use battle events hook
   const { combatLogs, monsterCount, setCombatLogs, setMonsterCount } = useBattleEvents(viewMode)
@@ -116,6 +117,93 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
       setInBattle(false)
     }
   }, [viewMode, battle, setInBattle])
+
+  // Clear battle end state when viewMode changes away from battleEnd
+  useEffect(() => {
+    if (viewMode !== 'battleEnd') {
+      const uiStore = useUIStore.getState()
+      if (uiStore.isInBattleEndView) {
+        uiStore.setBattleEndView(false)
+        uiStore.setBattleEndCompleteFunction(null)
+      }
+    }
+  }, [viewMode])
+
+  // Cleanup: Complete room on unmount if in battle end view with win
+  useEffect(() => {
+    return () => {
+      const uiStore = useUIStore.getState()
+      // Check if we're unmounting while in battle end view with a win
+      // This handles the case where back button is clicked
+      // Use ref to get latest battleResult value
+      const result = battleResultRef.current
+      if (uiStore.isInBattleEndView && result?.win) {
+        console.log('[SiteExploreContent] Component unmounting: Completing room from battle end (back button clicked)')
+        try {
+          // Complete the room based on whether we're in secret rooms
+          if (site.isInSecretRooms) {
+            site.secretRoomEnd()
+            site.secretRoomsEnd() // Always end secret rooms when back is clicked
+            site.isSecretRoomsEntryShowed = false
+          } else {
+            site.roomEnd(true) // Complete normal room
+            site.testSecretRoomsBegin() // Check for secret room discovery
+          }
+          // Auto-save
+          saveAll().catch(err => console.error('Auto-save failed in battle end cleanup:', err))
+        } catch (error) {
+          console.error('[SiteExploreContent] Error completing room in battle end cleanup:', error)
+        }
+      }
+      // Always clear the state on unmount
+      uiStore.setBattleEndView(false)
+      uiStore.setBattleEndCompleteFunction(null)
+      // Clear ref
+      battleResultRef.current = null
+    }
+  }, [site])
+
+  // Cleanup: Clear temp storages when component unmounts (if not flushed)
+  // If flush function exists, call it as safety net (flush function has duplicate prevention)
+  useEffect(() => {
+    return () => {
+      const uiStore = useUIStore.getState()
+      if (uiStore.workStorageFlushFunction) {
+        // Flush function exists - call it as safety net in case MainScene didn't call it
+        // The flush function will clear room.tempStorage internally
+        console.log('[SiteExploreContent] Component unmounting: Flush function exists, calling as safety net')
+        try {
+          uiStore.workStorageFlushFunction()
+        } catch (error) {
+          console.error('[SiteExploreContent] Error calling flush function in cleanup:', error)
+        }
+        return
+      }
+      
+      // Clear temp storages from all rooms (safety cleanup)
+      // This should rarely be needed since flush should have been called
+      const playerStore = usePlayerStore.getState()
+      const map = playerStore.map
+      if (map) {
+        // Clear tempStorage from current site's rooms
+        const currentSite = map.getSite(site.id)
+        if (currentSite) {
+          currentSite.rooms.forEach(room => {
+            if (room.tempStorage) {
+              console.log('[SiteExploreContent] Component unmounting: Clearing tempStorage from room')
+              room.tempStorage = undefined
+            }
+          })
+          currentSite.secretRooms.forEach(room => {
+            if (room.tempStorage) {
+              console.log('[SiteExploreContent] Component unmounting: Clearing tempStorage from secret room')
+              room.tempStorage = undefined
+            }
+          })
+        }
+      }
+    }
+  }, [site.id])
 
   // Initialize site if rooms not generated (only once when component mounts)
   // Also ensure secret room state is cleared if we're not in secret rooms
@@ -350,6 +438,7 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
 
   const handleBattleEnd = (result: BattleResult) => {
     setBattleResult(result)
+    battleResultRef.current = result // Store in ref for cleanup access
     setViewMode('battleEnd')
 
     // Apply virus damage
@@ -369,12 +458,39 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
 
     // Check breakdown
     // TODO: player.checkBreakdown(8112)
+
+    // Set battle end state for back button handling (only for wins)
+    if (result.win) {
+      const uiStore = useUIStore.getState()
+      uiStore.setBattleEndView(true)
+      uiStore.setBattleEndCompleteFunction(() => {
+        // This will be called by MainScene when back button is clicked
+        // For secret rooms: complete room AND end secret rooms
+        // For normal rooms: just complete room
+        if (site.isInSecretRooms) {
+          site.secretRoomEnd()
+          site.secretRoomsEnd() // Always end secret rooms when back is clicked
+          site.isSecretRoomsEntryShowed = false
+        } else {
+          site.roomEnd(true) // Complete normal room
+          site.testSecretRoomsBegin() // Check for secret room discovery
+        }
+        // Auto-save
+        saveAll().catch(err => console.error('Auto-save failed:', err))
+      })
+    }
   }
 
   const handleBattleEndNext = () => {
     if (!battleResult) return
 
     const isWin = battleResult.win
+
+    // Clear battle end state (user clicked "Next" button)
+    const uiStore = useUIStore.getState()
+    uiStore.setBattleEndView(false)
+    uiStore.setBattleEndCompleteFunction(null)
+    battleResultRef.current = null // Clear ref
 
     // Complete room
     if (site.isInSecretRooms) {
@@ -495,24 +611,6 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
     updateView()
   }
 
-  // Handle back button from work room storage view
-  // Note: Item flushing is now handled by WorkRoomStorageView's handleBack
-  // Room is already marked as done in handleWorkComplete()
-  const handleWorkStorageBack = () => {
-    console.log('[SiteExploreContent] handleWorkStorageBack called - navigating back')
-    // Items will be flushed by WorkRoomStorageView's handleBack before calling this
-    // Room is already marked as done in handleWorkComplete()
-    // Check if we need to end secret rooms
-    if (site.isInSecretRooms && site.isSecretRoomsEnd()) {
-      site.secretRoomsEnd()
-      // Clear entry flag to prevent showing secret entry again when re-entering
-      site.isSecretRoomsEntryShowed = false
-    }
-    // Just navigate back
-    if (onBack) {
-      onBack()
-    }
-  }
 
   // Secret room handlers
   const handleSecretRoomLeave = () => {
@@ -571,7 +669,7 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
         return <WorkProcessView progress={workProgress} />
       }
       if (viewMode === 'workStorage') {
-        return <WorkRoomStorageView room={room} site={site} onNextRoom={handleWorkStorageNext} onBack={handleWorkStorageBack} />
+        return <WorkRoomStorageView room={room} site={site} onNextRoom={handleWorkStorageNext} flushRef={workStorageFlushRef} />
       }
     }
   }
@@ -602,7 +700,7 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
 
   if (viewMode === 'workStorage' && currentRoom) {
     // WorkRoomStorageView exposes flush function via ref
-    return <WorkRoomStorageView room={currentRoom} site={site} onNextRoom={handleWorkStorageNext} onBack={handleWorkStorageBack} flushRef={workStorageFlushRef} />
+    return <WorkRoomStorageView room={currentRoom} site={site} onNextRoom={handleWorkStorageNext} flushRef={workStorageFlushRef} />
   }
 
   if (viewMode === 'siteEnd') {

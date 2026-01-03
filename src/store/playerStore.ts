@@ -1,3 +1,19 @@
+/**
+ * Player Store
+ * Manages all player-related state including attributes, inventory, equipment, location, and game mechanics
+ * Handles player attributes (HP, spirit, starve, etc.), inventory management (bag, storage, safe),
+ * equipment system, dog state, map/travel state, item usage, and weapon breaking system
+ * Ported from OriginalGame/src/game/player.js
+ * 
+ * Used by:
+ * - Game systems: Battle, BattlePlayer, SurvivalSystem, SaveSystem, BedAction, Formula, RadioCommandProcessor
+ * - Combat systems: Gun, Flamethrower, ElectricGun, Bomb, Trap, Monster
+ * - World systems: Site, Building, Map, Bag, Safe
+ * - Components: MainScene, TopSection, all panels (Home, Storage, Build, Gate, etc.), all overlays
+ * - Hooks: useActorMovement
+ * - Utils: actor, deathCheck, uiUtil
+ */
+
 import { create } from 'zustand'
 import type { PlayerState, PlayerAttributes } from '@/types/player.types'
 import type { BuildingCost } from '@/types/building.types'

@@ -11,7 +11,7 @@
  * Generic implementation: treats all Storage instances the same
  */
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import { Storage } from '@/game/inventory/Storage'
 import { Bag } from '@/game/inventory/Bag'
 import { Item } from '@/game/inventory/Item'
@@ -63,7 +63,7 @@ export function ItemTransferPanel({
   
   const bottomItems = useMemo(() => {
     return bottomStorage.getItemsByType('')
-  }, [bottomStorage, updateTrigger])
+  }, [bottomStorage, updateTrigger, Object.keys(bottomStorage.items).length, Object.keys(bottomStorage.items).join(',')])
   
   // Get weight for top storage - generic logic
   const topWeight = showWeight && topStorage.maxWeight !== null 
@@ -75,7 +75,8 @@ export function ItemTransferPanel({
     : 0
   
   // Handle item click - transfer to opposite storage
-  const handleItemClick = (itemId: string, fromTop: boolean) => {
+  // Use useCallback to ensure we always use the latest storage references
+  const handleItemClick = useCallback((itemId: string, fromTop: boolean) => {
     const sourceStorage = fromTop ? topStorage : bottomStorage
     const targetStorage = fromTop ? bottomStorage : topStorage
     
@@ -94,7 +95,7 @@ export function ItemTransferPanel({
       // Play sound
       audioManager.playEffect(SoundPaths.EXCHANGE)
     }
-  }
+  }, [topStorage, bottomStorage, onTopStorageUpdate, onBottomStorageUpdate, onStorageUpdate])
   
   // Handle "Take All" button - transfer all items from bottom storage to top storage
   const handleTakeAll = () => {
@@ -318,7 +319,9 @@ export function ItemTransferPanel({
             </span>
             {withTakeAll && (
               <button
-                onClick={handleTakeAll}
+                onClick={() => {
+                  handleTakeAll()
+                }}
                 className="relative"
                 style={{
                   width: '120px',

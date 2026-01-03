@@ -1,3 +1,13 @@
+/**
+ * Battle Store
+ * Manages battle/combat state including monsters, player combat stats, battle results, and escape/dodge mechanics
+ * Tracks battle progress, monster states, player distance, and handles battle initialization and completion
+ * 
+ * Used by:
+ * - Battle system (planned integration with Battle.ts and BattlePanelContent.tsx)
+ * - Site exploration battle mechanics (SiteExploreContent.tsx)
+ */
+
 import { create } from 'zustand'
 import type { Monster } from '@/types/combat.types'
 

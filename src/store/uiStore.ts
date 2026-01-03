@@ -1,3 +1,17 @@
+/**
+ * UI Store
+ * Manages all UI state including scenes, panels, overlays, dialogs, and notifications
+ * Controls navigation between different game screens and UI interactions
+ * 
+ * Used by:
+ * - App.tsx (scene routing, overlay display)
+ * - MainScene.tsx (panel management, back button handling)
+ * - TopSection.tsx (UI state display)
+ * - All panel components (HomePanel, StoragePanel, BuildPanel, etc.)
+ * - All overlay components (DeathOverlay, ItemDialog, StatusDialog, etc.)
+ * - Game systems (SurvivalSystem, deathCheck, uiUtil)
+ */
+
 import { create } from 'zustand'
 import type { DeathReason } from '@/types/game.types'
 
@@ -71,6 +85,12 @@ interface UIStore {
   // Flag to track if we're in battle (for disabling back button)
   isInBattle: boolean
   
+  // Flag to track if we're in battle end view (for handling back button)
+  isInBattleEndView: boolean
+  
+  // Completion function for battle end (set by SiteExploreContent)
+  battleEndCompleteFunction: (() => void) | null
+  
   // Active overlay
   activeOverlay: Overlay
   
@@ -102,6 +122,8 @@ interface UIStore {
   setWorkStorageView: (isInWorkStorageView: boolean) => void
   setWorkStorageFlushFunction: (flushFunction: (() => void) | null) => void
   setInBattle: (isInBattle: boolean) => void
+  setBattleEndView: (isInBattleEndView: boolean) => void
+  setBattleEndCompleteFunction: (completeFunction: (() => void) | null) => void
   showOverlay: (overlay: Overlay, data?: any) => void
   showItemDialog: (itemId: string, source: 'storage' | 'bag' | 'bazaar', showOnly?: boolean) => void
   showBuildDialog: (buildingId: number, level: number) => void
@@ -123,6 +145,8 @@ export const useUIStore = create<UIStore>((set) => ({
   isInWorkStorageView: false,
   workStorageFlushFunction: null,
   isInBattle: false,
+  isInBattleEndView: false,
+  battleEndCompleteFunction: null,
   activeOverlay: null,
   overlayData: null,
   deathReason: null,
@@ -139,13 +163,21 @@ export const useUIStore = create<UIStore>((set) => ({
     siteExplorePanelSiteId: panel === 'siteExplore' ? (siteId ?? null) : null
   }),
   
-  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null, sitePanelSiteId: null, siteStoragePanelSiteId: null, siteExplorePanelSiteId: null, isInWorkStorageView: false, workStorageFlushFunction: null, isInBattle: false }),
+  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null, sitePanelSiteId: null, siteStoragePanelSiteId: null, siteExplorePanelSiteId: null, isInWorkStorageView: false, workStorageFlushFunction: null, isInBattle: false, isInBattleEndView: false, battleEndCompleteFunction: null }),
   
   setWorkStorageView: (isInWorkStorageView: boolean) => set({ isInWorkStorageView }),
   
-  setWorkStorageFlushFunction: (flushFunction: (() => void) | null) => set({ workStorageFlushFunction: flushFunction }),
+  setWorkStorageFlushFunction: (flushFunction: (() => void) | null) => set({ 
+    workStorageFlushFunction: flushFunction
+  }),
   
   setInBattle: (isInBattle: boolean) => set({ isInBattle }),
+  
+  setBattleEndView: (isInBattleEndView: boolean) => set({ isInBattleEndView }),
+  
+  setBattleEndCompleteFunction: (completeFunction: (() => void) | null) => set({ 
+    battleEndCompleteFunction: completeFunction
+  }),
   
   showOverlay: (overlay: Overlay, data?: any) => {
     if (overlay === 'death' && data?.reason) {

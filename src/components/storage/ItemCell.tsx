@@ -60,7 +60,9 @@ export function ItemCell({ itemId, count, onClick }: ItemCellProps) {
         height: '84px',
         margin: '0 auto'
       }}
-      onClick={onClick}
+      onClick={() => {
+        onClick()
+      }}
       data-test-id={`item-cell-${itemId}`}
     >
       {/* Background */}

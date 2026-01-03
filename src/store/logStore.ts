@@ -2,6 +2,11 @@
  * Log Store
  * Manages game log messages displayed in TopBar
  * Ported from OriginalGame/src/game/log.js
+ * 
+ * Used by:
+ * - TopSection.tsx (displays log messages in LogBar component)
+ * - Game systems: SurvivalSystem, WeatherSystem
+ * - World systems: Site, Map (event logging)
  */
 
 import { create } from 'zustand'

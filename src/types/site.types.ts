@@ -1,3 +1,4 @@
+
 export interface SiteCoordinate {
   x: number
   y: number
@@ -49,6 +50,8 @@ export interface SecretRoomConfig {
 
 export type SecretRoomConfigMap = Record<string, SecretRoomConfig>
 
+import type { Storage } from '@/game/inventory/Storage'
+
 // Room interface for site exploration
 export interface Room {
   list: string[] | any[]  // Monster IDs (strings) for battle, Items for work
@@ -56,6 +59,7 @@ export interface Room {
   difficulty?: number  // Only for battle rooms
   workType?: number    // Only for work rooms (0-2)
   itemsFlushed?: boolean  // Track if items from this room have been flushed to site storage
+  tempStorage?: Storage  // Temporary storage for work room items (not persisted)
 }
 
 export interface SiteSaveData {

@@ -8,7 +8,7 @@
  * - BottomFrame (BottomSection) with current panel at z-index 0
  */
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { TopSection } from '@/components/layout/TopSection'
 import { BottomSection } from '@/components/layout/BottomSection'
 import { HomePanelContent } from '@/components/panels/HomePanelContent'
@@ -99,9 +99,6 @@ export function MainScene() {
   // Handle back button - matches original back button behavior
   const handleBackButton = () => {
     console.log('[MainScene] handleBackButton called', { currentPanel, isInWorkStorageView: uiStore.isInWorkStorageView, hasFlushFunction: !!uiStore.workStorageFlushFunction })
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:100',message:'handleBackButton called',data:{currentPanel,isInWorkStorageView:uiStore.isInWorkStorageView,hasFlushFunction:!!uiStore.workStorageFlushFunction},timestamp:Date.now(),sessionId:'debug-session',runId:'run2',hypothesisId:'A'})}).catch((err)=>{console.error('[MainScene] Log fetch failed:', err)});
-    // #endregion
     try {
       if (currentPanel === 'home') {
       // On home panel, back button should show exit dialog
@@ -181,40 +178,48 @@ export function MainScene() {
       
       // Check if we're in work storage view - if so, handle work storage back
       if (uiStore.isInWorkStorageView) {
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:179',message:'Back button clicked in work storage view',data:{siteId,isInWorkStorageView:uiStore.isInWorkStorageView,hasFlushFunction:!!uiStore.workStorageFlushFunction},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-        // #endregion
         console.log('[MainScene] In work storage view, handling work storage back')
         
         // Call flush function BEFORE clearing flag and navigating
-        if (uiStore.workStorageFlushFunction) {
-          // #region agent log
-          fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:190',message:'Calling flush function from MainScene',data:{source:'MainScene'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-          // #endregion
-          uiStore.workStorageFlushFunction()
-          // #region agent log
-          fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:193',message:'Flush function called from MainScene, clearing flag',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-          // #endregion
+        const flushFn = uiStore.workStorageFlushFunction
+        if (flushFn) {
+          // Flush function gets siteId from site object in closure
+          flushFn()
         } else {
-          // #region agent log
-          fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:191',message:'WARNING: No flush function available',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-          // #endregion
           console.warn('[MainScene] No flush function available when clicking back from work storage')
         }
         
         // Clear the flag and flush function
         uiStore.setWorkStorageView(false)
         uiStore.setWorkStorageFlushFunction(null)
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:197',message:'Cleared flags, navigating to site panel',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-        // #endregion
         console.log('[MainScene] Work room back - flushed items, cleared flag, navigating to site panel')
         
         // Navigate back to site panel
         if (siteId) {
-          // #region agent log
-          fetch('http://127.0.0.1:7242/ingest/39f2a772-061a-4dd3-bf94-6d4f18e3a9a9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MainScene.tsx:203',message:'Navigating to site panel',data:{siteId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-          // #endregion
+          uiStore.openPanelAction('site', undefined, siteId)
+        } else {
+          uiStore.openPanelAction('map')
+        }
+      } else if (uiStore.isInBattleEndView) {
+        // Check if we're in battle end view with a win - if so, complete room before navigating back
+        console.log('[MainScene] In battle end view, handling battle end back')
+        
+        // Call completion function BEFORE clearing flag and navigating
+        const completeFn = uiStore.battleEndCompleteFunction
+        if (completeFn) {
+          // Completion function will complete the room (and end secret rooms if applicable)
+          completeFn()
+        } else {
+          console.warn('[MainScene] No completion function available when clicking back from battle end')
+        }
+        
+        // Clear the flag and completion function
+        uiStore.setBattleEndView(false)
+        uiStore.setBattleEndCompleteFunction(null)
+        console.log('[MainScene] Battle end back - completed room, cleared flag, navigating to site panel')
+        
+        // Navigate back to site panel
+        if (siteId) {
           uiStore.openPanelAction('site', undefined, siteId)
         } else {
           uiStore.openPanelAction('map')
@@ -564,8 +569,22 @@ export function MainScene() {
     }
   }
   
+  // Get site storage items for dependency tracking (ensures updates when depository changes)
+  const siteStorageItems = useMemo(() => {
+    if (currentPanel === 'site' && uiStore.sitePanelSiteId && playerStore.map) {
+      const site = playerStore.map.getSite(uiStore.sitePanelSiteId)
+      if (site) {
+        // Return a serialized version of storage items to detect changes
+        return JSON.stringify(site.storage.items)
+      }
+    }
+    return null
+  }, [currentPanel, uiStore.sitePanelSiteId, playerStore.map])
+
   // Get site bottom bar props (progress and item count) for site panel
-  const getSiteBottomBarSubtexts = () => {
+  // Use useMemo to make it reactive to playerStore.map changes
+  // Also depend on site storage items to ensure updates when depository changes
+  const siteBottomBarSubtexts = useMemo(() => {
     if (currentPanel !== 'site' && currentPanel !== 'siteExplore' && currentPanel !== 'siteStorage') {
       return { leftSubtext: undefined, rightSubtext: undefined }
     }
@@ -608,7 +627,14 @@ export function MainScene() {
     }
     
     return { leftSubtext: undefined, rightSubtext: undefined }
-  }
+  }, [
+    currentPanel,
+    uiStore.sitePanelSiteId,
+    uiStore.siteExplorePanelSiteId,
+    uiStore.siteStoragePanelSiteId,
+    playerStore.map, // This will trigger recalculation when map changes
+    siteStorageItems // Also depend on site storage items to ensure updates when depository changes
+  ])
   
   // Determine if back button should be shown (from original uiConfig.leftBtn)
   const shouldShowBackButton = (): boolean => {
@@ -694,7 +720,7 @@ export function MainScene() {
         onLeftClick={handleBackButton}
         onRightClick={handleForwardButton}
         fullScreen={currentPanel === 'home' || currentPanel === 'gateOut' || currentPanel === 'map'} // Home, gate out, and map panels use fullScreen mode
-        {...getSiteBottomBarSubtexts()}
+        {...siteBottomBarSubtexts}
       >
         {renderPanel()}
       </BottomSection>
