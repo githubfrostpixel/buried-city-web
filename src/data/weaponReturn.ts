@@ -23,3 +23,4 @@ export const weaponReturn: Record<string, string[]> = {
   "1304023": [] // armor (no scrap)
 }
 
+

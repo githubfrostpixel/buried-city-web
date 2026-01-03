@@ -186,3 +186,4 @@ Looking at the original game code:
 - Better visual quality
 - Can use CSS filters for color tinting if needed
 
+

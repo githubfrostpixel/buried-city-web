@@ -20,6 +20,7 @@ export type Panel =
   | 'npc'
   | 'site'
   | 'siteStorage'
+  | 'siteExplore'
   | 'bazaar'
   | 'dog'
   | 'radio'
@@ -58,6 +59,15 @@ interface UIStore {
   // Site ID for site storage panel
   siteStoragePanelSiteId: number | null
   
+  // Site ID for site explore panel
+  siteExplorePanelSiteId: number | null
+  
+  // Flag to track if we're in work storage view (for handling back button)
+  isInWorkStorageView: boolean
+  
+  // Flag to track if we're in battle (for disabling back button)
+  isInBattle: boolean
+  
   // Active overlay
   activeOverlay: Overlay
   
@@ -86,6 +96,8 @@ interface UIStore {
   setScene: (scene: Scene) => void
   openPanelAction: (panel: Panel, buildingId?: number, siteId?: number) => void
   closePanel: () => void
+  setWorkStorageView: (isInWorkStorageView: boolean) => void
+  setInBattle: (isInBattle: boolean) => void
   showOverlay: (overlay: Overlay, data?: any) => void
   showItemDialog: (itemId: string, source: 'storage' | 'bag' | 'bazaar', showOnly?: boolean) => void
   showBuildDialog: (buildingId: number, level: number) => void
@@ -103,6 +115,9 @@ export const useUIStore = create<UIStore>((set) => ({
   buildPanelBuildingId: null,
   sitePanelSiteId: null,
   siteStoragePanelSiteId: null,
+  siteExplorePanelSiteId: null,
+  isInWorkStorageView: false,
+  isInBattle: false,
   activeOverlay: null,
   overlayData: null,
   deathReason: null,
@@ -115,10 +130,15 @@ export const useUIStore = create<UIStore>((set) => ({
     openPanel: panel,
     buildPanelBuildingId: panel === 'build' ? (buildingId ?? null) : null,
     sitePanelSiteId: panel === 'site' ? (siteId ?? null) : null,
-    siteStoragePanelSiteId: panel === 'siteStorage' ? (siteId ?? null) : null
+    siteStoragePanelSiteId: panel === 'siteStorage' ? (siteId ?? null) : null,
+    siteExplorePanelSiteId: panel === 'siteExplore' ? (siteId ?? null) : null
   }),
   
-  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null, sitePanelSiteId: null, siteStoragePanelSiteId: null }),
+  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null, sitePanelSiteId: null, siteStoragePanelSiteId: null, siteExplorePanelSiteId: null, isInWorkStorageView: false, isInBattle: false }),
+  
+  setWorkStorageView: (isInWorkStorageView: boolean) => set({ isInWorkStorageView }),
+  
+  setInBattle: (isInBattle: boolean) => set({ isInBattle }),
   
   showOverlay: (overlay: Overlay, data?: any) => {
     if (overlay === 'death' && data?.reason) {

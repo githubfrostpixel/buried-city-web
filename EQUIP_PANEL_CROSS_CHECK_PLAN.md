@@ -247,3 +247,4 @@ Compare the current `EquipPanel` implementation with the original game's `EquipN
 - Font size constants (COMMON_2, COMMON_3)
 
 
+

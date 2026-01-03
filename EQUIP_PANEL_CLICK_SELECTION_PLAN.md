@@ -302,3 +302,4 @@ saveAll().catch(err => {
 4. **Equipment Validation**: The `equipItem` method in `playerStore` already validates that items exist in bag, so we just need to handle the return value.
 
 
+

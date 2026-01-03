@@ -249,6 +249,7 @@ export class BattlePlayer {
   }
 
   escape(): void {
+    // Todo: fix spamming
     console.log('[BattlePlayer.escape] Called, isEscaping:', this.isEscaping)
     if (this.isEscaping) {
       console.log('[BattlePlayer.escape] Already escaping, returning')
@@ -288,6 +289,7 @@ export class BattlePlayer {
   }
 
   interruptEscape(): void {
+    // Todo: fix spamming
     // Escape is interrupted by any weapon use
     console.log('[BattlePlayer.interruptEscape] Called, isEscaping:', this.isEscaping)
     if (this.isEscaping) {

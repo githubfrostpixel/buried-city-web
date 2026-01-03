@@ -123,7 +123,7 @@ export function SitePanelContent({
               height: '20px',
             }}
           >
-            <Sprite atlas="sprites" frame="map_actor.png" className="w-full h-full" />
+            <Sprite atlas="gate" frame="map_actor.png" className="w-full h-full" />
           </div>
         )}
       </button>

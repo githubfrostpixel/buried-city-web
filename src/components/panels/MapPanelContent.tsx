@@ -349,7 +349,7 @@ export function MapPanelContent() {
             }}
           >
             <Sprite
-              atlas="new"
+              atlas="gate"
               frame="map_actor.png"
               style={{
                 width: '32px',

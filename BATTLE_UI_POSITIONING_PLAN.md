@@ -304,3 +304,4 @@ Review and fix the Battle UI component positioning and sizing to match the origi
 5. Cross-check with original game screenshots if available
 
 
+

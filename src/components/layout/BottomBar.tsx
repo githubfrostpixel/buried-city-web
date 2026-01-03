@@ -9,6 +9,8 @@
 
 import { Sprite } from '@/components/sprites/Sprite'
 import { BOTTOM_BAR_LAYOUT, getBottomBarTop } from './layoutConstants'
+import { usePlayerStore } from '@/store/playerStore'
+import { saveAll } from '@/game/systems/SaveSystem'
 
 interface BottomBarProps {
   // Title displayed in action bar center
@@ -108,7 +110,63 @@ export function BottomBar({
           {/* Left button */}
           {leftBtn && (
             <button
-              onClick={onLeftClick}
+              onClick={() => {
+                // Safety net: Clear secret room state for any site that has it
+                // Check all sites since UI store state may already be cleared during navigation
+                try {
+                  const playerStore = usePlayerStore.getState()
+                  const map = playerStore.map
+                  
+                  if (map) {
+                    // Check all sites in the map for secret room state
+                    let clearedCount = 0
+                    
+                    map.forEach((entity) => {
+                      // Only process Site objects (not NPCs) - check if it has an id property
+                      if ((entity as any).id !== undefined && (entity as any).secretRooms !== undefined) {
+                        const site = entity as any
+                        // Only clear secret room state if we're actually IN secret rooms
+                        // OR if we've already left secret rooms (showedCount >= maxCount)
+                        // DON'T clear if we just discovered secret rooms but haven't entered yet (isSecretRoomsEntryShowed=true, isInSecretRooms=false, showedCount < maxCount)
+                        const condition1 = site.isInSecretRooms
+                        let shouldClear = false
+                        
+                        if (condition1) {
+                          // We're in secret rooms, clear on back button
+                          shouldClear = true
+                        } else if (site.secretRoomsConfig) {
+                          const maxCount = Number.parseInt(site.secretRoomsConfig.maxCount)
+                          // Only clear if we've already used up all chances (left secret rooms)
+                          if (site.secretRoomsShowedCount >= maxCount && site.isSecretRoomsEntryShowed) {
+                            shouldClear = true
+                          }
+                        }
+                        
+                        if (shouldClear) {
+                          site.secretRoomsEnd()
+                          site.isSecretRoomsEntryShowed = false
+                          if (site.secretRoomsConfig) {
+                            const maxCount = Number.parseInt(site.secretRoomsConfig.maxCount)
+                            site.secretRoomsShowedCount = maxCount
+                          }
+                          clearedCount++
+                        }
+                      }
+                    })
+                    
+                    // Save after checking all sites
+                    if (clearedCount > 0) {
+                      saveAll().catch(() => {})
+                    }
+                  }
+                } catch (err) {
+                  console.error('[BottomBar] SAFETY NET: Error:', err)
+                }
+
+                if (onLeftClick) {
+                  onLeftClick()
+                }
+              }}
               className="absolute"
               style={{
                 left: `${actionBar.leftButtonX}px`,

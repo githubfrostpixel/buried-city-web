@@ -21,11 +21,21 @@ export const siteConfig: SiteConfigMap = {
   },
   "201": {
     id: 201,
-    coordinate: { x: 120, y: 150 },
-    difficulty: [],
+    coordinate: { x: 108, y: 127 },
+    battleRoom: 1,
+    difficulty: [1, 1],
+    workRoom: 1,
     produceList: [],
-    fixedProduceList: [],
-    unlockValue: {},
+    fixedProduceList: [
+      { itemId: "1101031", num: 7 },
+      { itemId: "1101041", num: 2 },
+      { itemId: "1101021", num: 2 },
+      { itemId: "1101061", num: 3 },
+      { itemId: "1103083", num: 1 }
+    ],
+    unlockValue: {
+      site: ["1", "202"]
+    },
     def: 20
   },
   "202": {

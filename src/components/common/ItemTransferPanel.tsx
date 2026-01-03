@@ -25,6 +25,7 @@ interface ItemTransferPanelProps {
   showWeight?: boolean
   withTakeAll?: boolean // Show "Take All" button on bottom section
   siteId?: number // Site ID if bottom storage is site storage
+  onStorageUpdate?: () => void // Callback when storage is updated
 }
 
 const PANEL_WIDTH = 596
@@ -41,7 +42,8 @@ export function ItemTransferPanel({
   bottomStorageName,
   showWeight = false,
   withTakeAll = false,
-  siteId
+  siteId,
+  onStorageUpdate
 }: ItemTransferPanelProps) {
   const playerStore = usePlayerStore()
   const [updateTrigger, setUpdateTrigger] = useState(0)
@@ -75,6 +77,12 @@ export function ItemTransferPanel({
       return new Storage('site')
     }
     
+    // Handle work room storage (use the prop directly)
+    if (bottomStorageName.startsWith('Work Room Type')) {
+      // Use the bottomStorage prop directly for work room storage
+      return _bottomStorage
+    }
+    
     const storage = new Storage('player')
     // Match by storageName to get the right data from playerStore
     if (bottomStorageName === 'Bag') {
@@ -83,7 +91,7 @@ export function ItemTransferPanel({
       storage.restore(playerStore.storage)
     }
     return storage
-  }, [bottomStorageName, playerStore.bag, playerStore.storage, playerStore.map, siteId, updateTrigger])
+  }, [bottomStorageName, playerStore.bag, playerStore.storage, playerStore.map, siteId, updateTrigger, _bottomStorage])
   
   // Get items from storages
   // topItems should come from topStorageInstance (which matches topStorageName)
@@ -111,6 +119,11 @@ export function ItemTransferPanel({
   }, [topStorageName, playerStore.bag, playerStore.storage, updateTrigger])
   
   const bottomItems = useMemo(() => {
+    // Handle work room storage (use the prop directly)
+    if (bottomStorageName.startsWith('Work Room Type')) {
+      return _bottomStorage.getItemsByType('')
+    }
+    
     // Handle site storage (Depository)
     if (bottomStorageName === 'Depository' && siteId) {
       const map = playerStore.map
@@ -133,7 +146,7 @@ export function ItemTransferPanel({
       storage.restore(playerStore.storage)
     }
     return storage.getItemsByType('')
-  }, [bottomStorageName, playerStore.bag, playerStore.storage, playerStore.map, siteId, updateTrigger])
+  }, [bottomStorageName, playerStore.bag, playerStore.storage, playerStore.map, siteId, updateTrigger, _bottomStorage])
   
   // Get weight for top storage (Bag) - should show bag weight / bag max weight
   const topWeight = showWeight && topStorageName === 'Bag' ? topStorageInstance.getWeight() : 0
@@ -143,10 +156,27 @@ export function ItemTransferPanel({
   // Top section: displays Storage items (bottomItems) but has Bag label
   // Bottom section: displays Bag items (topItems) but has Storage label
   const handleItemClick = (itemId: string, fromTop: boolean) => {
-    // Items are swapped in display, so swap storage instances
-    // Top section shows Storage items, bottom section shows Bag items
-    const sourceStorage = fromTop ? bottomStorageInstance : topStorageInstance
-    const targetStorage = fromTop ? topStorageInstance : bottomStorageInstance
+    // For work room storage, use the prop directly
+    let sourceStorage: Storage
+    let targetStorage: Storage
+    
+    if (bottomStorageName.startsWith('Work Room Type')) {
+      // Work room storage: top is Bag, bottom is work room temp storage
+      if (fromTop) {
+        // Transferring from Bag (top) to work room storage (bottom)
+        sourceStorage = topStorageInstance
+        targetStorage = _bottomStorage
+      } else {
+        // Transferring from work room storage (bottom) to Bag (top)
+        sourceStorage = _bottomStorage
+        targetStorage = topStorageInstance
+      }
+    } else {
+      // Items are swapped in display, so swap storage instances
+      // Top section shows Storage items, bottom section shows Bag items
+      sourceStorage = fromTop ? bottomStorageInstance : topStorageInstance
+      targetStorage = fromTop ? topStorageInstance : bottomStorageInstance
+    }
     
     // Check if item exists in source
     if (!sourceStorage.validateItem(itemId, 1)) {
@@ -191,11 +221,19 @@ export function ItemTransferPanel({
     }
     
     // Update player store - determine which is bag and which is storage
-    const bagData = topStorageInstance.save() // Top is always Bag in site storage panel
-    const storageData = bottomStorageInstance.save() // Bottom is always Depository (site storage) in site storage panel
-    
-    // Update bag in player store
+    const bagData = topStorageInstance.save() // Top is always Bag
     const updateState: any = { bag: bagData }
+    
+    // For work room storage, we only update the bag (temp storage is handled separately)
+    if (bottomStorageName.startsWith('Work Room Type')) {
+      // Update bag in player store
+      playerStore.setState(updateState)
+      // Trigger re-render
+      setUpdateTrigger(prev => prev + 1)
+      return
+    }
+    
+    const storageData = bottomStorageInstance.save() // Bottom is Depository (site storage) or Storage
     
     // If this is site storage panel, update site storage in map
     if (siteId && bottomStorageName === 'Depository') {
@@ -218,6 +256,11 @@ export function ItemTransferPanel({
     }
     
     ;(usePlayerStore as any).setState(updateState)
+    
+    // Call callback to notify parent component of storage update
+    if (onStorageUpdate) {
+      onStorageUpdate()
+    }
     
     // Trigger update to refresh the component
     setUpdateTrigger(prev => prev + 1)

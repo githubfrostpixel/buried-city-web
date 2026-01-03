@@ -17,9 +17,10 @@ import { BOTTOM_BAR_LAYOUT } from '@/components/layout/layoutConstants'
 
 interface SiteStoragePanelContentProps {
   siteId: number
+  onStorageUpdate?: () => void
 }
 
-export function SiteStoragePanelContent({ siteId }: SiteStoragePanelContentProps) {
+export function SiteStoragePanelContent({ siteId, onStorageUpdate }: SiteStoragePanelContentProps) {
   const playerStore = usePlayerStore()
   
   // Get site from map
@@ -108,6 +109,7 @@ export function SiteStoragePanelContent({ siteId }: SiteStoragePanelContentProps
           showWeight={true}
           withTakeAll={true}
           siteId={siteId}
+          onStorageUpdate={onStorageUpdate}
         />
       </div>
     </div>

@@ -68,3 +68,4 @@ So we need to:
 - Bottom section: Shows "Bag" label, displays Bag items, shows weight (current/max)
 
 
+

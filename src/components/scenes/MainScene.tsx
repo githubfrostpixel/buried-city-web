@@ -20,15 +20,18 @@ import { GateOutPanelContent } from '@/components/panels/GateOutPanelContent'
 import { MapPanelContent } from '@/components/panels/MapPanelContent'
 import { SitePanelContent, getSiteBottomBarProps } from '@/components/panels/SitePanelContent'
 import { SiteStoragePanelContent } from '@/components/panels/SiteStoragePanelContent'
+import { SiteExploreContent } from '@/components/panels/SiteExploreContent'
 import { useUIStore } from '@/store/uiStore'
 import { usePlayerStore } from '@/store/playerStore'
 import { useBuildingStore } from '@/store/buildingStore'
 import { audioManager, MusicPaths, SoundPaths } from '@/game/systems/AudioManager'
 import { game } from '@/game/Game'
+import { saveAll } from '@/game/systems/SaveSystem'
 
 export function MainScene() {
   const uiStore = useUIStore()
   const buildingStore = useBuildingStore()
+  const playerStore = usePlayerStore() // Subscribe to playerStore changes
   const currentPanel = uiStore.openPanel
   
   // Screen dimensions (640x1136 from original game)
@@ -95,7 +98,8 @@ export function MainScene() {
   
   // Handle back button - matches original back button behavior
   const handleBackButton = () => {
-    if (currentPanel === 'home') {
+    try {
+      if (currentPanel === 'home') {
       // On home panel, back button should show exit dialog
       // For now, just log (exit dialog to be implemented later)
       console.log('Exit to menu - dialog to be implemented')
@@ -126,9 +130,198 @@ export function MainScene() {
       } else {
         uiStore.openPanelAction('map')
       }
+    } else if (currentPanel === 'siteExplore') {
+      const isInWorkStorage = uiStore.isInWorkStorageView
+      const siteId = uiStore.siteExplorePanelSiteId
+      console.error('[MainScene] ===== BACK BUTTON IN SITEEXPLORE =====')
+      console.log('[MainScene] Back button clicked in siteExplore panel', {
+        isInWorkStorageView: isInWorkStorage,
+        siteId: siteId,
+        timestamp: Date.now()
+      })
+      
+      // Get site to check secret room state
+      let site = null
+      if (siteId && playerStore.map) {
+        site = playerStore.map.getSite(siteId)
+      }
+      
+      
+      // ALWAYS clear secret room state when leaving siteExplore (safety net)
+      // This ensures state is cleared regardless of which navigation path is taken
+      if (site) {
+        const hasSecretRoomState = site.isInSecretRooms || site.isSecretRoomsEntryShowed || (site.secretRoomsShowedCount > 0 && site.secretRooms.length > 0 && !site.isSecretRoomsEnd())
+        console.error('[MainScene] ALWAYS CLEAR: Checking secret room state:', {
+          isInSecretRooms: site.isInSecretRooms,
+          isSecretRoomsEntryShowed: site.isSecretRoomsEntryShowed,
+          secretRoomsShowedCount: site.secretRoomsShowedCount,
+          hasSecretRoomState
+        })
+        
+        if (hasSecretRoomState) {
+          console.error('[MainScene] ALWAYS CLEAR: Clearing secret room state!')
+          site.secretRoomsEnd()
+          site.isSecretRoomsEntryShowed = false
+          
+          if (site.secretRoomsConfig) {
+            const maxCount = Number.parseInt(site.secretRoomsConfig.maxCount)
+            site.secretRoomsShowedCount = maxCount
+          }
+          
+          
+          saveAll().catch((err: Error) => {
+            console.error('[MainScene] Auto-save failed in ALWAYS CLEAR:', err)
+          })
+        }
+      }
+      
+      // Check if we're in work storage view - if so, handle work storage back
+      if (uiStore.isInWorkStorageView) {
+        console.log('[MainScene] In work storage view, handling work storage back')
+        
+        // Item flushing is handled by WorkRoomStorageView's unmount effect
+        // Just need to clear the flag and navigate back
+        uiStore.setWorkStorageView(false)
+        console.log('[MainScene] Work room back - cleared flag, navigating to site panel')
+        
+        // Navigate back to site panel
+        if (siteId) {
+          uiStore.openPanelAction('site', undefined, siteId)
+        } else {
+          uiStore.openPanelAction('map')
+        }
+      } else {
+        // Check secret room condition step by step
+        const condition1 = site?.isInSecretRooms
+        const condition2 = site?.isSecretRoomsEntryShowed
+        const condition3a = (site?.secretRoomsShowedCount ?? 0) > 0
+        const condition3b = (site?.secretRooms?.length ?? 0) > 0
+        const condition3c = site ? !site.isSecretRoomsEnd() : false
+        const condition3 = condition3a && condition3b && condition3c
+        const conditionMet = condition1 || condition2 || condition3
+        
+        
+        if (site && conditionMet) {
+          // Handle secret room back - matches original game behavior
+          // This handles: currently in secret rooms, entry dialog shown, or previously entered secret rooms
+          console.log('[MainScene] ===== SECRET ROOM BACK BUTTON CLICKED =====')
+          console.log('[MainScene] Secret room state BEFORE clearing:', {
+            isInSecretRooms: site.isInSecretRooms,
+            isSecretRoomsEntryShowed: site.isSecretRoomsEntryShowed,
+            secretRoomsShowedCount: site.secretRoomsShowedCount,
+            secretRoomsStep: site.secretRoomsStep,
+            secretRoomsLength: site.secretRooms.length,
+            hasSecretRoomsConfig: !!site.secretRoomsConfig,
+            conditionMet: site.isInSecretRooms || site.isSecretRoomsEntryShowed || (site.secretRoomsShowedCount > 0 && site.secretRooms.length > 0)
+          })
+          
+          
+          // End secret rooms and clear entry flag (prevents re-entry)
+          // This matches original game: once you leave secret rooms, you can't re-enter
+          const beforeSecretRoomsEnd = {
+            isInSecretRooms: site.isInSecretRooms,
+            isSecretRoomsEntryShowed: site.isSecretRoomsEntryShowed
+          }
+          site.secretRoomsEnd()
+          const afterSecretRoomsEnd = {
+            isInSecretRooms: site.isInSecretRooms,
+            isSecretRoomsEntryShowed: site.isSecretRoomsEntryShowed
+          }
+          console.log('[MainScene] After secretRoomsEnd():', {
+            before: beforeSecretRoomsEnd,
+            after: afterSecretRoomsEnd
+          })
+          
+          // Clear entry flag
+          site.isSecretRoomsEntryShowed = false
+          
+          // Prevent re-discovery by setting showedCount to maxCount
+          // This ensures that once you leave secret rooms, you can't re-enter them
+          if (site.secretRoomsConfig) {
+            const maxCount = Number.parseInt(site.secretRoomsConfig.maxCount)
+            const oldCount = site.secretRoomsShowedCount
+            site.secretRoomsShowedCount = maxCount
+            console.log('[MainScene] Prevented re-discovery by setting secretRoomsShowedCount:', {
+              oldCount,
+              newCount: site.secretRoomsShowedCount,
+              maxCount
+            })
+          }
+          
+          console.log('[MainScene] After clearing flags and preventing re-discovery:', {
+            isInSecretRooms: site.isInSecretRooms,
+            isSecretRoomsEntryShowed: site.isSecretRoomsEntryShowed,
+            secretRoomsShowedCount: site.secretRoomsShowedCount
+          })
+          
+          
+          // Auto-save to persist the state
+          console.log('[MainScene] Starting auto-save to persist secret room state...')
+          saveAll()
+            .then(() => {
+              console.log('[MainScene] Auto-save completed. Secret room state after save:', {
+                isInSecretRooms: site.isInSecretRooms,
+                isSecretRoomsEntryShowed: site.isSecretRoomsEntryShowed,
+                secretRoomsShowedCount: site.secretRoomsShowedCount
+              })
+            })
+            .catch((err: Error) => {
+              console.error('[MainScene] Auto-save failed:', err)
+            })
+          
+          console.log('[MainScene] ===== SECRET ROOM BACK PROCESSING COMPLETE =====')
+          
+          // Navigate back to site panel
+          if (siteId) {
+            uiStore.openPanelAction('site', undefined, siteId)
+          } else {
+            uiStore.openPanelAction('map')
+          }
+        } else {
+          // Normal site explore back - but still check for secret rooms to clear state
+          console.log('[MainScene] Normal back navigation, checking for secret rooms to clear')
+          
+          // Always clear secret room state when leaving siteExplore, even if condition didn't match
+          // This ensures state is cleared regardless of which path we take
+          if (site) {
+            const condition1 = site.isInSecretRooms
+            const condition2 = site.isSecretRoomsEntryShowed
+            const condition3a = site.secretRoomsShowedCount > 0
+            const condition3b = site.secretRooms.length > 0
+            const condition3c = !site.isSecretRoomsEnd()
+            const condition3 = condition3a && condition3b && condition3c
+            const hasSecretRoomState = condition1 || condition2 || condition3
+            
+            
+            if (hasSecretRoomState) {
+              console.log('[MainScene] Clearing secret room state in normal back path')
+              site.secretRoomsEnd()
+              site.isSecretRoomsEntryShowed = false
+              
+              if (site.secretRoomsConfig) {
+                const maxCount = Number.parseInt(site.secretRoomsConfig.maxCount)
+                site.secretRoomsShowedCount = maxCount
+              }
+              
+              saveAll().catch((err: Error) => {
+                console.error('[MainScene] Auto-save failed in normal back path:', err)
+              })
+            }
+          }
+          
+          if (siteId) {
+            uiStore.openPanelAction('site', undefined, siteId)
+          } else {
+            uiStore.openPanelAction('map')
+          }
+        }
+      }
     } else {
       // Navigate back to home (matches Navigation.back() behavior)
       uiStore.openPanelAction('home')
+    }
+    } catch (error) {
+      console.error('[MainScene] Error in handleBackButton:', error)
     }
   }
   
@@ -181,6 +374,10 @@ export function MainScene() {
                     // Navigate to site storage panel
                     uiStore.openPanelAction('siteStorage', undefined, siteId)
                   }}
+                  onExploreClick={() => {
+                    // Navigate to site explore panel
+                    uiStore.openPanelAction('siteExplore', undefined, siteId)
+                  }}
                 />
               )
             }
@@ -193,6 +390,49 @@ export function MainScene() {
         const siteId = uiStore.siteStoragePanelSiteId
         if (siteId) {
           return <SiteStoragePanelContent siteId={siteId} />
+        }
+        return <div className="text-white p-4">Site not found</div>
+      }
+      
+      case 'siteExplore': {
+        const siteId = uiStore.siteExplorePanelSiteId
+        if (siteId) {
+          const playerStore = usePlayerStore.getState()
+          const map = playerStore.map
+          if (map) {
+            const site = map.getSite(siteId)
+            if (site) {
+              const onBackWrapper = () => {
+                // Get fresh site reference to ensure we have the latest state
+                const playerStore = usePlayerStore.getState()
+                const map = playerStore.map
+                const currentSite = map?.getSite(siteId)
+                
+                // Handle secret rooms if needed (same logic as handleBackButton)
+                if (currentSite && (currentSite.isInSecretRooms || currentSite.isSecretRoomsEntryShowed || (currentSite.secretRoomsShowedCount > 0 && currentSite.secretRooms.length > 0 && !currentSite.isSecretRoomsEnd()))) {
+                  currentSite.secretRoomsEnd()
+                  currentSite.isSecretRoomsEntryShowed = false
+                  
+                  if (currentSite.secretRoomsConfig) {
+                    const maxCount = Number.parseInt(currentSite.secretRoomsConfig.maxCount)
+                    currentSite.secretRoomsShowedCount = maxCount
+                  }
+                  
+                  saveAll().catch((err: Error) => {
+                    console.error('[MainScene] Auto-save failed in onBack wrapper:', err)
+                  })
+                }
+                
+                uiStore.openPanelAction('site', undefined, siteId)
+              };
+              return (
+                <SiteExploreContent
+                  site={site}
+                  onBack={onBackWrapper}
+                />
+              )
+            }
+          }
         }
         return <div className="text-white p-4">Site not found</div>
       }
@@ -268,6 +508,25 @@ export function MainScene() {
         }
         return ''
       }
+      case 'siteExplore': {
+        // Get site name for site explore panel
+        const siteId = uiStore.siteExplorePanelSiteId
+        if (siteId) {
+          const playerStore = usePlayerStore.getState()
+          const map = playerStore.map
+          if (map) {
+            const site = map.getSite(siteId)
+            if (site) {
+              // Show secret room title when in secret rooms (matches original game String 3012[secretRoomType])
+              if (site.isInSecretRooms) {
+                return `Secret Room ${site.secretRoomType ?? 0}`
+              }
+              return site.getName()
+            }
+          }
+        }
+        return ''
+      }
       case 'gateOut':
         return '' // Empty title for gate out panel
       case 'map':
@@ -278,21 +537,42 @@ export function MainScene() {
   
   // Get site bottom bar props (progress and item count) for site panel
   const getSiteBottomBarSubtexts = () => {
-    if (currentPanel !== 'site') {
+    if (currentPanel !== 'site' && currentPanel !== 'siteExplore' && currentPanel !== 'siteStorage') {
       return { leftSubtext: undefined, rightSubtext: undefined }
     }
     
-    const siteId = uiStore.sitePanelSiteId
+    let siteId: number | null = null
+    if (currentPanel === 'site') {
+      siteId = uiStore.sitePanelSiteId
+    } else if (currentPanel === 'siteExplore') {
+      siteId = uiStore.siteExplorePanelSiteId
+    } else if (currentPanel === 'siteStorage') {
+      siteId = uiStore.siteStoragePanelSiteId
+    }
+    
     if (siteId) {
-      const playerStore = usePlayerStore.getState()
       const map = playerStore.map
       if (map) {
         const site = map.getSite(siteId)
         if (site) {
-          const props = getSiteBottomBarProps(site)
-          return {
-            leftSubtext: props.leftSubtext,
-            rightSubtext: props.rightSubtext
+          if (currentPanel === 'siteExplore') {
+            // For site explore, show progress and item count with labels
+            return {
+              leftSubtext: site.isInSecretRooms ? "???" : `Progress ${site.getCurrentProgressStr()}`,
+              rightSubtext: `Items ${site.storage.getAllItemNum()}`
+            }
+          } else if (currentPanel === 'siteStorage') {
+            // For site storage, show "Depository" and item count
+            return {
+              leftSubtext: "Depository",
+              rightSubtext: String(site.storage.getAllItemNum())
+            }
+          } else {
+            const props = getSiteBottomBarProps(site)
+            return {
+              leftSubtext: props.leftSubtext,
+              rightSubtext: props.rightSubtext
+            }
           }
         }
       }
@@ -307,6 +587,15 @@ export function MainScene() {
     if (currentPanel === 'gateOut') return false
     // Map panel has no buttons (matches original uiConfig.leftBtn: false)
     if (currentPanel === 'map') return false
+    
+    // Disable back button during battle (matches original game behavior)
+    if (currentPanel === 'siteExplore') {
+      const isInBattle = uiStore.isInBattle
+      if (isInBattle) {
+        return false // Disable back button during battle
+      }
+    }
+    
     // Show back button if not on home panel
     return currentPanel !== 'home' && currentPanel !== null
   }

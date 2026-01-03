@@ -443,3 +443,4 @@ txt1.setString(cc.formatStr(txt1.getString(), storage.getNumByItemId(itemId)));
 
 
 
+

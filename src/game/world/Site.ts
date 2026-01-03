@@ -163,6 +163,10 @@ export class Site extends BaseSite {
       if (index > battleRooms.length - 1) {
         // Select from work rooms
         const workIndex = index - battleRooms.length
+        if (workRooms.length === 0) {
+          console.error('[Site] genRooms: No work rooms available but index requires work room')
+          break
+        }
         const workRoom = workRooms.splice(workIndex, 1)[0]
         room = {
           list: workRoom,
@@ -171,6 +175,10 @@ export class Site extends BaseSite {
         }
       } else {
         // Select from battle rooms
+        if (battleRooms.length === 0) {
+          console.error('[Site] genRooms: No battle rooms available but index requires battle room')
+          break
+        }
         const battleRoom = battleRooms.splice(index, 1)[0]
         room = {
           list: battleRoom.list || [],
@@ -181,6 +189,16 @@ export class Site extends BaseSite {
       
       rooms.unshift(room)  // Add to front (reverse order)
     }
+    
+    console.log('[Site] genRooms completed:', {
+      siteId: this.id,
+      battleRoomCount: this.config.battleRoom,
+      workRoomCount: this.config.workRoom,
+      generatedBattleRooms: battleRooms.length + rooms.filter(r => r.type === 'battle').length,
+      generatedWorkRooms: workRooms.length + rooms.filter(r => r.type === 'work').length,
+      totalRooms: rooms.length,
+      roomTypes: rooms.map(r => r.type)
+    })
     
     this.rooms = rooms
   }
@@ -200,7 +218,12 @@ export class Site extends BaseSite {
       
       const diff = getRandomInt(difficulty[0], difficulty[1])
       const list = getMonsterListByDifficulty(diff)
-      res.push({ list, difficulty: diff })
+      // Only add battle room if monster list was generated
+      if (list) {
+        res.push({ list, difficulty: diff })
+      } else {
+        console.warn(`[Site] Failed to generate monster list for difficulty ${diff}, skipping battle room`)
+      }
     }
     
     return res
@@ -371,6 +394,7 @@ export class Site extends BaseSite {
     //   maxCount += 1
     // }
     
+    
     if (this.secretRoomsShowedCount < maxCount) {
       let probability = Number.parseFloat(this.secretRoomsConfig.probability)
       
@@ -381,12 +405,31 @@ export class Site extends BaseSite {
       // }
       
       const rand = Math.random()
+      console.log('[Site] testSecretRoomsBegin() probability check:', {
+        probability,
+        rand,
+        willShow: probability >= rand,
+        currentCount: this.secretRoomsShowedCount,
+        maxCount
+      })
       if (probability >= rand) {
+        console.log('[Site] Secret room discovered! Setting entry flag')
+        console.log('[Site] Secret room state BEFORE discovery:', {
+          isSecretRoomsEntryShowed: this.isSecretRoomsEntryShowed,
+          secretRoomsShowedCount: this.secretRoomsShowedCount
+        })
         this.isSecretRoomsEntryShowed = true
         this.secretRoomsShowedCount++
         this.secretRooms = []
         this.secretRoomsStep = 0
         this.genSecretRooms()
+        console.log('[Site] Secret room state AFTER discovery:', {
+          isSecretRoomsEntryShowed: this.isSecretRoomsEntryShowed,
+          secretRoomsShowedCount: this.secretRoomsShowedCount,
+          secretRoomsLength: this.secretRooms.length
+        })
+      } else {
+        console.log('[Site] Secret room NOT discovered (probability check failed)')
       }
     }
   }
@@ -395,8 +438,18 @@ export class Site extends BaseSite {
    * Enter secret rooms
    */
   enterSecretRooms(): void {
+    console.log('[Site] enterSecretRooms() called')
+    console.log('[Site] Secret room state BEFORE enterSecretRooms:', {
+      isInSecretRooms: this.isInSecretRooms,
+      isSecretRoomsEntryShowed: this.isSecretRoomsEntryShowed,
+      secretRoomsShowedCount: this.secretRoomsShowedCount
+    })
     this.isInSecretRooms = true
     this.isSecretRoomsEntryShowed = false
+    console.log('[Site] Secret room state AFTER enterSecretRooms:', {
+      isInSecretRooms: this.isInSecretRooms,
+      isSecretRoomsEntryShowed: this.isSecretRoomsEntryShowed
+    })
   }
   
   /**
@@ -420,7 +473,17 @@ export class Site extends BaseSite {
    * Handle secret rooms completion
    */
   secretRoomsEnd(): void {
+    console.log('[Site] secretRoomsEnd() called')
+    console.log('[Site] Secret room state BEFORE secretRoomsEnd:', {
+      isInSecretRooms: this.isInSecretRooms,
+      isSecretRoomsEntryShowed: this.isSecretRoomsEntryShowed,
+      secretRoomsShowedCount: this.secretRoomsShowedCount
+    })
     this.isInSecretRooms = false
+    console.log('[Site] Secret room state AFTER secretRoomsEnd:', {
+      isInSecretRooms: this.isInSecretRooms,
+      isSecretRoomsEntryShowed: this.isSecretRoomsEntryShowed
+    })
     // TODO: Integrate with achievement system
     // Medal.checkSecretRoomEnd(1)
   }
