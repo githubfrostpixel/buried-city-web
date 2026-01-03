@@ -8,6 +8,7 @@
 import { BedAction } from '@/game/systems/BedAction'
 import { Sprite } from '@/components/sprites/Sprite'
 import { CommonListItemButton } from '@/components/common/CommonListItemButton'
+import { SpriteProgressBar } from '@/components/common/SpriteProgressBar'
 import { useState, useEffect } from 'react'
 import { useUIStore } from '@/store/uiStore'
 import { game } from '@/game/Game'
@@ -162,36 +163,19 @@ export function BedActionListItem({ action, index, buildingId, onIconClick }: Be
           <div
             className="absolute"
             style={{
-              left: 0,
+              left: '-100px',
               top: '100%',
               marginTop: '10px',
-              width: '268px',
-              height: '20px' // Progress bar height
+              width: '500px',
+              height: 'auto'
             }}
           >
-            {/* Progress bar background (pb_bg.png equivalent) */}
-            <div
-              style={{
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                width: '100%',
-                height: '100%',
-                background: 'rgba(0, 0, 0, 0.3)',
-                borderRadius: '2px'
-              }}
-            />
-            {/* Progress bar fill (pb.png equivalent) */}
-            <div
-              style={{
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                width: `${Math.min(100, Math.max(0, displayInfo.percentage))}%`,
-                height: '100%',
-                background: '#4CAF50',
-                borderRadius: '2px',
-                transition: 'width 0.1s linear'
+            <SpriteProgressBar
+              progress={Math.min(100, Math.max(0, displayInfo.percentage))}
+              position="top"
+              offsetY={0}
+              style={{ 
+                pointerEvents: 'none'
               }}
             />
           </div>

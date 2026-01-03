@@ -10,6 +10,7 @@
 import { useState, useEffect } from 'react'
 import { useUIStore } from '@/store/uiStore'
 import { usePlayerStore } from '@/store/playerStore'
+import { useBuildingStore } from '@/store/buildingStore'
 import { game } from '@/game/Game'
 import type { DeathReason } from '@/types/game.types'
 import { Sprite } from '@/components/sprites/Sprite'
@@ -21,6 +22,7 @@ interface DeathOverlayProps {
 export function DeathOverlay({ reason }: DeathOverlayProps) {
   const uiStore = useUIStore()
   const playerStore = usePlayerStore()
+  const buildingStore = useBuildingStore()
   const [bottomBarRect, setBottomBarRect] = useState<DOMRect | null>(null)
 
   // Get BottomBar position dynamically
@@ -86,10 +88,29 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
     playerStore.updateAttribute('virus', Math.ceil(playerStore.virus / 2)) // Reduce virus by half
     playerStore.updateAttribute('hp', playerStore.hpMax)
 
+    // Reset sleep state (Original: this.isInSleep = false)
+    const survivalSystem = game.getSurvivalSystem()
+    survivalSystem.endSleep()
+
+    // Reset all building active button indices (Original: this.room.forEach(function (build) { build.resetActiveBtnIndex(); }))
+    const room = buildingStore.room
+    if (room) {
+      const allBuildings = room.getAllBuildings()
+      allBuildings.forEach(building => {
+        building.resetActiveBtnIndex()
+      })
+    }
+
+    // Resume game BEFORE hiding overlay to ensure time continues
+    // Force resume by calling multiple times if needed (pause uses ref counter)
+    const timeManager = game.getTimeManager()
+    while (timeManager.isPaused()) {
+      game.resume()
+    }
+
     // Hide overlay and go home
     uiStore.hideOverlay()
     uiStore.openPanelAction('home')
-    game.resume()
   }
 
   const handleConfirm = () => {

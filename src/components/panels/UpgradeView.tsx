@@ -10,6 +10,7 @@ import { BuildUpgradeType } from '@/types/building.types'
 import { Sprite } from '@/components/sprites/Sprite'
 import { ItemCostDisplay } from '@/components/common/ItemCostDisplay'
 import { CommonListItemButton } from '@/components/common/CommonListItemButton'
+import { SpriteProgressBar } from '@/components/common/SpriteProgressBar'
 import { emitter } from '@/utils/emitter'
 import { useUIStore } from '@/store/uiStore'
 
@@ -265,26 +266,24 @@ export function UpgradeView({ building, onUpgradeStart, onUpgradeComplete }: Upg
       
       {/* Progress bar overlay (when upgrading) */}
       {building.isUpgrading && (
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'rgba(0, 0, 0, 0.3)',
-            borderRadius: '4px',
-            pointerEvents: 'none'
-          }}
-        >
+        <>
+          {/* Dark overlay to indicate upgrading in progress */}
           <div
+            className="absolute inset-0"
             style={{
-              position: 'absolute',
-              left: '0',
-              bottom: '0',
-              width: `${upgradeProgress}%`,
-              height: '4px',
-              background: '#4CAF50',
-              transition: 'width 0.1s linear'
+              background: 'rgba(0, 0, 0, 0.3)',
+              borderRadius: '4px',
+              pointerEvents: 'none'
             }}
           />
-        </div>
+          {/* Sprite-based progress bar */}
+          <SpriteProgressBar
+            progress={Math.min(100, Math.max(0, upgradeProgress))}
+            position="bottom"
+            offsetY={4}
+            style={{ pointerEvents: 'none' }}
+          />
+        </>
       )}
     </div>
   )

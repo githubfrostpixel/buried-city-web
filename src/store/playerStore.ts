@@ -119,6 +119,7 @@ interface PlayerStore extends PlayerState {
   getSafeItemCount: (itemId: string) => number
   getSafeWeight: () => number
   getSafeMaxWeight: () => number
+  getItemCountInAnyInventory: (itemId: string) => number
   
   // Equipment actions
   equipItem: (slot: 'gun' | 'weapon' | 'equip' | 'tool' | 'special', itemId: string | null) => boolean
@@ -378,13 +379,20 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       const newBag = { ...state.bag }
       if (newCount === 0) {
         delete newBag[itemId]
-        // Auto-unequip if item was equipped
+        // Auto-unequip if item was equipped AND not in any inventory
         if (state.isEquipped(itemId)) {
-          const slots: Array<'gun' | 'weapon' | 'equip' | 'tool' | 'special'> = ['gun', 'weapon', 'equip', 'tool', 'special']
-          for (const slot of slots) {
-            if (state.equipment[slot] === itemId) {
-              state.unequipItem(slot)
-              break
+          // Check if item exists in any inventory (bag, storage, or safe)
+          // Since newBag[itemId] is already deleted (count is 0), only check storage and safe
+          const totalCount = (state.storage[itemId] || 0) + (state.safe[itemId] || 0)
+          
+          // Only unequip if item is not in any inventory
+          if (totalCount === 0) {
+            const slots: Array<'gun' | 'weapon' | 'equip' | 'tool' | 'special'> = ['gun', 'weapon', 'equip', 'tool', 'special']
+            for (const slot of slots) {
+              if (state.equipment[slot] === itemId) {
+                state.unequipItem(slot)
+                break
+              }
             }
           }
         }
@@ -514,6 +522,15 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   
   getSafeItemCount: (itemId: string) => {
     return get().safe[itemId] || 0
+  },
+  
+  getItemCountInAnyInventory: (itemId: string) => {
+    const state = get()
+    return (
+      (state.bag[itemId] || 0) +
+      (state.storage[itemId] || 0) +
+      (state.safe[itemId] || 0)
+    )
   },
   
   getSafeWeight: () => {

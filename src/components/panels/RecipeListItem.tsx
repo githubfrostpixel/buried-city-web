@@ -8,6 +8,7 @@ import { Formula } from '@/game/systems/Formula'
 import { Sprite } from '@/components/sprites/Sprite'
 import { ItemCostDisplay } from '@/components/common/ItemCostDisplay'
 import { CommonListItemButton } from '@/components/common/CommonListItemButton'
+import { SpriteProgressBar } from '@/components/common/SpriteProgressBar'
 import { emitter } from '@/utils/emitter'
 import { useState, useEffect } from 'react'
 import { useUIStore } from '@/store/uiStore'
@@ -100,13 +101,16 @@ export function RecipeListItem({ recipe, index, buildingId, onIconClick }: Recip
   const handleTake = () => {
     if (!showTakeButton) return
     
-    // TODO: Implement item collection in Formula system
-    console.log('Take item:', recipe.id)
-    emitter.emit('recipe_take', { recipeId: recipe.id, buildingId, index })
+    // Call Formula.take() method
+    const success = recipe.take()
+    if (!success) {
+      // Show error message or notification
+      console.warn('Cannot take item:', recipe.id)
+      return
+    }
+    
+    // UI will update via build_node_update event
   }
-  
-  // Get recipe name (TODO: Use string system)
-  const recipeName = `Recipe ${recipe.id}`
   
   return (
     <div
@@ -167,29 +171,16 @@ export function RecipeListItem({ recipe, index, buildingId, onIconClick }: Recip
         />
       </button>
       
-      {/* Recipe name and cost (middle) */}
+      {/* Recipe cost items (middle) */}
       <div
         className="absolute"
         style={{
           left: '120px',
-          top: '50%',
+          top: '45%',
           transform: 'translateY(-50%)',
           width: '300px'
         }}
       >
-        {/* Recipe name */}
-        <div
-          style={{
-            fontSize: '20px',
-            fontFamily: "'Noto Sans', sans-serif",
-            color: '#ffffff',
-            fontWeight: 'bold',
-            marginBottom: '5px'
-          }}
-        >
-          {recipeName}
-        </div>
-        
         {/* Recipe cost items - bigger icons and text */}
         {recipeCost.length > 0 && (
           <ItemCostDisplay
@@ -238,26 +229,28 @@ export function RecipeListItem({ recipe, index, buildingId, onIconClick }: Recip
       
       {/* Progress bar overlay (when crafting) */}
       {showProgress && (
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'rgba(0, 0, 0, 0.3)',
-            borderRadius: '4px',
-            pointerEvents: 'none'
-          }}
-        >
+        <>
+          {/* Dark overlay to indicate crafting in progress */}
           <div
+            className="absolute inset-0"
             style={{
-              position: 'absolute',
-              left: '0',
-              bottom: '0',
-              width: `${Math.min(100, Math.max(0, progress))}%`, // Use actual progress
-              height: '4px',
-              background: '#4CAF50',
-              transition: 'width 0.1s linear'
+              background: 'rgba(0, 0, 0, 0.3)',
+              borderRadius: '4px',
+              pointerEvents: 'none'
             }}
           />
-        </div>
+          {/* Sprite-based progress bar */}
+          <SpriteProgressBar
+            progress={Math.min(100, Math.max(0, progress))}
+            position="bottom"
+            offsetY={12}
+            style={{ 
+              pointerEvents: 'none',
+              left:  '45%',
+              transform: 'translateX(-50%)'
+            }}
+          />
+        </>
       )}
     </div>
   )

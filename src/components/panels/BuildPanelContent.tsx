@@ -144,7 +144,7 @@ export function BuildPanelContent({ buildingId }: BuildPanelContentProps) {
       {/* Recipe List or Bed Actions (scrollable) - TableView positioned at y=10 from bottom */}
       {/* Width: 596px, Height: 610px, centered horizontally */}
       <div
-        className="overflow-y-auto overflow-x-hidden"
+        className="overflow-y-auto overflow-x-hidden custom-scrollbar"
         style={{
           position: 'absolute',
           left: '50%',

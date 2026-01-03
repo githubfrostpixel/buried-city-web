@@ -9,7 +9,7 @@
  * - Action section: Close button
  */
 
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useUIStore } from '@/store/uiStore'
 import { usePlayerStore } from '@/store/playerStore'
 import { Item } from '@/game/inventory/Item'
@@ -61,31 +61,11 @@ function getItemsForAttribute(attr: string, storage: Storage): Array<{ item: Ite
 export function AttributeStatusDialog() {
   const uiStore = useUIStore()
   const playerStore = usePlayerStore()
-  const [bottomBarRect, setBottomBarRect] = useState<DOMRect | null>(null)
   
   // Get dialog data from overlay state
   const dialogData = (uiStore.activeOverlay === 'attributeDialog' 
     ? (uiStore as any).overlayData as AttributeDialogData 
     : null)
-  
-  // Get BottomBar position dynamically (same as ItemDialog)
-  useEffect(() => {
-    const updatePosition = () => {
-      const bottomBar = document.querySelector('[data-test-id="bottombar-bg"]')
-      if (bottomBar) {
-        setBottomBarRect(bottomBar.getBoundingClientRect())
-      }
-    }
-    
-    updatePosition()
-    window.addEventListener('resize', updatePosition)
-    const interval = setInterval(updatePosition, 100)
-    
-    return () => {
-      window.removeEventListener('resize', updatePosition)
-      clearInterval(interval)
-    }
-  }, [])
   
   // Handle ESC key - must be called before early return
   useEffect(() => {
@@ -147,7 +127,7 @@ export function AttributeStatusDialog() {
   }, [dialogData, attr, storage, hasTmpBag])
   
   // Early return after all hooks are called
-  if (!dialogData || !bottomBarRect) return null
+  if (!dialogData) return null
   
   // Get attribute value and max
   const getAttributeValue = (): { value: number; max: number } => {
@@ -259,17 +239,13 @@ export function AttributeStatusDialog() {
   
   return (
     <div
-      className="fixed z-[9999]"
-      style={{
-        left: `${bottomBarRect.left}px`,
-        top: `${bottomBarRect.top}px`,
-        width: `${bottomBarRect.width}px`,
-        height: `${bottomBarRect.height}px`,
-        animation: 'fadeIn 0.3s ease-in'
-      }}
-      onClick={() => {
+      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      onClick={(e) => {
         // Don't close on overlay click (autoDismiss = false in original)
         // Only close button dismisses
+        if (e.target === e.currentTarget) {
+          // Clicked on overlay background, but we don't close (autoDismiss = false)
+        }
       }}
       data-test-id="attribute-dialog-overlay"
     >
@@ -278,8 +254,6 @@ export function AttributeStatusDialog() {
         className="absolute inset-0"
         style={{
           backgroundColor: 'rgba(0, 0, 0, 0.75)',
-          width: '100%',
-          height: '100%'
         }}
       />
       

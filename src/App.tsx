@@ -9,6 +9,8 @@ import { StatusDialog } from './components/overlays/StatusDialog'
 import { BuildDialog } from './components/overlays/BuildDialog'
 import { RecipeDialog } from './components/overlays/RecipeDialog'
 import { SiteDialog } from './components/overlays/SiteDialog'
+import { getImagePath } from './utils/assets'
+import { ImageSprite } from './components/sprites/ImageSprite'
 // Future scenes (to be implemented):
 // import { SaveFileScene } from './components/scenes/SaveFileScene'
 // import { ChooseScene } from './components/scenes/ChooseScene'
@@ -29,7 +31,44 @@ function App() {
   
   return (
     <>
-      <div className="game-container w-full h-full text-white" style={{ backgroundColor: '#000000' }}>
+      {/* Global background - spans full viewport */}
+      <div 
+        className="fixed inset-0"
+        style={{
+          zIndex: -1,
+          width: '100%',
+          height: '100%'
+        }}
+      >
+        <ImageSprite
+          src={getImagePath('image/global_bg.jpg')}
+          alt="Global Background"
+          className="w-full h-full"
+          style={{
+            objectFit: 'cover',
+            width: '100%',
+            height: '100%'
+          }}
+        />
+        {/* Gradient overlay - dark at bottom */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 1) 100%)',
+            pointerEvents: 'none'
+          }}
+        />
+      </div>
+      
+      <div 
+        className="game-container w-full h-full text-white relative" 
+        style={{ 
+          backgroundColor: 'transparent',
+          boxShadow: '0 0 30px rgba(0, 0, 0, 0.5), 0 0 60px rgba(0, 0, 0, 0.3)',
+          border: '2px solid rgba(0, 0, 0, 0.2)',
+          borderRadius: '4px'
+        }}
+      >
         {isTestMode ? (
           <TestIndexScreen />
         ) : (

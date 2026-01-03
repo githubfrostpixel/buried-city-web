@@ -75,7 +75,7 @@ export function RadioMessageView({ messages, playerUid, width, height }: RadioMe
   return (
     <div
       ref={scrollContainerRef}
-      className="absolute overflow-auto"
+      className="absolute overflow-auto overflow-x-hidden"
       style={{
         width: `${width}px`,
         height: `${height}px`,

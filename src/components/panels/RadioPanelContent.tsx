@@ -160,7 +160,7 @@ export function RadioPanelContent() {
   const placeholder = 'Call out'
   
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full overflow-x-hidden">
         {/* Upgrade View - positioned at top of content area */}
         {/* TODO: Implement full upgrade view component */}
         {building && !building.isMax() && (

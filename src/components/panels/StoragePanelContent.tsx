@@ -153,7 +153,7 @@ export function StoragePanelContent() {
     <div className="relative w-full h-full">
       {/* Scrollable item list container - relative to content area */}
       <div
-        className="absolute"
+        className="absolute custom-scrollbar"
         style={{
           left: '50%',
           top: `${tableViewTop}px`,

@@ -240,6 +240,123 @@ export class Formula {
   }
   
   /**
+   * Start placement phase (for recipes with placedTime)
+   * Ported from buildAction.js Formula.place() (lines 122-156)
+   */
+  place(check: boolean = false): void {
+    if (!this.config || !this.config.placedTime) {
+      return // No placement time configured
+    }
+    
+    // Get placedTime (it's an array, use first element)
+    // Original: var time = this.config["placedTime"]; time *= 60;
+    const placedTimeArray = this.config.placedTime
+    let time = (Array.isArray(placedTimeArray) ? placedTimeArray[0] : placedTimeArray) * 60 // Convert minutes to seconds
+    
+    const self = this
+    
+    // If check is true, remove existing timer callback first
+    // Original: if (check) { cc.timer.removeTimerCallback(this.tcb2); ... }
+    if (check && this.timerCallback) {
+      // TODO: Remove timer callback if needed
+      // For now, just continue
+    }
+    
+    // Reset pastTime for placement phase (start fresh)
+    // Original uses this.pastTime for resume, but for fresh start it should be 0
+    // When restoring from save, pastTime will be set from save data
+    const startTime = check ? this.pastTime : 0
+    
+    // Start placement timer
+    // Original: this.addTimer(time, time, function () { ... }, true, this.pastTime);
+    // notAccelerate = true (don't accelerate work time for placement)
+    // startTime = this.pastTime (resume from saved time if restoring) or 0 for fresh start
+    this.addTimer(time, time, () => {
+      // Placement completion callback
+      // Original: if (self.step < self.maxStep) { self.step++; ... }
+      if (self.step < self.maxStep) {
+        self.step++
+        
+        // Original: player.log.addMsg(1091, ...);
+        // TODO: Add log message when log system is ready
+        // const itemInfo = self.config.produce[0]
+        // const itemName = getItemName(itemInfo.itemId)
+        // const buildingName = getBuildingName(self.buildingId)
+        // player.log.addMsg(1091, buildingName, itemName) // or itemName, buildingName based on language
+        
+        // Original: utils.emitter.emit("placed_success", self.bid);
+        emitter.emit('placed_success', self.buildingId)
+        
+        // Emit build_node_update to refresh UI
+        emitter.emit('build_node_update')
+      }
+    }, true, startTime) // notAccelerate = true, startTime = startTime (0 for fresh, pastTime for restore)
+  }
+  
+  /**
+   * Take items after placement completes (equivalent to clickAction1 when step === 2)
+   * Ported from buildAction.js Formula.clickAction1() (lines 207-230)
+   */
+  take(): boolean {
+    // Original: else if (this.step == 2 || this.bid != 2)
+    // Only allow when step === 2 (placement complete)
+    if (this.step !== 2) {
+      return false
+    }
+    
+    if (!this.config) {
+      return false
+    }
+    
+    const playerStore = usePlayerStore.getState()
+    
+    // Apply weather effects to produce
+    // Original: var produce = utils.clone(this.config.produce);
+    const produce = this.getProduce().map(item => ({ ...item }))
+    
+    // TODO: Apply weather effects
+    // Original weather effects:
+    // - Distilled water (1101061): item.num += player.weather.getValue("item_1101061")
+    // - Greenhouse (building 2): all items += player.weather.getValue("build_2")
+    // For now, skip weather effects
+    
+    // Give items to player
+    // Original: player.gainItems(produce);
+    playerStore.gainItems(produce)
+    
+    // Original: produce.forEach(function (item) { Achievement.checkProduce(item.itemId, item.num); });
+    // TODO: Check achievements
+    // produce.forEach(item => {
+    //   Achievement.checkProduce(item.itemId, item.num)
+    // })
+    
+    // Reset step to 0
+    // Original: this.step = 0;
+    this.step = 0
+    
+    // Original: player.log.addMsg(1092, produce[0].num, itemName, player.storage.getNumByItemId(itemInfo.itemId));
+    // TODO: Add log message
+    // const itemInfo = produce[0]
+    // const itemName = getItemName(itemInfo.itemId)
+    // player.log.addMsg(1092, itemInfo.num, itemName, playerStore.getStorageItemCount(String(itemInfo.itemId)))
+    
+    // Reset active button
+    // Original: this.build.resetActiveBtnIndex();
+    if (this.building) {
+      this.building.resetActiveBtnIndex()
+    }
+    
+    // Original: Record.saveAll();
+    // TODO: Save game
+    // Record.saveAll()
+    
+    // Original: this._sendUpdageSignal();
+    emitter.emit('build_node_update')
+    
+    return true
+  }
+  
+  /**
    * Start crafting (equivalent to clickAction1 when step === 0)
    * Ported from buildAction.js Formula.clickAction1() (lines 157-207)
    */
@@ -323,7 +440,7 @@ export class Formula {
       // Original: if (self.step == 1) { ... } else { ... }
       if (self.step === 1 && self.maxStep === 2) {
         // Placement recipe: start placement phase
-        // TODO: self.place()
+        self.place()
       } else {
         // Non-placement recipe (like 1402021): give items immediately
         // Original: player.gainItems(self.config.produce);
