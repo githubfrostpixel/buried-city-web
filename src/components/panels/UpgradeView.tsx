@@ -13,6 +13,7 @@ import { CommonListItemButton } from '@/components/common/CommonListItemButton'
 import { SpriteProgressBar } from '@/components/common/SpriteProgressBar'
 import { emitter } from '@/utils/emitter'
 import { useUIStore } from '@/store/uiStore'
+import { getString } from '@/utils/stringUtil'
 
 interface UpgradeViewProps {
   building: Building
@@ -134,8 +135,11 @@ export function UpgradeView({ building, onUpgradeStart, onUpgradeComplete }: Upg
       
     case BuildUpgradeType.CONDITION:
       if (upgradeResult.condition) {
-        // TODO: Get building name from string system
-        const requiredBuildingName = `Building ${upgradeResult.condition.bid} Level ${upgradeResult.condition.level}`
+        // Get building name from string system
+        const requiredBuildingConfig = getString(`${upgradeResult.condition.bid}_${upgradeResult.condition.level}`)
+        const requiredBuildingName = typeof requiredBuildingConfig === 'object' && requiredBuildingConfig !== null && 'title' in requiredBuildingConfig
+          ? requiredBuildingConfig.title as string
+          : `Building ${upgradeResult.condition.bid} Level ${upgradeResult.condition.level}`
         hint = `Requires: ${requiredBuildingName}`
         hintColor = '#ff0000'
         buttonText = building.needBuild() ? 'Build' : 'Upgrade'

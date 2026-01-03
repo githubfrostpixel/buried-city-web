@@ -16,6 +16,7 @@ import { siteConfig } from '@/data/sites'
 import { secretRooms } from '@/data/secretRooms'
 import { usePlayerStore } from '@/store/playerStore'
 import { useLogStore } from '@/store/logStore'
+import { getString } from '@/utils/stringUtil'
 import type {
   SiteConfig,
   Room,
@@ -308,9 +309,8 @@ export class Site extends BaseSite {
    */
   siteEnd(): void {
     // Add log message
-    // TODO: Use proper string ID 1119
     const logStore = useLogStore.getState()
-    logStore.addLog(`Site completed: ${this.getName()}`)
+    logStore.addLog(getString(1119, this.getName())) // Format: "You have cleared out all threats in %s."
     
     const unlockValue = this.config.unlockValue
     if (unlockValue) {
@@ -594,18 +594,22 @@ export class Site extends BaseSite {
    * Get site name
    */
   getName(): string {
-    // TODO: Integrate with localization system
-    // return stringUtil.getString(`site_${this.id}`).name
-    return `Site ${this.id}`
+    const siteConfig = getString(`site_${this.id}`)
+    if (typeof siteConfig === 'object' && siteConfig !== null && 'name' in siteConfig) {
+      return siteConfig.name as string
+    }
+    return `Site ${this.id}` // Fallback
   }
   
   /**
    * Get site description
    */
   getDes(): string {
-    // TODO: Integrate with localization system
-    // return stringUtil.getString(`site_${this.id}`).des
-    return `Description for site ${this.id}`
+    const siteConfig = getString(`site_${this.id}`)
+    if (typeof siteConfig === 'object' && siteConfig !== null && 'des' in siteConfig) {
+      return siteConfig.des as string
+    }
+    return '' // Fallback
   }
   
   /**

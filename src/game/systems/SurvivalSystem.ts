@@ -17,6 +17,7 @@ import type { PlayerAttributes, AttributeEffect, PlayerAttributeEffectConfig } f
 import type { DeathReason } from '@/types/game.types'
 import { isInRange } from '@/utils/range'
 import { TimeManager, TimerCallback } from './TimeManager'
+import { getString } from '@/utils/stringUtil'
 
 export interface AttributeRangeInfo {
   id: number
@@ -318,7 +319,7 @@ export class SurvivalSystem {
       if (updatedPlayerStore.virus >= updatedPlayerStore.virusMax) {
         // Virus overload: set HP to 0 and trigger death
         // Original: this.log.addMsg(stringUtil.getString(6671)); this.changeAttr("hp", -this["hp"]);
-        this.addLogMessage('Virus overload!') // TODO: Use proper string ID 6671
+        this.addLogMessage(getString(6671)) // "The virus finally defeated your immune system and ended your humanity."
         // Set HP to 0 (matching original game behavior)
         playerStore.updateAttribute('hp', 0)
         // Trigger death with virus_overload reason

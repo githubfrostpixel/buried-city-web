@@ -8,6 +8,7 @@
 import { Building } from './Building'
 import type { BuildingSaveData, RoomSaveData } from '@/types/building.types'
 import { TimeManager } from '@/game/systems/TimeManager'
+import { getString } from '@/utils/stringUtil'
 
 /**
  * Initial building states for new game
@@ -187,11 +188,37 @@ export class Room {
 
   /**
    * Get building name (for UI/logging)
-   * TODO: Implement when string system is ready
    */
   getBuildCurrentName(id: number): string {
-    // Placeholder - will use string system
-    return `Building ${id}`
+    const building = this.buildings.get(id)
+    if (!building) {
+      // Building doesn't exist - try to get name from level 0
+      const buildingConfig0 = getString(`${id}_0`)
+      if (typeof buildingConfig0 === 'object' && buildingConfig0 !== null && 'title' in buildingConfig0) {
+        return buildingConfig0.title as string
+      }
+      return `Building ${id}` // Final fallback
+    }
+    
+    const level = building.level
+    // If building is not built (level -1), try level 0 instead
+    const effectiveLevel = level < 0 ? 0 : level
+    const stringId = `${id}_${effectiveLevel}`
+    const buildingConfig = getString(stringId)
+    
+    if (typeof buildingConfig === 'object' && buildingConfig !== null && 'title' in buildingConfig) {
+      return buildingConfig.title as string
+    }
+    
+    // If current level doesn't work, try level 0 as fallback
+    if (effectiveLevel !== 0) {
+      const buildingConfig0 = getString(`${id}_0`)
+      if (typeof buildingConfig0 === 'object' && buildingConfig0 !== null && 'title' in buildingConfig0) {
+        return buildingConfig0.title as string
+      }
+    }
+    
+    return `Building ${id}` // Final fallback
   }
 }
 

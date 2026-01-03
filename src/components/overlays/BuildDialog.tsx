@@ -15,19 +15,26 @@ import { useBuildingStore } from '@/store/buildingStore'
 import { Sprite } from '@/components/sprites/Sprite'
 import { DialogButton } from '@/components/common/DialogButton'
 import { ItemCostDisplay } from '@/components/common/ItemCostDisplay'
+import { getString } from '@/utils/stringUtil'
 
 interface BuildDialogData {
   buildingId: number
   level: number  // Level to show (current level + 1 for upgrade, or current level)
 }
 
-// Base build dialog config (from string "build")
-const BUILD_DIALOG_BASE = {
-  content: {
-    log: "To build you need:"
-  },
-  action: {
-    btn_1: { txt: "OK" }
+// Get build dialog base config from string system
+function getBuildDialogBase() {
+  const config = getString('build')
+  if (typeof config === 'object' && config !== null) {
+    return config as {
+      content: { log: string }
+      action: { btn_1: { txt: string } }
+    }
+  }
+  // Fallback if not found
+  return {
+    content: { log: 'To build you need:' },
+    action: { btn_1: { txt: 'OK' } }
   }
 }
 
@@ -62,14 +69,30 @@ export function BuildDialog() {
   const building = buildingStore.getBuilding(buildingId)
   if (!building) return null
   
-  // Get building name (placeholder until string system is implemented)
+  // Get building name
   const buildingName = buildingStore.room
     ? buildingStore.room.getBuildCurrentName(buildingId)
-    : `Building ${buildingId}`
+    : (() => {
+        // Fallback: try to get name from string system using the target level
+        const buildingConfig = getString(`${buildingId}_${level}`)
+        if (typeof buildingConfig === 'object' && buildingConfig !== null && 'title' in buildingConfig) {
+          return buildingConfig.title as string
+        }
+        // Try level 0 as last resort
+        const buildingConfig0 = getString(`${buildingId}_0`)
+        if (typeof buildingConfig0 === 'object' && buildingConfig0 !== null && 'title' in buildingConfig0) {
+          return buildingConfig0.title as string
+        }
+        return `Building ${buildingId}` // Final fallback
+      })()
   
-  // Get building description (placeholder until string system is implemented)
+  // Get building description from string system
   // Original: stringUtil.getString(bid + "_" + level).des
-  const buildingDescription = `This is ${buildingName} at level ${level}.` // Placeholder
+  const stringId = `${buildingId}_${level}`
+  const buildingConfig = getString(stringId)
+  const buildingDescription = typeof buildingConfig === 'object' && buildingConfig !== null && 'des' in buildingConfig
+    ? buildingConfig.des as string
+    : '' // Fallback
   
   // Get upgrade config for the target level
   const upgradeConfig = building.getUpgradeConfig()
@@ -94,7 +117,7 @@ export function BuildDialog() {
   // Action section: 72px height
   const actionHeight = 72
   // Content section: remaining height
-  const contentHeight = dialogHeight - titleHeight - actionHeight
+  const contentHeight = dialogHeight - titleHeight - actionHeight +60
   
   // Log section height (when upgrade available): 130px
   const logHeight = 130
@@ -239,8 +262,8 @@ export function BuildDialog() {
               width: `${rightEdge - leftEdge}px`,
               // If log section exists, limit height to prevent overlap
               height: upgradeCosts && upgradeCosts.length > 0
-                ? `${imageDescriptionHeight - 210}px` // Available space minus image area
-                : `${contentHeight - 210}px`, // Full content height minus image area
+                ? `${imageDescriptionHeight - 150}px` // Available space minus image area
+                : `${contentHeight - 150}px`, // Full content height minus image area
               fontSize: '20px', // COMMON_3
               fontFamily: "'Noto Sans', sans-serif",
               fontWeight: 'normal',
@@ -268,7 +291,7 @@ export function BuildDialog() {
                 className="absolute"
                 style={{
                   left: `${leftEdge}px`,
-                  top: '35px',
+                  top: '55px',
                   fontSize: '20px', // COMMON_3
                   fontFamily: "'Noto Sans', sans-serif",
                   fontWeight: 'normal',
@@ -276,7 +299,7 @@ export function BuildDialog() {
                   lineHeight: '1.2'
                 }}
               >
-                {BUILD_DIALOG_BASE.content.log}
+                {getBuildDialogBase().content.log}
               </div>
               
               {/* Item cost display - below label, 10px gap */}
@@ -284,7 +307,7 @@ export function BuildDialog() {
                 className="absolute"
                 style={{
                   left: `${leftEdge}px`,
-                  top: '60px', // 10px label + 20px font size + 10px gap
+                  top: '80px', // 10px label + 20px font size + 10px gap
                   width: `${rightEdge - leftEdge}px`
                 }}
               >
@@ -306,14 +329,14 @@ export function BuildDialog() {
           className="absolute"
           style={{
             left: 0,
-            bottom: 0,
+            bottom: '-60px',
             width: `${dialogWidth}px`,
             height: `${actionHeight}px`
           }}
         >
           {/* OK button - centered */}
           <DialogButton
-            text={BUILD_DIALOG_BASE.action.btn_1.txt}
+            text={getBuildDialogBase().action.btn_1.txt}
             position={{ x: 50, y: 50 }} // 50% = center
             onClick={() => uiStore.hideOverlay()}
             className=""

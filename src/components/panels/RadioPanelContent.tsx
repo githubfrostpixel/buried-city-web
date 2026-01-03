@@ -16,6 +16,7 @@ import { getUUID, getSaveSlot } from '@/game/systems/SaveSystem'
 import { game } from '@/game/Game'
 import { audioManager } from '@/game/systems/AudioManager'
 import { SoundPaths } from '@/game/systems/AudioManager'
+import { getString } from '@/utils/stringUtil'
 
 const RADIO_BUILDING_ID = 15
 
@@ -71,7 +72,13 @@ export function RadioPanelContent() {
   // Get building name for title
   const buildingName = building && buildingStore.room
     ? buildingStore.room.getBuildCurrentName(RADIO_BUILDING_ID)
-    : 'Radio'
+    : (() => {
+        // Fallback: get from string system using level 0
+        const buildingConfig = getString('15_0')
+        return typeof buildingConfig === 'object' && buildingConfig !== null && 'title' in buildingConfig
+          ? buildingConfig.title as string
+          : 'Radio'
+      })()
   
   // Load messages and UUID on mount
   useEffect(() => {
@@ -157,7 +164,7 @@ export function RadioPanelContent() {
   const editBoxHeight = 45
   
   // Placeholder text (String ID 1148: "Call out")
-  const placeholder = 'Call out'
+  const placeholder = getString(1148) || 'Call out'
   
   return (
     <div className="relative w-full h-full overflow-x-hidden">

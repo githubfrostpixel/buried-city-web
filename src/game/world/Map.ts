@@ -23,6 +23,7 @@ import { emitter } from '@/utils/emitter'
 import { useLogStore } from '@/store/logStore'
 import { isAllItemUnlocked } from '@/utils/iap'
 import type { SiteSaveData, MapSaveData } from '@/types/site.types'
+import { getString } from '@/utils/stringUtil'
 
 // NPC stub interface (will be replaced in Phase 5)
 interface NPC {
@@ -185,7 +186,12 @@ export class Map {
     // Stub for now:
     emitter.emit("unlock_site", { id: npcId, type: 'npc' })
     const logStore = useLogStore.getState()
-    logStore.addLog(`NPC ${npcId} unlocked`) // TODO: Use proper string ID 1125
+    // Get NPC name from string system
+    const npcConfig = getString(`npc_${npcId}`)
+    const npcName = typeof npcConfig === 'object' && npcConfig !== null && 'name' in npcConfig
+      ? npcConfig.name as string
+      : `NPC ${npcId}`
+    logStore.addLog(getString(1125, npcName)) // Format: "The new location %s house has been unlocked."
   }
 
   /**
@@ -213,7 +219,7 @@ export class Map {
     // Add log message
     // TODO: Use proper string ID 1104
     const logStore = useLogStore.getState()
-    logStore.addLog(`Site unlocked: ${site.getName()}`)
+    logStore.addLog(getString(1104, site.getName())) // Format: "New location %s is unlocked!"
   }
 
   /**

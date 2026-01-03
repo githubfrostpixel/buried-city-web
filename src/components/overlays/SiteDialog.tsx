@@ -17,6 +17,7 @@ import { Sprite } from '@/components/sprites/Sprite'
 import { DialogButton } from '@/components/common/DialogButton'
 import { getTimeDistanceStr } from '@/utils/time'
 import type { Site } from '@/game/world/Site'
+import { getString } from '@/utils/stringUtil'
 
 interface SiteDialogData {
   site: Site
@@ -94,7 +95,7 @@ export function SiteDialog() {
   // Action section: 72px height
   const actionHeight = 72
   // Content section: remaining height
-  const contentHeight = dialogHeight - titleHeight - actionHeight
+  const contentHeight = dialogHeight - titleHeight - actionHeight +60
   
   // Left/Right edges: 20px from dialog edges
   const leftEdge = 20
@@ -122,7 +123,7 @@ export function SiteDialog() {
   const timeStr = getTimeDistanceStr(time)
   
   // Format fuel cost string
-  const fuelStr = fuelNeed > 0 ? `Fuel: ${fuelNeed}` : null  // TODO: Use string ID 1340
+  const fuelStr = fuelNeed > 0 ? getString(1340, fuelNeed) : null  // Format: "Fuel Need: %s"
   
   // Handle close
   const handleClose = () => {
@@ -355,14 +356,14 @@ export function SiteDialog() {
           className="absolute"
           style={{
             left: 0,
-            bottom: 0,
+            bottom: '-60px',
             width: `${dialogWidth}px`,
             height: `${actionHeight}px`
           }}
         >
           {/* Cancel button (btn_1) */}
           <DialogButton
-            text="Cancel"  // TODO: Use string ID 1193
+            text={getString(1193) || 'Cancel'}  // "Return"
             position={{ x: 25, y: 50 }}  // Left side, centered vertically
             onClick={handleClose}
             enabled={true}
@@ -370,7 +371,7 @@ export function SiteDialog() {
           
           {/* Go button (btn_2) */}
           <DialogButton
-            text="Go"  // TODO: Use string ID
+            text={getString(1138) || 'Go'}  // "Go"
             position={{ x: 50, y: 50 }}  // Right side, centered vertically
             onClick={() => {
               onConfirm()

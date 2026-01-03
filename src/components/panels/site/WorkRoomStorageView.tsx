@@ -17,6 +17,7 @@ import { Bag } from '@/game/inventory/Bag'
 import { Item } from '@/game/inventory/Item'
 import { saveAll } from '@/game/systems/SaveSystem'
 import { EQUIP_PANEL_HEIGHT, SEPARATOR_HEIGHT } from './constants'
+import { getString } from '@/utils/stringUtil'
 
 interface WorkRoomStorageViewProps {
   room: Room
@@ -200,7 +201,11 @@ export function WorkRoomStorageView({ room, site, onNextRoom, flushRef }: WorkRo
   const itemTransferPanelTop = equipPanelTop + EQUIP_PANEL_HEIGHT + SEPARATOR_HEIGHT
 
   const workType = room.workType || 0
-  const workRoomTypeName = `Work Room Type ${workType}` // TODO: Use string ID 3007[workType]
+  // Get work room type name from string system (array)
+  const workRoomTypes = getString('3007')
+  const workRoomTypeName = Array.isArray(workRoomTypes) && workRoomTypes[workType]
+    ? workRoomTypes[workType]
+    : `Work Room Type ${workType}` // Fallback
 
   return (
     <div className="relative w-full h-full">

@@ -14,6 +14,7 @@ import { cocosToCssY } from '@/utils/position'
 import { BOTTOM_BAR_LAYOUT } from '@/components/layout/layoutConstants'
 import { SiteButton } from './SiteButton'
 import { calculateSiteButtonPositions } from './siteUtils'
+import { getString } from '@/utils/stringUtil'
 
 interface SitePanelContentProps {
   site: Site
@@ -93,7 +94,7 @@ export function SitePanelContent({
       
       {/* Storage button (btn1) */}
       <SiteButton
-        text="Depository"
+        text={getString(1032) || 'Depository'}  // "Depository"
         onClick={onStorageClick}
         showNotification={site.haveNewItems}
         position={{ x: btn1X, y: btnY - 100 }}
@@ -103,7 +104,7 @@ export function SitePanelContent({
       
       {/* Explore button (btn2) */}
       <SiteButton
-        text="Enter"
+        text={getString(1033) || 'Enter'}  // "Enter"
         onClick={onExploreClick}
         disabled={isSiteEnd}
         position={{ x: btn2X, y: btnY - 100 }}

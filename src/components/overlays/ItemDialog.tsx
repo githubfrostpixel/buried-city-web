@@ -16,6 +16,7 @@ import { Item } from '@/game/inventory/Item'
 import { Sprite } from '@/components/sprites/Sprite'
 import { DialogButton } from '@/components/common/DialogButton'
 import { emitter } from '@/utils/emitter'
+import { getString } from '@/utils/stringUtil'
 
 interface ItemDialogData {
   itemId: string
@@ -111,18 +112,21 @@ export function ItemDialog() {
   
   const itemCount = getItemCount()
   
-  // Get item name and description (placeholder for now)
-  // TODO: Get from string system when implemented
+  // Get item name and description from string system
   const getItemName = (): string => {
-    // For now, use item ID as fallback
-    // In original: stringUtil.getString(itemId).title
-    return `Item ${itemId}`
+    const itemConfig = getString(itemId)
+    if (typeof itemConfig === 'object' && itemConfig !== null && 'title' in itemConfig) {
+      return itemConfig.title as string
+    }
+    return `Item ${itemId}` // Fallback
   }
   
   const getItemDescription = (): string => {
-    // For now, use placeholder
-    // In original: stringUtil.getString(itemId).des
-    return `This is item ${itemId}. Description will be loaded from string system.`
+    const itemConfig = getString(itemId)
+    if (typeof itemConfig === 'object' && itemConfig !== null && 'des' in itemConfig) {
+      return itemConfig.des as string
+    }
+    return '' // Fallback
   }
   
   const itemName = getItemName()
@@ -341,14 +345,20 @@ export function ItemDialog() {
           className="absolute"
           style={{
             left: '0',
-            bottom: '0',
+            bottom: '-60px',
             width: `${dialogWidth}px`,
             height: `${actionHeight}px`
           }}
         >
           {/* Close button (btn_1) */}
           <DialogButton
-            text={dialogType === 'item_1' ? 'OK' : 'Back'}
+            text={(() => {
+              const config = getString(dialogType)
+              if (typeof config === 'object' && config !== null && 'action' in config) {
+                return (config as any).action.btn_1.txt
+              }
+              return dialogType === 'item_1' ? 'OK' : 'Back'
+            })()}
             position={shouldShowUseButton ? { x: 25, y: 50 } : { x: 50, y: 50 }}
             onClick={handleClose}
             enabled={true}
@@ -357,7 +367,13 @@ export function ItemDialog() {
           {/* Use button (btn_2) - only for food, medicine, buff items - item_2 and item_3 */}
           {shouldShowUseButton && (
             <DialogButton
-              text={dialogType === 'item_2' ? 'Eat (10 m)' : 'Use (10 m)'}
+              text={(() => {
+                const config = getString(dialogType)
+                if (typeof config === 'object' && config !== null && 'action' in config && 'btn_2' in (config as any).action) {
+                  return (config as any).action.btn_2.txt
+                }
+                return dialogType === 'item_2' ? 'Eat (10 m)' : 'Use (10 m)'
+              })()}
               position={{ x: 45, y: 50 }}
               onClick={handleUse}
               enabled={true}

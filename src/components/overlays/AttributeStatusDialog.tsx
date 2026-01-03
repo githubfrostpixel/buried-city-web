@@ -16,6 +16,7 @@ import { Item } from '@/game/inventory/Item'
 import { Storage } from '@/game/inventory/Storage'
 import { Sprite } from '@/components/sprites/Sprite'
 import { DialogButton } from '@/components/common/DialogButton'
+import { getString } from '@/utils/stringUtil'
 
 interface AttributeDialogData {
   stringId: number
@@ -152,23 +153,50 @@ export function AttributeStatusDialog() {
     }
   }
   
-  // Get attribute name (placeholder until string system)
+  // Get attribute name from string system
   const getAttributeName = (): string => {
-    const names: Record<string, string> = {
-      injury: 'Injury',
-      infect: 'Infection',
-      starve: 'Hunger',
-      vigour: 'Vigour',
-      spirit: 'Spirit',
-      water: 'Water',
-      virus: 'Virus',
-      hp: 'HP'
+    // Map attribute names to string IDs (same as StatusDialog)
+    const attrToStringId: Record<string, number> = {
+      injury: 10,
+      infect: 9,
+      starve: 6,
+      vigour: 7,
+      spirit: 8,
+      water: 14,
+      virus: 15,
+      hp: 5
     }
-    return names[attr] || attr
+    const stringId = attrToStringId[attr]
+    if (stringId) {
+      const config = getString(String(stringId))
+      if (typeof config === 'object' && config !== null && 'title' in config) {
+        return config.title as string
+      }
+    }
+    return attr // Fallback
   }
   
-  // Get attribute description (placeholder until string system)
+  // Get attribute description from string system
   const getAttributeDescription = (): string => {
+    // Map attribute names to string IDs (same as StatusDialog)
+    const attrToStringId: Record<string, number> = {
+      injury: 10,
+      infect: 9,
+      starve: 6,
+      vigour: 7,
+      spirit: 8,
+      water: 14,
+      virus: 15,
+      hp: 5
+    }
+    const stringId = attrToStringId[attr]
+    if (stringId) {
+      const config = getString(String(stringId))
+      if (typeof config === 'object' && config !== null && 'des' in config) {
+        return config.des as string
+      }
+    }
+    // Fallback descriptions
     const descriptions: Record<string, string> = {
       injury: 'Injury affects your health. Use bandages to treat injuries.',
       infect: 'Infection can be dangerous. Use medicine to treat infections.',
@@ -516,14 +544,14 @@ export function AttributeStatusDialog() {
           className="absolute"
           style={{
             left: '0',
-            bottom: '0',
+            bottom: '-60px',
             width: `${dialogWidth}px`,
             height: `${actionHeight}px`
           }}
         >
           {/* Close button (btn_1) */}
           <DialogButton
-            text="OK"
+            text={getString('statusDialog.action.btn_1.txt')}
             position={{ x: 50, y: 50 }}
             onClick={handleClose}
             enabled={true}

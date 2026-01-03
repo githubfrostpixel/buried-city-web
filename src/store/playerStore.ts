@@ -27,6 +27,8 @@ import { useBuildingStore } from '@/store/buildingStore'
 import { useGameStore } from '@/store/gameStore'
 import { weaponReturn } from '@/data/weaponReturn'
 import { checkDeathOnAttributeChange, handleDeath } from '@/utils/deathCheck'
+import { getString } from '@/utils/stringUtil'
+import { useLogStore } from '@/store/logStore'
 
 interface PlayerStore extends PlayerState {
   // Location state
@@ -296,8 +298,9 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       // Special handling for virus death: set HP to 0 first, then die
       // Original: this.log.addMsg(stringUtil.getString(6671)); this.changeAttr("hp", -this["hp"]);
       if (deathReason === 'virus_overload') {
-        // Log message (TODO: Use string system - message 6671)
-        console.log('Virus overload!')
+        // Log message
+        const logStore = useLogStore.getState()
+        logStore.addLog(getString(6671)) // "The virus finally defeated your immune system and ended your humanity."
         
         // Set HP to 0 using updateAttribute (this will trigger death check automatically)
         // This matches original: this.changeAttr("hp", -this["hp"])
@@ -828,10 +831,15 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     const badEffects = state.applyEffect(effectObj as Record<string, number>)
     
     if (badEffects.length > 0) {
-      // TODO: Log warning message (string ID 1107)
-      // For now, just log to console
-      const effectStr = badEffects.map((e: {attrName: string, changeValue: number}) => `${e.attrName}: ${e.changeValue}`).join(' ')
-      console.warn(`Item ${item.id} had negative effects: ${effectStr}`)
+      // Log warning message
+      const logStore = useLogStore.getState()
+      const itemConfig = getString(item.id)
+      const itemName = typeof itemConfig === 'object' && itemConfig !== null && 'title' in itemConfig
+        ? itemConfig.title as string
+        : item.id
+      // Format bad effects string
+      const effectsStr = badEffects.map((e: {attrName: string, changeValue: number}) => `${e.attrName}:${e.changeValue}`).join(' ')
+      logStore.addLog(getString(1107, itemName, effectsStr)) // Format: "The impurities of %s caused harmful consequences! (%s)"
     }
   },
   
@@ -875,7 +883,11 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     }
     
     const item = new Item(itemId)
-    const itemName = `Item ${itemId}` // TODO: Get from string system
+    // Get item name from string system
+    const itemConfig = getString(itemId)
+    const itemName = typeof itemConfig === 'object' && itemConfig !== null && 'title' in itemConfig
+      ? itemConfig.title as string
+      : `Item ${itemId}` // Fallback
     
     // Get time manager
     const timeManager = game.getTimeManager()
@@ -896,9 +908,10 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         set({ storage: storageState })
       }
       
-      // Log message (TODO: Use string system - message 1093)
+      // Log message
       const remainingCount = storage.getItemCount(itemId)
-      console.log(`Consumed ${itemName}, remaining: ${remainingCount}`)
+      const logStore = useLogStore.getState()
+      logStore.addLog(getString(1093, itemName, remainingCount)) // Format: "You ate a %s (stock: %s)"
       
       // Apply effect
       state.itemEffect(item, item.getFoodEffect())
@@ -918,9 +931,10 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
           set({ storage: storageState })
         }
         
-        // Log message (TODO: Use string system - message 1094)
+        // Log message
         const remainingCount = storage.getItemCount(itemId)
-        console.log(`Used ${itemName}, remaining: ${remainingCount}`)
+        const logStore = useLogStore.getState()
+        logStore.addLog(getString(1094, itemName, remainingCount)) // Format: "You wrapped your wound with %s (stock: %s)"
         
         // Apply effect and bind up
         state.itemEffect(item, item.getMedicineEffect())
@@ -934,9 +948,10 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
           set({ storage: storageState })
         }
         
-        // Log message (TODO: Use string system - message 1095)
+        // Log message
         const remainingCount = storage.getItemCount(itemId)
-        console.log(`Used ${itemName}, remaining: ${remainingCount}`)
+        const logStore = useLogStore.getState()
+        logStore.addLog(getString(1095, itemName, remainingCount)) // Format: "You took %s (stock: %s)"
         
         // Special case for Homemade Penicillin (1104032)
         if (itemId === '1104032') {
@@ -965,9 +980,10 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         set({ storage: storageState })
       }
       
-      // Log message (TODO: Use string system - message 1095)
+      // Log message
       const remainingCount = storage.getItemCount(itemId)
-      console.log(`Used ${itemName}, remaining: ${remainingCount}`)
+      const logStore = useLogStore.getState()
+      logStore.addLog(getString(1095, itemName, remainingCount)) // Format: "You took %s (stock: %s)"
       
       // Apply buff (TODO: Implement buffManager.applyBuff)
       // For now, just log
@@ -1082,8 +1098,13 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         // Reset weapon round
         state.resetWeaponRound(itemId)
         
-        // TODO: Log message (string ID 1205)
-        console.log(`Weapon ${itemId} broke!`)
+        // Log message
+        const logStore = useLogStore.getState()
+        const brokenItemConfig = getString(itemId)
+        const brokenItemName = typeof brokenItemConfig === 'object' && brokenItemConfig !== null && 'title' in brokenItemConfig
+          ? brokenItemConfig.title as string
+          : itemId
+        logStore.addLog(getString(1205, brokenItemName)) // Format: "%s is broken!"
         
         return true
       }

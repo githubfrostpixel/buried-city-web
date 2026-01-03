@@ -14,6 +14,7 @@ import { Item } from '@/game/inventory/Item'
 import { Sprite } from '@/components/sprites/Sprite'
 import { emitter } from '@/utils/emitter'
 import { saveAll } from '@/game/systems/SaveSystem'
+import { getString } from '@/utils/stringUtil'
 
 const EQUIPMENT_SLOTS = [
   { key: 'gun' as const, label: 'Gun', itemType: '1301', emptyIcon: 'icon_tab_gun.png' },
@@ -380,7 +381,7 @@ export function EquipPanel() {
               
               if (isHand) {
                 itemInfo = {
-                  name: 'Hand', // TODO: Get from string 1170
+                  name: getString(1170) || 'Hand',
                   weight: 0,
                   count: 0,
                   atkCD: 1
@@ -394,8 +395,11 @@ export function EquipPanel() {
                 const config = item.config
                 const count = playerStore.getBagItemCount(itemId)
                 
-                // TODO: Get name from string system - stringUtil.getString(itemId).title
-                const name = `Item ${itemId}`
+                // Get name from string system
+                const itemConfig = getString(itemId)
+                const name = typeof itemConfig === 'object' && itemConfig !== null && 'title' in itemConfig
+                  ? itemConfig.title as string
+                  : `Item ${itemId}` // Fallback
                 
                 itemInfo = {
                   name,
@@ -553,8 +557,18 @@ export function EquipPanel() {
                       }}
                     >
                       {slot.key === 'special' 
-                        ? '1305053 / 1305064 / 1305075' // TODO: Get item names from string system
-                        : 'Empty' // TODO: Get from string 1024
+                        ? (() => {
+                            const name1 = getString('1305053')
+                            const name2 = getString('1305064')
+                            const name3 = getString('1305075')
+                            const getName = (config: any): string => {
+                              return typeof config === 'object' && config !== null && 'title' in config
+                                ? config.title as string
+                                : ''
+                            }
+                            return `${getName(name1)} / ${getName(name2)} / ${getName(name3)}`
+                          })()
+                        : getString(1024) || 'Empty'
                       }
                     </div>
                   )}

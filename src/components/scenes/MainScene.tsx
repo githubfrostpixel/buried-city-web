@@ -27,6 +27,7 @@ import { useBuildingStore } from '@/store/buildingStore'
 import { audioManager, MusicPaths, SoundPaths } from '@/game/systems/AudioManager'
 import { game } from '@/game/Game'
 import { saveAll } from '@/game/systems/SaveSystem'
+import { getString } from '@/utils/stringUtil'
 
 export function MainScene() {
   const uiStore = useUIStore()
@@ -485,31 +486,51 @@ export function MainScene() {
         const buildingId = uiStore.buildPanelBuildingId
         if (buildingId) {
           const building = buildingStore.getBuilding(buildingId)
-          return building && buildingStore.room
-            ? buildingStore.room.getBuildCurrentName(buildingId)
-            : 'Building'
+          if (building && buildingStore.room) {
+            return buildingStore.room.getBuildCurrentName(buildingId)
+          }
+          // Fallback: try to get name from string system using level 0
+          const buildingConfig = getString(`${buildingId}_0`)
+          if (typeof buildingConfig === 'object' && buildingConfig !== null && 'title' in buildingConfig) {
+            return buildingConfig.title as string
+          }
         }
-        return 'Building'
+        return getString('1_0')?.title || 'Building' // Fallback to Toolbox name or hardcoded
       }
       case 'storage': {
         // Get building 13 (Storage Shelf) name
         const building = buildingStore.getBuilding(13)
-        return building && buildingStore.room
-          ? buildingStore.room.getBuildCurrentName(13)
+        if (building && buildingStore.room) {
+          return buildingStore.room.getBuildCurrentName(13)
+        }
+        // Fallback: get from string system
+        const buildingConfig = getString('13_0')
+        return typeof buildingConfig === 'object' && buildingConfig !== null && 'title' in buildingConfig
+          ? buildingConfig.title as string
           : 'Storage'
       }
       case 'radio': {
         // Get building 15 (Radio) name
         const building = buildingStore.getBuilding(15)
-        return building && buildingStore.room
-          ? buildingStore.room.getBuildCurrentName(15)
+        if (building && buildingStore.room) {
+          return buildingStore.room.getBuildCurrentName(15)
+        }
+        // Fallback: get from string system
+        const buildingConfig = getString('15_0')
+        return typeof buildingConfig === 'object' && buildingConfig !== null && 'title' in buildingConfig
+          ? buildingConfig.title as string
           : 'Radio'
       }
       case 'gate': {
         // Get building 14 (Gate) name
         const building = buildingStore.getBuilding(14)
-        return building && buildingStore.room
-          ? buildingStore.room.getBuildCurrentName(14)
+        if (building && buildingStore.room) {
+          return buildingStore.room.getBuildCurrentName(14)
+        }
+        // Fallback: get from string system
+        const buildingConfig = getString('14_0')
+        return typeof buildingConfig === 'object' && buildingConfig !== null && 'title' in buildingConfig
+          ? buildingConfig.title as string
           : 'Gate'
       }
       case 'site': {

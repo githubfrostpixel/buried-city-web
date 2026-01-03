@@ -15,16 +15,24 @@ import { useBuildingStore } from '@/store/buildingStore'
 import { Sprite } from '@/components/sprites/Sprite'
 import { DialogButton } from '@/components/common/DialogButton'
 import { getRecipeIcon } from '@/utils/recipeIcon'
+import { getString } from '@/utils/stringUtil'
 
 interface RecipeDialogData {
   buildingId: number
   recipeIndex: number  // Index in building's recipe list
 }
 
-// Base build dialog config (from string "build")
-const BUILD_DIALOG_BASE = {
-  action: {
-    btn_1: { txt: "OK" }
+// Get build dialog base config from string system (uses same "build" string)
+function getBuildDialogBase() {
+  const config = getString('build')
+  if (typeof config === 'object' && config !== null) {
+    return config as {
+      action: { btn_1: { txt: string } }
+    }
+  }
+  // Fallback if not found
+  return {
+    action: { btn_1: { txt: 'OK' } }
   }
 }
 
@@ -67,21 +75,49 @@ export function RecipeDialog() {
   
   const recipe = recipes[recipeIndex]
   
-  // Get recipe string config (placeholder until string system is implemented)
-  // Original: stringUtil.getString("b_a_" + bid) or stringUtil.getString("b_a_" + bid + "_" + index) for special cases
-  // Special case: Building 10 (Rest), index 1 uses "b_a_10_1"
-  // const getStringId = (): string => {
-  //   if (buildingId === 10 && recipeIndex === 1) {
-  //     return `b_a_${buildingId}_${recipeIndex}`
-  //   }
-  //   return `b_a_${buildingId}`
-  // }
-  // const stringId = getStringId() // Will be used when string system is implemented
+  // Get recipe name and description from string system
+  // Special building actions (5, 8, 9, 10, 12, 17) use "b_a_" + buildingId strings
+  // Regular crafting recipes use the produced item's string ID
+  const BUILD_ACTION_BUILDINGS = [5, 8, 9, 10, 12, 17] // Bonfire, Trap, Bed, Rest, Dog, Bomb
   
-  // Get recipe name and description (placeholder until string system is implemented)
-  // Original: stringUtil.getString(stringId).title and .des
-  const recipeName = `Recipe ${recipe.id}` // Placeholder
-  const recipeDescription = `This is recipe ${recipe.id} for building ${buildingId}. Description will be loaded from string system.` // Placeholder
+  let recipeName = `Recipe ${recipe.id}` // Fallback
+  let recipeDescription = '' // Fallback
+  
+  if (BUILD_ACTION_BUILDINGS.includes(buildingId)) {
+    // Special building action - use "b_a_" string
+    let stringId: string
+    if (buildingId === 10 && recipeIndex === 1) {
+      // Special case: Building 10 (Rest), index 1 uses "b_a_10_1"
+      stringId = `b_a_${buildingId}_${recipeIndex}`
+    } else {
+      stringId = `b_a_${buildingId}`
+    }
+    
+    const recipeConfig = getString(stringId)
+    if (typeof recipeConfig === 'object' && recipeConfig !== null) {
+      if ('title' in recipeConfig) {
+        recipeName = recipeConfig.title as string
+      }
+      if ('des' in recipeConfig) {
+        recipeDescription = recipeConfig.des as string
+      }
+    }
+  } else {
+    // Regular crafting recipe - use produced item's string ID
+    const produce = recipe.getProduce()
+    if (produce.length > 0) {
+      const producedItemId = produce[0].itemId
+      const itemConfig = getString(String(producedItemId))
+      if (typeof itemConfig === 'object' && itemConfig !== null) {
+        if ('title' in itemConfig) {
+          recipeName = itemConfig.title as string
+        }
+        if ('des' in itemConfig) {
+          recipeDescription = itemConfig.des as string
+        }
+      }
+    }
+  }
   
   // Get recipe icon - use build_action icon for special buildings, otherwise use produced item's icon
   // Original: Default uses icon_item_{itemId}.png, special buildings use build_action_{bid}_{index}.png
@@ -225,14 +261,14 @@ export function RecipeDialog() {
           className="absolute"
           style={{
             left: 0,
-            bottom: 0,
+            bottom: '-75px',
             width: `${dialogWidth}px`,
             height: `${actionHeight}px`
           }}
         >
           {/* OK button - centered */}
           <DialogButton
-            text={BUILD_DIALOG_BASE.action.btn_1.txt}
+            text={getBuildDialogBase().action.btn_1.txt}
             position={{ x: 50, y: 50 }} // 50% = center
             onClick={() => uiStore.hideOverlay()}
             className=""

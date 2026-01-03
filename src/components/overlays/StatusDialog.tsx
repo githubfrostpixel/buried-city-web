@@ -17,6 +17,7 @@ import { usePlayerStore } from '@/store/playerStore'
 import { useBuildingStore } from '@/store/buildingStore'
 import { Sprite } from '@/components/sprites/Sprite'
 import { DialogButton } from '@/components/common/DialogButton'
+import { getString } from '@/utils/stringUtil'
 
 interface StatusDialogData {
   stringId: number
@@ -24,22 +25,22 @@ interface StatusDialogData {
   iconName: string
 }
 
-// Status dialog string configurations (placeholder until string system is implemented)
-const STATUS_STRINGS: Record<number, { title: string; des: string }> = {
-  1: { title: 'Day', des: 'Current day in the game.' },
-  2: { title: 'Season', des: 'Current season: Spring, Summer, Autumn, or Winter.' },
-  3: { title: 'Temperature', des: 'Current temperature in degrees.' },
-  4: { title: 'Time', des: 'Current time of day.' },
-  11: { title: 'Weather', des: 'Current weather conditions.' },
-  12: { title: 'Electric', des: 'Work site electric status.' },
-  13: { title: 'Currency', des: 'Current amount of money.' },
-  16: { title: 'Fuel', des: 'Current fuel level and maximum capacity.' }
-}
-
-// Base status dialog config
-const STATUS_DIALOG_BASE = {
-  txt_1: 'Current: %s',
-  btn_1: { txt: 'OK' }
+// Get status dialog base config from string system
+function getStatusDialogBase() {
+  const config = getString('statusDialog')
+  if (typeof config === 'object' && config !== null) {
+    return config as {
+      title: { txt_1: string }
+      content: {}
+      action: { btn_1: { txt: string } }
+    }
+  }
+  // Fallback if not found
+  return {
+    title: { txt_1: 'Current: %s' },
+    content: {},
+    action: { btn_1: { txt: 'OK' } }
+  }
 }
 
 // Determine icon atlas based on icon name
@@ -91,21 +92,26 @@ export function StatusDialog() {
   
   const { stringId, value, iconName } = dialogData
   
-  // Get string config for this status
-  const strConfig = STATUS_STRINGS[stringId] || { title: 'Status', des: 'Status information.' }
+  // Get string config for this status from string system
+  const strConfigObj = getString(String(stringId))
+  const strConfig = typeof strConfigObj === 'object' && strConfigObj !== null && 'title' in strConfigObj
+    ? { title: strConfigObj.title as string, des: strConfigObj.des as string }
+    : { title: 'Status', des: 'Status information.' }
+  
+  // Get status dialog base config
+  const statusDialogBase = getStatusDialogBase()
   
   // Format txt_1: "Current: {value}"
-  const txt1 = STATUS_DIALOG_BASE.txt_1.replace('%s', String(value))
+  const txt1 = getString('statusDialog.title.txt_1', String(value))
   
   // Special case: Weather txt_2 when Radio building exists
   let txt2: string | null = null
   if (stringId === 11) {
     const radioBuilding = buildingStore.getBuilding(15)
     if (radioBuilding && radioBuilding.level > -1) {
-      // TODO: Get string 9003 and weather.Random when string system is implemented
-      // For now, use placeholder
+      // Get weather forecast
       const weatherRandom = gameStore.weatherSystem?.getRandomValue?.() || 0
-      txt2 = `Random: ${weatherRandom}` // Placeholder until string system
+      txt2 = getString(9003, weatherRandom) || `Random: ${weatherRandom}` // Format: "Next: %s"
     }
   }
   
@@ -282,14 +288,14 @@ export function StatusDialog() {
           className="absolute"
           style={{
             left: 0,
-            bottom: 0,
+            bottom: '-75px',
             width: `${dialogWidth}px`,
             height: `${actionHeight}px`
           }}
         >
           {/* OK button - centered */}
           <DialogButton
-            text={STATUS_DIALOG_BASE.btn_1.txt}
+            text={statusDialogBase.action.btn_1.txt}
             position={{ x: 50, y: 50 }} // 50% = center
             onClick={() => uiStore.hideOverlay()}
             className=""
