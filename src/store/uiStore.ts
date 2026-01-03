@@ -135,7 +135,7 @@ interface UIStore {
   removeNotification: (id: string) => void
 }
 
-export const useUIStore = create<UIStore>((set) => ({
+export const useUIStore = create<UIStore>((set, get) => ({
   currentScene: 'menu',
   openPanel: null,
   buildPanelBuildingId: null,
@@ -180,6 +180,13 @@ export const useUIStore = create<UIStore>((set) => ({
   }),
   
   showOverlay: (overlay: Overlay, data?: any) => {
+    // Prevent other overlays when death overlay is active (hardlock)
+    const currentState = get()
+    if (currentState.activeOverlay === 'death' && overlay !== 'death') {
+      // Death overlay is active, prevent showing other overlays
+      return
+    }
+    
     if (overlay === 'death' && data?.reason) {
       set({ activeOverlay: overlay, deathReason: data.reason, overlayData: data })
     } else {
@@ -188,6 +195,12 @@ export const useUIStore = create<UIStore>((set) => ({
   },
   
   showItemDialog: (itemId: string, source: 'storage' | 'bag' | 'bazaar', showOnly?: boolean) => {
+    // Prevent showing item dialog when death overlay is active (hardlock)
+    const currentState = get()
+    if (currentState.activeOverlay === 'death') {
+      return
+    }
+    
     set({ 
       activeOverlay: 'itemDialog', 
       overlayData: { itemId, source, showOnly } 
@@ -195,6 +208,12 @@ export const useUIStore = create<UIStore>((set) => ({
   },
   
   showBuildDialog: (buildingId: number, level: number) => {
+    // Prevent showing build dialog when death overlay is active (hardlock)
+    const currentState = get()
+    if (currentState.activeOverlay === 'death') {
+      return
+    }
+    
     set({ 
       activeOverlay: 'buildDialog', 
       overlayData: { buildingId, level } 
@@ -202,6 +221,12 @@ export const useUIStore = create<UIStore>((set) => ({
   },
   
   showRecipeDialog: (buildingId: number, recipeIndex: number) => {
+    // Prevent showing recipe dialog when death overlay is active (hardlock)
+    const currentState = get()
+    if (currentState.activeOverlay === 'death') {
+      return
+    }
+    
     set({ 
       activeOverlay: 'recipeDialog', 
       overlayData: { buildingId, recipeIndex } 

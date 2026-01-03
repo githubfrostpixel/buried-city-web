@@ -185,21 +185,14 @@ export function HomePanelContent({ onBuildingClick }: HomePanelContentProps) {
                 pointerEvents: 'auto'
               }}
             >
-              <BuildingButton
-                bid={bid}
-                level={displayLevel}
-                isActive={isActive}
-                position={{ x: 0, y: 0 }}
-                onClick={() => handleBuildingClick(bid)}
-              />
-              {/* Gate light effect */}
+              {/* Gate light effect - rendered before gate button so gate appears on top */}
               {showLight && (
                 <div
                   className="absolute pointer-events-none"
                   style={{
                     left: '50%',
                     top: '50%',
-                    transform: 'translate(-47%, -55%) scale(2.35)',
+                    transform: 'translate(-50%, -55%) scale(2.35)',
                     animation: 'gateLightFade 4s infinite',
                     opacity: 1
                   }}
@@ -215,6 +208,13 @@ export function HomePanelContent({ onBuildingClick }: HomePanelContentProps) {
                   />
                 </div>
               )}
+              <BuildingButton
+                bid={bid}
+                level={displayLevel}
+                isActive={isActive}
+                position={{ x: 0, y: 0 }}
+                onClick={() => handleBuildingClick(bid)}
+              />
             </div>
           )
         })}

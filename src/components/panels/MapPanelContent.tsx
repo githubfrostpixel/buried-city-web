@@ -20,6 +20,7 @@
 import { useEffect, useState } from 'react'
 import { useUIStore } from '@/store/uiStore'
 import { usePlayerStore } from '@/store/playerStore'
+import { useGameStore } from '@/store/gameStore'
 import { game } from '@/game/Game'
 import { Sprite } from '@/components/sprites/Sprite'
 import { HOME_SITE, AD_SITE, BOSS_SITE, WORK_SITE, GAS_SITE, BAZAAR_SITE } from '@/game/world/Site'
@@ -34,8 +35,10 @@ import type { Panel } from '@/store/uiStore'
 export function MapPanelContent() {
   const uiStore = useUIStore()
   const playerStore = usePlayerStore()
+  const gameStore = useGameStore()
   const map = playerStore.map
   const isMoving = playerStore.isMoving
+  const weatherId = gameStore.weather
   const [sites, setSites] = useState<Site[]>([])
   const [actorPos, setActorPos] = useState<{ x: number; y: number } | null>(map?.pos || null)
 
@@ -316,7 +319,7 @@ export function MapPanelContent() {
         }}
       >
         <Sprite
-          atlas="new"
+          atlas="ui"
           frame="map_bg_new.png"
           className="w-full h-full object-cover"
           style={{
@@ -324,6 +327,19 @@ export function MapPanelContent() {
             height: '100%'
           }}
         />
+        {/* Weather overlay - shown when weather is not 0 (not CLOUDY/Clear) */}
+        {/* Original: weather_{id}.png, anchor (0, 0), added as child of bg sprite */}
+        {weatherId !== 0 && (
+          <Sprite
+            atlas="ui"
+            frame={`weather_${weatherId}.png`}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              width: '100%',
+              height: '100%'
+            }}
+          />
+        )}
       </div>
 
       {/* Map content - sites and player */}

@@ -87,7 +87,8 @@ export function GateOutPanelContent() {
       <div
         className="absolute inset-0"
         style={{
-          zIndex: -1
+          zIndex: -1,
+          overflow: 'hidden'
         }}
       >
         <Sprite

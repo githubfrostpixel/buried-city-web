@@ -168,17 +168,30 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
   }
 
   return (
-    <div
-      className="fixed z-[9999]"
-      style={{
-        left: `${bottomBarRect.left}px`,
-        top: `${bottomBarRect.top}px`,
-        width: `${bottomBarRect.width}px`,
-        height: `${bottomBarRect.height}px`,
-        animation: 'fadeIn 0.3s ease-in'
-      }}
-      data-test-id="death-overlay"
-    >
+    <>
+      {/* Full-screen blocking layer to hardlock the game - prevents all interactions */}
+      <div
+        className="fixed inset-0 z-[9998]"
+        style={{
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          pointerEvents: 'auto',
+          animation: 'fadeIn 0.3s ease-in'
+        }}
+        data-test-id="death-overlay-blocker"
+      />
+      {/* Death overlay panel */}
+      <div
+        className="fixed z-[9999]"
+        style={{
+          left: `${bottomBarRect.left}px`,
+          top: `${bottomBarRect.top}px`,
+          width: `${bottomBarRect.width}px`,
+          height: `${bottomBarRect.height}px`,
+          animation: 'fadeIn 0.3s ease-in',
+          pointerEvents: 'auto'
+        }}
+        data-test-id="death-overlay"
+      >
       {/* Dark background overlay covering BottomBar area */}
       <div
         className="absolute inset-0"
@@ -409,7 +422,8 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
           }
         }
       `}</style>
-    </div>
+      </div>
+    </>
   )
 }
 

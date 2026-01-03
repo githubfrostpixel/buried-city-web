@@ -111,22 +111,23 @@ function App() {
       {activeOverlay === 'death' && deathReason && (
         <DeathOverlay reason={deathReason} />
       )}
-      {activeOverlay === 'itemDialog' && (
+      {/* Prevent other overlays from rendering when death overlay is active (hardlock) */}
+      {activeOverlay !== 'death' && activeOverlay === 'itemDialog' && (
         <ItemDialog />
       )}
-      {activeOverlay === 'attributeDialog' && (
+      {activeOverlay !== 'death' && activeOverlay === 'attributeDialog' && (
         <AttributeStatusDialog />
       )}
-      {activeOverlay === 'statusDialog' && (
+      {activeOverlay !== 'death' && activeOverlay === 'statusDialog' && (
         <StatusDialog />
       )}
-      {activeOverlay === 'buildDialog' && (
+      {activeOverlay !== 'death' && activeOverlay === 'buildDialog' && (
         <BuildDialog />
       )}
-      {activeOverlay === 'recipeDialog' && (
+      {activeOverlay !== 'death' && activeOverlay === 'recipeDialog' && (
         <RecipeDialog />
       )}
-      {activeOverlay === 'siteDialog' && (
+      {activeOverlay !== 'death' && activeOverlay === 'siteDialog' && (
         <SiteDialog />
       )}
     </>
