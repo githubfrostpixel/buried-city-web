@@ -11,6 +11,7 @@ import { RecipeDialog } from './components/overlays/RecipeDialog'
 import { SiteDialog } from './components/overlays/SiteDialog'
 import { getImagePath } from './utils/assets'
 import { ImageSprite } from './components/sprites/ImageSprite'
+import { useViewportScale } from './hooks/useViewportScale'
 // Future scenes (to be implemented):
 // import { SaveFileScene } from './components/scenes/SaveFileScene'
 // import { ChooseScene } from './components/scenes/ChooseScene'
@@ -24,6 +25,10 @@ function App() {
   const activeOverlay = useUIStore((state) => state.activeOverlay)
   const deathReason = useUIStore((state) => state.deathReason)
   
+  // Calculate viewport scale to maximize visible area while fitting screen
+  // Using 'fit-both' policy to calculate scale from both width and height
+  // This ensures the game uses the largest possible scale that fits the viewport
+  const { scale } = useViewportScale(640, 1136, 'fit-both', 0.3, 1.0)
   
   // Check for test mode (via URL parameter or localStorage)
   const isTestMode = window.location.search.includes('test=true') || 
@@ -60,15 +65,31 @@ function App() {
         />
       </div>
       
-      <div 
-        className="game-container w-full h-full text-white relative" 
-        style={{ 
+      {/* Game container wrapper - centers and scales the game */}
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          width: '640px',
+          height: '1136px',
+          transform: `translate(-50%, -50%) scale(${scale})`,
+          transformOrigin: 'center center',
           backgroundColor: 'transparent',
-          boxShadow: '0 0 30px rgba(0, 0, 0, 0.5), 0 0 60px rgba(0, 0, 0, 0.3)',
-          border: '2px solid rgba(0, 0, 0, 0.2)',
-          borderRadius: '4px'
+          zIndex: 0
         }}
       >
+        <div 
+          className="game-container text-white relative" 
+          style={{ 
+            backgroundColor: 'transparent',
+            boxShadow: '0 0 30px rgba(0, 0, 0, 0.5), 0 0 60px rgba(0, 0, 0, 0.3)',
+            border: '2px solid rgba(0, 0, 0, 0.2)',
+            borderRadius: '4px',
+            width: '640px',
+            height: '1136px'
+          }}
+        >
         {isTestMode ? (
           <TestIndexScreen />
         ) : (
@@ -83,6 +104,7 @@ function App() {
             {/* {currentScene === 'end' && <EndScene />} */}
           </>
         )}
+        </div>
       </div>
       
       {/* Global overlays - rendered at App level to span full viewport */}

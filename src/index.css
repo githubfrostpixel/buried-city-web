@@ -18,12 +18,9 @@
 
   #root {
     @apply h-full w-full;
-    /* Mobile-first: 640x1136 base resolution */
-    max-width: 640px;
-    max-height: 1136px;
-    margin: 0 auto;
-    background-color: #000;
+    background-color: transparent;
     overflow: hidden;
+    position: relative;
   }
 
   /* Prevent text selection in game */

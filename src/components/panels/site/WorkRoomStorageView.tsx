@@ -74,7 +74,33 @@ export function WorkRoomStorageView({ room, site, onNextRoom, flushRef }: WorkRo
   // Callbacks to persist storage changes
   const handleTopStorageUpdate = (storage: Storage) => {
     // Save bag back to playerStore
-    usePlayerStore.setState({ bag: storage.save() })
+    const newBag = storage.save()
+    usePlayerStore.setState({ bag: newBag })
+    
+    // Check for auto-unequip: if any equipped item is not in bag (and not in storage/safe), unequip it
+    const stateAfter = usePlayerStore.getState()
+    const slots: Array<'gun' | 'weapon' | 'equip' | 'tool' | 'special'> = ['gun', 'weapon', 'equip', 'tool', 'special']
+    for (const slot of slots) {
+      const equippedItemId = stateAfter.equipment[slot]
+      if (equippedItemId && equippedItemId !== "1") { // Skip hand (weapon slot default)
+        const bagCount = newBag[equippedItemId] || 0
+        const storageCount = stateAfter.storage[equippedItemId] || 0
+        const safeCount = stateAfter.safe[equippedItemId] || 0
+        const totalCount = bagCount + storageCount + safeCount
+        if (totalCount === 0) {
+          if (slot === 'weapon') {
+            // Weapon always defaults to hand
+            usePlayerStore.setState((state) => ({
+              equipment: { ...state.equipment, [slot]: "1" }
+            }))
+          } else {
+            usePlayerStore.setState((state) => ({
+              equipment: { ...state.equipment, [slot]: null }
+            }))
+          }
+        }
+      }
+    }
   }
   
   const handleBottomStorageUpdate = (_storage: Storage) => {

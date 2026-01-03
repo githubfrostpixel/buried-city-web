@@ -380,7 +380,8 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       if (newCount === 0) {
         delete newBag[itemId]
         // Auto-unequip if item was equipped AND not in any inventory
-        if (state.isEquipped(itemId)) {
+        const isEquipped = state.isEquipped(itemId)
+        if (isEquipped) {
           // Check if item exists in any inventory (bag, storage, or safe)
           // Since newBag[itemId] is already deleted (count is 0), only check storage and safe
           const totalCount = (state.storage[itemId] || 0) + (state.safe[itemId] || 0)
@@ -390,8 +391,17 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
             const slots: Array<'gun' | 'weapon' | 'equip' | 'tool' | 'special'> = ['gun', 'weapon', 'equip', 'tool', 'special']
             for (const slot of slots) {
               if (state.equipment[slot] === itemId) {
-                state.unequipItem(slot)
-                break
+                // Directly update equipment in same set() callback instead of calling unequipItem
+                // (which would cause nested set() calls)
+                const newEquipment = { ...state.equipment }
+                if (slot === 'weapon') {
+                  // Weapon always defaults to hand
+                  newEquipment[slot] = "1"
+                } else {
+                  newEquipment[slot] = null
+                }
+                // Return updated bag and equipment together
+                return { bag: newBag, equipment: newEquipment }
               }
             }
           }
