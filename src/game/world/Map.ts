@@ -23,13 +23,11 @@ import { emitter } from '@/utils/emitter'
 import { useLogStore } from '@/store/logStore'
 import { isAllItemUnlocked } from '@/utils/iap'
 import type { SiteSaveData, MapSaveData } from '@/types/site.types'
+import type { NPC } from '@/types/npc.types'
 import { getString } from '@/utils/stringUtil'
 
-// NPC stub interface (will be replaced in Phase 5)
-interface NPC {
-  id: number
-  getName(): string
-}
+// Note: NPCManager integration will be fully implemented in Phase 5
+// For now, Map only tracks which NPCs are unlocked (npcMap)
 
 /**
  * Map class
@@ -145,15 +143,20 @@ export class Map {
   /**
    * Iterate over all NPCs and sites
    * @param callback Function to call for each entity
+   * @param npcManager NPCManager instance (required for NPC iteration)
    */
-  forEach(callback: (entity: Site | NPC) => void): void {
+  forEach(callback: (entity: Site | NPC) => void, npcManager?: { getNPC: (id: number) => NPC }): void {
     // Iterate NPCs
-    // TODO: Integrate with NPC system (Phase 5)
-    // For now, skip NPC iteration
-    // for (const npcId in this.npcMap) {
-    //   const npc = npcManager.getNPC(npcId)
-    //   callback(npc)
-    // }
+    if (npcManager) {
+      for (const npcId in this.npcMap) {
+        if (this.npcMap[npcId]) {
+          const npc = npcManager.getNPC(Number(npcId))
+          if (npc && npc.isUnlocked) {
+            callback(npc)
+          }
+        }
+      }
+    }
 
     // Iterate sites
     for (const siteId in this.siteMap) {
@@ -173,25 +176,34 @@ export class Map {
   /**
    * Unlock an NPC location
    * @param npcId NPC ID to unlock
+   * @param npcManager NPCManager instance (optional, will be passed from playerStore)
    */
-  unlockNpc(npcId: number): void {
-    // Mark NPC as unlocked
+  unlockNpc(npcId: number, npcManager?: { getNPC: (id: number) => { getName: () => string }; unlockNpc: (id: number) => void }): void {
+    // Mark NPC as unlocked in map
     this.npcMap[npcId] = true
 
-    // TODO: Integrate with NPC system (Phase 5)
-    // const npc = npcManager.getNPC(npcId)
-    // emitter.emit("unlock_site", npc)
-    // logStore.addLog(getString(1125, npc.getName()))
-
-    // Stub for now:
-    emitter.emit("unlock_site", { id: npcId, type: 'npc' })
-    const logStore = useLogStore.getState()
-    // Get NPC name from string system
-    const npcConfig = getString(`npc_${npcId}`)
-    const npcName = typeof npcConfig === 'object' && npcConfig !== null && 'name' in npcConfig
-      ? npcConfig.name as string
-      : `NPC ${npcId}`
-    logStore.addLog(getString(1125, npcName)) // Format: "The new location %s house has been unlocked."
+    // Unlock NPC in NPCManager if provided
+    if (npcManager) {
+      npcManager.unlockNpc(npcId)
+      const npc = npcManager.getNPC(npcId)
+      
+      // Emit event with NPC instance
+      emitter.emit("unlock_site", npc)
+      
+      // Add log message
+      const logStore = useLogStore.getState()
+      logStore.addLog(getString(1125, npc.getName())) // Format: "The new location %s house has been unlocked."
+    } else {
+      // Fallback: emit event with stub data (for backward compatibility)
+      emitter.emit("unlock_site", { id: npcId, type: 'npc' })
+      const logStore = useLogStore.getState()
+      // Get NPC name from string system
+      const npcConfig = getString(`npc_${npcId}`)
+      const npcName = typeof npcConfig === 'object' && npcConfig !== null && 'name' in npcConfig
+        ? npcConfig.name as string
+        : `NPC ${npcId}`
+      logStore.addLog(getString(1125, npcName)) // Format: "The new location %s house has been unlocked."
+    }
   }
 
   /**

@@ -22,7 +22,7 @@ export const BOTTOM_BAR_LAYOUT = {
   
   // Main dimensions
   bgWidth: 596 * SCALE,
-  bgHeight: 834 * SCALE,
+  bgHeight: 839 * SCALE,
   screenWidth: 640,
   
   // Action bar zone (contains title, buttons, subtexts)

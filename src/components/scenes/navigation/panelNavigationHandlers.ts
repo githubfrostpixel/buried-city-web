@@ -38,6 +38,28 @@ export function handleSiteBack(uiStore: UIStoreState): void {
 }
 
 /**
+ * Handle NPC panel back button
+ * When at an NPC, navigate back to map (not home)
+ * This matches the navigation flow: Home → Map → NPC → (back) → Map
+ */
+export function handleNpcBack(uiStore: UIStoreState): void {
+  uiStore.openPanelAction('map')
+}
+
+/**
+ * Handle NPC storage panel back button
+ * When at NPC storage (trade panel), navigate back to NPC panel
+ */
+export function handleNpcStorageBack(uiStore: UIStoreState): void {
+  const npcId = uiStore.npcStoragePanelNpcId
+  if (npcId) {
+    uiStore.openPanelAction('npc', undefined, undefined, npcId)
+  } else {
+    uiStore.openPanelAction('map')
+  }
+}
+
+/**
  * Handle site storage panel back button
  * When at site storage, navigate back to site panel
  */
@@ -297,6 +319,10 @@ export function handlePanelBack(
       handleGateBack(uiStore)
     } else if (currentPanel === 'site') {
       handleSiteBack(uiStore)
+    } else if (currentPanel === 'npc') {
+      handleNpcBack(uiStore)
+    } else if (currentPanel === 'npcStorage') {
+      handleNpcStorageBack(uiStore)
     } else if (currentPanel === 'siteStorage') {
       handleSiteStorageBack(uiStore)
     } else if (currentPanel === 'siteExplore') {

@@ -10,6 +10,7 @@ import { z } from 'zod'
 import type { SaveData } from '@/types/save.types'
 import { SaveDataSchema, type ValidatedSaveData } from './saveSchemas'
 import type { PlayerAttributes } from '@/types/player.types'
+import type { Building } from '@/types/building.types'
 
 // Save slot management
 let currentSaveSlot = 1
@@ -111,9 +112,21 @@ export async function saveAll(): Promise<void> {
   // Import stores dynamically to avoid circular dependencies
   const { useGameStore } = await import('@/store/gameStore')
   const { usePlayerStore } = await import('@/store/playerStore')
+  const { useBuildingStore } = await import('@/store/buildingStore')
   
   const gameState = useGameStore.getState()
   const playerState = usePlayerStore.getState()
+  const buildingStore = useBuildingStore.getState()
+  
+  // Get NPCManager if available
+  let npcManagerSave: import('@/types/npc.types').NPCManagerSaveData | undefined
+  try {
+    const npcManager = playerState.getNPCManager()
+    npcManagerSave = npcManager.save()
+  } catch {
+    // NPCManager not initialized yet
+    npcManagerSave = undefined
+  }
   
   const saveData: SaveData = {
     version: '1.0.0',
@@ -170,11 +183,9 @@ export async function saveAll(): Promise<void> {
       day: gameState.day,
       weather: gameState.weatherSystem.save()
     },
-    buildings: (() => {
-      const { useBuildingStore } = require('@/store/buildingStore')
-      return useBuildingStore.getState().save()
-    })(),
-    npcs: [], // TODO: Get from NPC store when available
+    buildings: buildingStore.save() as Building[],
+    npcManager: npcManagerSave,
+    npcs: [], // Legacy NPC schema for backward compatibility
     sites: [] // TODO: Get from site store when available
   }
   
@@ -261,7 +272,18 @@ export async function restoreFromSave(saveData: ValidatedSaveData): Promise<void
     buildingStore.initialize()
   }
   
-  // TODO: Restore NPCs, sites when those systems are ready
+  // Restore NPCManager
+  if (saveData.npcManager) {
+    try {
+      const npcManager = playerStore.getNPCManager()
+      npcManager.restore(saveData.npcManager)
+    } catch {
+      // NPCManager not initialized yet, will be initialized with map
+      console.warn('NPCManager not initialized, skipping restore')
+    }
+  }
+  
+  // TODO: Restore sites when site system is ready
 }
 
 /**

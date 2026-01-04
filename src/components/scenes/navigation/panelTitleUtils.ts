@@ -141,6 +141,36 @@ export function getPanelTitle(
     case 'map':
       return '' // Empty title for map panel (matches original uiConfig)
     
+    case 'npc': {
+      // Get NPC name for NPC panel
+      const npcId = uiStore.npcPanelNpcId
+      if (npcId) {
+        try {
+          const npcManager = playerStore.getNPCManager()
+          const npc = npcManager.getNPC(npcId)
+          return npc.getName()
+        } catch {
+          return ''
+        }
+      }
+      return ''
+    }
+    
+    case 'npcStorage': {
+      // Get NPC name for NPC storage panel
+      const npcId = uiStore.npcStoragePanelNpcId
+      if (npcId) {
+        try {
+          const npcManager = playerStore.getNPCManager()
+          const npc = npcManager.getNPC(npcId)
+          return npc.getName()
+        } catch {
+          return ''
+        }
+      }
+      return ''
+    }
+    
     default: 
       return ''
   }

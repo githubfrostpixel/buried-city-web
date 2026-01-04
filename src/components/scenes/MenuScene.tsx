@@ -175,6 +175,20 @@ export function MenuScene() {
       })
       
       console.log('All map locations unlocked')
+      
+      // Unlock all NPCs
+      try {
+        const npcManager = playerStore.getNPCManager()
+        const allNpcIds = [1, 2, 3, 4, 5, 6, 7]
+        
+        allNpcIds.forEach(npcId => {
+          map.unlockNpc(npcId, npcManager)
+        })
+        
+        console.log('All NPCs unlocked')
+      } catch (error) {
+        console.warn('Failed to unlock NPCs:', error)
+      }
     } catch (error) {
       console.warn('Failed to unlock map locations:', error)
     }
@@ -182,11 +196,7 @@ export function MenuScene() {
     console.log('Test items added to storage')
   }
 
-  // Temporary test function to navigate directly to MainScene
-  const handleTestMainScene = () => {
-    audioManager.playEffect(SoundPaths.CLICK)
-    uiStore.setScene('main')
-  }
+
 
   const handleHallOfFame = () => {
     audioManager.playEffect(SoundPaths.CLICK)
@@ -388,37 +398,6 @@ export function MenuScene() {
         style={cocosPosition(320, 20, 0.5, 0.5, screenHeight)}
       >
         "When there's no more room in Hell, the dead will walk the Earth"
-      </div>
-
-      {/* TEMPORARY: Test Buttons (Top Left) - Remove after testing */}
-      <div
-        className="absolute"
-        style={{ 
-          top: '20px',
-          left: '20px',
-          zIndex: 1000,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px'
-        }}
-      >
-        <button
-          onClick={handleTestMainScene}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-          style={{ fontSize: '12px' }}
-        >
-          TEST: MainScene
-        </button>
-        <button
-          onClick={() => {
-            addTestItemsToStorage()
-            uiStore.addNotification('Test items added to storage!', 'success')
-          }}
-          className="bg-green-600 text-white px-4 py-2 rounded"
-          style={{ fontSize: '12px' }}
-        >
-          TEST: Add Items
-        </button>
       </div>
     </div>
   )

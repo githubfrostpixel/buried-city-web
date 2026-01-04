@@ -17,6 +17,8 @@ import { MapPanelContent } from '@/components/panels/MapPanelContent'
 import { SitePanelContent } from '@/components/panels/site/SitePanelContent'
 import { SiteStoragePanelContent } from '@/components/panels/SiteStoragePanelContent'
 import { SiteExploreContent } from '@/components/panels/site/SiteExploreContent'
+import { NPCPanelContent } from '@/components/panels/NPCPanelContent'
+import { NPCTradePanelContent } from '@/components/panels/NPCTradePanelContent'
 import { audioManager, MusicPaths, getSiteMusic } from '@/game/systems/AudioManager'
 import { saveAll } from '@/game/systems/SaveSystem'
 
@@ -146,6 +148,22 @@ export function PanelRenderer({ currentPanel, uiStore, playerStore }: PanelRende
         }
       }
       return <div className="text-white p-4">Site not found</div>
+    }
+    
+    case 'npc': {
+      const npcId = uiStore.npcPanelNpcId
+      if (npcId) {
+        return <NPCPanelContent />
+      }
+      return <div className="text-white p-4">NPC not found</div>
+    }
+    
+    case 'npcStorage': {
+      const npcId = uiStore.npcStoragePanelNpcId
+      if (npcId) {
+        return <NPCTradePanelContent npcId={npcId} />
+      }
+      return <div className="text-white p-4">NPC not found</div>
     }
     
     default:

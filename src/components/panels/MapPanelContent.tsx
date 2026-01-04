@@ -42,6 +42,7 @@ export function MapPanelContent() {
   const isMoving = playerStore.isMoving
   const weatherId = gameStore.weather
   const [sites, setSites] = useState<Site[]>([])
+  const [npcs, setNpcs] = useState<Array<{ id: number; pos: { x: number; y: number }; getName: () => string }>>([])
   const [actorPos, setActorPos] = useState<{ x: number; y: number } | null>(map?.pos || null)
 
   // Use actor movement hook for smooth animation
@@ -98,19 +99,45 @@ export function MapPanelContent() {
   // Get content area dimensions (for coordinate conversion)
   const contentHeight = BOTTOM_BAR_LAYOUT.content.fullScreenHeight
 
-  // Get all sites from map
+  // Get all sites and NPCs from map
   useEffect(() => {
     if (!map) return
 
     const siteList: Site[] = []
+    const npcList: Array<{ id: number; pos: { x: number; y: number }; getName: () => string }> = []
+    
+    // Get NPCManager if available
+    let npcManager: { getNPC: (id: number) => any } | undefined
+    try {
+      npcManager = playerStore.getNPCManager()
+    } catch {
+      // NPCManager not initialized yet
+    }
+    
     map.forEach((entity) => {
-      // Check if entity is a Site (has id and getName method)
+      // Check if entity is a Site (has id and getName method, and is instance of Site)
       if (entity && typeof (entity as any).id === 'number' && typeof (entity as any).getName === 'function') {
-        siteList.push(entity as Site)
+        // Check if it's an NPC (has isUnlocked property) or Site
+        if ('isUnlocked' in entity) {
+          // It's an NPC
+          const npc = entity as any
+          if (npc.isUnlocked) {
+            npcList.push({
+              id: npc.id,
+              pos: npc.pos,
+              getName: () => npc.getName()
+            })
+          }
+        } else {
+          // It's a Site
+          siteList.push(entity as Site)
+        }
       }
-    })
+    }, npcManager)
+    
     setSites(siteList)
-  }, [map])
+    setNpcs(npcList)
+  }, [map, playerStore])
 
   // Enter site after travel completes
   const enterSite = (site: Site) => {
@@ -162,6 +189,169 @@ export function MapPanelContent() {
     }
     
     // TODO: Save game (Record.saveAll())
+  }
+
+  // Enter NPC after travel completes
+  const enterNPC = (npcId: number) => {
+    // TODO: Add log message 1116 with NPC name
+    // Get NPC instance to get name for log
+    // let npcManager
+    // try {
+    //   npcManager = playerStore.getNPCManager()
+    //   const npc = npcManager.getNPC(npcId)
+    //   // player.log.addMsg(1116, npc.getName())
+    // } catch {
+    //   console.error('[MapPanelContent] NPCManager not available')
+    // }
+    
+    // Set location
+    playerStore.setLocation({
+      isAtHome: false,
+      isAtBazaar: false,
+      isAtSite: false,
+      siteId: null
+    })
+    
+    // Navigate to NPC panel
+    uiStore.setScene('main')
+    uiStore.openPanelAction('npc', undefined, undefined, npcId)
+    
+    // TODO: Save game (Record.saveAll())
+  }
+
+  // Handle NPC click
+  const handleNPCClick = (npcId: number) => {
+    // 1. Check if moving (prevent clicks during movement)
+    if (playerStore.isMoving) return
+    
+    // 2. Get NPC instance
+    let npcManager
+    try {
+      npcManager = playerStore.getNPCManager()
+    } catch {
+      console.error('[MapPanelContent] NPCManager not available')
+      return
+    }
+    
+    const npc = npcManager.getNPC(npcId)
+    if (!npc) {
+      console.error('[MapPanelContent] NPC not found:', npcId)
+      return
+    }
+    
+    // 3. Get current position
+    if (!map || !map.pos) return
+    const startPos = map.pos
+    const endPos = npc.pos
+    
+    // 4. Calculate distance
+    const distance = calculateDistance(startPos, endPos)
+    
+    // 5. Calculate fuel needed
+    let fuelNeed = Math.ceil(distance / 80)
+    let canAfford = false
+    if (playerStore.fuel >= fuelNeed) {
+      canAfford = true
+    }
+    
+    // 6. Check motorcycle availability
+    const hasMotorcycle = playerStore.getStorageItemCount('1305034') > 0 || 
+                          playerStore.getBagItemCount('1305034') > 0
+    if (!hasMotorcycle || !playerStore.useMoto) {
+      fuelNeed = -1  // No fuel needed
+    }
+    
+    // 7. Calculate travel time (in game seconds)
+    // TODO: Get weather speed multiplier from gameStore
+    const weatherSpeedMultiplier = 0  // Stub for now
+    // Use game-time velocity for time calculation (matches original game)
+    const maxVelocityGameTime = getMaxVelocityGameTime(playerStore, canAfford, weatherSpeedMultiplier)
+    const time = distance / maxVelocityGameTime
+    
+    // 8. Create movement completion callback
+    // This is called AFTER movement animation completes
+    const handleMovementComplete = () => {
+      // Consume fuel if needed
+      if (fuelNeed > 0 && canAfford) {
+        playerStore.fuel = Math.max(0, playerStore.fuel - fuelNeed)
+      }
+      
+      // Update total distance
+      playerStore.totalDistance += Math.round(distance)
+      
+      // TODO: Update dog distance if dog is active
+      
+      // Navigate to NPC
+      enterNPC(npcId)
+    }
+    
+    // 9. Create OK callback (initiates movement)
+    const okFunc = () => {
+      console.log('[MapPanelContent] NPC okFunc called - initiating movement', {
+        npcId,
+        startPos,
+        endPos,
+        distance,
+        fuelNeed,
+        canAfford,
+        time,
+        weatherSpeedMultiplier
+      })
+      
+      // Set moving state
+      playerStore.setIsMoving(true)
+      console.log('[MapPanelContent] Set isMoving = true')
+      
+      // Accelerate time during travel
+      const TRAVEL_ANIMATION_DURATION = 3 // Always 3 real seconds for animation
+      console.log('[MapPanelContent] Accelerating time:', { 
+        gameTime: time, 
+        realTime: TRAVEL_ANIMATION_DURATION,
+        timeScale: time / TRAVEL_ANIMATION_DURATION
+      })
+      
+      // Get TimeManager from game and accelerate time
+      const timeManager = game.getTimeManager()
+      if (timeManager) {
+        timeManager.accelerate(time, TRAVEL_ANIMATION_DURATION, true)
+        console.log('[MapPanelContent] Time acceleration applied:', { 
+          gameTime: time, 
+          realTime: TRAVEL_ANIMATION_DURATION,
+          expectedTimeScale: time / TRAVEL_ANIMATION_DURATION
+        })
+      } else {
+        console.warn('[MapPanelContent] TimeManager not available')
+      }
+      
+      // Calculate animation velocity for constant 3-second movement
+      const ANIMATION_DURATION = 3 // seconds
+      const animationVelocity = distance / ANIMATION_DURATION
+      console.log('[MapPanelContent] Calculated animation velocity (3s constant):', animationVelocity)
+      playerStore.setActorMaxVelocity(animationVelocity)
+      
+      // Set target position (triggers movement animation via useActorMovement hook)
+      console.log('[MapPanelContent] Setting target position:', endPos)
+      playerStore.setActorTargetPos(endPos)
+      
+      // Store completion callback (called by useActorMovement when movement finishes)
+      console.log('[MapPanelContent] Setting movement completion callback')
+      playerStore.setActorMovementCallback(handleMovementComplete)
+    }
+    
+    // 10. Create cancel callback
+    const cancelFunc = () => {
+      // Nothing to do on cancel
+    }
+    
+    // 11. Show dialog
+    uiStore.showOverlay('npcDialog', {
+      npc,
+      time,
+      fuelNeed,
+      canAfford,
+      onConfirm: okFunc,
+      onCancel: cancelFunc
+    })
   }
 
   // Handle site click
@@ -415,7 +605,7 @@ export function MapPanelContent() {
           
           return (
             <button
-              key={site.id}
+              key={`site-${site.id}`}
               onClick={() => handleSiteClick(site)}
               className="absolute cursor-pointer"
               style={{
@@ -447,6 +637,56 @@ export function MapPanelContent() {
                 <Sprite
                   atlas="site"
                   frame={`site_${site.id}.png`}
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    transform: 'scale(0.8)'
+                  }}
+                />
+              </div>
+            </button>
+          )
+        })}
+
+        {/* NPCs */}
+        {/* Original: Entity extends Button, anchor (0.5, 0.5), positioned at npc.pos, uses npc_{id}.png */}
+        {npcs.map((npc) => {
+          const npcPos = npc.pos || { x: 0, y: 0 }
+          
+          return (
+            <button
+              key={`npc-${npc.id}`}
+              onClick={() => handleNPCClick(npc.id)}
+              className="absolute cursor-pointer"
+              style={{
+                left: `${npcPos.x}px`,
+                top: `${cocosToCssYMap(npcPos.y)}px`,
+                transform: 'translate(-50%, -50%)',
+                zIndex: 5,
+                background: 'transparent',
+                border: 'none',
+                padding: 0
+              }}
+              title={npc.getName()}
+            >
+              {/* NPC background */}
+              {/* Original: site_bg.png (same as sites), scale 0.8 */}
+              <Sprite
+                atlas="site"
+                frame="site_bg.png"
+                style={{
+                  width: '60px',
+                  height: '60px',
+                  transform: 'scale(0.8)'
+                }}
+              />
+              
+              {/* NPC icon */}
+              {/* Original: npc_{id}.png, scale 0.8, centered on bg */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Sprite
+                  atlas="npc"
+                  frame={`npc_${npc.id}.png`}
                   style={{
                     width: '40px',
                     height: '40px',

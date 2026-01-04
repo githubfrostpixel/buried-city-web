@@ -81,12 +81,45 @@ const BuildingSaveDataSchema = z.object({
   saveActions: z.record(z.string(), z.any()).optional() // For formula states
 })
 
-// NPC save schema
+// Gift schema for NPC save data
+const GiftSchema = z.object({
+  itemId: z.string().optional(),
+  num: z.string().optional(),
+  siteId: z.string().optional()
+})
+
+// Steal log entry schema
+const StealLogEntrySchema = z.object({
+  ti: z.number(), // Time
+  ar: z.array(z.object({
+    itemId: z.string(),
+    num: z.number()
+  })) // Stolen items
+})
+
+// NPC save schema (matches NPCSaveData interface)
 const NPCSaveDataSchema = z.object({
-  id: z.number().int(),
-  friendship: z.number().min(0),
-  visited: z.boolean(),
-  lastVisitDay: z.number().int().optional()
+  pos: z.object({
+    x: z.number(),
+    y: z.number()
+  }),
+  reputation: z.number().int().min(0).max(10),
+  maxRep: z.number().int().min(-1).max(10),
+  storage: z.record(z.string(), z.number().int().min(0)), // Storage.save() format
+  needSendGiftList: z.object({
+    item: z.array(GiftSchema).optional(),
+    site: z.array(GiftSchema).optional()
+  }),
+  isUnlocked: z.boolean(),
+  tradingCount: z.number().int().min(0),
+  isSteal: z.boolean(),
+  Alert: z.number().int().min(0).max(30),
+  log: z.array(StealLogEntrySchema)
+})
+
+// NPC Manager save schema
+const NPCManagerSaveDataSchema = z.object({
+  npcList: z.record(z.string(), NPCSaveDataSchema)
 })
 
 // Room schema for site save data
@@ -148,7 +181,13 @@ export const SaveDataSchema = z.object({
   player: PlayerSaveDataSchema,
   game: GameSaveDataSchema,
   buildings: z.array(BuildingSaveDataSchema),
-  npcs: z.array(NPCSaveDataSchema),
+  npcManager: NPCManagerSaveDataSchema.optional(), // New NPC manager system
+  npcs: z.array(z.object({
+    id: z.number().int(),
+    friendship: z.number().min(0),
+    visited: z.boolean(),
+    lastVisitDay: z.number().int().optional()
+  })).optional(), // Legacy NPC schema for backward compatibility
   sites: z.array(z.object({
     id: z.number().int(),
     explored: z.boolean().optional(),

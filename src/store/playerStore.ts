@@ -22,6 +22,7 @@ import { itemConfig } from '@/data/items'
 import { Item } from '@/game/inventory/Item'
 import { Storage } from '@/game/inventory/Storage'
 import { Map } from '@/game/world/Map'
+import { NPCManager } from '@/game/entities/NPCManager'
 import { game } from '@/game/Game'
 import { useBuildingStore } from '@/store/buildingStore'
 import { useGameStore } from '@/store/gameStore'
@@ -82,6 +83,9 @@ interface PlayerStore extends PlayerState {
   // Map state
   map: Map | null
   
+  // NPC Manager
+  npcManager: NPCManager | null
+  
   // Travel state
   useMoto: boolean  // Whether player wants to use motorcycle
   isMoving: boolean  // Whether actor is currently moving (prevents clicks)
@@ -139,6 +143,9 @@ interface PlayerStore extends PlayerState {
   // Map actions
   initializeMap: () => void
   getMap: () => Map
+  
+  // NPC Manager actions
+  getNPCManager: () => NPCManager
   
   // Travel actions
   setUseMoto: (use: boolean) => void
@@ -254,6 +261,9 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   
   // Map state
   map: null,
+  
+  // NPC Manager
+  npcManager: null,
   
   // Travel state
   useMoto: false,
@@ -676,7 +686,12 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   initializeMap: () => {
     const map = new Map()
     map.init()
-    set({ map })
+    
+    // Initialize NPCManager
+    const npcManager = new NPCManager()
+    npcManager.init()
+    
+    set({ map, npcManager })
   },
   
   getMap: () => {
@@ -685,6 +700,15 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       throw new Error('Map not initialized. Call initializeMap() first.')
     }
     return map
+  },
+  
+  // NPC Manager actions
+  getNPCManager: () => {
+    const { npcManager } = get()
+    if (!npcManager) {
+      throw new Error('NPCManager not initialized. Call initializeMap() first.')
+    }
+    return npcManager
   },
   
   // Travel actions

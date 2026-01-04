@@ -32,6 +32,7 @@ export type Panel =
   | 'crafting'
   | 'equipment'
   | 'npc'
+  | 'npcStorage'
   | 'site'
   | 'siteStorage'
   | 'siteExplore'
@@ -55,6 +56,7 @@ export type Overlay =
   | 'buildDialog'
   | 'recipeDialog'
   | 'siteDialog'
+  | 'npcDialog'
   | 'confirmationDialog'
   | null
 
@@ -77,11 +79,20 @@ interface UIStore {
   // Site ID for site explore panel
   siteExplorePanelSiteId: number | null
   
+  // NPC ID for NPC panel
+  npcPanelNpcId: number | null
+  
+  // NPC ID for NPC storage panel
+  npcStoragePanelNpcId: number | null
+  
   // Flag to track if we're in work storage view (for handling back button)
   isInWorkStorageView: boolean
   
   // Flush function for work storage items (set by SiteExploreContent)
   workStorageFlushFunction: (() => void) | null
+  
+  // Flush function for NPC trade temp storage (set by NPCTradePanelContent)
+  npcTradeFlushFunction: (() => void) | null
   
   // Flag to track if we're in battle (for disabling back button)
   isInBattle: boolean
@@ -118,10 +129,13 @@ interface UIStore {
   
   // Actions
   setScene: (scene: Scene) => void
-  openPanelAction: (panel: Panel, buildingId?: number, siteId?: number) => void
+  openPanelAction: (panel: Panel, buildingId?: number, siteId?: number, npcId?: number) => void
   closePanel: () => void
+  showNPCStoragePanel: (npcId: number) => void
+  hideNPCStoragePanel: () => void
   setWorkStorageView: (isInWorkStorageView: boolean) => void
   setWorkStorageFlushFunction: (flushFunction: (() => void) | null) => void
+  setNPCTradeFlushFunction: (flushFunction: (() => void) | null) => void
   setInBattle: (isInBattle: boolean) => void
   setBattleEndView: (isInBattleEndView: boolean) => void
   setBattleEndCompleteFunction: (completeFunction: (() => void) | null) => void
@@ -143,8 +157,11 @@ export const useUIStore = create<UIStore>((set, get) => ({
   sitePanelSiteId: null,
   siteStoragePanelSiteId: null,
   siteExplorePanelSiteId: null,
+  npcPanelNpcId: null,
+  npcStoragePanelNpcId: null,
   isInWorkStorageView: false,
   workStorageFlushFunction: null,
+  npcTradeFlushFunction: null,
   isInBattle: false,
   isInBattleEndView: false,
   battleEndCompleteFunction: null,
@@ -156,20 +173,36 @@ export const useUIStore = create<UIStore>((set, get) => ({
   
   setScene: (scene: Scene) => set({ currentScene: scene }),
   
-  openPanelAction: (panel: Panel, buildingId?: number, siteId?: number) => set({ 
+  openPanelAction: (panel: Panel, buildingId?: number, siteId?: number, npcId?: number) => set({ 
     openPanel: panel,
     buildPanelBuildingId: panel === 'build' ? (buildingId ?? null) : null,
     sitePanelSiteId: panel === 'site' ? (siteId ?? null) : null,
     siteStoragePanelSiteId: panel === 'siteStorage' ? (siteId ?? null) : null,
-    siteExplorePanelSiteId: panel === 'siteExplore' ? (siteId ?? null) : null
+    siteExplorePanelSiteId: panel === 'siteExplore' ? (siteId ?? null) : null,
+    npcPanelNpcId: panel === 'npc' ? (npcId ?? null) : null,
+    npcStoragePanelNpcId: panel === 'npcStorage' ? (npcId ?? null) : null
   }),
   
-  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null, sitePanelSiteId: null, siteStoragePanelSiteId: null, siteExplorePanelSiteId: null, isInWorkStorageView: false, workStorageFlushFunction: null, isInBattle: false, isInBattleEndView: false, battleEndCompleteFunction: null }),
+  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null, sitePanelSiteId: null, siteStoragePanelSiteId: null, siteExplorePanelSiteId: null, npcPanelNpcId: null, npcStoragePanelNpcId: null, isInWorkStorageView: false, workStorageFlushFunction: null, npcTradeFlushFunction: null, isInBattle: false, isInBattleEndView: false, battleEndCompleteFunction: null }),
+  
+  showNPCStoragePanel: (npcId: number) => set({ 
+    openPanel: 'npcStorage',
+    npcStoragePanelNpcId: npcId
+  }),
+  
+  hideNPCStoragePanel: () => set({ 
+    openPanel: null,
+    npcStoragePanelNpcId: null
+  }),
   
   setWorkStorageView: (isInWorkStorageView: boolean) => set({ isInWorkStorageView }),
   
   setWorkStorageFlushFunction: (flushFunction: (() => void) | null) => set({ 
     workStorageFlushFunction: flushFunction
+  }),
+  
+  setNPCTradeFlushFunction: (flushFunction: (() => void) | null) => set({ 
+    npcTradeFlushFunction: flushFunction
   }),
   
   setInBattle: (isInBattle: boolean) => set({ isInBattle }),

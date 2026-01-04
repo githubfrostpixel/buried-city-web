@@ -9,6 +9,7 @@ import { StatusDialog } from './components/overlays/StatusDialog'
 import { BuildDialog } from './components/overlays/BuildDialog'
 import { RecipeDialog } from './components/overlays/RecipeDialog'
 import { SiteDialog } from './components/overlays/SiteDialog'
+import { NpcDialog } from './components/overlays/NpcDialog'
 import { ConfirmationDialog } from './components/overlays/ConfirmationDialog'
 import { getImagePath } from './utils/assets'
 import { ImageSprite } from './components/sprites/ImageSprite'
@@ -130,6 +131,9 @@ function App() {
       )}
       {activeOverlay !== 'death' && activeOverlay === 'siteDialog' && (
         <SiteDialog />
+      )}
+      {activeOverlay !== 'death' && activeOverlay === 'npcDialog' && (
+        <NpcDialog />
       )}
       {activeOverlay !== 'death' && activeOverlay === 'confirmationDialog' && (
         <ConfirmationDialog />
