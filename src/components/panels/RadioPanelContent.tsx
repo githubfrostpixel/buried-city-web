@@ -10,6 +10,7 @@ import { useUIStore } from '@/store/uiStore'
 import { BOTTOM_BAR_LAYOUT } from '@/components/layout/layoutConstants'
 import { RadioMessageView } from './RadioMessageView'
 import { RadioEditBox } from './RadioEditBox'
+import { UpgradeView } from './UpgradeView'
 import { Sprite } from '@/components/sprites/Sprite'
 import { processRadioCommand, type RadioMessage } from '@/game/systems/RadioCommandProcessor'
 import { getUUID, getSaveSlot } from '@/game/systems/SaveSystem'
@@ -145,8 +146,8 @@ export function RadioPanelContent() {
   const bgHeight = BOTTOM_BAR_LAYOUT.bgHeight
   const contentTopLineHeight = BOTTOM_BAR_LAYOUT.cocosRef.contentTopLineHeight
   
-  // Upgrade view height (estimated - will be calculated from actual component)
-  const upgradeViewHeight = 120 // Estimated height
+  // Upgrade view height (from UpgradeView component)
+  const upgradeViewHeight = 100 // UpgradeView has fixed height of 100px
   
   // Section view position (below upgrade view)
   const sectionViewTop = contentTopLineHeight - upgradeViewHeight
@@ -169,38 +170,64 @@ export function RadioPanelContent() {
   return (
     <div className="relative w-full h-full overflow-x-hidden">
         {/* Upgrade View - positioned at top of content area */}
-        {/* TODO: Implement full upgrade view component */}
-        {building && !building.isMax() && (
+        {/* Always show upgrade view (even when maxed, shows "Max Level") */}
+        {/* In CSS content area: top = 0 (at the very top) */}
+        {building && (
           <div
             className="absolute"
             style={{
               left: '50%',
               top: '0px',
               transform: 'translateX(-50%)',
-              width: '500px',
-              height: `${upgradeViewHeight}px`
+              width: '600px' // UpgradeView has fixed width of 600px
             }}
             data-test-id="radio-upgrade-view"
           >
-            {/* Placeholder for upgrade view */}
-            <div className="text-white text-center p-4">
-              Upgrade view placeholder
-            </div>
+            <UpgradeView
+              building={building}
+              onUpgradeComplete={() => {
+                // Trigger any necessary updates after upgrade completes
+              }}
+            />
           </div>
         )}
         
         {/* Section View - frame separator */}
-        <Sprite
-          atlas="ui"
-          frame="frame_section_bg.png"
+        {/* Positioned at contentTopLineHeight - upgradeView.height with anchor (0.5, 1) */}
+        {/* In CSS content area: top = upgradeViewHeight = 100px */}
+        <div
           className="absolute"
           style={{
-            left: '50%',
-            top: `${sectionViewTop}px`,
-            transform: 'translateX(-50%)'
+            left: '51.4%',
+            top: `${90}px`,
+            transform: 'translateX(-50%)',
+            width: '600px',
+            height: 'auto'
           }}
-          data-test-id="radio-section-view"
-        />
+        >
+          <Sprite
+            atlas="ui"
+            frame="frame_section_bg.png"
+            className="block"
+            data-test-id="radio-section-view"
+          />
+          
+          {/* Operator text - positioned at (20, sectionView.height / 2) with anchor (0, 0.5) */}
+          <div
+            className="absolute"
+            style={{
+              left: '20px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              fontSize: '20px',
+              fontFamily: "'Noto Sans', sans-serif",
+              color: '#000000',
+              fontWeight: 'normal'
+            }}
+          >
+            {getString(1004) || 'Operate'}
+          </div>
+        </div>
         
         {/* MessageView - only visible if building level >= 0 */}
         {isVisible && (

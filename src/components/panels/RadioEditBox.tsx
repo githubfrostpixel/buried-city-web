@@ -5,7 +5,6 @@
  */
 
 import { useState, KeyboardEvent } from 'react'
-import { Sprite } from '@/components/sprites/Sprite'
 
 interface RadioEditBoxProps {
   width: number
@@ -50,25 +49,13 @@ export function RadioEditBox({
       className="absolute"
       style={{
         left: '50%',
-        bottom: '60px',
+        bottom: '10px',
         transform: 'translateX(-50%)',
         width: `${width}px`,
         height: `${height}px`
       }}
       data-test-id="radio-edit-box"
     >
-      {/* Background sprite (edit_text_bg.png scale9) */}
-      <Sprite
-        atlas="ui"
-        frame="edit_text_bg.png"
-        className="absolute inset-0"
-        style={{
-          // Scale9 sprite - stretch to fit
-          backgroundSize: '100% 100%',
-          backgroundRepeat: 'no-repeat'
-        }}
-      />
-      
       {/* Text input */}
       <input
         type="text"
@@ -76,10 +63,13 @@ export function RadioEditBox({
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className="absolute inset-0 bg-transparent border-none outline-none px-3 py-2 text-sm text-black"
+        className="absolute inset-0 bg-transparent outline-none px-3 py-2"
         style={{
-          fontFamily: 'Noto Sans, sans-serif',
-          fontSize: '14px'
+          fontFamily: "'Noto Sans', sans-serif",
+          fontSize: '20px', // Bigger font
+          color: '#ffffff', // White text
+          border: '1px solid #ffffff', // White border
+          borderRadius: '4px'
         }}
         data-test-id="radio-input"
       />

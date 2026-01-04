@@ -78,9 +78,9 @@ export function RadioMessageView({ messages, playerUid, width, height }: RadioMe
       className="absolute overflow-auto overflow-x-hidden"
       style={{
         width: `${width}px`,
-        height: `${height}px`,
+        height: `${height-60}px`,
         left: '7px',
-        top: `${60}px` // 60px from top of content area (matches Cocos Y=60 from bottom)
+        top: `${140}px` // 60px from top of content area (matches Cocos Y=60 from bottom)
       }}
       data-test-id="radio-message-view"
     >

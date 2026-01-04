@@ -14,6 +14,8 @@ interface CommonListItemButtonProps {
   enabled?: boolean
   className?: string
   style?: React.CSSProperties
+  fontSize?: number
+  textColor?: string
 }
 
 export function CommonListItemButton({
@@ -21,7 +23,9 @@ export function CommonListItemButton({
   onClick,
   enabled = true,
   className = '',
-  style = {}
+  style = {},
+  fontSize = 20, // Default: COMMON_2 - 4 = 24 - 4 = 20px
+  textColor = enabled ? '#000000' : '#808080' // Default: BLACK for normal, GRAY for disabled
 }: CommonListItemButtonProps) {
   return (
     <button
@@ -55,11 +59,11 @@ export function CommonListItemButton({
         }}
       />
       
-      {/* Button text - centered on sprite, black text */}
+      {/* Button text - centered on sprite */}
       <span
         className="relative z-10"
         style={{
-          fontSize: '20px',  // COMMON_2 - 4 = 24 - 4 = 20px (from uiUtil.createSpriteBtn)
+          fontSize: `${fontSize}px`,
           fontFamily: "'Noto Sans', sans-serif",
           fontWeight: 'normal',
           textAlign: 'center',
@@ -67,7 +71,7 @@ export function CommonListItemButton({
           padding: '8px 16px',  // Vertical and horizontal padding for text
           lineHeight: '1.2',
           display: 'block',
-          color: enabled ? '#000000' : '#808080'  // BLACK for normal, GRAY for disabled
+          color: textColor
         }}
       >
         {text}

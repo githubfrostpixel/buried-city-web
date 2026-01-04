@@ -110,6 +110,8 @@ export function UpgradeView({ building, onUpgradeStart, onUpgradeComplete }: Upg
   let hint = ''
   let hintColor: string | null = null
   let costItems: Array<{ itemId: number | string; num: number }> | null = null
+  let buttonFontSize: number | undefined = undefined // Default: 20px (COMMON_2 - 4)
+  let buttonTextColor: string | undefined = undefined // Default: black for normal, gray for disabled
   
   switch (upgradeResult.buildUpgradeType) {
     case BuildUpgradeType.UPGRADABLE:
@@ -130,7 +132,10 @@ export function UpgradeView({ building, onUpgradeStart, onUpgradeComplete }: Upg
     case BuildUpgradeType.MAX_LEVEL:
       buttonText = 'Max Level'
       buttonDisabled = true
-      hint = 'Already at maximum level'
+      hint = getString(1147) || 'Fully upgraded' // Use string 1147 from original game
+      hintColor = '#ffffff' // White color for hint (COMMON_3 = 20px, white)
+      buttonFontSize = 24 // COMMON_2 = 24px (bigger than default 20px)
+      buttonTextColor = '#ffffff' // White text color
       break
       
     case BuildUpgradeType.CONDITION:
@@ -230,7 +235,7 @@ export function UpgradeView({ building, onUpgradeStart, onUpgradeComplete }: Upg
         {hint && (
           <div
             style={{
-              fontSize: '14px',
+              fontSize: '20px', // COMMON_3 = 20px (from original game)
               fontFamily: "'Noto Sans', sans-serif",
               color: hintColor || '#000000',
               marginBottom: '5px'
@@ -265,6 +270,8 @@ export function UpgradeView({ building, onUpgradeStart, onUpgradeComplete }: Upg
           text={building.isUpgrading ? `${Math.round(upgradeProgress)}%` : buttonText}
           onClick={handleUpgrade}
           enabled={!buttonDisabled && !building.isUpgrading}
+          fontSize={buttonFontSize}
+          textColor={buttonTextColor}
         />
       </div>
       

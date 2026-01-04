@@ -30,6 +30,7 @@ import { calculateDistance } from '@/utils/distance'
 import { getMaxVelocityGameTime } from '@/utils/actor'
 import { useActorMovement } from '@/hooks/useActorMovement'
 import { audioManager, MusicPaths } from '@/game/systems/AudioManager'
+import { transferBagToStorage, unequipItemsNotInBag } from '@/components/scenes/navigation/gatePanelUtils'
 import type { Site } from '@/game/world/Site'
 import type { Panel } from '@/store/uiStore'
 
@@ -119,6 +120,10 @@ export function MapPanelContent() {
     
     if (site.id === HOME_SITE) {
       panel = 'home'
+      // Transfer all items from bag to storage when returning home
+      transferBagToStorage()
+      // After transferring all items, unequip any items that are no longer in the bag
+      unequipItemsNotInBag()
       // TODO: Add log message 1111
       // TODO: Call player.trySteal()
     } else if (site.id === AD_SITE) {
