@@ -3,8 +3,8 @@
  * Provides test data for consistent testing scenarios
  */
 
-import type { WeatherType } from '@/types/game.types'
-import type { PlayerAttributes } from '@/types/player.types'
+import type { WeatherType } from '@/shared/types/game.types'
+import type { PlayerAttributes } from '@/shared/types/player.types'
 
 /**
  * Test game states for different scenarios
