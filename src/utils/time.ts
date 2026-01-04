@@ -14,7 +14,7 @@ export function getTimeDistanceStr(time: number): string {
   let timeStr = ""
   const hour = Math.floor(time / 60 / 60)
   if (hour) {
-    timeStr += hour + " hour" + (hour > 1 ? "s" : "")  // TODO: Use string ID 1151
+    timeStr += hour + " hour" + (hour > 1 ? "s " : " ")  // TODO: Use string ID 1151
   }
   const minute = hour ? Math.floor(time / 60 % 60) : Math.floor(time / 60)
   timeStr += minute + " minute" + (minute > 1 ? "s" : "")  // TODO: Use string ID 1152

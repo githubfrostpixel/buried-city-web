@@ -4,7 +4,7 @@
  * Extracted from MainScene.tsx
  */
 
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import type { Panel } from '@/store/uiStore'
 import type { Map } from '@/game/world/Map'
 import { getSiteBottomBarProps } from '@/components/panels/site/SitePanelContent'
@@ -40,6 +40,69 @@ export function useSiteBottomBarSubtexts({
     return null
   }, [currentPanel, sitePanelSiteId, map])
 
+  // Poll site state to detect changes (since site is a mutable object, React won't detect property changes)
+  // This ensures the hook updates when step, isSecretRoomsEntryShowed, or isInSecretRooms changes
+  const [siteStateTrigger, setSiteStateTrigger] = useState(0)
+  
+  useEffect(() => {
+    // Only poll when we're in siteExplore panel
+    if (currentPanel !== 'siteExplore' || !siteExplorePanelSiteId || !map) {
+      return
+    }
+    
+    const site = map.getSite(siteExplorePanelSiteId)
+    if (!site) {
+      return
+    }
+    
+    // Track previous state to only update when something actually changes
+    let previousState = JSON.stringify({
+      step: site.step,
+      isSecretRoomsEntryShowed: site.isSecretRoomsEntryShowed,
+      isInSecretRooms: site.isInSecretRooms,
+      roomsLength: site.rooms.length
+    })
+    
+    // Poll every 100ms to check for changes (fast enough for responsive UI, not too frequent)
+    const interval = setInterval(() => {
+      // Get current state
+      const currentState = JSON.stringify({
+        step: site.step,
+        isSecretRoomsEntryShowed: site.isSecretRoomsEntryShowed,
+        isInSecretRooms: site.isInSecretRooms,
+        roomsLength: site.rooms.length
+      })
+      
+      // Only update trigger if state actually changed
+      if (currentState !== previousState) {
+        previousState = currentState
+        setSiteStateTrigger(prev => prev + 1)
+      }
+    }, 100)
+    
+    return () => clearInterval(interval)
+  }, [currentPanel, siteExplorePanelSiteId, map])
+
+  // Get site state for dependency tracking (ensures updates when site progress or secret room state changes)
+  // This tracks step, isSecretRoomsEntryShowed, isInSecretRooms, and rooms.length for siteExplore panel
+  const siteState = useMemo(() => {
+    if (currentPanel === 'siteExplore' && siteExplorePanelSiteId && map) {
+      const site = map.getSite(siteExplorePanelSiteId)
+      if (site) {
+        // Return a serialized version of site state to detect changes
+        // Include siteStateTrigger to ensure this re-evaluates when polling detects changes
+        return JSON.stringify({
+          step: site.step,
+          isSecretRoomsEntryShowed: site.isSecretRoomsEntryShowed,
+          isInSecretRooms: site.isInSecretRooms,
+          roomsLength: site.rooms.length,
+          trigger: siteStateTrigger // Include trigger to force re-evaluation
+        })
+      }
+    }
+    return null
+  }, [currentPanel, siteExplorePanelSiteId, map, siteStateTrigger])
+
   // Get site bottom bar props (progress and item count) for site panel
   // Use useMemo to make it reactive to playerStore.map changes
   // Also depend on site storage items to ensure updates when depository changes
@@ -62,15 +125,17 @@ export function useSiteBottomBarSubtexts({
       if (site) {
         if (currentPanel === 'siteExplore') {
           // For site explore, show progress and item count with labels
+          // Show "???" when secret room entry is shown OR when in secret rooms
+          // This matches OriginalGame/src/ui/battleAndWorkNode.js:54-66
           return {
-            leftSubtext: site.isInSecretRooms ? "???" : `Progress ${site.getCurrentProgressStr()}`,
-            rightSubtext: `Items ${site.storage.getAllItemNum()}`
+            leftSubtext: (site.isSecretRoomsEntryShowed || site.isInSecretRooms) ? "???" : `Progress: ${site.getCurrentProgressStr()}`,
+            rightSubtext: `Items: ${site.storage.getAllItemNum()}`
           }
         } else if (currentPanel === 'siteStorage') {
           // For site storage, show "Depository" and item count
           return {
             leftSubtext: "Depository",
-            rightSubtext: String(site.storage.getAllItemNum())
+            rightSubtext: `Items: ${site.storage.getAllItemNum()}`
           }
         } else {
           const props = getSiteBottomBarProps(site)
@@ -89,7 +154,8 @@ export function useSiteBottomBarSubtexts({
     siteExplorePanelSiteId,
     siteStoragePanelSiteId,
     map, // This will trigger recalculation when map changes
-    siteStorageItems // Also depend on site storage items to ensure updates when depository changes
+    siteStorageItems, // Also depend on site storage items to ensure updates when depository changes
+    siteState // Also depend on site state to ensure updates when progress or secret room state changes
   ])
 }
 

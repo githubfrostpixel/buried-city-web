@@ -95,7 +95,7 @@ export function SiteDialog() {
   // Action section: 72px height
   const actionHeight = 72
   // Content section: remaining height
-  const contentHeight = dialogHeight - titleHeight - actionHeight +60
+  const contentHeight = dialogHeight - titleHeight - actionHeight + 120
   
   // Left/Right edges: 20px from dialog edges
   const leftEdge = 20
@@ -214,12 +214,12 @@ export function SiteDialog() {
             className="absolute text-black"
             style={{
               left: `${leftEdge + 70}px`,
-              top: '40%',
+              top: '35%',
               transform: 'translateY(-50%)',
-              fontSize: '32px',
+              fontSize: '25px',
               fontFamily: "'Noto Sans', sans-serif",
               fontWeight: 'bold',
-              maxWidth: `${rightEdge - leftEdge - 70}px`,
+              maxWidth: `${rightEdge - leftEdge - 20}px`,
               lineHeight: '1.2'
             }}
             data-test-id="site-dialog-title"
@@ -288,7 +288,7 @@ export function SiteDialog() {
           className="absolute overflow-auto"
           style={{
             left: '0',
-            top: `${titleHeight}px`,
+            top: `${titleHeight-15}px`,
             width: `${dialogWidth}px`,
             height: `${contentHeight}px`,
             padding: '10px'
@@ -296,7 +296,7 @@ export function SiteDialog() {
         >
           {/* Site description image (dig_des) - scaled to 0.8 */}
           <div
-            className="relative mx-auto mb-4"
+            className="relative mx-auto mb-1"
             style={{
               width: '380px',
               height: 'auto'

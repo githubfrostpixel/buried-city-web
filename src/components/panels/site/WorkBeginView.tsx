@@ -11,8 +11,8 @@ import { usePlayerStore } from '@/store/playerStore'
 import { BOTTOM_BAR_LAYOUT } from '@/components/layout/layoutConstants'
 import { Sprite } from '@/components/sprites/Sprite'
 import { itemConfig } from '@/data/items'
-import { CONTAINER_HEIGHT, TOOL_BUTTON_Y, BUTTON_WIDTH, WORK_IMAGE_WIDTH, WORK_IMAGE_HEIGHT } from './constants'
-import { calculateWorkImagePosition } from './siteUtils'
+import { getString } from '@/utils/stringUtil'
+import { CONTAINER_HEIGHT, TOOL_BUTTON_Y, BUTTON_WIDTH, WORK_IMAGE_WIDTH } from './constants'
 
 interface WorkBeginViewProps {
   room: Room
@@ -22,26 +22,13 @@ interface WorkBeginViewProps {
 
 export function WorkBeginView({ room, site, onToolSelect }: WorkBeginViewProps) {
   const playerStore = usePlayerStore.getState()
-  const { leftEdge, rightEdge, bgHeight, cocosRef } = BOTTOM_BAR_LAYOUT
+  const { leftEdge, rightEdge } = BOTTOM_BAR_LAYOUT
 
   const workType = room.workType || 0
   const isSpecial = site.id === 666 && site.step === site.rooms.length - 1
 
   // Constants from original game
-  const contentTopLineHeight = cocosRef.contentTopLineHeight  // 770px (Cocos Y from bottom)
   const containerWidth = rightEdge - leftEdge  // rightEdge - leftEdge
-
-  // Calculate positions (Cocos to CSS conversion)
-  // Work image: anchor (0.5, 1), position (bgWidth/2, contentTopLineHeight - 20)
-  // CSS top = bgHeight - (contentTopLineHeight - 20) = bgHeight - contentTopLineHeight + 20
-  const workImageTop = calculateWorkImagePosition(bgHeight, contentTopLineHeight, 20)
-
-  // Description: position (bgWidth/2, digDes.y - digDes.height - 20)
-  // digDes.y = contentTopLineHeight - 20 (Cocos Y from bottom)
-  // digDes.y in CSS = bgHeight - (contentTopLineHeight - 20) = workImageTop
-  // digDes bottom = workImageTop - workImageHeight
-  // Description top = digDes bottom - 20
-  const descriptionTop = workImageTop - WORK_IMAGE_HEIGHT - 20
 
   // Tool container: anchor (0.5, 0), position (bgWidth/2, 0)
   // CSS: bottom: 0, left: 50%, transform: translateX(-50%)
@@ -76,15 +63,27 @@ export function WorkBeginView({ room, site, onToolSelect }: WorkBeginViewProps) 
   const buttonCount = availableTools.length
   const padding = buttonCount > 0 ? (containerWidth - buttonCount * BUTTON_WIDTH) / (buttonCount * 2) : 0
 
+  // Get description text from string system
+  const descriptionText = useMemo(() => {
+    if (isSpecial) {
+      return getString(8102) || ''
+    }
+    const descriptions = getString(3008)
+    if (Array.isArray(descriptions) && descriptions[workType]) {
+      return descriptions[workType]
+    }
+    return ''
+  }, [isSpecial, workType])
+
   return (
     <div className="relative w-full h-full">
       {/* Work image - anchor (0.5, 1) = top-center */}
       <div 
         className="absolute" 
         style={{ 
-          left: '50%', 
-          top: `${workImageTop}px`, 
-          transform: 'translate(-50%, 0)' 
+          left: '0%', 
+          top: `${20}px`, 
+          transform: 'translate(10%)' 
         }}
       >
         <Sprite
@@ -99,13 +98,13 @@ export function WorkBeginView({ room, site, onToolSelect }: WorkBeginViewProps) 
         className="absolute text-white text-center"
         style={{
           left: '50%',
-          top: `${descriptionTop}px`,
+          top: `${270}px`,
           transform: 'translateX(-50%)',
           width: `${containerWidth}px`,
           fontSize: '18px',
         }}
       >
-        {isSpecial ? 'Special work description' : `Work room type ${workType} description`}
+        {descriptionText}
       </div>
 
       {/* Tool selection container - at bottom of bg, 600px height */}
@@ -140,19 +139,19 @@ export function WorkBeginView({ room, site, onToolSelect }: WorkBeginViewProps) 
                 }}
               >
                 <Sprite atlas="ui" frame="btn_tool.png" className="w-full h-full" />
-                {/* Icon - centered, scale 0.5 (50% of original size) */}
-                <div className="absolute inset-0 flex items-center justify-center">
+                {/* Icon - left-aligned, scale 0.5 (50% of original size) */}
+                <div style={{ left: '-28px' }} className="absolute inset-0 flex items-center justify-start pl-2">
                   {tool.itemId === Equipment.HAND ? (
                     <Sprite 
                       atlas="gate" 
                       frame="icon_tab_content_hand.png" 
-                      style={{ width: '50%', height: '50%' }} 
+                      style={{ width: 'auto', height: '50%' }} 
                     />
                   ) : (
                     <Sprite
                       atlas="icon"
                       frame={`icon_item_${tool.itemId}.png`}
-                      style={{ width: '50%', height: '50%' }}
+                      style={{ width: 'auto', height: '50%' }}
                     />
                   )}
                 </div>
@@ -162,8 +161,8 @@ export function WorkBeginView({ room, site, onToolSelect }: WorkBeginViewProps) 
                 className="absolute text-white text-center"
                 style={{
                   left: '50%',
-                  top: `${BUTTON_WIDTH / 2 + 10}px`,
-                  transform: 'translateX(-50%)',
+                  top: `${BUTTON_WIDTH / 2 + 30}px`,
+                  transform: 'translateX(-80%)',
                   fontSize: '14px',
                   whiteSpace: 'nowrap',
                 }}
