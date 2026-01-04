@@ -5,7 +5,7 @@
 
 import { useEffect } from 'react'
 import { TestScreen } from './TestScreen'
-import { HomePanelContent } from '@/components/panels/HomePanelContent'
+import { HomePanelContent } from '@/components/panels/home/HomePanelContent'
 import { useBuildingStore } from '@/store/buildingStore'
 import { usePlayerStore } from '@/store/playerStore'
 import { testBuildingLevels } from '@/test-utils/test-data'
