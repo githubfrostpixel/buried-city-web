@@ -29,6 +29,7 @@ import { weaponReturn } from '@/data/weaponReturn'
 import { checkDeathOnAttributeChange, handleDeath } from '@/utils/deathCheck'
 import { getString } from '@/utils/stringUtil'
 import { useLogStore } from '@/store/logStore'
+import { audioManager, SoundPaths } from '@/game/systems/AudioManager'
 
 interface PlayerStore extends PlayerState {
   // Location state
@@ -315,10 +316,15 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   
   setCurrency: (amount: number) => set({ currency: amount, money: amount }),
   
-  addCurrency: (amount: number) => set((state: PlayerStore) => {
+  addCurrency: (amount: number) => {
+    const state = get()
     const newAmount = state.currency + amount
-    return { currency: newAmount, money: newAmount }
-  }),
+    // Play GOLD sound effect when gaining currency (matches OriginalGame/src/game/player.js:382)
+    if (amount > 0) {
+      audioManager.playEffect(SoundPaths.GOLD)
+    }
+    set({ currency: newAmount, money: newAmount })
+  },
   
   setLocation: (location: { isAtHome?: boolean; isAtBazaar?: boolean; isAtSite?: boolean; siteId?: number | null }) => set({
     isAtHome: location.isAtHome ?? false,

@@ -36,7 +36,7 @@ export function SitePanelContent({
   
   // dig_des: (bgRect.width / 2, contentTopLineHeight - 50) with anchor (0.5, 1)
   // Position relative to content area (not full bgHeight)
-  const digDesY = cocosToCssY(cocosRef.contentTopLineHeight - 50 - content.top, contentHeight)
+  const digDesY = cocosToCssY(cocosRef.contentTopLineHeight - 75 - content.top, contentHeight)
   
   // des: below dig image
   const estimatedDigDesHeight = 200
@@ -69,7 +69,7 @@ export function SitePanelContent({
         <Sprite
           atlas="site"
           frame={`site_dig_${site.id}.png`}
-          style={{ maxWidth: '400px', maxHeight: '300px' }}
+          style={{ maxWidth: '550px', maxHeight: '300px' }}
         />
       </div>
       
@@ -78,10 +78,10 @@ export function SitePanelContent({
         className="absolute text-white text-center"
         style={{
           left: '50%',
-          top: `${desY - 100}px`,
+          top: `${desY - 80}px`,
           width: `${rightEdge - leftEdge}px`,
           transform: 'translateX(-50%)',
-          fontSize: '14px',
+          fontSize: '18px',
           fontFamily: "'Noto Sans', sans-serif",
           lineHeight: '1.4',
         }}

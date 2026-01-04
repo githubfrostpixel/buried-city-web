@@ -49,7 +49,7 @@ export function LogBar({ logs = [], onExpand, className = '' }: LogBarProps) {
               left: '0px',
               bottom: `${cssBottom}px`,
               width: '580px',
-              fontSize: '12px',
+              fontSize: '16px',
               lineHeight: '1.2',
               overflow: 'hidden',
               textOverflow: 'ellipsis',

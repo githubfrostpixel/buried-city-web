@@ -56,3 +56,4 @@ export function createEquipment(id: string | null, bPlayer: BattlePlayer): Battl
 
 
 
+

@@ -483,10 +483,10 @@ export function EquipPanel() {
                         style={{
                           left: iconFrame ? '64px' : '0',
                           top: '5px',
-                          fontSize: '16px', // COMMON_2
+                          fontSize: '20px', // COMMON_2
                           fontFamily: "'Noto Sans', sans-serif",
                           fontWeight: 'normal',
-                          color: '#000000'
+                          color: '#FFFFFF'
                         }}
                       >
                         {itemInfo.name}
@@ -498,10 +498,10 @@ export function EquipPanel() {
                         style={{
                           left: iconFrame ? '64px' : '0',
                           top: '25px',
-                          fontSize: '14px', // COMMON_3
+                          fontSize: '18px', // COMMON_3
                           fontFamily: "'Noto Sans', sans-serif",
                           fontWeight: 'normal',
-                          color: '#000000'
+                          color: '#FFFFFF'
                         }}
                       >
                         Weight: {itemInfo.weight}
@@ -513,10 +513,10 @@ export function EquipPanel() {
                         style={{
                           right: '10px',
                           top: '5px',
-                          fontSize: '14px', // COMMON_3
+                          fontSize: '18px', // COMMON_3
                           fontFamily: "'Noto Sans', sans-serif",
                           fontWeight: 'normal',
-                          color: '#000000',
+                          color: '#FFFFFF',
                           textAlign: 'right'
                         }}
                       >
@@ -530,10 +530,10 @@ export function EquipPanel() {
                           style={{
                             right: '10px',
                             top: '25px',
-                            fontSize: '14px', // COMMON_3
+                            fontSize: '18px', // COMMON_3
                             fontFamily: "'Noto Sans', sans-serif",
                             fontWeight: 'normal',
-                            color: '#000000',
+                            color: '#FFFFFF',
                             textAlign: 'right'
                           }}
                         >
@@ -549,10 +549,10 @@ export function EquipPanel() {
                         left: '50%',
                         top: '50%',
                         transform: 'translate(-50%, -50%)',
-                        fontSize: '16px', // COMMON_2
+                        fontSize: '20px', // COMMON_2
                         fontFamily: "'Noto Sans', sans-serif",
                         fontWeight: 'normal',
-                        color: '#000000',
+                        color: '#FFFFFF',
                         textAlign: 'center'
                       }}
                     >

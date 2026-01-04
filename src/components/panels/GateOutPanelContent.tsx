@@ -82,7 +82,7 @@ export function GateOutPanelContent() {
   const randomTip = randomTips[Math.floor(Math.random() * randomTips.length)] // String 3011
 
   return (
-    <div className="absolute inset-0" style={{ width: `${screenWidth}px`, height: `${screenHeight}px` }}>
+    <div className="absolute inset-0" style={{ width: `auto`, height: `auto`,overflow: 'hidden' }}>
       {/* Background image - spans full screen like home_bg */}
       <div
         className="absolute inset-0"

@@ -29,6 +29,7 @@ import { cocosToCssY } from '@/utils/position'
 import { calculateDistance } from '@/utils/distance'
 import { getMaxVelocityGameTime } from '@/utils/actor'
 import { useActorMovement } from '@/hooks/useActorMovement'
+import { audioManager, MusicPaths } from '@/game/systems/AudioManager'
 import type { Site } from '@/game/world/Site'
 import type { Panel } from '@/store/uiStore'
 
@@ -44,6 +45,32 @@ export function MapPanelContent() {
 
   // Use actor movement hook for smooth animation
   useActorMovement()
+
+  // Play weather-based music when map panel is active
+  // Ported from OriginalGame/src/ui/bottomFrame.js:73-90
+  useEffect(() => {
+    let musicPath: string
+    switch (weatherId) {
+      case 0:
+        musicPath = MusicPaths.MAP_CLOUDY
+        break
+      case 1:
+        musicPath = MusicPaths.MAP_SUNNY
+        break
+      case 2:
+        musicPath = MusicPaths.MAP_RAIN
+        break
+      case 3:
+        musicPath = MusicPaths.MAP_SNOW
+        break
+      case 4:
+        musicPath = MusicPaths.MAP_FOG
+        break
+      default:
+        musicPath = MusicPaths.MAP_CLOUDY
+    }
+    audioManager.playMusic(musicPath, true)
+  }, [weatherId])
 
   // Update actor position state when map position changes (for re-rendering)
   useEffect(() => {

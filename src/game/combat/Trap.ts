@@ -40,3 +40,4 @@ export class Trap extends BattleEquipment {
 
 
 
+

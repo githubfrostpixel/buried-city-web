@@ -55,6 +55,7 @@ export type Overlay =
   | 'buildDialog'
   | 'recipeDialog'
   | 'siteDialog'
+  | 'confirmationDialog'
   | null
 
 interface UIStore {

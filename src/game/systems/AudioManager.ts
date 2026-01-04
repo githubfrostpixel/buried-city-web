@@ -267,3 +267,48 @@ class AudioManager {
 
 export const audioManager = new AudioManager()
 
+/**
+ * Get site music based on siteId
+ * Ported from OriginalGame/src/ui/bottomFrame.js:149-163
+ * 
+ * Logic:
+ * - siteId == 502 → AQUARIUM
+ * - siteId == 500 → BANDITDEN
+ * - Otherwise → random from [SITE_1, SITE_2, SITE_3, SITE_4]
+ * 
+ * Note: Site music is cached per siteId (matches original behavior)
+ */
+const siteMusicCache = new Map<number, string>()
+
+export function getSiteMusic(siteId: number): string {
+  // Check cache first
+  if (siteMusicCache.has(siteId)) {
+    return siteMusicCache.get(siteId)!
+  }
+  
+  let musicPath: string
+  
+  if (siteId === 502) {
+    musicPath = MusicPaths.AQUARIUM
+  } else if (siteId === 500) {
+    musicPath = MusicPaths.BANDITDEN
+  } else {
+    // Random from site music pool
+    const musicPool = [MusicPaths.SITE_1, MusicPaths.SITE_2, MusicPaths.SITE_3, MusicPaths.SITE_4]
+    const randomIndex = Math.floor(Math.random() * musicPool.length)
+    musicPath = musicPool[randomIndex]
+  }
+  
+  // Cache the result
+  siteMusicCache.set(siteId, musicPath)
+  return musicPath
+}
+
+/**
+ * Clear site music cache (called when changing sites)
+ * Ported from OriginalGame/src/ui/bottomFrame.js:193-195
+ */
+export function clearSiteMusicCache(): void {
+  siteMusicCache.clear()
+}
+

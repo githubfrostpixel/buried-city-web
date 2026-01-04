@@ -141,13 +141,43 @@ export function MenuScene() {
     // Equipment (13 prefix)
     playerStore.addItemToStorage('1301011', 1)  // Gun
     playerStore.addItemToStorage('1302011', 1)  // Weapon
-    playerStore.addItemToStorage('1303012', 1)  // Armor
     playerStore.addItemToStorage('1305011', 50) // Bullet
     playerStore.addItemToStorage('1305012', 30) // Bullet
+    
+    // Bombs - 100 of each type
+    playerStore.addItemToStorage('1303012', 100) // Bomb type 1
+    playerStore.addItemToStorage('1303033', 100) // Bomb type 2
+    playerStore.addItemToStorage('1303044', 100) // Bomb type 3
     
     // Miscellaneous (other - items not matching above prefixes)
     playerStore.addItemToStorage('1102063', 5)  // Basic item
     playerStore.addItemToStorage('1102073', 3) // Basic item
+    
+    // Unlock all map locations
+    try {
+      const map = playerStore.getMap()
+      const allSiteIds = [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+        20, 21, 22,
+        30, 31, 32, 33,
+        41, 42, 43,
+        51, 52,
+        61,
+        100, 201, 202, 203, 204,
+        301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312,
+        400,
+        500, 501, 502,
+        666
+      ]
+      
+      allSiteIds.forEach(siteId => {
+        map.unlockSite(siteId)
+      })
+      
+      console.log('All map locations unlocked')
+    } catch (error) {
+      console.warn('Failed to unlock map locations:', error)
+    }
     
     console.log('Test items added to storage')
   }
@@ -357,7 +387,7 @@ export function MenuScene() {
         className="absolute text-white text-xs text-center"
         style={cocosPosition(320, 20, 0.5, 0.5, screenHeight)}
       >
-        BuriedTown React Port - Phase 1
+        "When there's no more room in Hell, the dead will walk the Earth"
       </div>
 
       {/* TEMPORARY: Test Buttons (Top Left) - Remove after testing */}

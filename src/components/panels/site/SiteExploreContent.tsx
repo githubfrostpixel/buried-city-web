@@ -25,6 +25,7 @@ import { saveAll } from '@/game/systems/SaveSystem'
 import { WORK_ANIMATION_DURATION } from './constants'
 import { useBattleEvents } from './useBattleEvents'
 import { SecretRoomEntryView } from './SecretRoomEntryView'
+import { audioManager, MusicPaths, getSiteMusic } from '@/game/systems/AudioManager'
 import { BattleBeginView } from './BattleBeginView'
 import { BattleProcessView } from './BattleProcessView'
 import { BattleEndView } from './BattleEndView'
@@ -459,6 +460,21 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
     // Check breakdown
     // TODO: player.checkBreakdown(8112)
 
+    // Resume appropriate music after battle (battle music was stopped by Battle.ts)
+    // This matches original game behavior: resume the music that was playing before battle
+    if (site.isInSecretRooms) {
+      // Resume secret room music if still in secret rooms
+      if (audioManager.getPlayingMusic() !== MusicPaths.SITE_SECRET) {
+        audioManager.playMusic(MusicPaths.SITE_SECRET, true)
+      }
+    } else {
+      // Resume normal site music for normal rooms
+      const siteMusic = getSiteMusic(site.id)
+      if (audioManager.getPlayingMusic() !== siteMusic) {
+        audioManager.playMusic(siteMusic, true)
+      }
+    }
+
     // Set battle end state for back button handling (only for wins)
     if (result.win) {
       const uiStore = useUIStore.getState()
@@ -501,6 +517,12 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
       if (!isWin) {
         site.secretRoomsEnd()
         site.isSecretRoomsEntryShowed = false
+        // Stop secret room music and resume site music (matches OriginalGame/src/ui/battleAndWorkNode.js:116-119)
+        if (audioManager.getPlayingMusic() === MusicPaths.SITE_SECRET) {
+          audioManager.stopMusic()
+          const siteMusic = getSiteMusic(site.id)
+          audioManager.playMusic(siteMusic, true)
+        }
         // Auto-save
         saveAll().catch(err => console.error('Auto-save failed:', err))
         // Go back to site panel (like back button)
@@ -513,6 +535,12 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
       // If won, check if secret rooms ended
       if (site.isSecretRoomsEnd()) {
         site.secretRoomsEnd()
+        // Stop secret room music and resume site music when secret rooms end (matches OriginalGame/src/ui/battleAndWorkNode.js:116-119)
+        if (audioManager.getPlayingMusic() === MusicPaths.SITE_SECRET) {
+          audioManager.stopMusic()
+          const siteMusic = getSiteMusic(site.id)
+          audioManager.playMusic(siteMusic, true)
+        }
       }
     } else {
       site.roomEnd(isWin)
@@ -577,6 +605,16 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
     console.log('[SiteExploreContent] handleWorkComplete: Marking room as done, step before:', site.step)
     if (site.isInSecretRooms) {
       site.secretRoomEnd()
+      // Check if secret rooms ended after completing work room
+      if (site.isSecretRoomsEnd()) {
+        site.secretRoomsEnd()
+        // Stop secret room music and resume site music when secret rooms end (matches OriginalGame/src/ui/battleAndWorkNode.js:116-119)
+        if (audioManager.getPlayingMusic() === MusicPaths.SITE_SECRET) {
+          audioManager.stopMusic()
+          const siteMusic = getSiteMusic(site.id)
+          audioManager.playMusic(siteMusic, true)
+        }
+      }
     } else {
       site.roomEnd(true) // Work rooms always succeed
       site.testSecretRoomsBegin()
@@ -596,6 +634,12 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
     // Just need to check if secret rooms ended
     if (site.isInSecretRooms && site.isSecretRoomsEnd()) {
       site.secretRoomsEnd()
+      // Stop secret room music and resume site music when secret rooms end (matches OriginalGame/src/ui/battleAndWorkNode.js:116-119)
+      if (audioManager.getPlayingMusic() === MusicPaths.SITE_SECRET) {
+        audioManager.stopMusic()
+        const siteMusic = getSiteMusic(site.id)
+        audioManager.playMusic(siteMusic, true)
+      }
     }
 
     // Clear work storage flags BEFORE updateView()
@@ -621,6 +665,12 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
       secretRoomsShowedCount: site.secretRoomsShowedCount
     })
     site.isSecretRoomsEntryShowed = false
+    // Stop secret room music and resume site music when leaving secret room entry (matches OriginalGame/src/ui/battleAndWorkNode.js:116-119)
+    if (audioManager.getPlayingMusic() === MusicPaths.SITE_SECRET) {
+      audioManager.stopMusic()
+      const siteMusic = getSiteMusic(site.id)
+      audioManager.playMusic(siteMusic, true)
+    }
     console.log('[SiteExploreContent] Secret room state AFTER leave:', {
       isSecretRoomsEntryShowed: site.isSecretRoomsEntryShowed,
       isInSecretRooms: site.isInSecretRooms
@@ -636,6 +686,10 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
       secretRoomsShowedCount: site.secretRoomsShowedCount
     })
     site.enterSecretRooms()
+    // Play secret room music (matches OriginalGame/src/ui/battleAndWorkNode.js:111-113)
+    if (audioManager.getPlayingMusic() !== MusicPaths.SITE_SECRET) {
+      audioManager.playMusic(MusicPaths.SITE_SECRET, true)
+    }
     console.log('[SiteExploreContent] Secret room state AFTER enter:', {
       isSecretRoomsEntryShowed: site.isSecretRoomsEntryShowed,
       isInSecretRooms: site.isInSecretRooms

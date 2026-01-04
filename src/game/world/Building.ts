@@ -19,6 +19,7 @@ import { TimeManager } from '@/game/systems/TimeManager'
 import { TimerCallback } from '@/game/systems/TimeManager'
 import { usePlayerStore } from '@/store/playerStore'
 import { emitter } from '@/utils/emitter'
+import { audioManager, SoundPaths } from '@/game/systems/AudioManager'
 
 /**
  * Type for checking if building exists (used by canUpgrade)
@@ -239,8 +240,8 @@ export class Building {
     // Emit build_node_update event for UI updates
     emitter.emit("build_node_update")
     
-    // TODO: Play build upgrade sound when audio system is ready
-    // audioManager.playEffect(audioManager.sound.BUILD_UPGRADE)
+    // Play build upgrade sound (matches OriginalGame/src/game/Build.js:119)
+    audioManager.playEffect(SoundPaths.BUILD_UPGRADE)
   }
 
   /**
