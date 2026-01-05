@@ -3,7 +3,7 @@
  * Simple array-based registry for all test screens
  * 
  * To add a new test:
- * 1. Create your TestScreen component in src/test/
+ * 1. Create your TestScreen component in src/components/test/
  * 2. Import it here
  * 3. Add entry to testRegistry array
  */
@@ -25,6 +25,9 @@ const HomePanelTestScreen = lazy(() => import('./HomePanelTestScreen').then(m =>
 const MainSceneTestScreen = lazy(() => import('./MainSceneTestScreen').then(m => ({ default: m.MainSceneTestScreen })))
 const Phase2ETestScreen = lazy(() => import('./Phase2ETestScreen').then(m => ({ default: m.Phase2ETestScreen })))
 const WeatherSystemTestScreen = lazy(() => import('./WeatherSystemTestScreen').then(m => ({ default: m.WeatherSystemTestScreen })))
+const SiteSystemTestScreen = lazy(() => import('./SiteSystemTestScreen').then(m => ({ default: m.SiteSystemTestScreen })))
+const MapSystemTestScreen = lazy(() => import('./MapSystemTestScreen').then(m => ({ default: m.MapSystemTestScreen })))
+const BattleSystemTestScreen = lazy(() => import('./BattleSystemTestScreen').then(m => ({ default: m.BattleSystemTestScreen })))
 
 export const testRegistry: TestEntry[] = [
   {
@@ -69,14 +72,31 @@ export const testRegistry: TestEntry[] = [
     component: WeatherSystemTestScreen,
     color: 'teal',
   },
+  {
+    id: 'site',
+    name: 'Site System Test',
+    description: 'Test site exploration, room generation, and secret rooms',
+    component: SiteSystemTestScreen,
+    color: 'orange',
+  },
+  {
+    id: 'map',
+    name: 'Map System Test',
+    description: 'Test map system, site unlocking, position management, and save/restore',
+    component: MapSystemTestScreen,
+    color: 'red',
+  },
+  {
+    id: 'battle',
+    name: 'Battle System Test',
+    description: 'Test battle system, combat mechanics, weapons, and battle UI',
+    component: BattleSystemTestScreen,
+    color: 'pink',
+  },
 ]
 
 // Helper to get test by id
 export function getTestById(id: string): TestEntry | undefined {
   return testRegistry.find(test => test.id === id)
 }
-
-
-
-
 

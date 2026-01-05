@@ -2,7 +2,7 @@
   "name": "buriedtown",
   "version": "1.0.0",
   "type": "module",
-  "description": "BuriedTown - React TypeScript port of the original Cocos2d-JS game",
+  "description": "BuriedTown",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -10,11 +10,9 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
-    "@pixi/react": "^7.1.0",
     "howler": "^2.2.4",
     "i18next": "^23.0.0",
     "localforage": "^1.10.0",
-    "pixi.js": "^8.0.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "react-i18next": "^14.0.0",

@@ -21,7 +21,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],
-          'pixi-vendor': ['pixi.js', '@pixi/react'],
         },
       },
     },

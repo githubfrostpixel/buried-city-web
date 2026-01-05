@@ -5,10 +5,10 @@
 
 import { useEffect } from 'react'
 import { TestScreen } from './TestScreen'
-import { HomePanelContent } from '@/components/panels/HomePanelContent'
-import { useBuildingStore } from '@/store/buildingStore'
-import { usePlayerStore } from '@/store/playerStore'
-import { testBuildingLevels } from '@/test-utils/test-data'
+import { HomePanelContent } from '@/module/shelter/HomePanelContent'
+import { useBuildingStore } from '@/core/store/buildingStore'
+import { usePlayerStore } from '@/core/store/playerStore'
+import { testBuildingLevels } from '@/test/utils/test-data'
 import { TestPanel, TestSection, TestButton, TestResultsList, useTestResults } from './component'
 
 // Building positions from HomePanel (Cocos coordinates)
@@ -227,5 +227,4 @@ export function HomePanelTestScreen() {
     </TestScreen>
   )
 }
-
 

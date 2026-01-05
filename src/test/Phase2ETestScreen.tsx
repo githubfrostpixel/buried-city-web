@@ -5,13 +5,13 @@
 
 import { useState, useEffect } from 'react'
 import { TestScreen } from './TestScreen'
-import { MainScene } from '@/components/scenes/MainScene'
-import { useUIStore } from '@/store/uiStore'
-import { usePlayerStore } from '@/store/playerStore'
-import { useBuildingStore } from '@/store/buildingStore'
-import { game } from '@/game/Game'
-import type { DeathReason } from '@/types/game.types'
-import type { SleepDuration } from '@/game/systems/SurvivalSystem'
+import { MainScene } from '@/scene/MainScene'
+import { useUIStore } from '@/core/store/uiStore'
+import { usePlayerStore } from '@/core/store/playerStore'
+import { useBuildingStore } from '@/core/store/buildingStore'
+import { game } from '@/core/game/Game'
+import type { DeathReason } from '@/common/types/game.types'
+import type { SleepDuration } from '@/core/game/systems/SurvivalSystem'
 import { TestPanel, TestSection, TestButton, TestResultsList, useTestResults } from './component'
 
 export function Phase2ETestScreen() {
@@ -312,8 +312,4 @@ export function Phase2ETestScreen() {
     </TestScreen>
   )
 }
-
-
-
-
 

@@ -74,7 +74,3 @@ export function TestResultsList({
   )
 }
 
-
-
-
-

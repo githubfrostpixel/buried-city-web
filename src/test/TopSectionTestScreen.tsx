@@ -4,10 +4,10 @@
  */
 
 import { TestScreen } from './TestScreen'
-import { TopSection } from '@/components/layout/TopSection'
-import { useGameStore } from '@/store/gameStore'
-import { usePlayerStore } from '@/store/playerStore'
-import { testGameStates, testAttributeStates, testLogs } from '@/test-utils/test-data'
+import { TopSection } from '@/layout/TopSection'
+import { useGameStore } from '@/core/store/gameStore'
+import { usePlayerStore } from '@/core/store/playerStore'
+import { testGameStates, testAttributeStates, testLogs } from '@/test/utils/test-data'
 import { TestPanel, TestSection, TestButton, TestResultsList, useTestResults } from './component'
 
 export function TopSectionTestScreen() {
@@ -204,5 +204,6 @@ export function TopSectionTestScreen() {
     </TestScreen>
   )
 }
+
 
 

@@ -54,12 +54,12 @@ export function TestIndexScreen() {
       <p className="text-gray-400 mb-8">Select a test screen to begin testing</p>
       
       <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="space-y-2">
           {testRegistry.map((test: TestEntry) => (
             <button
               key={test.id}
               onClick={() => setCurrentTest(test.id)}
-              className={`p-4 rounded text-left transition-colors ${colorMap[test.color || 'default']}`}
+              className={`w-full p-4 rounded text-left transition-colors ${colorMap[test.color || 'default']}`}
             >
               <h3 className="font-bold text-lg">{test.name}</h3>
               <p className="text-sm text-gray-200 mt-1 opacity-80">
@@ -84,7 +84,7 @@ export function TestIndexScreen() {
         <div className="mt-8 p-4 bg-gray-800/50 rounded border border-gray-700">
           <h2 className="text-lg font-semibold mb-2">Adding New Tests</h2>
           <p className="text-gray-400 text-sm">
-            To add a new test, create your test screen component in <code className="bg-gray-700 px-1 rounded">src/test/</code> and 
+            To add a new test, create your test screen component in <code className="bg-gray-700 px-1 rounded">src/components/test/</code> and 
             add an entry to <code className="bg-gray-700 px-1 rounded">testRegistry.ts</code>
           </p>
         </div>
@@ -101,8 +101,4 @@ export function TestIndexScreen() {
     </div>
   )
 }
-
-
-
-
 

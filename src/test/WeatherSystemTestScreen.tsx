@@ -5,13 +5,13 @@
 
 import { useState, useEffect } from 'react'
 import { TestScreen } from './TestScreen'
-import { TopSection } from '@/components/layout/TopSection'
-import { useGameStore } from '@/store/gameStore'
-import { usePlayerStore } from '@/store/playerStore'
-import { weatherSystemConfig } from '@/data/weather'
-import { WeatherSystem } from '@/game/systems/WeatherSystem'
-import { game } from '@/game/Game'
-import type { WeatherType, Season } from '@/types/game.types'
+import { TopSection } from '@/layout/TopSection'
+import { useGameStore } from '@/core/store/gameStore'
+import { usePlayerStore } from '@/core/store/playerStore'
+import { weatherSystemConfig } from '@/core/data/weather'
+import { WeatherSystem } from '@/core/game/systems/WeatherSystem'
+import { game } from '@/core/game/Game'
+import type { WeatherType, Season } from '@/common/types/game.types'
 import { TestPanel, TestSection, TestButton, TestResultsList, useTestResults } from './component'
 
 const WEATHER_NAMES = ['Cloudy', 'Clear', 'Rain', 'Snow', 'Storm']
@@ -77,7 +77,7 @@ export function WeatherSystemTestScreen() {
     
     gameStore.setWeather(1)
     
-    const { game } = await import('@/game/Game')
+    const { game } = await import('@/core/game/Game')
     const survivalSystem = game.getSurvivalSystem()
     survivalSystem.applyWeatherEffects()
     
@@ -226,7 +226,7 @@ export function WeatherSystemTestScreen() {
 
   return (
     <TestScreen title="Weather System Test" expectedPositions={[]}>
-      {/* TopSection at the top */}
+      {/* TopBar at the top */}
       <TopSection />
       
       {/* Test Controls Panel - Draggable */}
@@ -275,7 +275,7 @@ export function WeatherSystemTestScreen() {
                 key={weatherId}
                 onClick={async () => {
                   gameStore.setWeather(weatherId as WeatherType)
-                  const { game } = await import('@/game/Game')
+                  const { game } = await import('@/core/game/Game')
                   const survivalSystem = game.getSurvivalSystem()
                   survivalSystem.applyWeatherEffects()
                 }}
@@ -375,8 +375,4 @@ export function WeatherSystemTestScreen() {
     </TestScreen>
   )
 }
-
-
-
-
 

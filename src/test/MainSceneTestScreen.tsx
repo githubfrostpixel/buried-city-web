@@ -4,8 +4,8 @@
  */
 
 import { TestScreen } from './TestScreen'
-import { MainScene } from '@/components/scenes/MainScene'
-import { useUIStore } from '@/store/uiStore'
+import { MainScene } from '@/scene/MainScene'
+import { useUIStore } from '@/core/store/uiStore'
 import { TestPanel, TestSection, TestButton, TestResultsList, useTestResults } from './component'
 
 export function MainSceneTestScreen() {
@@ -49,9 +49,7 @@ export function MainSceneTestScreen() {
   const testPanelSwitching = () => {
     const panels = ['home', 'build', 'storage', 'radio'] as const
     const currentPanel = uiStore.openPanel
-    const currentIndex = currentPanel && panels.includes(currentPanel as typeof panels[number]) 
-      ? panels.indexOf(currentPanel as typeof panels[number]) 
-      : -1
+    const currentIndex = currentPanel ? panels.indexOf(currentPanel) : -1
     const nextIndex = (currentIndex + 1) % panels.length
     const nextPanel = panels[nextIndex]
     
@@ -199,8 +197,4 @@ export function MainSceneTestScreen() {
     </TestScreen>
   )
 }
-
-
-
-
 
