@@ -7,12 +7,15 @@
 import { useEffect, useState } from 'react'
 import { useBuildingStore } from '@/core/store/buildingStore'
 import { emitter } from '@/common/utils/emitter'
+import { getString } from '@/common/utils/stringUtil'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { UpgradeView } from './UpgradeView'
 import { RecipeListItem } from './RecipeListItem'
 import { BedActionListItem } from './BedActionListItem'
+import { ActionListItem } from './ActionListItem'
 import { BOTTOM_BAR_LAYOUT } from '@/layout/layoutConstants'
 import { BedAction } from '@/core/game/systems/BedAction'
+import { Formula } from '@/core/game/systems/Formula'
 
 interface BuildPanelContentProps {
   buildingId: number
@@ -49,13 +52,18 @@ export function BuildPanelContent({ buildingId }: BuildPanelContentProps) {
     )
   }
   
-  // Check if bed building
+  // Check building type
   const isBed = buildingId === 9
+  const isFireplace = buildingId === 5  // Fireplace/Wood Stove (for warming)
+  const isChair = buildingId === 10
   
-  // Get building actions (recipes or bed actions)
+  // Get building actions (recipes or special actions)
   const actions = building.getBuildActions()
+  
+  // Separate actions by type
   const bedActions = isBed ? (actions as unknown as BedAction[]) : []
-  const recipes = isBed ? [] : actions
+  const specialActions = (isFireplace || isChair) ? actions : []
+  const recipes = (!isBed && !isFireplace && !isChair) ? (actions as Formula[]) : []
   
   // Calculate layout dimensions based on original game
   // CommonListItem height = 100px (from uiUtil.createCommonListItem)
@@ -137,7 +145,7 @@ export function BuildPanelContent({ buildingId }: BuildPanelContentProps) {
             fontWeight: 'normal'
           }}
         >
-          Operator
+          {getString(1004) || 'Operate'}
         </div>
       </div>
       
@@ -155,7 +163,7 @@ export function BuildPanelContent({ buildingId }: BuildPanelContentProps) {
         }}
       >
         {isBed ? (
-          // Bed actions display - use same layout as recipes
+          // Bed actions display
           bedActions.length === 0 ? (
             <div
               className="text-white p-4"
@@ -170,12 +178,49 @@ export function BuildPanelContent({ buildingId }: BuildPanelContentProps) {
           ) : (
             bedActions.map((action, index) => (
               <BedActionListItem
-                key={index}
+                key={`bed-${action.type}-${index}`}
                 action={action}
                 index={index}
                 buildingId={buildingId}
               />
             ))
+          )
+        ) : isFireplace || isChair ? (
+          // Special actions (Fireplace/Wood Stove, Chair)
+          specialActions.length === 0 ? (
+            <div
+              className="text-white p-4"
+              style={{
+                textAlign: 'center',
+                fontSize: '16px',
+                fontFamily: "'Noto Sans', sans-serif"
+              }}
+            >
+              {isFireplace ? 'Fireplace not built' : 'Chair not built'}
+            </div>
+          ) : (
+            specialActions.map((action, index) => {
+              // Check if action has getDisplayInfo method (BonfireBuildAction, RestBuildAction, DrinkBuildAction)
+              if (typeof (action as any).getDisplayInfo === 'function' && typeof (action as any).clickAction1 === 'function') {
+                return (
+                  <ActionListItem
+                    key={`action-${buildingId}-${index}`}
+                    action={action as any}
+                    index={index}
+                    buildingId={buildingId}
+                  />
+                )
+              }
+              // Fallback to RecipeListItem for Formula objects
+              return (
+                <RecipeListItem
+                  key={`recipe-${(action as Formula).id}-${index}`}
+                  recipe={action as Formula}
+                  index={index}
+                  buildingId={buildingId}
+                />
+              )
+            })
           )
         ) : (
           // Normal recipe list
@@ -193,7 +238,7 @@ export function BuildPanelContent({ buildingId }: BuildPanelContentProps) {
           ) : (
             recipes.map((recipe, index) => (
               <RecipeListItem
-                key={recipe.id}
+                key={`recipe-${recipe.id}-${index}`}
                 recipe={recipe}
                 index={index}
                 buildingId={buildingId}

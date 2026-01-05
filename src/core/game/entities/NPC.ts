@@ -18,6 +18,10 @@ import type {
   StealLogEntry
 } from '@/common/types/npc.types'
 import { Item } from '@/core/game/inventory/Item'
+import { useLogStore } from '@/core/store/logStore'
+import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
+import { useUIStore } from '@/core/store/uiStore'
+import { usePlayerStore } from '@/core/store/playerStore'
 
 /**
  * NPC class
@@ -131,22 +135,33 @@ export class NPC {
 
   /**
    * Change reputation (friendship level)
-   * TODO: Implement in Phase 5
+   * Ported from OriginalGame/src/game/npc.js changeReputation() (lines 75-98)
    */
   changeReputation(value: number): boolean {
-    // Placeholder: Will implement reputation logic in Phase 5
     if (this.reputation === this.reputationMax && value > 0) {
       return false
     } else if (this.reputation === 0 && value < 0) {
       return false
     }
 
-    // TODO: Add log messages, audio effects, unlock gifts/trading
+    // Add log messages and audio effects
+    if (value > 0) {
+      const npcName = this.getName()
+      const message = getString(1105, npcName) // "%s is very thankful for your help! Your friendship increases."
+      useLogStore.getState().addLog(message)
+      audioManager.playEffect(SoundPaths.GOOD_EFFECT)
+    } else if (value < 0) {
+      const npcName = this.getName()
+      const message = getString(1106, npcName) // "%s feels very disappointed. Your friendship decreases."
+      useLogStore.getState().addLog(message)
+      audioManager.playEffect(SoundPaths.BAD_EFFECT)
+    }
+
     this.reputation += value
     this.reputation = Math.max(0, Math.min(this.reputationMax, this.reputation))
     
     if (this.isReputationMax()) {
-      // TODO: Check achievements
+      // TODO: Check achievements (Achievement.checkNpcReputation(this.id))
     }
     this.unlockByReputation()
     return true
@@ -228,14 +243,23 @@ export class NPC {
 
   /**
    * Take need item from player (increase reputation)
-   * TODO: Implement in Phase 5
+   * Ported from OriginalGame/src/game/npc.js takeNeedItem() (lines 166-172)
    */
   takeNeedItem(): void {
     const itemInfo = this.getNeedItem()
     if (!itemInfo) return
     
-    // TODO: Validate player has item, decrease from player bag, increase reputation
-    // Placeholder
+    const playerStore = usePlayerStore.getState()
+    const itemId = String(itemInfo.itemId)
+    const num = itemInfo.num
+    
+    // Validate player has item in bag
+    if (playerStore.getBagItemCount(itemId) >= num) {
+      // Decrease from player bag
+      playerStore.removeItemFromBag(itemId, num)
+      // Increase reputation
+      this.changeReputation(1)
+    }
   }
 
   /**
@@ -330,10 +354,15 @@ export class NPC {
 
   /**
    * Send gift to player
-   * TODO: Implement in Phase 5
+   * Ported from OriginalGame/src/ui/uiUtil.js showNpcSendGiftDialog() (lines 973-1050)
    */
   sendGift(): void {
-    // Placeholder: Will show gift dialog in Phase 5
+    const uiStore = useUIStore.getState()
+    // Delay showing dialog slightly to ensure UI is ready (especially after sleep)
+    setTimeout(() => {
+      uiStore.showOverlay('npcGiftDialog', { npc: this })
+      audioManager.playEffect(SoundPaths.NPC_KNOCK)
+    }, 100)
   }
 
   /**
@@ -346,10 +375,37 @@ export class NPC {
 
   /**
    * NPC needs help from player
-   * TODO: Implement in Phase 5
+   * Ported from OriginalGame/src/game/npc.js needHelp() (lines 255-285)
+   * For now, shows a simple confirmation dialog until full help dialog is implemented
    */
   needHelp(): void {
-    // Placeholder: Will show help dialog in Phase 5
+    // TODO: Implement full help dialog (NpcHelpDialog.tsx) with items needed
+    // For now, show a simple confirmation dialog
+    const uiStore = useUIStore.getState()
+    const npcName = this.getName()
+    
+    // Delay showing dialog slightly to ensure UI is ready (especially after sleep)
+    setTimeout(() => {
+      // Show confirmation dialog as temporary solution
+      uiStore.showOverlay('confirmationDialog', {
+        title: npcName,
+        message: getString(1065) || "I am sorry to interrupt, but can you do me a favor?",
+        confirmText: getString(1138) || 'Help',
+        cancelText: getString(1193) || 'Cancel',
+        onConfirm: () => {
+          uiStore.hideOverlay()
+          // TODO: Show items needed and handle giving items
+          // For now, just show a message
+          useLogStore.getState().addLog(`${npcName} needs help, but help dialog is not yet implemented.`)
+        },
+        onCancel: () => {
+          uiStore.hideOverlay()
+          // TODO: Decrease reputation if refusing (unless Social talent)
+          useLogStore.getState().addLog(`You refused to help ${npcName}.`)
+        }
+      })
+      audioManager.playEffect(SoundPaths.NPC_KNOCK)
+    }, 100)
   }
 
   /**

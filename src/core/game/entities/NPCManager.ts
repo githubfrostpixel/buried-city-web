@@ -9,6 +9,12 @@
 import { NPC } from './NPC'
 import { npcConfig } from '@/core/data/npcs'
 import type { NPCManagerSaveData } from '@/common/types/npc.types'
+import { useGameStore } from '@/core/store/gameStore'
+import { useLogStore } from '@/core/store/logStore'
+import { getString } from '@/common/utils/stringUtil'
+import { getSaveSlot } from '@/core/game/systems/SaveSystem'
+import { game } from '@/core/game/Game'
+import { emitter } from '@/common/utils/emitter'
 
 /**
  * NPCManager class
@@ -16,9 +22,14 @@ import type { NPCManagerSaveData } from '@/common/types/npc.types'
  */
 export class NPCManager {
   npcList: Record<number, NPC>
+  private pendingVisit: { npcId: number; type: 'gift' | 'help' } | null = null
 
   constructor() {
     this.npcList = {}
+    // Listen for sleep end to show pending visits
+    emitter.on('sleep_end', () => {
+      this.processPendingVisit()
+    })
   }
 
   /**
@@ -75,38 +86,145 @@ export class NPCManager {
 
   /**
    * Unlock NPC
-   * TODO: Implement in Phase 5
+   * Ported from OriginalGame/src/game/npc.js unlockNpc() (lines 380-390)
    */
   unlockNpc(npcId: number): void {
     const npc = this.getNPC(npcId)
     if (!npc.isUnlocked) {
       npc.isUnlocked = true
-      // TODO: Unlock on map, check achievements
+      // TODO: Unlock on map (player.map.unlockNpc(npcId))
+      // TODO: Check achievements (Achievement.checkNpcUnlock(npcId))
       // TODO: If All Unlock cheat, set reputation to 10
     }
   }
 
   /**
    * NPC visits player home
-   * TODO: Implement in Phase 5
+   * Ported from OriginalGame/src/game/npc.js visitPlayer() (lines 332-363)
    */
   visitPlayer(): void {
-    // Placeholder: Will implement visit logic in Phase 5
-    // - Check if day >= 2
-    // - Random chance (20% base, +20% if radio message sent in last 36 hours)
-    // - Select random NPC from pool
-    // - Unlock NPC
-    // - Show gift or help dialog
+    const gameStore = useGameStore.getState()
+    
+    // Check if day >= 2
+    if (gameStore.day < 2) {
+      return
+    }
+    
+    // Calculate visit chance
+    let criteria = 20 // Base 20%
+    
+    // Check radio messages (last 36 hours)
+    const saveSlot = getSaveSlot()
+    const radioKey = `radio${saveSlot}`
+    const chatlog = JSON.parse(localStorage.getItem(radioKey) || "[]")
+    if (chatlog.length > 0) {
+      const currentTime = gameStore.time
+      const addtime = currentTime - 36 * 60 * 60 // 36 hours ago
+      if (chatlog[0].time > addtime) {
+        criteria += 20 // +20% bonus
+      }
+    }
+    
+    // Random chance check
+    const rand = Math.floor(Math.random() * 100)
+    if (rand > criteria) {
+      return // No visit
+    }
+    
+    // Check if player is sleeping
+    const survivalSystem = game.getSurvivalSystem()
+    const sleepState = survivalSystem.getSleepState()
+    
+    if (sleepState.isSleeping) {
+      // Player is sleeping, delay the visit until after sleep
+      // Select random NPC from pool
+      const npcPool = [1, 2, 3, 4, 6, 7]
+      if (this.getNPC(5).isUnlocked) {
+        npcPool.push(5)
+      }
+      const npcId = npcPool[Math.floor(Math.random() * npcPool.length)]
+      
+      // Unlock NPC
+      this.unlockNpc(npcId)
+      
+      // Store pending visit
+      const npc = this.getNPC(npcId)
+      this.pendingVisit = {
+        npcId,
+        type: npc.needSendGift() ? 'gift' : 'help'
+      }
+      
+      // Add log message (will show when sleep ends)
+      // Don't add log yet - wait until sleep ends
+      return
+    }
+    
+    // Player is awake, show visit immediately
+    // Add log message (1100: "Someone is knocking at your door...")
+    useLogStore.getState().addLog(getString(1100))
+    
+    // Select random NPC from pool
+    const npcPool = [1, 2, 3, 4, 6, 7]
+    if (this.getNPC(5).isUnlocked) {
+      npcPool.push(5)
+    }
+    const npcId = npcPool[Math.floor(Math.random() * npcPool.length)]
+    
+    // Unlock NPC
+    this.unlockNpc(npcId)
+    
+    // Show gift or help dialog
+    const npc = this.getNPC(npcId)
+    if (npc.needSendGift()) {
+      npc.sendGift()
+    } else {
+      npc.needHelp() // TODO: Implement help dialog
+    }
+  }
+  
+  /**
+   * Process pending visit after sleep ends
+   */
+  private processPendingVisit(): void {
+    if (!this.pendingVisit) return
+    
+    const { npcId, type } = this.pendingVisit
+    this.pendingVisit = null
+    
+    // Add log message (1100: "Someone is knocking at your door...")
+    useLogStore.getState().addLog(getString(1100))
+    
+    // Show gift or help dialog
+    const npc = this.getNPC(npcId)
+    if (type === 'gift') {
+      npc.sendGift()
+    } else {
+      npc.needHelp()
+    }
   }
 
   /**
    * NPC comes to buy from player
-   * TODO: Implement in Phase 5
+   * Ported from OriginalGame/src/game/npc.js visitSale() (lines 364-379)
    */
   visitSale(): void {
-    // Placeholder: Will implement sale logic in Phase 5
-    // - Random NPC selection
-    // - Show sale dialog
+    const rand = Math.floor(Math.random() * 7)
+    
+    if (rand !== 0) {
+      // Random NPC (1-7)
+      const npc = this.getNPC(rand)
+      if (npc.isUnlocked) {
+        if (npc.needSendGift()) {
+          npc.sendGift()
+        } else {
+          npc.needSell(rand) // TODO: Implement sale dialog
+        }
+      }
+    } else {
+      // Special case: NPC 1 (always available)
+      const npc = this.getNPC(1)
+      npc.needSell(rand) // TODO: Implement sale dialog
+    }
   }
 
   /**

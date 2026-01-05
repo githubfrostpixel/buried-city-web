@@ -410,15 +410,17 @@ export class SurvivalSystem {
     // Building bonus value from config[4][0] = 13
     const buildingBonusValue = playerConfig.temperature[4]?.[0] || 13
     
-    if (electricStove && electricStove.level >= 0 && electricStove.active) {
+    // Use isActive() method to check building state (matches original game)
+    // Original: this.room.getBuild(18).isActive() and this.room.getBuild(5).isActive()
+    if (electricStove && electricStove.level >= 0 && electricStove.isActive()) {
       // Electric Stove is active: add base bonus
       targetTemperature += buildingBonusValue
       
       // If Fireplace is also active: add half bonus
-      if (fireplace && fireplace.level >= 0 && fireplace.active) {
+      if (fireplace && fireplace.level >= 0 && fireplace.isActive()) {
         targetTemperature += Math.floor(buildingBonusValue / 2)
       }
-    } else if (fireplace && fireplace.level >= 0 && fireplace.active) {
+    } else if (fireplace && fireplace.level >= 0 && fireplace.isActive()) {
       // Only Fireplace is active: add base bonus
       targetTemperature += buildingBonusValue
     }
@@ -431,7 +433,8 @@ export class SurvivalSystem {
     }
     
     // Apply the difference (target - current)
-    // This gradually moves temperature toward target
+    // Original: this.changeTemperature(temperature - this.temperature)
+    // This applies the difference instantly, not gradually
     const temperatureChange = targetTemperature - playerStore.temperature
     if (temperatureChange !== 0) {
       this.changeAttribute('temperature', temperatureChange)
@@ -703,6 +706,9 @@ export class SurvivalSystem {
     
     // Emit build_node_update event to refresh UI (like original)
     emitter.emit('build_node_update')
+    
+    // Emit sleep_end event for systems that need to react to sleep ending
+    emitter.emit('sleep_end')
     
     // Time acceleration will end automatically when target time is reached
   }

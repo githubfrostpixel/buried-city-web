@@ -15,6 +15,9 @@ import { BuildUpgradeType } from '@/common/types/building.types'
 import { buildingConfig } from '@/core/data/buildings'
 import { Formula } from '@/core/game/systems/Formula'
 import { BedAction, BedActionType } from '@/core/game/systems/BedAction'
+import { BonfireBuildAction } from '@/core/game/systems/BonfireBuildAction'
+import { RestBuildAction } from '@/core/game/systems/RestBuildAction'
+import { DrinkBuildAction } from '@/core/game/systems/DrinkBuildAction'
 import { TimeManager } from '@/core/game/systems/TimeManager'
 import { TimerCallback } from '@/core/game/systems/TimeManager'
 import { usePlayerStore } from '@/core/store/playerStore'
@@ -74,12 +77,24 @@ export class Building {
 
   /**
    * Initialize building actions (formulas) from produceList
-   * Special handling for bed (ID 9) - creates sleep actions instead of recipes
+   * Special handling for bed (ID 9), fireplace/wood stove (ID 5), and chair (ID 10)
    */
   private initBuildActions(): void {
     // Special handling for bed (ID 9)
     if (this.id === 9) {
       this.initBedActions()
+      return
+    }
+    
+    // Special handling for fireplace/wood stove (ID 5) - for warming
+    if (this.id === 5) {
+      this.initBonfireActions()
+      return
+    }
+    
+    // Special handling for chair (ID 10)
+    if (this.id === 10) {
+      this.initChairActions()
       return
     }
     
@@ -122,6 +137,25 @@ export class Building {
     
     // Store as actions (type will be union of Formula | BedAction)
     this.actions = bedActions as any[]
+  }
+  
+  /**
+   * Initialize wood stove bonfire actions
+   * Creates one fuel management action
+   */
+  private initBonfireActions(): void {
+    const bonfireAction = new BonfireBuildAction(this.id, this)
+    this.actions = [bonfireAction as any]
+  }
+  
+  /**
+   * Initialize chair rest/drink actions
+   * Creates two actions: rest (coffee) and drink (alcohol)
+   */
+  private initChairActions(): void {
+    const restAction = new RestBuildAction(this.id, this.level, this)
+    const drinkAction = new DrinkBuildAction(this.id, this.level, this)
+    this.actions = [restAction as any, drinkAction as any]
   }
 
   /**
@@ -255,6 +289,9 @@ export class Building {
     // Reinitialize actions for bed (to update action levels)
     if (this.id === 9) {
       this.initBedActions()
+    } else if (this.id === 10) {
+      // Reinitialize chair actions (to update action levels)
+      this.initChairActions()
     } else {
       // Unlock formulas for the new level
       let levelIndex = 0
@@ -333,6 +370,25 @@ export class Building {
    */
   anyBtnActive(): boolean {
     return this.activeBtnIndex !== -2
+  }
+  
+  /**
+   * Check if building is active
+   * For building 5 (Fireplace), checks if fuel > 0
+   * For other buildings, uses the active property
+   * Ported from OriginalGame/src/game/Build.js isActive()
+   */
+  isActive(): boolean {
+    if (this.id === 5) {
+      // Fireplace: active when fuel > 0
+      if (this.level >= 0 && this.actions.length > 0) {
+        const bonfireAction = this.actions[0] as any
+        return bonfireAction?.fuel > 0
+      }
+      return false
+    }
+    // Other buildings: use active property
+    return this.active && this.level >= 0
   }
 
   /**

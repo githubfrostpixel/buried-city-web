@@ -102,6 +102,11 @@ interface PlayerStore extends PlayerState {
   cureTime: number | null
   bindTime: number | null
   
+  // Coffee and alcohol state
+  lastCoffeeTime: number
+  lastAlcoholTime: number
+  alcoholPrice: number
+  
   // Actions
   updateAttribute: (attr: keyof PlayerAttributes, value: number) => void
   setCurrency: (amount: number) => void
@@ -280,6 +285,11 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   binded: false,
   cureTime: null,
   bindTime: null,
+  
+  // Coffee and alcohol state
+  lastCoffeeTime: -999999,
+  lastAlcoholTime: -999999,
+  alcoholPrice: 1,
   
   // Actions
   updateAttribute: (attr: keyof PlayerAttributes, value: number) => {
@@ -823,15 +833,18 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   },
   
   // Apply effect to player attributes
-  applyEffect: (effectObj: Record<string, number>) => {
+  applyEffect: (effectObj: Record<string, number> | { spirit?: number; spirit_chance?: number }) => {
     const state = get()
     const badEffects: Array<{attrName: string, changeValue: number}> = []
     
-    for (const key in effectObj) {
+    // Convert to Record for indexing
+    const effectRecord = effectObj as Record<string, number>
+    
+    for (const key in effectRecord) {
       if (state.hasOwnProperty(key) && key !== 'id') {
         const chanceKey = `${key}_chance`
-        const chance = effectObj[chanceKey]
-        const value = effectObj[key]
+        const chance = effectRecord[chanceKey]
+        const value = effectRecord[key]
         
         // Apply effect if chance check passes (or no chance specified)
         if (chance === undefined || Math.random() <= chance) {

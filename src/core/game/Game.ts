@@ -6,8 +6,8 @@
 import { TimeManager } from './systems/TimeManager'
 import { SurvivalSystem } from './systems/SurvivalSystem'
 import { FoodExpirationSystem } from './systems/FoodExpirationSystem'
-import { useBuildingStore } from '@/core/store/buildingStore'
 import { useGameStore } from '@/core/store/gameStore'
+import { usePlayerStore } from '@/core/store/playerStore'
 import type { Season } from '@/common/types/game.types'
 
 class Game {
@@ -35,8 +35,8 @@ class Game {
       }
     })
     
-    // Add weather check at day transition (6:00 AM)
-    // Original: cc.timer.addTimerCallbackDayAndNight(null, function (flag) { if (flag === 'day') { self.weather.checkWeather(); } })
+    // Add weather check and NPC visits at day/night transitions
+    // Original: cc.timer.addTimerCallbackDayAndNight(null, function (flag) { ... })
     this.timeManager.addTimerCallbackDayAndNight(null, (stage) => {
       if (stage === 'day') {
         const gameStore = useGameStore.getState()
@@ -52,6 +52,27 @@ class Game {
         
         // Update GameStore
         gameStore.updateWeather()
+        
+        // NPC visits player home (Original: self.npcManager.visitPlayer())
+        try {
+          const playerStore = usePlayerStore.getState()
+          const npcManager = playerStore.getNPCManager()
+          npcManager.visitPlayer()
+          
+          // Update trading items (Original: self.npcManager.updateTradingItem())
+          npcManager.updateTradingItem()
+        } catch (error) {
+          console.warn('[Game] NPCManager not available for visitPlayer:', error)
+        }
+      } else if (stage === 'night') {
+        // NPC comes to buy from player (Original: self.npcManager.visitSale())
+        try {
+          const playerStore = usePlayerStore.getState()
+          const npcManager = playerStore.getNPCManager()
+          npcManager.visitSale()
+        } catch (error) {
+          console.warn('[Game] NPCManager not available for visitSale:', error)
+        }
       }
     })
   }

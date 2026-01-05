@@ -57,6 +57,7 @@ export type Overlay =
   | 'recipeDialog'
   | 'siteDialog'
   | 'npcDialog'
+  | 'npcGiftDialog'
   | 'confirmationDialog'
   | null
 

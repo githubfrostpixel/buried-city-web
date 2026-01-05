@@ -70,8 +70,8 @@ export async function processRadioCommand(
   
   // Check IAP requirement (except for backup and restore)
   if (!isIAPUnlocked() && prefix !== 'backup' && prefix !== 'restore') {
-    // Commands that don't require IAP: help, heal, kill, fix
-    if (command !== 'help' && command !== 'heal' && command !== 'kill' && command !== 'fix') {
+    // Commands that don't require IAP: help, heal, kill, fix, friendship
+    if (command !== 'help' && command !== 'heal' && command !== 'kill' && command !== 'fix' && prefix !== 'friendship') {
       // Return without processing
       msgData.uid = Math.floor(Math.random() * 9999999) + 1
       return { message: msgData }
@@ -80,7 +80,7 @@ export async function processRadioCommand(
   
   // Process commands
   if (command === 'help') {
-    msgData.msg = 'Welcome to the Cheat Terminal.\n\nCommand:\nobtain \'name\' int: Obtain item given name, amount.\nobtain everything int: Obtain everything given amount.\nheal: Heal the player on all aspect.\nkill: kill the player.\nfix: Fix generator and gas pump if fixable.\nbackup: Set achievement & medal data to input.\nRestore {data}: Restore backed-up data.'
+    msgData.msg = 'Welcome to the Cheat Terminal.\n\nCommand:\nobtain \'name\' int: Obtain item given name, amount.\nobtain everything int: Obtain everything given amount.\nheal: Heal the player on all aspect.\nkill: kill the player.\nfix: Fix generator and gas pump if fixable.\nfriendship npcId amount: Increase NPC friendship (reputation) by amount.\nbackup: Set achievement & medal data to input.\nRestore {data}: Restore backed-up data.'
   } else if (prefix === 'obtain') {
     // Parse: obtain <itemName> <amount>
     const field = command.substring(spaceIndex + 1)
@@ -270,6 +270,40 @@ export async function processRadioCommand(
       
       msgData.msg = 'Site fixed'
       return { message: msgData, effects: { type: 'fix' } }
+    } else if (prefix === 'friendship') {
+      // Parse: friendship <npcId> <amount>
+      const field = command.substring(spaceIndex + 1)
+      const npcIdSpaceIndex = field.indexOf(' ')
+      const npcIdStr = npcIdSpaceIndex > 0 ? field.substring(0, npcIdSpaceIndex) : field
+      const amountStr = npcIdSpaceIndex > 0 ? field.substring(npcIdSpaceIndex + 1) : ''
+      const npcId = Number(npcIdStr)
+      const amount = Number(amountStr)
+      
+      if (isNaN(npcId) || npcId < 1 || npcId > 7) {
+        msgData.msg = 'NPC ID must be a number between 1 and 7.'
+      } else if (isNaN(amount) || amount === 0) {
+        msgData.msg = 'Amount must be a non-zero number.'
+      } else {
+        try {
+          const npcManager = playerStore.getNPCManager()
+          const npc = npcManager.getNPC(npcId)
+          
+          // Increase reputation (clamped to 0-10)
+          const oldRep = npc.reputation
+          npc.changeReputation(amount)
+          const newRep = npc.reputation
+          
+          const npcName = npc.getName()
+          if (newRep === oldRep) {
+            msgData.msg = `${npcName} reputation is already at ${newRep >= 10 ? 'maximum' : 'minimum'}.`
+          } else {
+            msgData.msg = `${npcName} friendship increased from ${oldRep} to ${newRep}.`
+            return { message: msgData, effects: { type: 'eval', data: { npcId, amount, oldRep, newRep } } }
+          }
+        } catch (error) {
+          msgData.msg = `Failed to update NPC ${npcId}: ${(error as Error).message}`
+        }
+      }
     } else if (command === 'backup') {
       // Generate backup string
       const payload: any = {

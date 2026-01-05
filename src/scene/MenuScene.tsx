@@ -98,7 +98,11 @@ export function MenuScene() {
     playerStore.setLocation({ isAtHome: true, isAtBazaar: false, isAtSite: false, siteId: null })
     
 
-    addTestItemsToStorage()
+    // Only add test items if dev=true is in URL
+    const urlParams = new URLSearchParams(window.location.search)
+    if (urlParams.get('dev') === 'true') {
+      addTestItemsToStorage()
+    }
     // Initialize building store (room with default buildings)
     const buildingStore = useBuildingStore.getState()
     buildingStore.initialize()
@@ -111,47 +115,15 @@ export function MenuScene() {
 
   /**
    * Test function to add items to player storage for testing Storage Panel
-   * Adds items from all categories to test grouping
+   * Adds 1000 of each item from itemConfig, grouped by category
    */
   const addTestItemsToStorage = () => {
     const playerStore = usePlayerStore.getState()
     
-    // Materials (1101 prefix) - 100 of each
-    Object.keys(itemConfig)
-      .filter(itemId => itemId.startsWith('1101'))
-      .forEach(itemId => {
-        playerStore.addItemToStorage(itemId, 100)
-      })
-    
-    // Food (1103 prefix)
-    playerStore.addItemToStorage('1103011', 10) // Bread
-    playerStore.addItemToStorage('1103022', 8)  // Meat
-    playerStore.addItemToStorage('1103033', 6)  // Canned food
-    playerStore.addItemToStorage('1103041', 12) // Water
-    
-    // Medicines (1104 prefix)
-    playerStore.addItemToStorage('1104011', 3)  // Medicine
-    playerStore.addItemToStorage('1104021', 2) // Bandage
-    playerStore.addItemToStorage('1104032', 4) // Antiseptic
-    
-    // Enhancement (1107 prefix)
-    playerStore.addItemToStorage('1107012', 2)  // Enhancement item
-    playerStore.addItemToStorage('1107022', 1)  // Enhancement item
-    
-    // Equipment (13 prefix)
-    playerStore.addItemToStorage('1301011', 1)  // Gun
-    playerStore.addItemToStorage('1302011', 1)  // Weapon
-    playerStore.addItemToStorage('1305011', 50) // Bullet
-    playerStore.addItemToStorage('1305012', 30) // Bullet
-    
-    // Bombs - 100 of each type
-    playerStore.addItemToStorage('1303012', 100) // Bomb type 1
-    playerStore.addItemToStorage('1303033', 100) // Bomb type 2
-    playerStore.addItemToStorage('1303044', 100) // Bomb type 3
-    
-    // Miscellaneous (other - items not matching above prefixes)
-    playerStore.addItemToStorage('1102063', 5)  // Basic item
-    playerStore.addItemToStorage('1102073', 3) // Basic item
+    // Add 1000 of each item in itemConfig
+    Object.keys(itemConfig).forEach(itemId => {
+      playerStore.addItemToStorage(itemId, 1000)
+    })
     
     // Unlock all map locations
     try {
