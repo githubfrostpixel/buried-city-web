@@ -313,7 +313,7 @@ export function SiteDialog() {
           <div
             className="text-black mb-2"
             style={{
-              fontSize: '20px',
+              fontSize: '18px',
               fontFamily: "'Noto Sans', sans-serif",
               lineHeight: '1.4',
               paddingLeft: `${leftEdge}px`,
@@ -328,7 +328,7 @@ export function SiteDialog() {
           <div
             className="text-black"
             style={{
-              fontSize: '20px',
+              fontSize: '18px',
               fontFamily: "'Noto Sans', sans-serif",
               lineHeight: '1.4',
               paddingLeft: `${leftEdge}px`,

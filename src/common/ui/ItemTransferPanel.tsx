@@ -222,7 +222,7 @@ export function ItemTransferPanel({
           <div
             className="absolute flex items-center justify-between"
             style={{
-              left: '10px',
+              left: '20px',
               top: '50%',
               transform: 'translateY(-50%)',
               width: `${PANEL_WIDTH - 20}px`,
@@ -232,7 +232,7 @@ export function ItemTransferPanel({
             <span 
               className="text-black"
               style={{
-                fontSize: '16px',
+                fontSize: '20px',
                 fontFamily: "'Noto Sans', sans-serif",
                 fontWeight: 'normal'
               }}
@@ -244,9 +244,10 @@ export function ItemTransferPanel({
                 className="text-black"
                 style={{
                   color: topWeight === topMaxWeight ? '#ff0000' : '#000000',
-                  fontSize: '16px',
+                  fontSize: '20px',
                   fontFamily: "'Noto Sans', sans-serif",
-                  fontWeight: 'normal'
+                  fontWeight: 'normal',
+                  transform: 'translateX(-50%)',
                 }}
               >
                 {topWeight}/{topMaxWeight}
@@ -300,7 +301,7 @@ export function ItemTransferPanel({
           <div
             className="absolute flex items-center justify-between"
             style={{
-              left: '10px',
+              left: '20px',
               top: '50%',
               transform: 'translateY(-50%)',
               width: `${PANEL_WIDTH - 20}px`,
@@ -310,7 +311,7 @@ export function ItemTransferPanel({
             <span 
               className="text-black"
               style={{
-                fontSize: '16px',
+                fontSize: '20px',
                 fontFamily: "'Noto Sans', sans-serif",
                 fontWeight: 'normal'
               }}

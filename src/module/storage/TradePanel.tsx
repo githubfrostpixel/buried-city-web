@@ -121,6 +121,10 @@ export function TradePanel({
     if (bottomValue === 0) {
       return topValue > 0 ? Infinity : 1
     }
+
+    if(topValue === 0 && bottomValue > 0) {
+      return 0
+    }
   
     return topValue / bottomValue
   }, [topTempStorage, bottomTempStorage, calculateStorageValue, revision])
