@@ -1,8 +1,8 @@
 {
-  "name": "buriedtown",
+  "name": "buriedcity",
   "version": "1.0.0",
   "type": "module",
-  "description": "BuriedTown",
+  "description": "BuriedCity",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
