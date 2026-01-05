@@ -54,15 +54,15 @@ function defaultGetTradeRateMessage(tradeRate: number): string {
   }
   
   let index = 0
-  if (tradeRate >= 1.3) {
+  if (tradeRate >= 2) {
     index = 0
-  } else if (tradeRate >= 1.1) {
+  } else if (tradeRate >= 1.2) {
     index = 1
   } else if (tradeRate >= 1.0) {
     index = 2
-  } else if (tradeRate >= 0.9) {
+  } else if (tradeRate >= 0.8) {
     index = 3
-  } else if (tradeRate >= 0.7) {
+  } else if (tradeRate >0) {
     index = 4
   } else {
     index = 5
@@ -94,7 +94,8 @@ export function TradePanel({
   const sectionBarHeight = 30
   const transferPreviewHeight = 200
   const gap = 10
-  const [updateTrigger, setUpdateTrigger] = useState(0)
+  const [revision, setRevision] = useState(0)
+  const bump = () => setRevision(r => r + 1)
   
   // Calculate available height for items areas
   const availableHeight = height - sectionBarHeight * 2 - transferPreviewHeight - gap * 3
@@ -113,34 +114,27 @@ export function TradePanel({
   }, [])
   
   // Calculate trade rate based on temp storage values
-  const calculateTradeRate = useCallback((): number => {
+  const calculateTradeRate = useCallback(() => {
     const topValue = calculateStorageValue(topTempStorage)
     const bottomValue = calculateStorageValue(bottomTempStorage)
-    
-    // Trade rate = value of what player receives / value of what player gives
-    // If player gives nothing, rate is 1.0 (neutral)
+  
     if (bottomValue === 0) {
-      return topValue > 0 ? Infinity : 1.0
+      return topValue > 0 ? Infinity : 1
     }
-    
-    return  topValue/bottomValue
-  }, [
-    topTempStorage, 
-    bottomTempStorage, 
-    calculateStorageValue, 
-    updateTrigger,
-    Object.keys(topTempStorage.items).length,
-    Object.keys(bottomTempStorage.items).length
-  ])
   
-  const topItems = useMemo(() => {
-    return topStorage.getItemsByType('')
-  }, [topStorage, updateTrigger])
+    return topValue / bottomValue
+  }, [topTempStorage, bottomTempStorage, calculateStorageValue, revision])
   
-  const bottomItems = useMemo(() => {
-    return bottomStorage.getItemsByType('')
-  }, [bottomStorage, updateTrigger, Object.keys(bottomStorage.items).length, Object.keys(bottomStorage.items).join(',')])
+  const topItems = useMemo(
+    () => topStorage.getItemsByType(''),
+    [topStorage, revision]
+  )
   
+  const bottomItems = useMemo(
+    () => bottomStorage.getItemsByType(''),
+    [bottomStorage, revision]
+  )
+
   // Get weight for top storage
   const topWeight = showWeight && topStorage.maxWeight !== null 
     ? topStorage.getWeight() 
@@ -157,26 +151,24 @@ export function TradePanel({
   
   // Get temp items directly from temp storages
   const topTempItems = useMemo(() => {
-    const items = topTempStorage.getItemsByType('')
-    return items.slice(0, 4).map(item => ({
-      itemId: item.item.id,
-      count: item.num
-    }))
-  }, [topTempStorage, updateTrigger, Object.keys(topTempStorage.items).length])
+  return topTempStorage
+    .getItemsByType('')
+    .slice(0, 4)
+    .map(i => ({ itemId: i.item.id, count: i.num }))
+}, [topTempStorage, revision])
   
-  const bottomTempItems = useMemo(() => {
-    const items = bottomTempStorage.getItemsByType('')
-    return items.slice(0, 4).map(item => ({
-      itemId: item.item.id,
-      count: item.num
-    }))
-  }, [bottomTempStorage, updateTrigger, Object.keys(bottomTempStorage.items).length])
+    const bottomTempItems = useMemo(() => {
+      return bottomTempStorage
+        .getItemsByType('')
+        .slice(0, 4)
+        .map(i => ({ itemId: i.item.id, count: i.num }))  
+    }, [bottomTempStorage, revision])
   
   // Handle top storage item click - transfer to topTempStorage
   const handleTopItemClick = useCallback((itemId: string) => {
     const transferred = topStorage.transferItem(itemId, 1, topTempStorage)
     if (transferred) {
-      setUpdateTrigger(prev => prev + 1)
+      bump()
       audioManager.playEffect(SoundPaths.EXCHANGE)
     }
   }, [topStorage, topTempStorage])
@@ -185,7 +177,7 @@ export function TradePanel({
   const handleBottomItemClick = useCallback((itemId: string) => {
     const transferred = bottomStorage.transferItem(itemId, 1, bottomTempStorage)
     if (transferred) {
-      setUpdateTrigger(prev => prev + 1)
+      bump()
       audioManager.playEffect(SoundPaths.EXCHANGE)
     }
   }, [bottomStorage, bottomTempStorage])
@@ -194,7 +186,7 @@ export function TradePanel({
   const handleTopTempItemClick = useCallback((itemId: string) => {
     const transferred = topTempStorage.transferItem(itemId, 1, topStorage)
     if (transferred) {
-      setUpdateTrigger(prev => prev + 1)
+      bump()
       audioManager.playEffect(SoundPaths.EXCHANGE)
     }
   }, [topTempStorage, topStorage])
@@ -203,7 +195,7 @@ export function TradePanel({
   const handleBottomTempItemClick = useCallback((itemId: string) => {
     const transferred = bottomTempStorage.transferItem(itemId, 1, bottomStorage)
     if (transferred) {
-      setUpdateTrigger(prev => prev + 1)
+      bump()
       audioManager.playEffect(SoundPaths.EXCHANGE)
     }
   }, [bottomTempStorage, bottomStorage])
@@ -241,10 +233,10 @@ export function TradePanel({
         className="absolute custom-scrollbar"
         style={{
           left: '50%',
-          top: '0px',
+          top: '10px',
           transform: 'translateX(-50%)',
           width: `${width}px`,
-          height: `${itemsAreaHeight}px`,
+          height: `${itemsAreaHeight - 30}px`,
           overflow: 'auto',
           overflowX: 'hidden'
         }}
@@ -298,7 +290,7 @@ export function TradePanel({
         className="absolute"
         style={{
           left: '50%',
-          top: `${topSectionBarTop}px`,
+          top: `${topSectionBarTop - 30}px`,
           transform: 'translateX(-50%)',
           width: `${width}px`,
           height: `${sectionBarHeight}px`
@@ -313,8 +305,8 @@ export function TradePanel({
         <div
           className="absolute text-black"
           style={{
-            left: '10px',
-            top: '50%',
+            left: '20px',
+            top: '75%',
             transform: 'translateY(-50%)',
             fontSize: '20px',
             fontFamily: "'Noto Sans', sans-serif",
@@ -328,8 +320,8 @@ export function TradePanel({
           <div
             className="absolute text-black"
             style={{
-              right: '10px',
-              top: '50%',
+              right: '20px',
+              top: '75%',
               transform: 'translateY(-50%)',
               fontSize: '20px',
               fontFamily: "'Noto Sans', sans-serif",
@@ -347,7 +339,7 @@ export function TradePanel({
         className="absolute"
         style={{
           left: '50%',
-          top: `${transferPreviewTop}px`,
+          top: `${transferPreviewTop-20}px`,
           transform: 'translateX(-50%)',
           width: `${width}px`,
           height: `${transferPreviewHeight}px`,
@@ -363,15 +355,44 @@ export function TradePanel({
           onItemClick={handleTopTempItemClick}
         />
         
-        {/* Arrow Placeholder (center) */}
+        {/* Center: Arrow and Trade Button (vertical stack) */}
         <div
-          className="text-white text-4xl"
           style={{
-            fontSize: '48px',
-            fontFamily: "'Noto Sans', sans-serif"
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '15px'
           }}
         >
-          →
+          {/* Arrow */}
+          <div
+            className="text-white text-4xl"
+            style={{
+              fontSize: '48px',
+              fontFamily: "'Noto Sans', sans-serif"
+            }}
+          >
+            →
+          </div>
+          
+          {/* Trade Button */}
+          <CommonListItemButton
+            text={getString(1040) || 'Trade'}
+            onClick={() => {
+              if (tradeRate >= 1.0) {
+                // Transfer all items from topTempStorage to bottomStorage
+                topTempStorage.transferAll(bottomStorage, true, true)
+                // Transfer all items from bottomTempStorage to topStorage
+                bottomTempStorage.transferAll(topStorage, true, true)
+                // Trigger update to refresh UI
+                bump()
+                // Call the onTrade callback if provided
+                onTrade?.()
+              }
+            }}
+            enabled={tradeRate >= 1.0}
+          />
         </div>
         
         {/* Bottom Temp Items (right) */}
@@ -386,7 +407,7 @@ export function TradePanel({
         className="absolute"
         style={{
           left: '50%',
-          top: `${bottomSectionBarTop}px`,
+          top: `${bottomSectionBarTop-25}px`,
           transform: 'translateX(-50%)',
           width: `${width}px`,
           height: `${sectionBarHeight}px`
@@ -401,8 +422,8 @@ export function TradePanel({
         <div
           className="absolute text-black"
           style={{
-            left: '10px',
-            top: '50%',
+            left: '20px',
+            top: '75%',
             transform: 'translateY(-50%)',
             fontSize: '20px',
             fontFamily: "'Noto Sans', sans-serif",
@@ -416,11 +437,8 @@ export function TradePanel({
           className="absolute"
           style={{
             right: '20px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px'
+            top: '75%',
+            transform: 'translateY(-50%)'
           }}
         >
           <div
@@ -434,14 +452,6 @@ export function TradePanel({
           >
             {tradeRateMessage || 'Calculating...'}
           </div>
-          
-          {onTrade && (
-            <CommonListItemButton
-              text={getString(1040) || 'Trade'}
-              onClick={() => {}} // Placeholder - will be implemented later
-              enabled={tradeRate >= 1.0}
-            />
-          )}
         </div>
       </div>
       
@@ -450,7 +460,7 @@ export function TradePanel({
         className="absolute custom-scrollbar"
         style={{
           left: '50%',
-          top: `${bottomItemsTop}px`,
+          top: `${bottomItemsTop-20}px`,
           transform: 'translateX(-50%)',
           width: `${width}px`,
           height: `${itemsAreaHeight}px`,

@@ -35,7 +35,6 @@ export function MainScene() {
   const playerStore = usePlayerStore() // Subscribe to playerStore changes
   const currentPanel = uiStore.openPanel
   
-  // Screen dimensions (640x1136 from original game)
   const screenWidth = 640
   const screenHeight = 1136
   

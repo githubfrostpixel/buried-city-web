@@ -126,9 +126,10 @@ export class Storage {
    * Transfer all items to another storage
    * @param target - Target storage to transfer items to
    * @param removeFromSource - If true, remove items from source after successful transfer. Default: true
+   * @param ignoreCapacity - If true, ignore weight/capacity checks. Default: false
    * @returns Object with transferred and failed counts
    */
-  transferAll(target: Storage, removeFromSource: boolean = true): { transferred: number; failed: number } {
+  transferAll(target: Storage, removeFromSource: boolean = true, ignoreCapacity: boolean = false): { transferred: number; failed: number } {
     let transferred = 0
     let failed = 0
     
@@ -137,14 +138,29 @@ export class Storage {
     
     Object.entries(itemsToTransfer).forEach(([itemId, count]) => {
       if (count > 0) {
-        if (target.addItem(itemId, count)) {
-          if (removeFromSource) {
-            this.removeItem(itemId, count)
+        if (ignoreCapacity) {
+          // Directly add items without capacity checks
+          const config = itemConfig[itemId]
+          if (config) {
+            target.items[itemId] = (target.items[itemId] || 0) + count
+            if (removeFromSource) {
+              this.removeItem(itemId, count)
+            }
+            transferred++
+          } else {
+            failed++
           }
-          transferred++
         } else {
-          // Target couldn't accept item (weight limit, invalid item, etc.)
-          failed++
+          // Normal transfer with capacity checks
+          if (target.addItem(itemId, count)) {
+            if (removeFromSource) {
+              this.removeItem(itemId, count)
+            }
+            transferred++
+          } else {
+            // Target couldn't accept item (weight limit, invalid item, etc.)
+            failed++
+          }
         }
       }
     })

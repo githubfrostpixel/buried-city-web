@@ -29,10 +29,10 @@ import { audioManager, MusicPaths, getSiteMusic } from '@/core/game/systems/Audi
 import { BattleBeginView } from './BattleBeginView'
 import { BattleProcessView } from './BattleProcessView'
 import { BattleEndView } from './BattleEndView'
-import { WorkBeginView } from './WorkBeginView'
-import { WorkProcessView } from './WorkProcessView'
-import { WorkRoomStorageView } from './WorkRoomStorageView'
-import { SiteEndView } from './SiteEndView'
+import { WorkBeginView } from './CacheBeginView'
+import { WorkProcessView } from './CacheProcessView'
+import { WorkRoomStorageView } from './CacheStorageView'
+import { SiteEndView } from './LocationEndView'
 
 interface SiteExploreContentProps {
   site: Site

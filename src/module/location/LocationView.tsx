@@ -12,7 +12,7 @@ import { Site } from '@/core/game/world/Site'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { cocosToCssY } from '@/common/utils/position'
 import { BOTTOM_BAR_LAYOUT } from '@/layout/layoutConstants'
-import { SiteButton } from './SiteButton'
+import { SiteButton } from './LocationButton'
 import { calculateSiteButtonPositions } from './siteUtils'
 import { getString } from '@/common/utils/stringUtil'
 

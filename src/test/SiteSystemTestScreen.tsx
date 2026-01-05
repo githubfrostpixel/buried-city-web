@@ -19,13 +19,13 @@ import {
 } from '@/core/game/world/Site'
 import { siteConfig } from '@/core/data/sites'
 import { secretRooms } from '@/core/data/secretRooms'
-import { SitePanelContent, getSiteBottomBarProps } from '@/module/location/SitePanelContent'
+import { SitePanelContent, getSiteBottomBarProps } from '@/module/location/LocationView'
 import { BottomSection } from '@/layout/BottomSection'
 import { TestPanel, TestSection, TestButton, TestResultsList, useTestResults } from './component'
 import { usePlayerStore } from '@/core/store/playerStore'
 import { BattleConfig } from '@/core/game/combat/BattleConfig'
-import { SiteExploreContent } from '@/module/location/SiteExploreContent'
-import { SiteStoragePanelContent } from '@/module/location/SiteStoragePanelContent'
+import { SiteExploreContent } from '@/module/location/LocationExploreView'
+import { SiteStoragePanelContent } from '@/module/location/LocationStorageView'
 import { useUIStore } from '@/core/store/uiStore'
 
 export function SiteSystemTestScreen() {

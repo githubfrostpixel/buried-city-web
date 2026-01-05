@@ -9,24 +9,21 @@
  * - Handles flush on unmount
  */
 
-import { useEffect, useMemo, useCallback, useRef } from 'react'
-import { useUIStore } from '@/core/store/uiStore'
+import { useEffect, useMemo, useCallback, useState } from 'react'
 import { usePlayerStore } from '@/core/store/playerStore'
+import { useUIStore } from '@/core/store/uiStore'
 import { Storage } from '@/core/game/inventory/Storage'
 import { Bag } from '@/core/game/inventory/Bag'
 import { TradePanel } from '@/module/storage/TradePanel'
 import { BOTTOM_BAR_LAYOUT } from '@/layout/layoutConstants'
 import { getString } from '@/common/utils/stringUtil'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
 
 interface NPCTradePanelContentProps {
   npcId: number | null
 }
 
 export function NPCTradePanelContent({ npcId }: NPCTradePanelContentProps) {
-  const uiStore = useUIStore()
   const playerStore = usePlayerStore()
-  const hasFlushedRef = useRef(false)
   
   // Get NPC instance
   const npc = useMemo(() => {
@@ -39,70 +36,81 @@ export function NPCTradePanelContent({ npcId }: NPCTradePanelContentProps) {
     }
   }, [npcId, playerStore])
    
-  const playerBag = useMemo(() => {
+  const [playerBag, setPlayerBag] = useState<Bag | null>(null)
+
+  useEffect(() => {
     const bag = new Bag()
     bag.restore(playerStore.bag)
-    return bag
-  }, [playerStore.bag]) // Refresh when bag changes
+    setPlayerBag(bag)
+  }, [playerStore.bag])
 
-  const npcStorage = useMemo(() => {
-    if (!npc) return null
+  const [npcStorage, setNpcStorage] = useState<Storage | null>(null)
+
+  useEffect(() => {
+    if (!npc) return
     const storage = new Storage(`npc_${npc.id}`)
     storage.restore(npc.storage.save())
-    return storage
-  }, [npc?.storage]) 
+    setNpcStorage(storage)
+  }, [npc?.id])
 
-  const topTempStorage = useMemo(() => {
-    if (!npc) return new Storage('temp_top')
+  // Get or create temp storage for player bag preview
+  // This storage persists on the NPC object and tracks items moved from player bag
+  const [topTempStorage, setTopTempStorage] = useState<Storage | null>(null)
+  const [bottomTempStorage, setBottomTempStorage] = useState<Storage | null>(null)
+
+  useEffect(() => {
+    if (!npc) return
+
     if (!npc.tempBagPreview) {
       npc.tempBagPreview = new Storage('temp_top')
     }
-    const storage = new Storage('temp_top')
-    storage.restore(npc.tempBagPreview.save())
-    return npc.tempBagPreview
-  }, [npc?.tempBagPreview])
-
-  const bottomTempStorage = useMemo(() => {
-    if (!npc) return new Storage('temp_bottom')
     if (!npc.tempStoragePreview) {
-      npc.tempStoragePreview = new Storage(`temp_bottom`)
+      npc.tempStoragePreview = new Storage('temp_bottom')
     }
-    const storage = new Storage(`temp_bottom`)
-    storage.restore(npc.tempStoragePreview.save())
-    return storage
-  }, [npc?.tempStoragePreview])
+
+    setTopTempStorage(npc.tempBagPreview)
+    setBottomTempStorage(npc.tempStoragePreview)
+  }, [npc?.id])
 
   
   
   // Flush function: return items to original storage
   const flushTempStorage = useCallback(() => {
-    if (!npc || !npc.tempBagPreview || !npc.tempStoragePreview) return
-    
-    topTempStorage.transferAll(playerBag);
-    bottomTempStorage.transferAll(npc.storage);
-    // Clear temp storage from NPC
+    if (!npc) return
+  
+    const bagPreview = npc.tempBagPreview
+    const storagePreview = npc.tempStoragePreview
+  
+    if (!bagPreview || !storagePreview) return
+  
+    // Return items safely
+    bagPreview.transferAll(playerBag as Storage)
+    storagePreview.transferAll(npc.storage)
+  
+    // Clear AFTER transfer
     npc.tempBagPreview = undefined
     npc.tempStoragePreview = undefined
-  }, [npc, playerStore])
+  }, [npc, playerBag])
+  
+  // Handle trade completion - persist changes to actual storages
+  const handleTrade = useCallback(() => {
+    if (!playerBag || !npcStorage || !npc) return
+    
+    // Persist player bag to playerStore
+    const newBag = playerBag.save()
+    usePlayerStore.setState({ bag: newBag })
+    
+    // Persist NPC storage to npc.storage
+    npc.storage.restore(npcStorage.save())
+  }, [playerBag, npcStorage, npc])
   
   // Set flush function in store and cleanup on unmount
   useEffect(() => {
-    // Use getState() to avoid subscribing to store updates
     useUIStore.getState().setNPCTradeFlushFunction(flushTempStorage)
-    
+  
     return () => {
-      // CRITICAL: Flush items back to original storage before unmounting
-      // Use ref to prevent multiple calls
-      if (hasFlushedRef.current) {
-        return
-      }
-      hasFlushedRef.current = true
-      
-      console.log('[NPCTradePanelContent] Component unmounting, calling flush function')
-      // Call flush directly (not through store) to avoid state update loops
+      console.log('[NPCTradePanelContent] Unmount → flushing trade')
       flushTempStorage()
-      
-      // Clear flush function from store AFTER flush
       useUIStore.getState().setNPCTradeFlushFunction(null)
     }
   }, [flushTempStorage])
@@ -132,19 +140,22 @@ export function NPCTradePanelContent({ npcId }: NPCTradePanelContentProps) {
           height: `${contentHeight}px`
         }}
       >
-        <TradePanel
-          topStorage={playerBag}
-          bottomStorage={npcStorage}
-          topTempStorage={topTempStorage}
-          bottomTempStorage={bottomTempStorage}
-          topStorageName={getString(1034) || 'Bag'}
-          bottomStorageName={getString(1039) || 'Traded goods'}
-          getTradeRate={npc.getTradeRate.bind(npc)}
-          showWeight={true}
-          topMaxWeight={playerStore.getBagMaxWeight()}
-          width={596}
-          height={contentHeight}
-        />
+        {topTempStorage && bottomTempStorage && (
+          <TradePanel
+            topStorage={playerBag}
+            bottomStorage={npcStorage}
+            topTempStorage={topTempStorage}
+            bottomTempStorage={bottomTempStorage}
+            topStorageName={getString(1034) || 'Bag'}
+            bottomStorageName={getString(1039) || 'Traded goods'}
+            getTradeRate={npc.getTradeRate.bind(npc)}
+            onTrade={handleTrade}
+            showWeight={true}
+            topMaxWeight={playerStore.getBagMaxWeight()}
+            width={596}
+            height={contentHeight}
+          />
+        )}
       </div>
     </div>
   )
