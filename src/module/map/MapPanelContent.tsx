@@ -130,7 +130,28 @@ export function MapPanelContent() {
           }
         } else {
           // It's a Site
-          siteList.push(entity as Site)
+          const site = entity as Site
+          
+          // Always show special sites (HOME_SITE, AD_SITE, BOSS_SITE, WORK_SITE, GAS_SITE, BAZAAR_SITE)
+          const isSpecialSite = site.id === HOME_SITE || 
+                               site.id === AD_SITE || 
+                               site.id === BOSS_SITE || 
+                               site.id === WORK_SITE || 
+                               site.id === GAS_SITE || 
+                               site.id === BAZAAR_SITE
+          
+          if (isSpecialSite) {
+            // Always add special sites regardless of completion or storage status
+            siteList.push(site)
+          } else {
+            // For normal sites: filter out if completed AND has empty storage
+            if (site.isSiteEnd() && site.storage.isEmpty()) {
+              // Skip this site - don't add to siteList (hide from map)
+            } else {
+              // Add normal site (either not completed, or has items in storage)
+              siteList.push(site)
+            }
+          }
         }
       }
     }, npcManager)

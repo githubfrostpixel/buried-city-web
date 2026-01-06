@@ -140,7 +140,7 @@ export function WorkBeginView({ room, site, onToolSelect }: WorkBeginViewProps) 
               >
                 <Sprite atlas="ui" frame="btn_tool.png" className="w-full h-full" />
                 {/* Icon - left-aligned, scale 0.5 (50% of original size) */}
-                <div style={{ left: tool.itemId !== Equipment.HAND ? '-28px' : '0px' }} className="absolute inset-0 flex items-center justify-start pl-2">
+                <div style={{ left: tool.itemId === Equipment.HAND ? '-28px' : '0px' }} className="absolute inset-0 flex items-center justify-start pl-2">
                   {tool.itemId === Equipment.HAND ? (
                     <Sprite 
                       atlas="gate" 

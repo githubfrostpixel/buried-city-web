@@ -8,7 +8,7 @@
 
 import { Storage } from '@/core/game/inventory/Storage'
 import { clone } from '@/common/utils/clone'
-import { npcConfig } from '@/core/data/npcs'
+import { npcConfig, npcGiftConfig } from '@/core/data/npcs'
 import { getString } from '@/common/utils/stringUtil'
 import type {
   NPCConfig,
@@ -22,6 +22,7 @@ import { useLogStore } from '@/core/store/logStore'
 import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
 import { useUIStore } from '@/core/store/uiStore'
 import { usePlayerStore } from '@/core/store/playerStore'
+import { getFixedValueItemIds } from '@/common/utils/item'
 
 /**
  * NPC class
@@ -48,6 +49,7 @@ export class NPC {
     site?: Gift[]
   }
   sentGiftNumbers: Set<number> // Sequential gift numbers (1, 2, 3, 4, 5, 6, 7...) of gifts that have been sent
+  needHelpItems: Array<{ itemId: string; num: number }> // Items needed for help request
 
   constructor(npcId: number) {
     this.id = npcId
@@ -68,6 +70,7 @@ export class NPC {
     this.log = []
     this.needSendGiftList = {}
     this.sentGiftNumbers = new Set<number>()
+    this.needHelpItems = []
     this.changeReputation(0)
   }
 
@@ -464,33 +467,60 @@ export class NPC {
   /**
    * NPC needs help from player
    * Ported from OriginalGame/src/game/npc.js needHelp() (lines 255-285)
-   * For now, shows a simple confirmation dialog until full help dialog is implemented
    */
   needHelp(): void {
-    // TODO: Implement full help dialog (NpcHelpDialog.tsx) with items needed
-    // For now, show a simple confirmation dialog
     const uiStore = useUIStore.getState()
+    const playerStore = usePlayerStore.getState()
     const npcName = this.getName()
+    
+    // Generate items needed for help (must be called before showing dialog)
+    // This stores items in this.needHelpItems which the dialog will use
+    this.getNeedHelpItems()
+    
+    // Check if Social talent is unlocked (skip for now, assume false)
+    // TODO: Check IAPPackage.isSocialEffectUnlocked() when IAP system is implemented
+    const isSocialUnlocked = false
+    
+    // Decrease reputation by 1 if not Social talent (will restore if player helps)
+    let needRestore = false
+    if (!isSocialUnlocked) {
+      needRestore = this.changeReputation(-1)
+    }
     
     // Delay showing dialog slightly to ensure UI is ready (especially after sleep)
     setTimeout(() => {
-      // Show confirmation dialog as temporary solution
-      // Use same overlay approach as gift dialog for consistent positioning
-      uiStore.showOverlay('confirmationDialog', {
-        title: npcName,
-        message: getString(1065) || "I am sorry to interrupt, but can you do me a favor?",
-        confirmText: getString(1138) || 'Help',
-        cancelText: getString(1193) || 'Cancel',
-        onConfirm: () => {
-          uiStore.hideOverlay()
-          // TODO: Show items needed and handle giving items
-          // For now, just show a message
-          useLogStore.getState().addLog(`${npcName} needs help, but help dialog is not yet implemented.`)
+      uiStore.showOverlay('npcHelpDialog', {
+        npc: this,
+        needRestore,
+        onRefuse: () => {
+          // Player refused to help
+          // Log message 1102: "You rejected %s."
+          useLogStore.getState().addLog(getString(1102, npcName))
         },
-        onCancel: () => {
-          uiStore.hideOverlay()
-          // TODO: Decrease reputation if refusing (unless Social talent)
-          useLogStore.getState().addLog(`You refused to help ${npcName}.`)
+        onAgree: () => {
+          // Player agreed to help
+          // Remove items from player
+          playerStore.costItems(this.needHelpItems.map(item => ({
+            itemId: Number(item.itemId),
+            num: item.num
+          })))
+          
+          // Get first item info for log message
+          const itemInfo = this.needHelpItems[0]
+          const itemId = String(itemInfo.itemId)
+          const itemName = getString(itemId).title || `Item ${itemId}`
+          const stock = playerStore.getStorageItemCount(itemId)
+          
+          // Restore reputation if it was decreased
+          if (needRestore) {
+            this.changeReputation(1)
+          }
+          
+          // Increase reputation by 1
+          this.changeReputation(1)
+          
+          // Log message 1101: "You gave %s %s %s (stock: %s)."
+          useLogStore.getState().addLog(getString(1101, npcName, itemInfo.num, itemName, stock))
         }
       })
       audioManager.playEffect(SoundPaths.NPC_KNOCK)
@@ -499,11 +529,26 @@ export class NPC {
 
   /**
    * Get items needed for help
-   * TODO: Implement in Phase 5
+   * Ported from OriginalGame/src/game/npc.js getNeedHelpItems() (lines 287-290)
+   * Generates random items based on npcGiftConfig
    */
-  getNeedHelpItems(): Item[] {
-    // Placeholder: Will generate random items based on npcGiftConfig
-    return []
+  getNeedHelpItems(): Array<{ itemId: string; num: number }> {
+    // Generate item IDs based on produceValue and produceList
+    const itemIds = getFixedValueItemIds(npcGiftConfig.produceValue, npcGiftConfig.produceList)
+    
+    // Convert to {itemId, num} format (count duplicates)
+    const itemMap: Record<string, number> = {}
+    itemIds.forEach((itemId) => {
+      itemMap[itemId] = (itemMap[itemId] || 0) + 1
+    })
+    
+    // Convert to array format
+    this.needHelpItems = Object.keys(itemMap).map((itemId) => ({
+      itemId,
+      num: itemMap[itemId]
+    }))
+    
+    return this.needHelpItems
   }
 
   /**

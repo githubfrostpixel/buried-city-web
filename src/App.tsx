@@ -11,6 +11,7 @@ import { RecipeDialog } from './module/overlay/RecipeDialog'
 import { SiteDialog } from './module/overlay/LocationDialog'
 import { NpcDialog } from './module/overlay/NpcDialog'
 import { NpcGiftDialog } from './module/overlay/NpcGiftDialog'
+import { NpcHelpDialog } from './module/overlay/NpcHelpDialog'
 import { ConfirmationDialog } from './module/overlay/ConfirmationDialog'
 import { getImagePath } from './common/utils/assets'
 import { ImageSprite } from './common/ui/sprite/ImageSprite'
@@ -138,6 +139,9 @@ function App() {
       )}
       {activeOverlay !== 'death' && activeOverlay === 'npcGiftDialog' && (
         <NpcGiftDialog />
+      )}
+      {activeOverlay !== 'death' && activeOverlay === 'npcHelpDialog' && (
+        <NpcHelpDialog />
       )}
       {activeOverlay !== 'death' && activeOverlay === 'confirmationDialog' && (
         <ConfirmationDialog />

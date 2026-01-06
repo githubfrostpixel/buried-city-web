@@ -58,8 +58,26 @@ export type Overlay =
   | 'siteDialog'
   | 'npcDialog'
   | 'npcGiftDialog'
+  | 'npcHelpDialog'
   | 'confirmationDialog'
   | null
+
+/**
+ * Blocking overlays that pause the game and prevent other dialogs from opening
+ * These dialogs should block each other to prevent multiple dialogs from appearing simultaneously
+ */
+const BLOCKING_OVERLAYS: Overlay[] = [
+  'npcHelpDialog',
+  'npcGiftDialog',
+  'npcDialog',
+  'confirmationDialog',
+  'itemDialog',
+  'attributeDialog',
+  'statusDialog',
+  'buildDialog',
+  'recipeDialog',
+  'siteDialog'
+]
 
 interface UIStore {
   // Current scene
@@ -215,10 +233,18 @@ export const useUIStore = create<UIStore>((set, get) => ({
   }),
   
   showOverlay: (overlay: Overlay, data?: any) => {
-    // Prevent other overlays when death overlay is active (hardlock)
     const currentState = get()
+    
+    // Prevent other overlays when death overlay is active (hardlock)
     if (currentState.activeOverlay === 'death' && overlay !== 'death') {
       // Death overlay is active, prevent showing other overlays
+      return
+    }
+    
+    // If a blocking overlay is already active, prevent showing another overlay
+    if (currentState.activeOverlay && 
+        BLOCKING_OVERLAYS.includes(currentState.activeOverlay) && 
+        overlay !== currentState.activeOverlay) {
       return
     }
     
@@ -230,9 +256,10 @@ export const useUIStore = create<UIStore>((set, get) => ({
   },
   
   showItemDialog: (itemId: string, source: 'storage' | 'bag' | 'bazaar', showOnly?: boolean) => {
-    // Prevent showing item dialog when death overlay is active (hardlock)
+    // Prevent showing item dialog when blocking overlay is active
     const currentState = get()
-    if (currentState.activeOverlay === 'death') {
+    if (currentState.activeOverlay === 'death' || 
+        (currentState.activeOverlay && BLOCKING_OVERLAYS.includes(currentState.activeOverlay))) {
       return
     }
     
@@ -243,9 +270,10 @@ export const useUIStore = create<UIStore>((set, get) => ({
   },
   
   showBuildDialog: (buildingId: number, level: number) => {
-    // Prevent showing build dialog when death overlay is active (hardlock)
+    // Prevent showing build dialog when blocking overlay is active
     const currentState = get()
-    if (currentState.activeOverlay === 'death') {
+    if (currentState.activeOverlay === 'death' || 
+        (currentState.activeOverlay && BLOCKING_OVERLAYS.includes(currentState.activeOverlay))) {
       return
     }
     
@@ -256,9 +284,10 @@ export const useUIStore = create<UIStore>((set, get) => ({
   },
   
   showRecipeDialog: (buildingId: number, recipeIndex: number) => {
-    // Prevent showing recipe dialog when death overlay is active (hardlock)
+    // Prevent showing recipe dialog when blocking overlay is active
     const currentState = get()
-    if (currentState.activeOverlay === 'death') {
+    if (currentState.activeOverlay === 'death' || 
+        (currentState.activeOverlay && BLOCKING_OVERLAYS.includes(currentState.activeOverlay))) {
       return
     }
     
