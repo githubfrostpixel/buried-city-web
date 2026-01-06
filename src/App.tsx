@@ -1,6 +1,7 @@
 import { useUIStore } from './core/store/uiStore'
 import { MenuScene } from './scene/MenuScene'
 import { MainScene } from './scene/MainScene'
+import { SaveFileScene } from './scene/SaveFileScene'
 import { TestIndexScreen } from './test/TestIndexScreen'
 import { DeathOverlay } from './module/overlay/DeathOverlay'
 import { ItemDialog } from './module/overlay/ItemDialog'
@@ -17,7 +18,6 @@ import { getImagePath } from './common/utils/assets'
 import { ImageSprite } from './common/ui/sprite/ImageSprite'
 import { useViewportScale } from './common/hooks/useViewportScale'
 // Future scenes (to be implemented):
-// import { SaveFileScene } from './components/scenes/SaveFileScene'
 // import { ChooseScene } from './components/scenes/ChooseScene'
 // import { StoryScene } from './components/scenes/StoryScene'
 // import { BattleScene } from './components/scenes/BattleScene'
@@ -99,9 +99,9 @@ function App() {
         ) : (
           <>
             {currentScene === 'menu' && <MenuScene />}
+            {currentScene === 'saveFile' && <SaveFileScene />}
             {currentScene === 'main' && <MainScene />}
             {/* Future scenes */}
-            {/* {currentScene === 'saveFile' && <SaveFileScene />} */}
             {/* {currentScene === 'choose' && <ChooseScene />} */}
             {/* {currentScene === 'story' && <StoryScene />} */}
             {/* {currentScene === 'battle' && <BattleScene />} */}

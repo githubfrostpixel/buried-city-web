@@ -37,11 +37,8 @@ export function MenuScene() {
   const handleNewGame = () => {
     audioManager.playEffect(SoundPaths.CLICK)
     
-    // Initialize new game
-    initializeNewGame()
-    
-    // Navigate to main scene
-    uiStore.setScene('main')
+    // Navigate to save file scene
+    uiStore.setScene('saveFile')
   }
 
   const initializeNewGame = () => {

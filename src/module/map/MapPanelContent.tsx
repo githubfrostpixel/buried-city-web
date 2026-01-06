@@ -31,6 +31,7 @@ import { getMaxVelocityGameTime } from '@/common/utils/actor'
 import { useActorMovement } from '@/common/hooks/useActorMovement'
 import { audioManager, MusicPaths } from '@/core/game/systems/AudioManager'
 import { transferBagToStorage, unequipItemsNotInBag } from '@/scene/navigation/gatePanelUtils'
+import { saveAll } from '@/core/game/systems/SaveSystem'
 import type { Site } from '@/core/game/world/Site'
 import type { Panel } from '@/core/store/uiStore'
 
@@ -174,6 +175,8 @@ export function MapPanelContent() {
       unequipItemsNotInBag()
       // TODO: Add log message 1111
       // TODO: Call player.trySteal()
+      // Save game when returning home
+      saveAll().catch(err => console.error('Auto-save failed when returning home:', err))
     } else if (site.id === AD_SITE) {
       panel = 'site'  // TODO: Create AD_SITE panel
       siteId = site.id
@@ -205,11 +208,11 @@ export function MapPanelContent() {
     uiStore.setScene('main')
     if (panel === 'site' && siteId) {
       uiStore.openPanelAction('site', undefined, siteId)
+      // Save game when entering location panel
+      saveAll().catch(err => console.error('Auto-save failed when entering location panel:', err))
     } else {
       uiStore.openPanelAction(panel)
     }
-    
-    // TODO: Save game (Record.saveAll())
   }
 
   // Enter NPC after travel completes

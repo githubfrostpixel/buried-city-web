@@ -8,6 +8,7 @@
  * This component handles the site image, description, and buttons.
  */
 
+import { useEffect } from 'react'
 import { Site } from '@/core/game/world/Site'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { cocosToCssY } from '@/common/utils/position'
@@ -15,6 +16,7 @@ import { BOTTOM_BAR_LAYOUT } from '@/layout/layoutConstants'
 import { SiteButton } from './LocationButton'
 import { calculateSiteButtonPositions } from './siteUtils'
 import { getString } from '@/common/utils/stringUtil'
+import { saveAll } from '@/core/game/systems/SaveSystem'
 
 interface SitePanelContentProps {
   site: Site
@@ -33,6 +35,11 @@ export function SitePanelContent({
 }: SitePanelContentProps) {
   const { bgWidth, leftEdge, rightEdge, cocosRef, content } = BOTTOM_BAR_LAYOUT
   const contentHeight = content.height
+  
+  // Save game when entering location panel
+  useEffect(() => {
+    saveAll().catch(err => console.error('Auto-save failed when entering location panel:', err))
+  }, [site.id])
   
   // dig_des: (bgRect.width / 2, contentTopLineHeight - 50) with anchor (0.5, 1)
   // Position relative to content area (not full bgHeight)

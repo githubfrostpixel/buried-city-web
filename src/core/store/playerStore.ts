@@ -44,6 +44,7 @@ interface PlayerStore extends PlayerState {
   fuel: number
   totalDistance: number
   leftHomeTime: number | null
+  saveName: string // Save file name
   
   // Settings
   setting: {
@@ -113,6 +114,7 @@ interface PlayerStore extends PlayerState {
   addCurrency: (amount: number) => void
   setLocation: (location: { isAtHome?: boolean; isAtBazaar?: boolean; isAtSite?: boolean; siteId?: number | null }) => void
   setSetting: (key: string, value: any) => void
+  setSaveName: (name: string) => void
   out: () => void
   
   // Inventory actions
@@ -229,6 +231,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   fuel: 0,
   totalDistance: 0,
   leftHomeTime: null,
+  saveName: '',
   
   // Settings
   setting: {
@@ -359,6 +362,8 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       [key]: value
     }
   })),
+  
+  setSaveName: (name: string) => set({ saveName: name }),
   
   out: () => {
     // Get current time from game time manager

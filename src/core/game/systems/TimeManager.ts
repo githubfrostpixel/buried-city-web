@@ -158,22 +158,22 @@ export class TimeManager {
       const afterTimeFormat = this.formatTime()
       const timeDelta = afterTime - beforeTime
       const accelerationRatio = realTimeDelta > 0 ? (timeDelta / realTimeDelta).toFixed(2) + 'x' : 'N/A'
-      console.log('[TimeManager] Time update (accelerated):', {
-        realTime: this.realTime.toFixed(3),
-        realTimeDelta: realTimeDelta.toFixed(4),
-        dt,
-        timeScale: this.timeScale,
-        dtTime: dtTime.toFixed(4),
-        beforeTime: beforeTime.toFixed(2),
-        afterTime: afterTime.toFixed(2),
-        timeDelta: timeDelta.toFixed(4),
-        accelerationRatio,
-        isAccelerated: this.isAccelerated,
-        accelerateEndTime: this.accelerateEndTime,
-        timeRemaining: (this.accelerateEndTime - this.time).toFixed(2),
-        beforeFormatted: `${beforeTimeFormat.d}d ${beforeTimeFormat.h}h ${beforeTimeFormat.m}m ${beforeTimeFormat.s}s`,
-        afterFormatted: `${afterTimeFormat.d}d ${afterTimeFormat.h}h ${afterTimeFormat.m}m ${afterTimeFormat.s}s`
-      })
+      // console.log('[TimeManager] Time update (accelerated):', {
+      //   realTime: this.realTime.toFixed(3),
+      //   realTimeDelta: realTimeDelta.toFixed(4),
+      //   dt,
+      //   timeScale: this.timeScale,
+      //   dtTime: dtTime.toFixed(4),
+      //   beforeTime: beforeTime.toFixed(2),
+      //   afterTime: afterTime.toFixed(2),
+      //   timeDelta: timeDelta.toFixed(4),
+      //   accelerationRatio,
+      //   isAccelerated: this.isAccelerated,
+      //   accelerateEndTime: this.accelerateEndTime,
+      //   timeRemaining: (this.accelerateEndTime - this.time).toFixed(2),
+      //   beforeFormatted: `${beforeTimeFormat.d}d ${beforeTimeFormat.h}h ${beforeTimeFormat.m}m ${beforeTimeFormat.s}s`,
+      //   afterFormatted: `${afterTimeFormat.d}d ${afterTimeFormat.h}h ${afterTimeFormat.m}m ${afterTimeFormat.s}s`
+      // })
     } else {
       this.updateTime(dtTime)
     }
@@ -196,12 +196,12 @@ export class TimeManager {
 
     // Check acceleration end
     if (this.isAccelerated && this.time >= this.accelerateEndTime) {
-      console.log('[TimeManager] Acceleration ended:', {
-        currentTime: this.time,
-        accelerateEndTime: this.accelerateEndTime,
-        timeScaleBefore: this.timeScale,
-        timeScaleAfter: this.timeScaleOrigin
-      })
+      // console.log('[TimeManager] Acceleration ended:', {
+      //   currentTime: this.time,
+      //   accelerateEndTime: this.accelerateEndTime,
+      //   timeScaleBefore: this.timeScale,
+      //   timeScaleAfter: this.timeScaleOrigin
+      // })
       this.isAccelerated = false
       this.timeScale = this.timeScaleOrigin
     }

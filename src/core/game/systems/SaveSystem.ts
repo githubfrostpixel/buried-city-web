@@ -7,10 +7,11 @@
 
 import localforage from 'localforage'
 import { z } from 'zod'
-import type { SaveData } from '@/common/types/save.types'
+import type { SaveData, SaveMetadata } from '@/common/types/save.types'
 import { SaveDataSchema, type ValidatedSaveData } from './saveSchemas'
 import type { PlayerAttributes } from '@/common/types/player.types'
 import type { Building } from '@/common/types/building.types'
+import { getString } from '@/common/utils/stringUtil'
 
 // Save slot management
 let currentSaveSlot = 1
@@ -37,8 +38,9 @@ export async function saveDataToStorage(key: string, data: unknown): Promise<voi
   try {
     const fullKey = `${key}_${currentSaveSlot}`
     await localforage.setItem(fullKey, data)
+    console.log(`[SaveSystem] Saved ${fullKey} to localforage (IndexedDB/localStorage)`)
   } catch (error) {
-    console.error(`Failed to save ${key}:`, error)
+    console.error(`[SaveSystem] Failed to save ${key}:`, error)
     throw error
   }
 }
@@ -181,7 +183,8 @@ export async function saveAll(): Promise<void> {
       time: gameState.time,
       season: gameState.season,
       day: gameState.day,
-      weather: gameState.weatherSystem.save()
+      weather: gameState.weatherSystem.save(),
+      map: playerState.map?.save() // Save map state (sites, NPCs, position)
     },
     buildings: buildingStore.save() as Building[],
     npcManager: npcManagerSave,
@@ -194,6 +197,26 @@ export async function saveAll(): Promise<void> {
   
   // Save to localforage
   await saveDataToStorage('save', validated)
+  
+  // Save metadata
+  const metadata: SaveMetadata = {
+    saveName: playerState.saveName || getString('6007'), // "Save File"
+    cloned: false, // Will be set if this is a cloned save
+    timestamp: Date.now()
+  }
+  
+  // Check if metadata exists to preserve cloned flag
+  const existingMetadata = await loadMetadata(currentSaveSlot)
+  if (existingMetadata?.cloned) {
+    metadata.cloned = true
+  }
+  
+  await saveMetadata(currentSaveSlot, metadata)
+  
+  // Log save completion
+  console.log(`[SaveSystem] saveAll() completed for slot ${currentSaveSlot}`)
+  console.log(`[SaveSystem] Data stored in browser IndexedDB (or localStorage) under keys: save_${currentSaveSlot}, metadata_${currentSaveSlot}`)
+  console.log(`[SaveSystem] You can inspect saved data in browser DevTools: Application > IndexedDB > BuriedTown > saves`)
 }
 
 /**
@@ -225,6 +248,13 @@ export async function restoreFromSave(saveData: ValidatedSaveData): Promise<void
   gameStore.setTime(saveData.game.time)
   gameStore.setSeason(saveData.game.season)
   
+  // CRITICAL: Restore TimeManager's internal time to match the saved time
+  // TimeManager has its own internal time that needs to be synced, otherwise
+  // it will overwrite the gameStore time on the next update() call
+  const { game } = await import('@/core/game/Game')
+  const timeManager = game.getTimeManager()
+  timeManager.restore({ time: saveData.game.time })
+  
   // Restore weather system state
   if (saveData.game.weather) {
     gameStore.weatherSystem.restore(saveData.game.weather)
@@ -241,26 +271,28 @@ export async function restoreFromSave(saveData: ValidatedSaveData): Promise<void
   })
   
   // Restore inventory
-  playerStore.bag = saveData.player.bag
-  playerStore.storage = saveData.player.storage
-  playerStore.safe = saveData.player.safe
+  // Use setState() instead of direct assignment to ensure Zustand properly updates the store
+  usePlayerStore.setState({
+    bag: saveData.player.bag,
+    storage: saveData.player.storage,
+    safe: saveData.player.safe
+  })
   
-  // Restore equipment
-  playerStore.equipment = saveData.player.equipment
+  // Get fresh state after setState
+  const freshStateAfterInventory = usePlayerStore.getState()
   
-  // Restore dog
-  playerStore.dog = saveData.player.dog
+  // Restore equipment, dog, weaponRound, and other player data using setState
+  usePlayerStore.setState({
+    equipment: saveData.player.equipment,
+    dog: saveData.player.dog,
+    weaponRound: saveData.player.weaponRound || {},
+    level: saveData.player.level,
+    exp: saveData.player.exp,
+    talent: saveData.player.talent
+  })
   
-  // Restore weaponRound
-  if (saveData.player.weaponRound) {
-    playerStore.weaponRound = saveData.player.weaponRound
-  }
-  
-  // Restore other player data
-  playerStore.level = saveData.player.level
-  playerStore.exp = saveData.player.exp
-  playerStore.setCurrency(saveData.player.money)
-  playerStore.talent = saveData.player.talent
+  // Set currency separately (it also sets money)
+  freshStateAfterInventory.setCurrency(saveData.player.money)
   
   // Restore buildings
   const { useBuildingStore } = await import('@/core/store/buildingStore')
@@ -272,14 +304,28 @@ export async function restoreFromSave(saveData: ValidatedSaveData): Promise<void
     buildingStore.initialize()
   }
   
-  // Restore NPCManager
+  // Initialize or restore map
+  if (!playerStore.map) {
+    playerStore.initializeMap()
+  }
+  
+  // Get fresh state after initialization (Zustand set updates the store, but our reference might be stale)
+  const freshPlayerStore = usePlayerStore.getState()
+  const map = freshPlayerStore.map
+  
+  // Restore map state if we have saved map data
+  if (saveData.game.map && map) {
+    map.restore(saveData.game.map)
+  }
+  
+  // Restore NPCManager (now that map is initialized)
   if (saveData.npcManager) {
     try {
-      const npcManager = playerStore.getNPCManager()
+      const npcManager = freshPlayerStore.getNPCManager()
       npcManager.restore(saveData.npcManager)
-    } catch {
-      // NPCManager not initialized yet, will be initialized with map
-      console.warn('NPCManager not initialized, skipping restore')
+    } catch (error) {
+      console.error('Failed to restore NPCManager:', error)
+      // NPCManager restore failed, but game can continue
     }
   }
   
@@ -413,6 +459,186 @@ export async function initSaveSystem(_recordName: string = 'record'): Promise<vo
   if (firstTime) {
     // Initialize default save
     await localforage.setItem('record', {})
+  }
+}
+
+/**
+ * Save metadata for a slot
+ */
+export async function saveMetadata(slot: number, metadata: SaveMetadata): Promise<void> {
+  try {
+    const key = `metadata_${slot}`
+    await localforage.setItem(key, metadata)
+    console.log(`[SaveSystem] Saved metadata for slot ${slot}`)
+  } catch (error) {
+    console.error(`[SaveSystem] Failed to save metadata for slot ${slot}:`, error)
+    throw error
+  }
+}
+
+/**
+ * Load metadata for a slot
+ */
+export async function loadMetadata(slot: number): Promise<SaveMetadata | null> {
+  try {
+    const key = `metadata_${slot}`
+    const metadata = await localforage.getItem<SaveMetadata>(key)
+    return metadata
+  } catch (error) {
+    console.error(`Failed to load metadata for slot ${slot}:`, error)
+    return null
+  }
+}
+
+/**
+ * Format time string as "Day X, HH:MM"
+ */
+export function formatTimeString(seconds: number): string {
+  const day = Math.floor(seconds / (24 * 60 * 60))
+  const dayTime = seconds % (24 * 60 * 60)
+  const hour = Math.floor(dayTime / (60 * 60))
+  const hourTime = dayTime % (60 * 60)
+  const minute = Math.floor(hourTime / 60)
+  
+  const hourStr = hour < 10 ? `0${hour}` : `${hour}`
+  const minuteStr = minute < 10 ? `0${minute}` : `${minute}`
+  
+  return `Day ${day}, ${hourStr}:${minuteStr}`
+}
+
+/**
+ * Get formatted metadata for a save slot
+ */
+export async function getSaveSlotMetadata(slot: number): Promise<{ name: string; description: string }> {
+  const saveData = await loadAllForSlot(slot)
+  
+  if (!saveData) {
+    // Empty slot - no save data
+    const emptyName = getString('6001') // "EMPTY SLOT"
+    const emptyDesc = getString('6013') // "\n\nClick to start new survival"
+    return {
+      name: emptyName,
+      description: emptyDesc
+    }
+  }
+  
+  // Has save data - load or create metadata
+  let metadata = await loadMetadata(slot)
+  if (!metadata) {
+    // Metadata missing but save data exists - create default metadata
+    metadata = {
+      saveName: getString('6007'), // "Save File"
+      cloned: false,
+      timestamp: Date.now()
+    }
+    // Save the default metadata
+    await saveMetadata(slot, metadata)
+  }
+  
+  // Has save data
+  const saveName = metadata.saveName || getString('6007') // "Save File"
+  
+  // Format time - ensure we use the exact time from save data
+  const gameTime = saveData.game.time
+  const timeStr = formatTimeString(gameTime)
+  
+  const talentCount = saveData.player.talent?.length || 0
+  const currency = saveData.player.money || 0
+  const clonedStr = metadata.cloned ? getString('6003') : '' // ", cloned"
+  
+  const description = getString('6002', timeStr, talentCount.toString(), currency.toString(), clonedStr) + getString('6014') // "\nClick to Start"
+  
+  return {
+    name: saveName,
+    description
+  }
+}
+
+/**
+ * Check if a slot has save data
+ */
+export async function checkSlotExists(slot: number): Promise<boolean> {
+  const oldSlot = currentSaveSlot
+  setSaveSlot(slot)
+  
+  try {
+    const data = await loadData<SaveData>('save')
+    return data !== null
+  } finally {
+    setSaveSlot(oldSlot)
+  }
+}
+
+/**
+ * Load all save data for a specific slot
+ */
+export async function loadAllForSlot(slot: number): Promise<ValidatedSaveData | null> {
+  const oldSlot = currentSaveSlot
+  setSaveSlot(slot)
+  
+  try {
+    return await loadAll()
+  } finally {
+    setSaveSlot(oldSlot)
+  }
+}
+
+/**
+ * Clone save slot from source to target
+ */
+export async function cloneSaveSlot(sourceSlot: number, targetSlot: number): Promise<void> {
+  // Load source data
+  const sourceData = await loadAllForSlot(sourceSlot)
+  const sourceMetadata = await loadMetadata(sourceSlot)
+  
+  if (!sourceData || !sourceMetadata) {
+    throw new Error(`Source slot ${sourceSlot} has no save data`)
+  }
+  
+  // Check target slot is empty
+  const targetExists = await checkSlotExists(targetSlot)
+  if (targetExists) {
+    throw new Error(`Target slot ${targetSlot} is not empty`)
+  }
+  
+  // Clone metadata
+  const clonedMetadata: SaveMetadata = {
+    saveName: (sourceMetadata.saveName + getString('6005')).substring(0, 24), // Append " (Copy)" and limit to 24 chars
+    cloned: true,
+    timestamp: Date.now()
+  }
+  
+  // Save to target slot
+  const oldSlot = currentSaveSlot
+  setSaveSlot(targetSlot)
+  
+  try {
+    // Save data
+    const validated = validateSaveData(sourceData)
+    await saveDataToStorage('save', validated)
+    
+    // Save metadata
+    await saveMetadata(targetSlot, clonedMetadata)
+  } finally {
+    setSaveSlot(oldSlot)
+  }
+}
+
+/**
+ * Delete save slot (including metadata)
+ */
+export async function deleteSaveSlotComplete(slot: number): Promise<void> {
+  const oldSlot = currentSaveSlot
+  
+  try {
+    // Delete save data
+    await deleteSaveSlot(slot)
+    
+    // Delete metadata
+    const metadataKey = `metadata_${slot}`
+    await localforage.removeItem(metadataKey)
+  } finally {
+    setSaveSlot(oldSlot)
   }
 }
 

@@ -20,7 +20,7 @@ interface ConfirmationDialogData {
   message: string
   confirmText?: string  // Default: String 1228 ("Leave")
   cancelText?: string   // Default: String 1157 ("Never mind")
-  onConfirm: () => void
+  onConfirm: () => void | Promise<void>
   onCancel?: () => void
 }
 
@@ -99,9 +99,16 @@ export function ConfirmationDialog() {
     }
   }
   
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     uiStore.hideOverlay()
-    onConfirm()
+    // Handle async onConfirm
+    try {
+      if (onConfirm) {
+        await onConfirm()
+      }
+    } catch (error) {
+      console.error('Error in confirmation dialog onConfirm:', error)
+    }
   }
   
   return (
