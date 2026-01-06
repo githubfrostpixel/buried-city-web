@@ -207,7 +207,7 @@ export function UpgradeView({ building, onUpgradeStart, onUpgradeComplete }: Upg
         />
         {/* Building icon - scaled to fit snugly inside bg */}
         <Sprite
-          atlas="build"
+          atlas="shelter_action"
           frame={iconName}
           className="absolute"
           style={{

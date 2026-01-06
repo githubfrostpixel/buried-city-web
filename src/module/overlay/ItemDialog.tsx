@@ -248,7 +248,7 @@ export function ItemDialog() {
               left: `${leftEdge + 70}px`,
               top: '40%',
               transform: 'translateY(-50%)',
-              fontSize: '32px',
+              fontSize: '28px',
               fontFamily: "'Noto Sans', sans-serif",
               fontWeight: 'bold',
               maxWidth: `${rightEdge - leftEdge - 70}px`
@@ -264,7 +264,7 @@ export function ItemDialog() {
             style={{
               left: `${leftEdge + 70}px`,
               top: '55%',
-              fontSize: '20px',
+              fontSize: '18px',
               fontFamily: "'Noto Sans', sans-serif"
             }}
             data-test-id="item-dialog-count"
@@ -280,13 +280,13 @@ export function ItemDialog() {
             left: '0',
             top: `${titleHeight}px`,
             width: `${dialogWidth}px`,
-            height: `${contentHeight}px`,
+            height: `${contentHeight+300}px`,
             padding: '10px'
           }}
         >
           {/* Large item image */}
           <div
-            className="relative mx-auto mb-4"
+            className="relative mx-auto"
             style={{
               width: '200px',
               height: '200px'

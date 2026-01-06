@@ -201,7 +201,7 @@ export function BuildDialog() {
             }}
           >
             <Sprite
-              atlas="build"
+              atlas="shelter_action"
               frame={iconName}
               className="w-full h-full"
             />

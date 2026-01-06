@@ -120,7 +120,7 @@ export function BedActionListItem({ action, index, buildingId, onIconClick }: Be
         />
         {/* Action icon - bigger and fit snugly inside bg */}
         <Sprite
-          atlas="build"
+          atlas="shelter_action"
           frame={displayInfo.iconName}
           className="absolute"
           style={{

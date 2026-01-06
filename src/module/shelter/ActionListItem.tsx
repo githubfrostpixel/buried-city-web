@@ -116,7 +116,7 @@ export function ActionListItem({ action, index, onIconClick }: ActionListItemPro
         />
         {/* Action icon */}
         <Sprite
-          atlas="build"
+          atlas="shelter_action"
           frame={displayInfo.iconName}
           className="absolute"
           style={{
