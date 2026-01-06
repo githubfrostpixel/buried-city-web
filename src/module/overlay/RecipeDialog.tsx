@@ -16,6 +16,7 @@ import { Sprite } from '@/common/ui/sprite/Sprite'
 import { DialogButton } from '@/common/ui/DialogButton'
 import { getRecipeIcon } from '@/common/utils/recipeIcon'
 import { getString } from '@/common/utils/stringUtil'
+import { game } from '@/core/game/Game'
 
 interface RecipeDialogData {
   buildingId: number
@@ -44,6 +45,19 @@ export function RecipeDialog() {
   const dialogData = (uiStore.activeOverlay === 'recipeDialog' 
     ? (uiStore as any).overlayData as RecipeDialogData 
     : null)
+  
+  // Pause game when dialog appears
+  useEffect(() => {
+    if (!dialogData) return
+    
+    // Pause game
+    game.pause()
+    
+    // Resume game when dialog closes
+    return () => {
+      game.resume()
+    }
+  }, [dialogData])
   
   // Handle ESC key
   useEffect(() => {

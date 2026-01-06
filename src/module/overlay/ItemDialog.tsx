@@ -17,6 +17,7 @@ import { Sprite } from '@/common/ui/sprite/Sprite'
 import { DialogButton } from '@/common/ui/DialogButton'
 import { emitter } from '@/common/utils/emitter'
 import { getString } from '@/common/utils/stringUtil'
+import { game } from '@/core/game/Game'
 
 interface ItemDialogData {
   itemId: string
@@ -33,6 +34,19 @@ export function ItemDialog() {
   const dialogData = (uiStore.activeOverlay === 'itemDialog' 
     ? (uiStore as any).overlayData as ItemDialogData 
     : null)
+  
+  // Pause game when dialog appears
+  useEffect(() => {
+    if (!dialogData) return
+    
+    // Pause game
+    game.pause()
+    
+    // Resume game when dialog closes
+    return () => {
+      game.resume()
+    }
+  }, [dialogData])
   
   // Get BottomBar position dynamically (same as DeathOverlay)
   // Must be called before early return to follow Rules of Hooks

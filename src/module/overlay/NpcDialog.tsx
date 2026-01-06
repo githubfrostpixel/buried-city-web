@@ -15,6 +15,7 @@ import { Sprite } from '@/common/ui/sprite/Sprite'
 import { DialogButton } from '@/common/ui/DialogButton'
 import { getTimeDistanceStr } from '@/common/utils/time'
 import { getString } from '@/common/utils/stringUtil'
+import { game } from '@/core/game/Game'
 import type { NPC } from '@/core/game/entities/NPC'
 
 interface NpcDialogData {
@@ -119,6 +120,19 @@ export function NpcDialog() {
   const dialogData = (uiStore.activeOverlay === 'npcDialog' 
     ? (uiStore as any).overlayData as NpcDialogData 
     : null)
+  
+  // Pause game when dialog appears
+  useEffect(() => {
+    if (!dialogData) return
+    
+    // Pause game
+    game.pause()
+    
+    // Resume game when dialog closes
+    return () => {
+      game.resume()
+    }
+  }, [dialogData])
   
   // Get BottomBar position dynamically (same as ItemDialog)
   // Must be called before early return to follow Rules of Hooks

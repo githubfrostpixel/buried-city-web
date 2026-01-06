@@ -18,6 +18,7 @@ import { DialogButton } from '@/common/ui/DialogButton'
 import { getTimeDistanceStr } from '@/common/utils/time'
 import type { Site } from '@/core/game/world/Site'
 import { getString } from '@/common/utils/stringUtil'
+import { game } from '@/core/game/Game'
 
 interface SiteDialogData {
   site: Site
@@ -38,6 +39,19 @@ export function SiteDialog() {
   const dialogData = (uiStore.activeOverlay === 'siteDialog' 
     ? (uiStore as any).overlayData as SiteDialogData 
     : null)
+  
+  // Pause game when dialog appears
+  useEffect(() => {
+    if (!dialogData) return
+    
+    // Pause game
+    game.pause()
+    
+    // Resume game when dialog closes
+    return () => {
+      game.resume()
+    }
+  }, [dialogData])
   
   // Get BottomBar position dynamically (same as ItemDialog)
   // Must be called before early return to follow Rules of Hooks

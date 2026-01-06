@@ -16,6 +16,7 @@ import { Sprite } from '@/common/ui/sprite/Sprite'
 import { DialogButton } from '@/common/ui/DialogButton'
 import { ItemCostDisplay } from '@/common/ui/ItemCostDisplay'
 import { getString } from '@/common/utils/stringUtil'
+import { game } from '@/core/game/Game'
 
 interface BuildDialogData {
   buildingId: number
@@ -46,6 +47,19 @@ export function BuildDialog() {
   const dialogData = (uiStore.activeOverlay === 'buildDialog' 
     ? (uiStore as any).overlayData as BuildDialogData 
     : null)
+  
+  // Pause game when dialog appears
+  useEffect(() => {
+    if (!dialogData) return
+    
+    // Pause game
+    game.pause()
+    
+    // Resume game when dialog closes
+    return () => {
+      game.resume()
+    }
+  }, [dialogData])
   
   // Handle ESC key
   useEffect(() => {

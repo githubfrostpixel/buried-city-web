@@ -48,7 +48,7 @@ export function WorkBeginView({ room, site, onToolSelect }: WorkBeginViewProps) 
         // Check if item type is 1302 (tools) - type is first 2 digits of item ID
         const itemType = itemId.substring(0, 2)
         if (itemType === '13' && config?.effect_tool) {
-          const workingTime = config.effect_tool.workingTime || 45
+          const workingTime = config.effect_tool.workingTime ?? 45
           const vigourEffect = playerStore.vigour < 30 ? 2 : 1 // vigourEffect: 2 if low, 1 otherwise
           const time = workingTime * vigourEffect
           tools.push({ itemId, time })
@@ -140,7 +140,7 @@ export function WorkBeginView({ room, site, onToolSelect }: WorkBeginViewProps) 
               >
                 <Sprite atlas="ui" frame="btn_tool.png" className="w-full h-full" />
                 {/* Icon - left-aligned, scale 0.5 (50% of original size) */}
-                <div style={{ left: '-28px' }} className="absolute inset-0 flex items-center justify-start pl-2">
+                <div style={{ left: tool.itemId !== Equipment.HAND ? '-28px' : '0px' }} className="absolute inset-0 flex items-center justify-start pl-2">
                   {tool.itemId === Equipment.HAND ? (
                     <Sprite 
                       atlas="gate" 

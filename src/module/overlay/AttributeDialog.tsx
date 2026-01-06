@@ -17,6 +17,7 @@ import { Storage } from '@/core/game/inventory/Storage'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { DialogButton } from '@/common/ui/DialogButton'
 import { getString } from '@/common/utils/stringUtil'
+import { game } from '@/core/game/Game'
 
 interface AttributeDialogData {
   stringId: number
@@ -67,6 +68,19 @@ export function AttributeStatusDialog() {
   const dialogData = (uiStore.activeOverlay === 'attributeDialog' 
     ? (uiStore as any).overlayData as AttributeDialogData 
     : null)
+  
+  // Pause game when dialog appears
+  useEffect(() => {
+    if (!dialogData) return
+    
+    // Pause game
+    game.pause()
+    
+    // Resume game when dialog closes
+    return () => {
+      game.resume()
+    }
+  }, [dialogData])
   
   // Handle ESC key - must be called before early return
   useEffect(() => {

@@ -634,7 +634,7 @@ export const itemConfig: Record<string, ItemConfig> = {
         "value": 50,
         "effect_tool": {
             "id": "1302021",
-            "workingTime": 0
+            "workingTime": 5
         },
         "effect_weapon": {
             "id": "1302043",
