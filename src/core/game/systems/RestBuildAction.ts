@@ -85,8 +85,10 @@ export class RestBuildAction {
     // Update config
     this.updateConfig()
     
-    // Check if building is built
-    if (this.getCurrentBuildLevel() < 0) {
+    // Check if chair is built (need chair first)
+    const buildingStore = useBuildingStore.getState()
+    const chair = buildingStore.getBuilding(this.buildingId)
+    if (!chair || chair.level < 0) {
       return
     }
     
@@ -207,19 +209,22 @@ export class RestBuildAction {
     
     const actionText = getString(1014, time) || `Drink coffee (${time} m)`
     
-    // Check if building is built
-    const buildingLevel = this.getCurrentBuildLevel()
-    if (buildingLevel < 0) {
-      const buildingName = getString(`${this.buildingId}_0`)?.title || `Building ${this.buildingId}`
+    // Check if chair is built (need chair first)
+    const buildingStore = useBuildingStore.getState()
+    const chair = buildingStore.getBuilding(this.buildingId)
+    if (!chair || chair.level < 0) {
       return {
         iconName,
-        hint: getString(1006, buildingName) || `You need ${buildingName}!`,
+        hint: getString(1013) || "You need a chair first!",
         hintColor: '#FF0000', // RED
         actionText,
         disabled: true,
         percentage: 0
       }
     }
+    
+    // Get building level for config
+    const buildingLevel = this.getCurrentBuildLevel()
     
     // Check if actioning
     if (this.isActioning) {

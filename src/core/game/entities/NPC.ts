@@ -47,6 +47,7 @@ export class NPC {
     item?: Gift[]
     site?: Gift[]
   }
+  sentGiftNumbers: Set<number> // Sequential gift numbers (1, 2, 3, 4, 5, 6, 7...) of gifts that have been sent
 
   constructor(npcId: number) {
     this.id = npcId
@@ -66,6 +67,7 @@ export class NPC {
     this.Alert = 0
     this.log = []
     this.needSendGiftList = {}
+    this.sentGiftNumbers = new Set<number>()
     this.changeReputation(0)
   }
 
@@ -84,7 +86,8 @@ export class NPC {
       tradingCount: this.tradingCount,
       isSteal: this.isSteal,
       Alert: this.Alert,
-      log: [...this.log]
+      log: [...this.log],
+      sentGiftNumbers: Array.from(this.sentGiftNumbers)
     }
   }
 
@@ -104,6 +107,7 @@ export class NPC {
       this.isSteal = saveObj.isSteal
       this.Alert = saveObj.Alert
       this.log = [...saveObj.log]
+      this.sentGiftNumbers = new Set(saveObj.sentGiftNumbers || [])
     } else {
       this.init()
     }
@@ -114,6 +118,7 @@ export class NPC {
    * TODO: Implement in Phase 5
    */
   init(): void {
+    this.sentGiftNumbers = new Set<number>()
     this.changeReputation(0)
   }
 
@@ -183,19 +188,12 @@ export class NPC {
 
   /**
    * Unlock gift at reputation level
-   * TODO: Implement in Phase 5
+   * Gifts are now tracked but not immediately added to needSendGiftList.
+   * They will be sent one at a time based on priority when NPC visits.
    */
-  unlockGift(index: number): void {
-    const gift = this.config.gift[index]
-    if (gift) {
-      if (gift.itemId) {
-        this.needSendGiftList.item = this.needSendGiftList.item || []
-        this.needSendGiftList.item.push(gift)
-      } else if (gift.siteId) {
-        this.needSendGiftList.site = this.needSendGiftList.site || []
-        this.needSendGiftList.site.push(gift)
-      }
-    }
+  unlockGift(_index: number): void {
+    // Gifts are unlocked but not immediately sent
+    // They will be sent one at a time based on priority (heart level) when NPC visits
     // TODO: Check for Social talent and add gift_extra
   }
 
@@ -345,24 +343,114 @@ export class NPC {
   }
 
   /**
-   * Check if NPC needs to send gift
-   * TODO: Implement in Phase 5
+   * Get all gifts in priority order and assign sequential numbers
+   * Returns array of { gift, reputationIndex, giftNumber }
+   * Gifts are sorted by reputation index (lowest first) to ensure low gifts come before high gifts
    */
-  needSendGift(): boolean {
-    return Object.keys(this.needSendGiftList).length > 0
+  getAllGiftsInPriorityOrder(): Array<{ gift: Gift; reputationIndex: number; giftNumber: number }> {
+    const result: Array<{ gift: Gift; reputationIndex: number; giftNumber: number }> = []
+    let giftNumber = 1
+    
+    // Collect all gifts with their reputation indices
+    for (let repIndex = 0; repIndex <= 10; repIndex++) {
+      const gift = this.config.gift[repIndex]
+      if (gift) {
+        result.push({ gift, reputationIndex: repIndex, giftNumber })
+        giftNumber++
+      }
+    }
+    
+    // Sort by reputation index (lowest first) to ensure low gifts come before high gifts
+    result.sort((a, b) => a.reputationIndex - b.reputationIndex)
+    
+    // Reassign gift numbers in sorted order
+    result.forEach((item, index) => {
+      item.giftNumber = index + 1
+    })
+    
+    return result
   }
 
   /**
+   * Get next unreceived gift based on heart level priority
+   * Returns the gift, its reputation index, and gift number, or null if no unreceived gift exists
+   */
+  getNextUnreceivedGift(): { gift: Gift; reputationIndex: number; giftNumber: number } | null {
+    const allGifts = this.getAllGiftsInPriorityOrder()
+    
+    for (const giftData of allGifts) {
+      // Check if gift has already been sent
+      if (this.sentGiftNumbers.has(giftData.giftNumber)) continue
+      
+      // Check if reputation is high enough to unlock this gift
+      if (this.reputation < giftData.reputationIndex) continue
+      
+      // Found an unreceived gift - return it
+      return giftData
+    }
+    
+    return null
+  }
+
+  /**
+   * Check if NPC needs to send gift
+   * Checks for unreceived gifts based on heart level priority
+   * Also checks if a gift was already sent today
+   */
+  needSendGift(): boolean {
+    // Check if there's a pending gift in needSendGiftList (from current visit)
+    if (Object.keys(this.needSendGiftList).length > 0) {
+      return true
+    }
+    
+    // Check if there's an unreceived gift that should be sent
+    const nextGift = this.getNextUnreceivedGift()
+    return nextGift !== null
+  }
+
+
+  /**
    * Send gift to player
+   * Sends only the next unreceived gift based on heart level priority
    * Ported from OriginalGame/src/ui/uiUtil.js showNpcSendGiftDialog() (lines 973-1050)
    */
   sendGift(): void {
+    // Clear any existing gift list (should be empty, but clear just in case)
+    this.needSendGiftList = {}
+    
+    // Get the next unreceived gift
+    const nextGiftData = this.getNextUnreceivedGift()
+    if (!nextGiftData) {
+      // No gift to send
+      return
+    }
+    
+    const { gift, giftNumber } = nextGiftData
+    
+    // Add gift to needSendGiftList (only one gift at a time)
+    if (gift.itemId) {
+      this.needSendGiftList.item = [gift]
+    } else if (gift.siteId) {
+      this.needSendGiftList.site = [gift]
+    }
+    
+    // Note: giftNumber is marked as sent when dialog closes and gift is processed
+    // Note: lastGiftDay is tracked globally in NPCManager, not per NPC
+    
     const uiStore = useUIStore.getState()
     // Delay showing dialog slightly to ensure UI is ready (especially after sleep)
     setTimeout(() => {
-      uiStore.showOverlay('npcGiftDialog', { npc: this })
+      uiStore.showOverlay('npcGiftDialog', { npc: this, giftNumber })
       audioManager.playEffect(SoundPaths.NPC_KNOCK)
     }, 100)
+  }
+  
+  /**
+   * Mark gift as sent (called from dialog after processing)
+   * Note: lastGiftDay is already set when sendGift() is called
+   */
+  markGiftAsSent(giftNumber: number): void {
+    this.sentGiftNumbers.add(giftNumber)
   }
 
   /**
@@ -387,6 +475,7 @@ export class NPC {
     // Delay showing dialog slightly to ensure UI is ready (especially after sleep)
     setTimeout(() => {
       // Show confirmation dialog as temporary solution
+      // Use same overlay approach as gift dialog for consistent positioning
       uiStore.showOverlay('confirmationDialog', {
         title: npcName,
         message: getString(1065) || "I am sorry to interrupt, but can you do me a favor?",

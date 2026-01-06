@@ -92,10 +92,6 @@ export function ConfirmationDialog() {
   const leftEdge = 20
   const rightEdge = dialogWidth - 20
   
-  // Calculate dialog position (centered above bottom bar)
-  const dialogLeft = bottomBarRect.left + (bottomBarRect.width / 2) - (dialogWidth / 2)
-  const dialogTop = bottomBarRect.top - dialogHeight - 20
-  
   const handleClose = () => {
     uiStore.hideOverlay()
     if (onCancel) {
@@ -110,17 +106,46 @@ export function ConfirmationDialog() {
   
   return (
     <div
-      className="fixed"
+      className="fixed z-[9999]"
       style={{
-        left: `${dialogLeft}px`,
-        top: `${dialogTop}px`,
-        width: `${dialogWidth}px`,
-        height: `${dialogHeight}px`,
-        zIndex: 1000,
-        pointerEvents: 'auto'
+        left: `${bottomBarRect.left}px`,
+        top: `${bottomBarRect.top}px`,
+        width: `${bottomBarRect.width}px`,
+        height: `${bottomBarRect.height}px`,
+        animation: 'fadeIn 0.3s ease-in'
       }}
-      data-test-id="confirmation-dialog"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          handleClose()
+        }
+      }}
+      data-test-id="confirmation-dialog-overlay"
     >
+      {/* Dark background overlay */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+          width: '100%',
+          height: '100%'
+        }}
+        onClick={handleClose}
+      />
+      
+      {/* Dialog container */}
+      <div
+        className="absolute"
+        style={{
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: `${dialogWidth}px`,
+          height: `${dialogHeight}px`,
+          zIndex: 51
+        }}
+        onClick={(e) => e.stopPropagation()}
+        data-test-id="confirmation-dialog"
+      >
       {/* Background */}
       <Sprite
         atlas="ui"
@@ -191,6 +216,7 @@ export function ConfirmationDialog() {
           onClick={handleConfirm}
           enabled={true}
         />
+      </div>
       </div>
     </div>
   )

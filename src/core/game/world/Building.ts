@@ -106,7 +106,15 @@ export class Building {
       if (config.produceList) {
         for (const formulaId of config.produceList) {
           const formula = new Formula(formulaId, this.id)
-          formula.needBuild = { bid: this.id, level: levelIndex }
+          
+          // Special case: Hare trap (building 7) recipes check building 1 (Workbench) instead of building 7
+          // This matches the building's condition requirement
+          if (this.id === 7 && config.condition && config.condition.bid) {
+            formula.needBuild = { bid: config.condition.bid, level: config.condition.level || 0 }
+          } else {
+            formula.needBuild = { bid: this.id, level: levelIndex }
+          }
+          
           formula.building = this // Add building reference (needed for activeBtnIndex)
           // Unlock formula if building is at required level or higher
           if (this.level >= levelIndex) {

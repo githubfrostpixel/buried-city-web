@@ -14,17 +14,17 @@ import { emitter } from '@/common/utils/emitter'
 import { getString } from '@/common/utils/stringUtil'
 import { useLogStore } from '@/core/store/logStore'
 import { TimerCallback } from './TimeManager'
+import { checkVigour, showTinyInfoDialog } from '@/common/utils/uiUtil'
 import type { Building } from '@/core/game/world/Building'
 
 export class BonfireBuildAction {
+  id: number = 0  // Action ID for saving (always 0 for bonfire action)
   buildingId: number
   building: Building
   config: BonfireActionConfig
-  fuel: number = 0
-  pastTime: number = 0
-  startTime: number | null = null
+  fuel: number = 0  // Time remaining in seconds (not wood count)
   fuelMax: number = 6
-  timePerFuel: number = 0  // Seconds per wood
+  timePerFuel: number = 0  // Seconds per wood (14400 = 4 hours)
   isActioning: boolean = false
   timerCallback: TimerCallback | null = null
   
@@ -51,37 +51,36 @@ export class BonfireBuildAction {
   }
   
   /**
+   * Get current wood count from fuel time
+   */
+  getWoodCount(): number {
+    return this.fuel > 0 ? Math.ceil(this.fuel / this.timePerFuel) : 0
+  }
+  
+  /**
    * Add fuel (wood) to stove
-   * Ported from buildAction.js:549-563
+   * Each wood adds timePerFuel seconds (4 hours) to fuel time remaining
+   * Note: This method assumes validation and item consumption already done in clickAction1()
    */
   addFuel(): void {
-    const playerStore = usePlayerStore.getState()
+    const wasEmpty = this.fuel <= 0
+    // Add time for one wood (4 hours = 14400 seconds)
+    this.fuel += this.timePerFuel
     
-    // Check if building is built
-    if (this.getCurrentBuildLevel() < 0) {
-      return
-    }
-    
-    // Check if fuel is at max
-    if (this.fuel >= this.fuelMax) {
-      return
-    }
-    
-    // Validate items
-    if (!(playerStore as any).validateItems(this.config.cost)) {
-      return
-    }
-    
-    // Cost items
-    ;(playerStore as any).costItems(this.config.cost)
-    
-    // Increment fuel first
-    this.fuel++
-    
-    // If fuel was 0, start timer (after incrementing)
-    if (this.fuel === 1) {
-      this.addFuelTimer()
+    // If fuel was empty, start timer
+    if (wasEmpty) {
       this.building.setActiveBtnIndex(0)
+      this.addFuelTimer()
+    } else {
+      // Fuel already burning, restart timer with new total duration
+      // Stop current timer
+      if (this.timerCallback) {
+        const timeManager = game.getTimeManager()
+        timeManager.removeTimerCallback(this.timerCallback)
+        this.timerCallback = null
+      }
+      // Restart with new total time
+      this.addFuelTimer()
     }
     
     // Update temperature (fireplace is now active)
@@ -100,95 +99,67 @@ export class BonfireBuildAction {
   
   /**
    * Add fuel timer callback
-   * Ported from buildAction.js:532-548
+   * Fuel is now tracked as time remaining, so we just subtract dt from fuel
    */
   addFuelTimer(): void {
     const timeManager = game.getTimeManager()
-    const currentTime = timeManager.now()
     
-    // Calculate start time (for save/restore)
-    if (this.startTime === null) {
-      this.startTime = currentTime
-    }
-    
-    // Calculate elapsed time if restoring
-    let elapsedTime = 0
-    if (this.startTime > 0 && this.pastTime > 0) {
-      elapsedTime = this.pastTime
-    }
-    
-    // Calculate remaining time for this fuel
-    const remainingTime = this.timePerFuel - elapsedTime
-    
-    if (remainingTime <= 0) {
-      // Time already elapsed, consume fuel immediately
-      this.consumeFuel()
+    if (this.fuel <= 0) {
+      // No fuel, reset state
+      this.fuel = 0
+      this.isActioning = false
+      this.building.resetActiveBtnIndex()
+      const survivalSystem = game.getSurvivalSystem()
+      survivalSystem.updateTemperature()
+      emitter.emit('build_node_update')
       return
     }
     
+    // Ensure remaining time is at least 1 second
+    const safeRemainingTime = Math.max(1, this.fuel)
+    
     this.isActioning = true
     
-    // Create timer callback
+    // Create timer callback - simply subtract dt from fuel
     const self = this
     const timerCallback = new TimerCallback(
-      remainingTime,
+      safeRemainingTime,
       this,
       {
         process: (dt: number) => {
-          self.pastTime += dt
+          // Simply subtract time from fuel
+          self.fuel = Math.max(0, self.fuel - dt)
+          
+          // If fuel depleted, stop timer
+          if (self.fuel <= 0) {
+            self.fuel = 0
+            self.isActioning = false
+            self.building.resetActiveBtnIndex()
+            const survivalSystem = game.getSurvivalSystem()
+            survivalSystem.updateTemperature()
+          }
+          
           // Emit update for UI progress
           emitter.emit('build_node_update')
         },
         end: () => {
-          self.consumeFuel()
+          // Timer ended, all fuel consumed
+          self.fuel = 0
+          self.isActioning = false
+          self.building.resetActiveBtnIndex()
+          // Update temperature (fireplace is now inactive)
+          const survivalSystem = game.getSurvivalSystem()
+          survivalSystem.updateTemperature()
+          emitter.emit('build_node_update')
         }
       }
     )
     
-    // Set start time in timer callback
-    if (this.startTime > 0) {
-      timerCallback.setStartTime(this.startTime)
-    }
-    
     // Add timer to time manager
     timeManager.addTimerCallback(timerCallback)
     this.timerCallback = timerCallback
-    
-    // Accelerate work time
-    timeManager.accelerateWorkTime(remainingTime)
   }
   
-  /**
-   * Consume one fuel (wood)
-   */
-  consumeFuel(): void {
-    this.fuel--
-    this.pastTime = 0
-    this.startTime = null
-    this.isActioning = false
-    
-    if (this.timerCallback) {
-      const timeManager = game.getTimeManager()
-      timeManager.removeTimerCallback(this.timerCallback)
-      this.timerCallback = null
-    }
-    
-    if (this.fuel > 0) {
-      // More fuel remaining, start next timer
-      this.addFuelTimer()
-    } else {
-      // No fuel left, reset active button
-      this.building.resetActiveBtnIndex()
-      
-      // Update temperature (fireplace is now inactive)
-      // Note: isActive() checks fuel directly, so no need to set building.active
-      const survivalSystem = game.getSurvivalSystem()
-      survivalSystem.updateTemperature()
-    }
-    
-    // Emit update signal
-    emitter.emit('build_node_update')
-  }
   
   /**
    * Handle click action (add wood)
@@ -197,27 +168,35 @@ export class BonfireBuildAction {
   clickAction1(): void {
     const playerStore = usePlayerStore.getState()
     
-    // Check vigour (stub for now - TODO: implement vigour check)
-    // if (!checkVigour()) return
+    // Check if wood stove is built (need stove first)
+    const buildingStore = useBuildingStore.getState()
+    const stove = buildingStore.getBuilding(this.buildingId)
+    if (!stove || stove.level < 0) {
+      return
+    }
     
-    // Check if building is built
-    if (this.getCurrentBuildLevel() < 0) {
+    // Check vigour
+    if (!checkVigour()) {
       return
     }
     
     // Validate items
     if (!(playerStore as any).validateItems(this.config.cost)) {
-      // Show error dialog (stub for now)
-      // uiUtil.showTinyInfoDialog(1146) // "Not enough items"
+      // Show error dialog (string ID 1146)
+      showTinyInfoDialog(1146) // "Insufficient wood"
       return
     }
     
-    // Check if fuel is at max
-    if (this.fuel >= this.fuelMax) {
-      // Show info dialog (stub for now)
-      // uiUtil.showTinyInfoDialog(1134) // "The stove is full of wood now."
+    // Check if fuel is at max (max time = fuelMax * timePerFuel)
+    const maxFuelTime = this.fuelMax * this.timePerFuel
+    if (this.fuel >= maxFuelTime) {
+      // Show info dialog (string ID 1134)
+      showTinyInfoDialog(1134) // "The stove is full of wood now."
       return
     }
+    
+    // Cost items (consume wood) - BEFORE calling addFuel()
+    ;(playerStore as any).costItems(this.config.cost)
     
     // Add fuel
     this.addFuel()
@@ -239,9 +218,10 @@ export class BonfireBuildAction {
     const iconName = `build_action_${this.buildingId}_0.png`
     const actionText = getString(1010) || "Add wood" // "Add wood"
     
-    // Check if building is built
-    const buildingLevel = this.getCurrentBuildLevel()
-    if (buildingLevel < 0) {
+    // Check if wood stove is built (need stove first)
+    const buildingStore = useBuildingStore.getState()
+    const stove = buildingStore.getBuilding(this.buildingId)
+    if (!stove || stove.level < 0) {
       const buildingName = getString(`${this.buildingId}_0`)?.title || `Building ${this.buildingId}`
       return {
         iconName,
@@ -253,8 +233,12 @@ export class BonfireBuildAction {
       }
     }
     
+    // Calculate wood count from fuel time
+    const woodCount = this.getWoodCount()
+    const maxFuelTime = this.fuelMax * this.timePerFuel
+    
     // Check if fuel is at max
-    if (this.fuel >= this.fuelMax) {
+    if (this.fuel >= maxFuelTime) {
       return {
         iconName,
         hint: getString(1134) || "The stove is full of wood now.",
@@ -266,7 +250,7 @@ export class BonfireBuildAction {
     }
     
     // Check if fuel is 0
-    if (this.fuel === 0) {
+    if (this.fuel <= 0) {
       return {
         iconName,
         hint: getString(1011) || "The stove fire is out. 1 wood lasts for 4 hours.",
@@ -283,73 +267,62 @@ export class BonfireBuildAction {
     }
     
     // Fuel is active
-    const remainingHours = Math.ceil((this.fuel * this.timePerFuel - this.pastTime) / 3600)
-    const hint = getString(1012, this.fuel, remainingHours) || 
-      `The fire is on. There is ${this.fuel} wood in the stove, which can last for ${remainingHours} hours.`
+    const remainingTime = this.fuel
+    const remainingHours = Math.ceil(remainingTime / 3600)
+    const hint = getString(1012, woodCount, remainingHours) || 
+      `The fire is on. There is ${woodCount} wood in the stove, which can last for ${remainingHours} hours.`
     
-    // Calculate progress percentage
-    const totalTime = this.fuel * this.timePerFuel
-    const percentage = totalTime > 0 ? Math.min(100, (this.pastTime / totalTime) * 100) : 0
+    // Calculate progress percentage: remaining time / max time (24 hours)
+    const percentage = maxFuelTime > 0 ? (remainingTime / maxFuelTime) * 100 : 0
     
     return {
       iconName,
       hint,
       hintColor: '#FFFFFF', // WHITE
       actionText,
-      disabled: this.isActioning || this.building.anyBtnActive() && this.building.activeBtnIndex !== 0,
-      percentage: this.isActioning ? percentage : 0
+      disabled: this.building.anyBtnActive() && this.building.activeBtnIndex !== 0,
+      percentage: this.isActioning ? Math.min(100, Math.max(0, percentage)) : 0
     }
   }
   
   /**
    * Save action state
-   * Ported from buildAction.js:564-570
+   * Saves fuel as time remaining and current game time for restore calculation
    */
   save(): any {
+    const timeManager = game.getTimeManager()
     return {
-      fuel: this.fuel,
-      pastTime: this.pastTime,
-      startTime: this.startTime
+      fuel: this.fuel,  // Time remaining in seconds
+      saveTime: timeManager.now()  // Current game time for restore calculation
     }
   }
   
   /**
    * Restore action state
-   * Ported from buildAction.js:571-580
    */
   restore(saveObj?: any): void {
     if (saveObj) {
-      this.fuel = saveObj.fuel || 0
-      this.pastTime = saveObj.pastTime || 0
-      this.startTime = saveObj.startTime || null
+      const savedFuel = saveObj.fuel || 0
+      const timeManager = game.getTimeManager()
+      const currentTime = timeManager.now()
+      
+      // Use saveTime if available, otherwise fall back to startTime
+      const saveTime = saveObj.saveTime || saveObj.startTime || currentTime
+      const elapsed = currentTime - saveTime
+      // Subtract elapsed time from saved fuel time
+      this.fuel = Math.max(0, savedFuel - elapsed)
     }
     
-    // If fuel > 0, restart timer
+    // Restart timer if fuel still > 0
     if (this.fuel > 0) {
-      // Calculate elapsed time since startTime
-      if (this.startTime) {
-        const timeManager = game.getTimeManager()
-        const currentTime = timeManager.now()
-        const elapsed = currentTime - this.startTime
-        
-        // Update pastTime based on elapsed time
-        this.pastTime = elapsed % this.timePerFuel
-        
-        // If pastTime exceeds timePerFuel, consume fuel
-        const fuelConsumed = Math.floor(elapsed / this.timePerFuel)
-        if (fuelConsumed > 0) {
-          this.fuel = Math.max(0, this.fuel - fuelConsumed)
-          if (this.fuel === 0) {
-            this.pastTime = 0
-            this.startTime = null
-          }
-        }
-      }
-      
-      // Restart timer if fuel still > 0
-      if (this.fuel > 0) {
-        this.addFuelTimer()
-      }
+      this.addFuelTimer()
+    } else {
+      // No fuel left, reset state
+      this.fuel = 0
+      this.isActioning = false
+      this.building.resetActiveBtnIndex()
+      const survivalSystem = game.getSurvivalSystem()
+      survivalSystem.updateTemperature()
     }
   }
 }

@@ -53,6 +53,15 @@ class Game {
         // Update GameStore
         gameStore.updateWeather()
         
+        // Check and send daily gifts at 6:00 AM (one gift per NPC per day)
+        try {
+          const playerStore = usePlayerStore.getState()
+          const npcManager = playerStore.getNPCManager()
+          npcManager.checkAndSendDailyGifts()
+        } catch (error) {
+          console.warn('[Game] NPCManager not available for checkAndSendDailyGifts:', error)
+        }
+        
         // NPC visits player home (Original: self.npcManager.visitPlayer())
         try {
           const playerStore = usePlayerStore.getState()

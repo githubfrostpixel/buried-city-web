@@ -114,12 +114,15 @@ const NPCSaveDataSchema = z.object({
   tradingCount: z.number().int().min(0),
   isSteal: z.boolean(),
   Alert: z.number().int().min(0).max(30),
-  log: z.array(StealLogEntrySchema)
+  log: z.array(StealLogEntrySchema),
+  sentGiftNumbers: z.array(z.number().int()).optional(), // Array of gift numbers (1, 2, 3, 4, 5, 6, 7...)
+  lastGiftDay: z.number().int().optional() // Day when last gift was sent (-1 if never sent)
 })
 
 // NPC Manager save schema
 const NPCManagerSaveDataSchema = z.object({
-  npcList: z.record(z.string(), NPCSaveDataSchema)
+  npcList: z.record(z.string(), NPCSaveDataSchema),
+  lastGiftDay: z.number().int().optional() // Day when last gift was sent globally (-1 if never sent)
 })
 
 // Room schema for site save data

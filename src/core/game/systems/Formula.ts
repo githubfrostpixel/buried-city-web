@@ -8,6 +8,7 @@
 import { formulaConfig } from '@/core/data/formulas'
 import type { FormulaConfig } from '@/common/types/formula.types'
 import { usePlayerStore } from '@/core/store/playerStore'
+import { useBuildingStore } from '@/core/store/buildingStore'
 import type { BuildingCost } from '@/common/types/building.types'
 import { game } from '@/core/game/Game'
 import { TimerCallback } from '@/core/game/systems/TimeManager'
@@ -136,7 +137,7 @@ export class Formula {
   
   /**
    * Check if formula can be made
-   * Checks if player has all required items
+   * Checks if player has all required items and building level requirement
    */
   canMake(): boolean {
     if (!this.config) {
@@ -151,6 +152,17 @@ export class Formula {
     // Check if already crafting or completed
     if (this.isActioning || this.step !== 0) {
       return false
+    }
+    
+    // Check building level requirement (needBuild)
+    if (this.needBuild) {
+      const buildingStore = useBuildingStore.getState()
+      const requiredBuilding = buildingStore.getBuilding(this.needBuild.bid)
+      const currentLevel = requiredBuilding ? requiredBuilding.level : -1
+      
+      if (currentLevel < this.needBuild.level) {
+        return false
+      }
     }
     
     // Check if player has all required items
@@ -376,6 +388,17 @@ export class Formula {
       // For now, only handle step === 0 (starting craft)
       // TODO: Handle step === 1 (placement) and step === 2 (take) later
       return false
+    }
+    
+    // Check building level requirement (needBuild) - also checked in canMake, but double-check here
+    if (this.needBuild) {
+      const buildingStore = useBuildingStore.getState()
+      const requiredBuilding = buildingStore.getBuilding(this.needBuild.bid)
+      const currentLevel = requiredBuilding ? requiredBuilding.level : -1
+      
+      if (currentLevel < this.needBuild.level) {
+        return false
+      }
     }
     
     if (!this.canMake()) {

@@ -10,6 +10,7 @@ import { game } from '@/core/game/Game'
 import { usePlayerStore } from '@/core/store/playerStore'
 import { useBuildingStore } from '@/core/store/buildingStore'
 import { emitter } from '@/common/utils/emitter'
+import { getString } from '@/common/utils/stringUtil'
 import type { Building } from '@/common/types/building.types'
 
 export enum BedActionType {
@@ -81,11 +82,11 @@ export class BedAction {
    * Returns true if sleep started successfully
    */
   startSleep(): boolean {
-    // Check if bed is available
+    // Check if bed is built (need bed first)
     const buildingStore = useBuildingStore.getState()
     const bed = buildingStore.getBuilding(this.buildingId)
     
-    if (!bed || bed.level < 0 || !bed.active) {
+    if (!bed || bed.level < 0) {
       return false
     }
     
@@ -144,20 +145,23 @@ export class BedAction {
     const iconName = `build_action_9_${this.type - 1}.png`
     const actionText = "Sleep"  // String 1018 - placeholder until string system
     
-    // Update building level
-    this.buildingLevel = this.getCurrentBuildLevel()
-    
-    // Check if bed is built
-    if (this.buildingLevel < 0) {
+    // Check if bed is built (need bed first)
+    const buildingStore = useBuildingStore.getState()
+    const bed = buildingStore.getBuilding(this.buildingId)
+    if (!bed || bed.level < 0) {
+      const buildingName = getString(`${this.buildingId}_0`)?.title || "Bed"
       return {
         iconName,
-        hint: "Bed not built", // String 1006 - placeholder
+        hint: getString(1006, buildingName) || `You need ${buildingName}!`,
         hintColor: '#FF0000', // RED
         actionText,
         disabled: true,
         percentage: 0
       }
     }
+    
+    // Update building level for config
+    this.buildingLevel = this.getCurrentBuildLevel()
     
     // Check if already sleeping
     const survivalSystem = game.getSurvivalSystem()

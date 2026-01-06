@@ -165,8 +165,8 @@ export class DrinkBuildAction {
           const itemName = getString(itemInfo.itemId)?.title || `Item ${itemInfo.itemId}`
           const remainingCount = currentPlayerStore.storage[String(itemInfo.itemId)] || 0
           const logStore = useLogStore.getState()
-          logStore.addLog(getString(1096, itemName, remainingCount) || 
-            `You drank ${itemName} (stock: ${remainingCount})`)
+          logStore.addLog(getString(1309, itemName, remainingCount) || 
+            `You quietly settle down and had some vodka (${itemName}, current stock: ${remainingCount}), trying to relax.`)
           
           // Reset state
           self.building.resetActiveBtnIndex()
@@ -221,7 +221,7 @@ export class DrinkBuildAction {
     //   time = Math.round(time * 0.7)
     // }
     
-    const actionText = getString(1014, time) || `Drink alcohol (${time} m)` // Reuse coffee string for now
+    const actionText = getString(1308, time) || `Drink (${time}min)`
     
     // Check if building is built
     const buildingLevel = this.getCurrentBuildLevel()
@@ -253,7 +253,14 @@ export class DrinkBuildAction {
     
     // Check if actioning
     if (this.isActioning) {
-      const hint = "Drinking..." // Placeholder
+      let hint = ""
+      if (this.buildingLevel === 1) {
+        hint = getString(1306) || "The acrid fragrance of the spirits drives away the oozy smell of blood, and for a moment the world almost feels like it's normal again."
+      } else if (this.buildingLevel === 2) {
+        hint = getString(1307) || "When you are tipsy, the light seems softer in your eyes."
+      } else {
+        hint = getString(1305) || "A drink of spirits wakes you up."
+      }
       const percentage = this.totalTime > 0 ? Math.min(100, (this.pastTime / this.totalTime) * 100) : 0
       
       return {
@@ -344,8 +351,8 @@ export class DrinkBuildAction {
               const itemName = getString(itemInfo.itemId)?.title || `Item ${itemInfo.itemId}`
               const remainingCount = currentPlayerStore.storage[String(itemInfo.itemId)] || 0
               const logStore = useLogStore.getState()
-              logStore.addLog(getString(1096, itemName, remainingCount) || 
-                `You drank ${itemName} (stock: ${remainingCount})`)
+              logStore.addLog(getString(1309, itemName, remainingCount) || 
+                `You quietly settle down and had some vodka (${itemName}, current stock: ${remainingCount}), trying to relax.`)
               
               this.building.resetActiveBtnIndex()
               this.isActioning = false

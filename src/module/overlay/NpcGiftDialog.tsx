@@ -12,17 +12,17 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useUIStore } from '@/core/store/uiStore'
 import { usePlayerStore } from '@/core/store/playerStore'
-import { useGameStore } from '@/core/store/gameStore'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { DialogButton } from '@/common/ui/DialogButton'
 import { getString } from '@/common/utils/stringUtil'
-import { formatRadioTime } from '@/common/utils/timeFormat'
 import { useLogStore } from '@/core/store/logStore'
+import { game } from '@/core/game/Game'
 import type { NPC } from '@/core/game/entities/NPC'
 import type { Gift } from '@/common/types/npc.types'
 
 interface NpcGiftDialogData {
   npc: NPC
+  giftNumber?: number // Sequential gift number (1, 2, 3, 4, 5, 6, 7...)
 }
 
 /**
@@ -104,7 +104,6 @@ function HeartDisplay({ reputation }: { reputation: number }) {
 export function NpcGiftDialog() {
   const uiStore = useUIStore()
   const playerStore = usePlayerStore()
-  const gameStore = useGameStore()
   const [bottomBarRect, setBottomBarRect] = useState<DOMRect | null>(null)
   
   // Get dialog data from overlay state
@@ -114,6 +113,19 @@ export function NpcGiftDialog() {
   
   // Get NPC reference (must be before hooks that use it)
   const npc = dialogData?.npc
+  
+  // Pause game when dialog appears
+  useEffect(() => {
+    if (!dialogData) return
+    
+    // Pause game
+    game.pause()
+    
+    // Resume game when dialog closes
+    return () => {
+      game.resume()
+    }
+  }, [dialogData])
   
   // Get BottomBar position dynamically
   useEffect(() => {
@@ -134,63 +146,7 @@ export function NpcGiftDialog() {
     }
   }, [])
   
-  // Auto-process gifts when dialog appears (no confirmation needed)
-  useEffect(() => {
-    if (!dialogData || !npc) return
-    
-    // Process gifts immediately
-    const processGifts = () => {
-      // Get gifts to process
-      const itemGifts = npc.needSendGiftList.item || []
-      const siteGifts = npc.needSendGiftList.site || []
-      
-      // Process item gifts
-      itemGifts.forEach((gift) => {
-        if (gift.itemId !== undefined) {
-          const itemId = typeof gift.itemId === 'string' ? Number(gift.itemId) : gift.itemId
-          const num = typeof gift.num === 'string' ? Number(gift.num) : (gift.num || 0)
-          playerStore.gainItems([{ itemId, num }])
-          
-          // Add log message (1103: "You got %s %s (stock: %s)")
-          const itemIdStr = String(itemId)
-          const itemName = getString(itemId).title || `Item ${itemId}`
-          const stock = playerStore.getStorageItemCount(itemIdStr)
-          const message = getString(1103, num, itemName, stock)
-          useLogStore.getState().addLog(message)
-        }
-      })
-      
-      // Process site gifts
-      siteGifts.forEach((gift) => {
-        if (gift.siteId !== undefined) {
-          const map = playerStore.getMap()
-          const siteId = typeof gift.siteId === 'string' ? Number(gift.siteId) : gift.siteId
-          map.unlockSite(siteId)
-          
-          const siteName = getString(`site_${siteId}`).name || `Site ${siteId}`
-          const message = getString(1221, siteName)
-          useLogStore.getState().addLog(message)
-        }
-      })
-      
-      // Remove gifts from needSendGiftList
-      delete npc.needSendGiftList.item
-      delete npc.needSendGiftList.site
-      
-      // Check if more gifts pending, show next dialog
-      if (npc.needSendGift()) {
-        // Show next gift dialog after a short delay
-        setTimeout(() => {
-          npc.sendGift()
-        }, 1500)
-      }
-      // Dialog stays open - player can close manually
-    }
-    
-    // Process gifts after a short delay to ensure dialog is visible
-    const timer = setTimeout(processGifts, 100)
-    return () => clearTimeout(timer)
-  }, [dialogData, npc, playerStore, uiStore])
+  // No auto-processing - gifts are processed when player clicks "Got it"
   
   // Handle ESC key (must be before early return)
   useEffect(() => {
@@ -271,16 +227,59 @@ export function NpcGiftDialog() {
   const iconName = "icon_npc.png"
   const digDesName = `npc_dig_${npc.id}.png`
   const npcName = npc.getName()
-  const timeStr = formatRadioTime(gameStore.time)
   
   // Gift message
   const giftMessage = isItemGift 
     ? getString(1068) // "I think you're going to need this..."
     : getString(1070) // "I know a place..."
   
-  // Handle close (gifts are already processed automatically)
+  // Handle accept - process gift and mark as sent
   const handleAccept = () => {
-    // Gifts are already processed, just close the dialog
+    if (!npc || !dialogData) return
+    
+    // Get gifts to process (should be only one gift)
+    const itemGifts = npc.needSendGiftList.item || []
+    const siteGifts = npc.needSendGiftList.site || []
+    
+    // Process item gifts
+    itemGifts.forEach((gift) => {
+      if (gift.itemId !== undefined) {
+        const itemId = typeof gift.itemId === 'string' ? Number(gift.itemId) : gift.itemId
+        const num = typeof gift.num === 'string' ? Number(gift.num) : (gift.num || 0)
+        playerStore.gainItems([{ itemId, num }])
+        
+        // Add log message (1103: "You got %s %s (stock: %s)")
+        const itemIdStr = String(itemId)
+        const itemName = getString(itemId).title || `Item ${itemId}`
+        const stock = playerStore.getStorageItemCount(itemIdStr)
+        const message = getString(1103, num, itemName, stock)
+        useLogStore.getState().addLog(message)
+      }
+    })
+    
+    // Process site gifts
+    siteGifts.forEach((gift) => {
+      if (gift.siteId !== undefined) {
+        const map = playerStore.getMap()
+        const siteId = typeof gift.siteId === 'string' ? Number(gift.siteId) : gift.siteId
+        map.unlockSite(siteId)
+        
+        const siteName = getString(`site_${siteId}`).name || `Site ${siteId}`
+        const message = getString(1221, siteName)
+        useLogStore.getState().addLog(message)
+      }
+    })
+    
+    // Mark gift as sent if giftNumber is provided
+    if (dialogData.giftNumber !== undefined) {
+      npc.markGiftAsSent(dialogData.giftNumber)
+    }
+    
+    // Clear gifts from needSendGiftList
+    delete npc.needSendGiftList.item
+    delete npc.needSendGiftList.site
+    
+    // Close dialog
     uiStore.hideOverlay()
   }
   
@@ -366,7 +365,7 @@ export function NpcGiftDialog() {
             className="absolute text-black"
             style={{
               left: `${leftEdge + 70}px`,
-              top: '20%',
+              top: '35%',
               transform: 'translateY(-50%)',
               fontSize: '25px',
               fontFamily: "'Noto Sans', sans-serif",
@@ -376,21 +375,6 @@ export function NpcGiftDialog() {
             }}
           >
             {npcName}
-          </div>
-          
-          {/* Time */}
-          <div
-            className="absolute text-black"
-            style={{
-              left: `${leftEdge + 70}px`,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              fontSize: '18px',
-              fontFamily: "'Noto Sans', sans-serif",
-              lineHeight: '1.2'
-            }}
-          >
-            {timeStr}
           </div>
           
           {/* Reputation (heart display) */}
@@ -542,9 +526,9 @@ export function NpcGiftDialog() {
             height: `${actionHeight}px`
           }}
         >
-          {/* "Close" button (gifts already processed automatically) */}
+          {/* "Got it" button (processes gift when clicked) */}
           <DialogButton
-            text={getString(1157) || 'Close'}
+            text={getString(1073) || 'Got it'}
             position={{ x: 50, y: 50 }}
             onClick={handleAccept}
             enabled={true}

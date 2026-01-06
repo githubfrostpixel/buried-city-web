@@ -12,7 +12,9 @@ import { SpriteProgressBar } from '@/common/ui/SpriteProgressBar'
 import { emitter } from '@/common/utils/emitter'
 import { useState, useEffect } from 'react'
 import { useUIStore } from '@/core/store/uiStore'
+import { useBuildingStore } from '@/core/store/buildingStore'
 import { getRecipeIcon } from '@/common/utils/recipeIcon'
+import { getString } from '@/common/utils/stringUtil'
 
 interface RecipeListItemProps {
   recipe: Formula
@@ -23,11 +25,27 @@ interface RecipeListItemProps {
 
 export function RecipeListItem({ recipe, index, buildingId, onIconClick }: RecipeListItemProps) {
   const uiStore = useUIStore()
+  const buildingStore = useBuildingStore()
   
   // Get recipe state
   const step = recipe.step ?? 0
   const isActioning = recipe.isActioning ?? false
   const canMake = recipe.canMake ? recipe.canMake() : false
+  
+  // Check building requirement (needBuild)
+  let buildingRequirement: { name: string; met: boolean } | null = null
+  if (recipe.needBuild) {
+    const requiredBuilding = buildingStore.getBuilding(recipe.needBuild.bid)
+    const currentLevel = requiredBuilding ? requiredBuilding.level : -1
+    const requiredLevel = recipe.needBuild.level
+    const buildingName = getString(`${recipe.needBuild.bid}_${requiredLevel}`)?.title || 
+                        getString(`${recipe.needBuild.bid}_0`)?.title || 
+                        `Building ${recipe.needBuild.bid}`
+    buildingRequirement = {
+      name: buildingName,
+      met: currentLevel >= requiredLevel
+    }
+  }
   
   // Progress tracking
   const [progress, setProgress] = useState(0)
@@ -171,7 +189,7 @@ export function RecipeListItem({ recipe, index, buildingId, onIconClick }: Recip
         />
       </button>
       
-      {/* Recipe cost items (middle) */}
+      {/* Recipe cost items and building requirement (middle) */}
       <div
         className="absolute"
         style={{
@@ -181,6 +199,19 @@ export function RecipeListItem({ recipe, index, buildingId, onIconClick }: Recip
           width: '300px'
         }}
       >
+        {/* Building requirement hint (if not met) */}
+        {buildingRequirement && !buildingRequirement.met && (
+          <div
+            style={{
+              color: '#FF0000',
+              fontSize: '14px',
+              marginBottom: '8px',
+              fontFamily: "'Noto Sans', sans-serif"
+            }}
+          >
+            {getString(1006, buildingRequirement.name) || `You need ${buildingRequirement.name}!`}
+          </div>
+        )}
         {/* Recipe cost items - bigger icons and text */}
         {recipeCost.length > 0 && (
           <ItemCostDisplay

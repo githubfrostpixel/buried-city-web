@@ -23,9 +23,11 @@ import { emitter } from '@/common/utils/emitter'
 export class NPCManager {
   npcList: Record<number, NPC>
   private pendingVisit: { npcId: number; type: 'gift' | 'help' } | null = null
+  lastGiftDay: number // Day when last gift was sent globally (-1 if never sent)
 
   constructor() {
     this.npcList = {}
+    this.lastGiftDay = -1
     // Listen for sleep end to show pending visits
     emitter.on('sleep_end', () => {
       this.processPendingVisit()
@@ -42,7 +44,8 @@ export class NPCManager {
       npcSaveObj[npcId] = this.npcList[npcId].save()
     }
     return {
-      npcList: npcSaveObj
+      npcList: npcSaveObj,
+      lastGiftDay: this.lastGiftDay
     }
   }
 
@@ -57,6 +60,7 @@ export class NPCManager {
         npc.restore(saveObj.npcList[npcId])
         this.npcList[Number(npcId)] = npc
       }
+      this.lastGiftDay = saveObj.lastGiftDay ?? -1
     } else {
       this.init()
     }
@@ -71,6 +75,7 @@ export class NPCManager {
     for (const npcId in npcConfig) {
       this.npcList[Number(npcId)] = new NPC(Number(npcId))
     }
+    this.lastGiftDay = -1
   }
 
   /**
@@ -147,11 +152,10 @@ export class NPCManager {
       // Unlock NPC
       this.unlockNpc(npcId)
       
-      // Store pending visit
-      const npc = this.getNPC(npcId)
+      // Store pending visit (gifts are only sent at 6:00 AM, so always help)
       this.pendingVisit = {
         npcId,
-        type: npc.needSendGift() ? 'gift' : 'help'
+        type: 'help'
       }
       
       // Add log message (will show when sleep ends)
@@ -173,13 +177,9 @@ export class NPCManager {
     // Unlock NPC
     this.unlockNpc(npcId)
     
-    // Show gift or help dialog
+    // Show help dialog (gifts are only sent at 6:00 AM via checkAndSendDailyGifts)
     const npc = this.getNPC(npcId)
-    if (npc.needSendGift()) {
-      npc.sendGift()
-    } else {
-      npc.needHelp() // TODO: Implement help dialog
-    }
+    npc.needHelp() // TODO: Implement help dialog
   }
   
   /**
@@ -194,13 +194,9 @@ export class NPCManager {
     // Add log message (1100: "Someone is knocking at your door...")
     useLogStore.getState().addLog(getString(1100))
     
-    // Show gift or help dialog
+    // Show help dialog (gifts are only sent at 6:00 AM)
     const npc = this.getNPC(npcId)
-    if (type === 'gift') {
-      npc.sendGift()
-    } else {
-      npc.needHelp()
-    }
+    npc.needHelp()
   }
 
   /**
@@ -214,11 +210,8 @@ export class NPCManager {
       // Random NPC (1-7)
       const npc = this.getNPC(rand)
       if (npc.isUnlocked) {
-        if (npc.needSendGift()) {
-          npc.sendGift()
-        } else {
-          npc.needSell(rand) // TODO: Implement sale dialog
-        }
+        // Gifts are only sent at 6:00 AM, so only show sale dialog
+        npc.needSell(rand) // TODO: Implement sale dialog
       }
     } else {
       // Special case: NPC 1 (always available)
@@ -234,6 +227,41 @@ export class NPCManager {
   updateTradingItem(): void {
     for (const npcId in this.npcList) {
       this.npcList[npcId].updateTradingItem()
+    }
+  }
+
+  /**
+   * Check and send daily gifts at 6:00 AM
+   * Only one gift per day total (across all NPCs)
+   */
+  checkAndSendDailyGifts(): void {
+    const gameStore = useGameStore.getState()
+    const currentDay = gameStore.day
+    
+    // Check if a gift was already sent today
+    if (this.lastGiftDay >= currentDay) {
+      return // Already sent a gift today
+    }
+    
+    // Check all unlocked NPCs in priority order
+    // Find the first NPC with an unreceived gift
+    for (const npcId in this.npcList) {
+      const npc = this.npcList[npcId]
+      
+      // Only check unlocked NPCs
+      if (!npc.isUnlocked) continue
+      
+      // Check if NPC has an unreceived gift
+      if (!npc.needSendGift()) continue
+      
+      // Send the gift
+      npc.sendGift()
+      
+      // Mark that a gift was sent today (globally)
+      this.lastGiftDay = currentDay
+      
+      // Only send one gift per day total, so break after first gift sent
+      break
     }
   }
 }

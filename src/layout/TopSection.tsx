@@ -17,7 +17,8 @@ import { emitter } from '@/common/utils/emitter'
 import type { WeatherType } from '@/common/types/game.types'
 
 // Season names
-const SEASON_NAMES = ['Spring', 'Summer', 'Autumn', 'Winter']
+// Season mapping: 0=Autumn, 1=Winter, 2=Spring, 3=Summer
+const SEASON_NAMES = ['Autumn', 'Winter', 'Spring', 'Summer']
 
 // Helper functions for time formatting
 function getTimeHourStr(hour: number, minute: number): string {
@@ -183,7 +184,7 @@ export function TopSection({ testLogs = [] }: TopSectionProps = {}) {
           position={{ x: btnSize.width * 3.9 + 4.5, y: 25 }}
           scale={0.5}
           noLabel={true}
-          onClick={() => showStatusDialog(12, workSiteActive ? 'Active' : 'Inactive', 'icon_electric.png')}
+          onClick={() => showStatusDialog(12, workSiteActive ? 'Active' : 'Inactive', 'icon_electric_active.png')}
         />
         
         {/* Currency button */}

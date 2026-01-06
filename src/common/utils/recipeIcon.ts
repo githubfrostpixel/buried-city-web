@@ -28,10 +28,13 @@ export function getRecipeIcon(
   if (BUILD_ACTION_BUILDINGS.includes(buildingId)) {
     // Use build_action icon
     // Special cases:
+    // - Building 8 (Trap): Uses 'shelter' atlas
     // - Building 9 (Bed): Uses type-1, but we'll use index for now
     // - Building 10 (Rest): Uses index (0 or 1)
     const iconName = `build_action_${buildingId}_${recipeIndex}.png`
-    return { iconName, atlas: 'build' }
+    // Building 8 uses 'shelter' atlas, others use 'build' atlas
+    const atlas = 'shelter_action'
+    return { iconName, atlas }
   }
   
   // Default: Use produced item's icon

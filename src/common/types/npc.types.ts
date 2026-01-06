@@ -93,6 +93,8 @@ export interface NPC {
     item?: Gift[]
     site?: Gift[]
   }
+  sentGiftNumbers: Set<number> // Sequential gift numbers (1, 2, 3, 4, 5, 6, 7...) of gifts that have been sent
+  lastGiftDay: number // Day when last gift was sent (-1 if never sent)
 }
 
 /**
@@ -113,6 +115,7 @@ export interface NPCSaveData {
   isSteal: boolean
   Alert: number
   log: StealLogEntry[]
+  sentGiftNumbers: number[] // Array of gift numbers (1, 2, 3, 4, 5, 6, 7...) that have been sent
 }
 
 /**
@@ -121,6 +124,7 @@ export interface NPCSaveData {
  */
 export interface NPCManagerSaveData {
   npcList: Record<string, NPCSaveData>
+  lastGiftDay: number // Day when last gift was sent globally (-1 if never sent)
 }
 
 /**
