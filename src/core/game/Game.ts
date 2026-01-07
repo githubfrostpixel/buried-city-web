@@ -3,8 +3,8 @@
  * Sets up core game systems
  */
 
-import { TimeManager } from './systems/TimeManager'
-import { SurvivalSystem } from './systems/SurvivalSystem'
+import { TimeManager } from './core/TimeManager'
+import { SurvivalSystem } from './core/SurvivalSystem'
 import { FoodExpirationSystem } from './systems/FoodExpirationSystem'
 import { useGameStore } from '@/core/store/gameStore'
 import { usePlayerStore } from '@/core/store/playerStore'

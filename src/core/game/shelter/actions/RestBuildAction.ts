@@ -1,8 +1,8 @@
 /**
- * Drink Build Action System
- * Ported from OriginalGame/src/game/buildAction.js DrinkBuildAction
+ * Rest Build Action System
+ * Ported from OriginalGame/src/game/buildAction.js RestBuildAction
  * 
- * Handles chair alcohol/drink action (Building 10, index 1)
+ * Handles chair coffee/rest action (Building 10, index 0)
  */
 
 import { buildActionConfig, type RestActionConfig } from '@/core/data/buildActionConfig'
@@ -12,21 +12,21 @@ import { useBuildingStore } from '@/core/store/buildingStore'
 import { emitter } from '@/common/utils/emitter'
 import { getString } from '@/common/utils/stringUtil'
 import { useLogStore } from '@/core/store/logStore'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
-import { TimerCallback } from './TimeManager'
-import type { Building } from '@/core/game/world/Building'
+import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
+import { TimerCallback } from '@/core/game/core/TimeManager'
+import type { Building } from '@/core/game/shelter/Building'
 
-export class DrinkBuildAction {
+export class RestBuildAction {
   buildingId: number
   buildingLevel: number
   building: Building
   configs: RestActionConfig[][]
   config: RestActionConfig = {
-    cost: [{ itemId: 1105022, num: 3 }],
+    cost: [{ itemId: 1105011, num: 4 }, { itemId: 1101061, num: 1 }, { itemId: 1101011, num: 1 }],
     makeTime: 60,
     effect: { spirit: 60, spirit_chance: 1 }
   }
-  index: number = 1  // Drink action is index 1
+  index: number = 0  // Rest action is index 0
   isActioning: boolean = false
   pastTime: number = 0
   totalTime: number = 0
@@ -52,27 +52,19 @@ export class DrinkBuildAction {
   
   /**
    * Update config based on current building level
-   * Ported from buildAction.js:746-750
-   * Note: Overrides cost with dynamic alcohol price
+   * Ported from buildAction.js:646-649
    */
   updateConfig(): void {
     const level = this.getCurrentBuildLevel()
     const effectiveLevel = level >= 0 ? level : 0
     
     if (this.configs && this.configs[effectiveLevel] && this.configs[effectiveLevel][this.index]) {
-      this.config = { ...this.configs[effectiveLevel][this.index] }
+      this.config = this.configs[effectiveLevel][this.index]
       this.buildingLevel = effectiveLevel
-      
-      // Override cost with dynamic alcohol price
-      const playerStore = usePlayerStore.getState()
-      const alcoholPrice = (playerStore as any).alcoholPrice || 1
-      this.config.cost = [{ itemId: 1105022, num: alcoholPrice }]
     } else {
       // Fallback to level 0
-      const playerStore = usePlayerStore.getState()
-      const alcoholPrice = (playerStore as any).alcoholPrice || 1
-      this.config = {
-        cost: [{ itemId: 1105022, num: alcoholPrice }],
+      this.config = this.configs[0]?.[this.index] || {
+        cost: [{ itemId: 1105011, num: 4 }, { itemId: 1101061, num: 1 }, { itemId: 1101011, num: 1 }],
         makeTime: 60,
         effect: { spirit: 60, spirit_chance: 1 }
       }
@@ -81,8 +73,8 @@ export class DrinkBuildAction {
   }
   
   /**
-   * Handle click action (start drink)
-   * Ported from buildAction.js:755-847
+   * Handle click action (start rest)
+   * Ported from buildAction.js:654-685
    */
   clickAction1(): void {
     const playerStore = usePlayerStore.getState()
@@ -90,16 +82,18 @@ export class DrinkBuildAction {
     // Check vigour (stub for now - TODO: implement vigour check)
     // if (!checkVigour()) return
     
-    // Update config (to get latest alcohol price)
+    // Update config
     this.updateConfig()
     
-    // Check if building is built
-    if (this.getCurrentBuildLevel() < 0) {
+    // Check if chair is built (need chair first)
+    const buildingStore = useBuildingStore.getState()
+    const chair = buildingStore.getBuilding(this.buildingId)
+    if (!chair || chair.level < 0) {
       return
     }
     
     // Check if another action is active
-    if (this.building.anyBtnActive() && this.building.activeBtnIndex !== 1) {
+    if (this.building.anyBtnActive() && this.building.activeBtnIndex !== 0) {
       return
     }
     
@@ -107,7 +101,7 @@ export class DrinkBuildAction {
     emitter.emit('left_btn_enabled', false)
     
     // Set active button index
-    this.building.setActiveBtnIndex(1)
+    this.building.setActiveBtnIndex(0)
     
     // Calculate time
     let time = this.config.makeTime * 60  // Convert minutes to seconds
@@ -118,7 +112,7 @@ export class DrinkBuildAction {
     // }
     
     // Play sound
-    audioManager.playEffect(SoundPaths.BOTTLE_OPEN)
+    audioManager.playEffect(SoundPaths.COFFEE_POUR)
     
     // Cost items
     ;(playerStore as any).costItems(this.config.cost)
@@ -137,9 +131,9 @@ export class DrinkBuildAction {
           emitter.emit('build_node_update')
         },
         end: () => {
-          // Update last alcohol time
+          // Update last coffee time
           const currentPlayerStore = usePlayerStore.getState()
-          ;(currentPlayerStore as any).lastAlcoholTime = timeManager.now()
+          ;(currentPlayerStore as any).lastCoffeeTime = timeManager.now()
           
           // Check achievements (stub for now)
           // self.config.cost.forEach(item => {
@@ -152,21 +146,13 @@ export class DrinkBuildAction {
           // Apply effect
           ;(currentPlayerStore as any).applyEffect(self.config.effect)
           
-          // Alcohol price increase logic (30% chance, if price < 9)
-          const rand = Math.random()
-          if (rand < 0.3 && (currentPlayerStore as any).alcoholPrice < 9) {
-            ;(currentPlayerStore as any).alcoholPrice++
-            const logStore = useLogStore.getState()
-            logStore.addLog(getString(1344) || "Alcohol price increased")
-          }
-          
           // Log message
           const itemInfo = self.config.cost[0]
           const itemName = getString(itemInfo.itemId)?.title || `Item ${itemInfo.itemId}`
           const remainingCount = currentPlayerStore.storage[String(itemInfo.itemId)] || 0
           const logStore = useLogStore.getState()
-          logStore.addLog(getString(1309, itemName, remainingCount) || 
-            `You quietly settle down and had some vodka (${itemName}, current stock: ${remainingCount}), trying to relax.`)
+          logStore.addLog(getString(1096, itemName, remainingCount) || 
+            `You drank ${itemName} (stock: ${remainingCount})`)
           
           // Reset state
           self.building.resetActiveBtnIndex()
@@ -200,7 +186,7 @@ export class DrinkBuildAction {
   
   /**
    * Get display information for UI
-   * Similar to RestBuildAction but for drink
+   * Ported from buildAction.js:686-734
    */
   getDisplayInfo(): {
     iconName: string
@@ -213,7 +199,7 @@ export class DrinkBuildAction {
   } {
     this.updateConfig()
     
-    const iconName = `build_action_${this.buildingId}_1.png`
+    const iconName = `build_action_${this.buildingId}_0.png`
     let time = this.config.makeTime
     
     // TODO: Apply IAP bonus
@@ -221,21 +207,7 @@ export class DrinkBuildAction {
     //   time = Math.round(time * 0.7)
     // }
     
-    const actionText = getString(1308, time) || `Drink (${time}min)`
-    
-    // Check if building is built
-    const buildingLevel = this.getCurrentBuildLevel()
-    if (buildingLevel < 0) {
-      const buildingName = getString(`${this.buildingId}_0`)?.title || `Building ${this.buildingId}`
-      return {
-        iconName,
-        hint: getString(1006, buildingName) || `You need ${buildingName}!`,
-        hintColor: '#FF0000', // RED
-        actionText,
-        disabled: true,
-        percentage: 0
-      }
-    }
+    const actionText = getString(1014, time) || `Drink coffee (${time} m)`
     
     // Check if chair is built (need chair first)
     const buildingStore = useBuildingStore.getState()
@@ -251,16 +223,20 @@ export class DrinkBuildAction {
       }
     }
     
+    // Get building level for config
+    const buildingLevel = this.getCurrentBuildLevel()
+    
     // Check if actioning
     if (this.isActioning) {
       let hint = ""
       if (this.buildingLevel === 1) {
-        hint = getString(1306) || "The acrid fragrance of the spirits drives away the oozy smell of blood, and for a moment the world almost feels like it's normal again."
+        hint = getString(1016) || "The soft couch and savory coffee make you relax."
       } else if (this.buildingLevel === 2) {
-        hint = getString(1307) || "When you are tipsy, the light seems softer in your eyes."
+        hint = getString(1017) || "With coffee and music, you feel like you've gone back to happier times."
       } else {
-        hint = getString(1305) || "A drink of spirits wakes you up."
+        hint = getString(1015) || "You are enjoying a cup of hot coffee."
       }
+      
       const percentage = this.totalTime > 0 ? Math.min(100, (this.pastTime / this.totalTime) * 100) : 0
       
       return {
@@ -292,7 +268,7 @@ export class DrinkBuildAction {
       hint: "",
       hintColor: null,
       actionText,
-      disabled: !hasItems || (this.building.anyBtnActive() && this.building.activeBtnIndex !== 1),
+      disabled: !hasItems || (this.building.anyBtnActive() && this.building.activeBtnIndex !== 0),
       percentage: 0,
       items
     }
@@ -336,23 +312,16 @@ export class DrinkBuildAction {
             end: () => {
               // Same end logic as clickAction1
               const currentPlayerStore = usePlayerStore.getState()
-              ;(currentPlayerStore as any).lastAlcoholTime = timeManager.now()
+              ;(currentPlayerStore as any).lastCoffeeTime = timeManager.now()
               audioManager.playEffect(SoundPaths.GOLP)
               ;(currentPlayerStore as any).applyEffect(this.config.effect)
-              
-              const rand = Math.random()
-              if (rand < 0.3 && (currentPlayerStore as any).alcoholPrice < 9) {
-                ;(currentPlayerStore as any).alcoholPrice++
-                const logStore = useLogStore.getState()
-                logStore.addLog(getString(1344) || "Alcohol price increased")
-              }
               
               const itemInfo = this.config.cost[0]
               const itemName = getString(itemInfo.itemId)?.title || `Item ${itemInfo.itemId}`
               const remainingCount = currentPlayerStore.storage[String(itemInfo.itemId)] || 0
               const logStore = useLogStore.getState()
-              logStore.addLog(getString(1309, itemName, remainingCount) || 
-                `You quietly settle down and had some vodka (${itemName}, current stock: ${remainingCount}), trying to relax.`)
+              logStore.addLog(getString(1096, itemName, remainingCount) || 
+                `You drank ${itemName} (stock: ${remainingCount})`)
               
               this.building.resetActiveBtnIndex()
               this.isActioning = false

@@ -13,7 +13,7 @@ import { useUIStore } from '@/core/store/uiStore'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { DialogButton } from '@/common/ui/DialogButton'
 import { getString } from '@/common/utils/stringUtil'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
 
 interface ConfirmationDialogData {
   title?: string

@@ -5,10 +5,10 @@
  */
 
 import { usePlayerStore } from '@/core/store/playerStore'
-import { getUUID } from '@/core/game/systems/SaveSystem'
+import { getUUID } from '@/core/game/systems/save'
 import { itemConfig } from '@/core/data/items'
 import { Storage } from '@/core/game/inventory/Storage'
-import { WorkSite } from '@/core/game/world/Site'
+import { WorkSite } from '@/core/game/map/Site'
 
 export interface RadioMessage {
   uid: string | number

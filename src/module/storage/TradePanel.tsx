@@ -22,7 +22,7 @@ import { TempTradeItemsDisplay } from './TempTradeItemsDisplay'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { CommonListItemButton } from '@/common/ui/CommonListItemButton'
 import { getString } from '@/common/utils/stringUtil'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
 
 interface TradePanelProps {
   topStorage: Storage  // Source storage (e.g., player bag)

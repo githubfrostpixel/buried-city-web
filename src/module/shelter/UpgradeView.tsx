@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import { Building } from '@/core/game/world/Building'
+import { Building } from '@/core/game/shelter/Building'
 import { BuildUpgradeType } from '@/common/types/building.types'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { ItemCostDisplay } from '@/common/ui/ItemCostDisplay'

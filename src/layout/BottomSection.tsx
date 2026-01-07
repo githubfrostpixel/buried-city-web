@@ -10,7 +10,7 @@
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { BOTTOM_BAR_LAYOUT, getBottomBarTop } from './layoutConstants'
 import { usePlayerStore } from '@/core/store/playerStore'
-import { saveAll } from '@/core/game/systems/SaveSystem'
+import { saveAll } from '@/core/game/systems/save'
 
 interface BottomSectionProps {
   // Title displayed in action bar center

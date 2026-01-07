@@ -6,7 +6,7 @@
 
 import { useMemo, useState, useEffect } from 'react'
 import type { Panel } from '@/core/store/uiStore'
-import type { Map } from '@/core/game/world/Map'
+import type { Map } from '@/core/game/map/Map'
 import { getSiteBottomBarProps } from '@/module/location/LocationView'
 
 interface UseSiteBottomBarSubtextsProps {

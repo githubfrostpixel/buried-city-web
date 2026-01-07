@@ -5,7 +5,7 @@
  */
 
 import { Sprite } from '@/common/ui/sprite/Sprite'
-import { Site } from '@/core/game/world/Site'
+import { Site } from '@/core/game/map/Site'
 import { Room } from '@/common/types/site.types'
 
 interface BattleImageStackProps {

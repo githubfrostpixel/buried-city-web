@@ -12,7 +12,7 @@ import type { NPCManagerSaveData } from '@/common/types/npc.types'
 import { useGameStore } from '@/core/store/gameStore'
 import { useLogStore } from '@/core/store/logStore'
 import { getString } from '@/common/utils/stringUtil'
-import { getSaveSlot } from '@/core/game/systems/SaveSystem'
+import { getSaveSlot } from '@/core/game/systems/save'
 import { game } from '@/core/game/Game'
 import { emitter } from '@/common/utils/emitter'
 

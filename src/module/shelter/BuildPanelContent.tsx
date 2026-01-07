@@ -14,8 +14,8 @@ import { RecipeListItem } from './RecipeListItem'
 import { BedActionListItem } from './BedActionListItem'
 import { ActionListItem } from './ActionListItem'
 import { BOTTOM_BAR_LAYOUT } from '@/layout/layoutConstants'
-import { BedAction } from '@/core/game/systems/BedAction'
-import { Formula } from '@/core/game/systems/Formula'
+import { BedAction } from '@/core/game/shelter/actions/BedAction'
+import { Formula } from '@/core/game/shelter/actions/Formula'
 
 interface BuildPanelContentProps {
   buildingId: number

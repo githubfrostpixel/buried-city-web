@@ -4,7 +4,7 @@
  */
 
 import React, { useMemo, useCallback, useEffect } from 'react'
-import { Site } from '@/core/game/world/Site'
+import { Site } from '@/core/game/map/Site'
 import { Room } from '@/common/types/site.types'
 import { usePlayerStore } from '@/core/store/playerStore'
 import { useUIStore } from '@/core/store/uiStore'
@@ -15,7 +15,7 @@ import { CommonListItemButton } from '@/common/ui/CommonListItemButton'
 import { Storage } from '@/core/game/inventory/Storage'
 import { Bag } from '@/core/game/inventory/Bag'
 import { Item } from '@/core/game/inventory/Item'
-import { saveAll } from '@/core/game/systems/SaveSystem'
+import { saveAll } from '@/core/game/systems/save'
 import { EQUIP_PANEL_HEIGHT, SEPARATOR_HEIGHT } from './constants'
 import { getString } from '@/common/utils/stringUtil'
 

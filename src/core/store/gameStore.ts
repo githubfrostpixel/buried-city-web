@@ -10,7 +10,7 @@
  * - TopSection.tsx (time, weather, season display)
  * - MapPanelContent.tsx (time display)
  * - Combat systems: Monster, Gun (time-based effects)
- * - SaveSystem.ts (save/load game state)
+ * - SaveSystem (save/) (save/load game state)
  */
 
 import { create } from 'zustand'

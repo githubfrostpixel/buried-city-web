@@ -5,7 +5,7 @@
  * Uses same layout as RecipeListItem but without cost items
  */
 
-import { BedAction } from '@/core/game/systems/BedAction'
+import { BedAction } from '@/core/game/shelter/actions/BedAction'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { CommonListItemButton } from '@/common/ui/CommonListItemButton'
 import { SpriteProgressBar } from '@/common/ui/SpriteProgressBar'

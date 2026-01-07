@@ -15,14 +15,11 @@ export interface GameState {
 
 import type { WeatherSaveData } from '@/core/game/systems/WeatherSystem'
 
-import type { MapSaveData } from './site.types'
-
 export interface GameSaveData {
   time: number
   season: Season
   day: number
   weather: WeatherSaveData
-  map?: MapSaveData // Optional for backward compatibility
 }
 
 export type DeathReason = 

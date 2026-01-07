@@ -13,9 +13,9 @@ import { useBuildingStore } from '@/core/store/buildingStore'
 import { emitter } from '@/common/utils/emitter'
 import { getString } from '@/common/utils/stringUtil'
 import { useLogStore } from '@/core/store/logStore'
-import { TimerCallback } from './TimeManager'
+import { TimerCallback } from '@/core/game/core/TimeManager'
 import { checkVigour, showTinyInfoDialog } from '@/common/utils/uiUtil'
-import type { Building } from '@/core/game/world/Building'
+import type { Building } from '@/core/game/shelter/Building'
 
 export class BonfireBuildAction {
   id: number = 0  // Action ID for saving (always 0 for bonfire action)

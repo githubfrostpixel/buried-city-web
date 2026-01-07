@@ -4,7 +4,7 @@
  */
 
 import { BattleEquipment } from './BattleEquipment'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
 import { usePlayerStore } from '@/core/store/playerStore'
 
 export class Trap extends BattleEquipment {

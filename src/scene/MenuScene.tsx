@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from 'react'
 import { useUIStore } from '@/core/store/uiStore'
-import { audioManager, MusicPaths, SoundPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, MusicPaths, SoundPaths } from '@/core/game/core/AudioManager'
 import { getImagePath } from '@/common/utils/assets'
 import { cocosPosition } from '@/common/utils/position'
 import { game } from '@/core/game/Game'

@@ -10,7 +10,7 @@
  */
 
 import { create } from 'zustand'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
 
 export interface LogMessage {
   txt: string

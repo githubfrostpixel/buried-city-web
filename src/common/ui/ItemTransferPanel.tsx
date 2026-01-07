@@ -17,7 +17,7 @@ import { Bag } from '@/core/game/inventory/Bag'
 import { Item } from '@/core/game/inventory/Item'
 import { ItemCell } from '@/module/storage/ItemCell'
 import { Sprite } from '@/common/ui/sprite/Sprite'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
 
 interface ItemTransferPanelProps {
   topStorage: Storage // Non-null, already initialized with correct data

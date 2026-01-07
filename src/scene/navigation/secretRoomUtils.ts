@@ -4,9 +4,9 @@
  * Extracted from MainScene.tsx to eliminate duplication
  */
 
-import { Site } from '@/core/game/world/Site'
-import { audioManager, MusicPaths, getSiteMusic } from '@/core/game/systems/AudioManager'
-import { saveAll } from '@/core/game/systems/SaveSystem'
+import { Site } from '@/core/game/map/Site'
+import { audioManager, MusicPaths, getSiteMusic } from '@/core/game/core/AudioManager'
+import { saveAll } from '@/core/game/systems/save'
 
 /**
  * Check if site has active secret room state

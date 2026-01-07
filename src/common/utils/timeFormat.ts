@@ -4,7 +4,7 @@
  */
 
 import { game } from '@/core/game/Game'
-import type { TimeFormat } from '@/core/game/systems/TimeManager'
+import type { TimeFormat } from '@/core/game/core/TimeManager'
 
 /**
  * Format time from seconds to TimeFormat object

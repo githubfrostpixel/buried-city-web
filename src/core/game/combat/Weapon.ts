@@ -4,7 +4,7 @@
  */
 
 import { BattleEquipment } from './BattleEquipment'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
 import type { Monster } from './Monster'
 
 export class Weapon extends BattleEquipment {

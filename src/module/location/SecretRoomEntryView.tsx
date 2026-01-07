@@ -4,12 +4,12 @@
  */
 
 import { useEffect } from 'react'
-import { Site } from '@/core/game/world/Site'
+import { Site } from '@/core/game/map/Site'
 import { BOTTOM_BAR_LAYOUT } from '@/layout/layoutConstants'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { CommonListItemButton } from '@/common/ui/CommonListItemButton'
 import { getString } from '@/common/utils/stringUtil'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
 
 interface SecretRoomEntryViewProps {
   site: Site

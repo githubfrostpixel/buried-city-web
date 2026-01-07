@@ -5,8 +5,8 @@
 
 import { useState, useEffect } from 'react'
 import { TestScreen } from './TestScreen'
-import { Map } from '@/core/game/world/Map'
-import { Site, HOME_SITE, AD_SITE, WORK_SITE, GAS_SITE, BAZAAR_SITE } from '@/core/game/world/Site'
+import { Map } from '@/core/game/map/Map'
+import { Site, HOME_SITE, AD_SITE, WORK_SITE, GAS_SITE, BAZAAR_SITE } from '@/core/game/map/Site'
 import { usePlayerStore } from '@/core/store/playerStore'
 import { useLogStore } from '@/core/store/logStore'
 import { emitter } from '@/common/utils/emitter'

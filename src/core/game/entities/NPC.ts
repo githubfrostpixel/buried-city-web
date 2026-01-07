@@ -19,7 +19,7 @@ import type {
 } from '@/common/types/npc.types'
 import { Item } from '@/core/game/inventory/Item'
 import { useLogStore } from '@/core/store/logStore'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
 import { useUIStore } from '@/core/store/uiStore'
 import { usePlayerStore } from '@/core/store/playerStore'
 import { getFixedValueItemIds } from '@/common/utils/item'

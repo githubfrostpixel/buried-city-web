@@ -16,7 +16,7 @@ import { usePlayerStore } from '@/core/store/playerStore'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { DialogButton } from '@/common/ui/DialogButton'
 import { getTimeDistanceStr } from '@/common/utils/time'
-import type { Site } from '@/core/game/world/Site'
+import type { Site } from '@/core/game/map/Site'
 import { getString } from '@/common/utils/stringUtil'
 import { game } from '@/core/game/Game'
 

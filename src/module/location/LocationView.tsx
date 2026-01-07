@@ -9,14 +9,14 @@
  */
 
 import { useEffect } from 'react'
-import { Site } from '@/core/game/world/Site'
+import { Site } from '@/core/game/map/Site'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { cocosToCssY } from '@/common/utils/position'
 import { BOTTOM_BAR_LAYOUT } from '@/layout/layoutConstants'
 import { SiteButton } from './LocationButton'
 import { calculateSiteButtonPositions } from './siteUtils'
 import { getString } from '@/common/utils/stringUtil'
-import { saveAll } from '@/core/game/systems/SaveSystem'
+import { saveAll } from '@/core/game/systems/save'
 
 interface SitePanelContentProps {
   site: Site

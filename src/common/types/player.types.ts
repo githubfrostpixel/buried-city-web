@@ -53,6 +53,8 @@ export interface PlayerSaveData {
     active: boolean
   }
   weaponRound?: Record<string, number> // itemId -> usage count
+  saveName?: string // Save file name
+  cloned?: boolean // Whether this save was cloned
 }
 
 export interface AttributeEffect {

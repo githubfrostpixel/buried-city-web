@@ -5,7 +5,7 @@
 
 import { Gun } from './Gun'
 import { WORK_SITE } from './BattleConfig'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
 import { usePlayerStore } from '@/core/store/playerStore'
 import type { Monster } from './Monster'
 

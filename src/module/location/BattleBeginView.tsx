@@ -3,7 +3,7 @@
  * Battle preparation view
  */
 
-import { Site } from '@/core/game/world/Site'
+import { Site } from '@/core/game/map/Site'
 import { Room } from '@/common/types/site.types'
 import { BattleConfig, Equipment } from '@/core/game/combat/BattleConfig'
 import { usePlayerStore } from '@/core/store/playerStore'

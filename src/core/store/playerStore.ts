@@ -6,7 +6,7 @@
  * Ported from OriginalGame/src/game/player.js
  * 
  * Used by:
- * - Game systems: Battle, BattlePlayer, SurvivalSystem, SaveSystem, BedAction, Formula, RadioCommandProcessor
+ * - Game systems: Battle, BattlePlayer, SurvivalSystem, SaveSystem (save/), BedAction, Formula, RadioCommandProcessor
  * - Combat systems: Gun, Flamethrower, ElectricGun, Bomb, Trap, Monster
  * - World systems: Site, Building, Map, Bag, Safe
  * - Components: MainScene, TopSection, all panels (Home, Storage, Build, Gate, etc.), all overlays
@@ -21,7 +21,7 @@ import type { FoodEffect, MedicineEffect, BuffEffect } from '@/common/types/item
 import { itemConfig } from '@/core/data/items'
 import { Item } from '@/core/game/inventory/Item'
 import { Storage } from '@/core/game/inventory/Storage'
-import { Map } from '@/core/game/world/Map'
+import { Map } from '@/core/game/map/Map'
 import { NPCManager } from '@/core/game/entities/NPCManager'
 import { game } from '@/core/game/Game'
 import { useBuildingStore } from '@/core/store/buildingStore'
@@ -30,7 +30,7 @@ import { weaponReturn } from '@/core/data/weaponReturn'
 import { checkDeathOnAttributeChange, handleDeath } from '@/common/utils/deathCheck'
 import { getString } from '@/common/utils/stringUtil'
 import { useLogStore } from '@/core/store/logStore'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
 
 interface PlayerStore extends PlayerState {
   // Location state

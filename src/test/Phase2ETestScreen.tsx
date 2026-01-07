@@ -11,7 +11,7 @@ import { usePlayerStore } from '@/core/store/playerStore'
 import { useBuildingStore } from '@/core/store/buildingStore'
 import { game } from '@/core/game/Game'
 import type { DeathReason } from '@/common/types/game.types'
-import type { SleepDuration } from '@/core/game/systems/SurvivalSystem'
+import type { SleepDuration } from '@/core/game/core/SurvivalSystem'
 import { TestPanel, TestSection, TestButton, TestResultsList, useTestResults } from './component'
 
 export function Phase2ETestScreen() {

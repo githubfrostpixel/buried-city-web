@@ -5,9 +5,9 @@
  * Manages the collection of buildings in the player's home/base.
  */
 
-import { Building } from './Building'
+import { Building } from '@/core/game/shelter/Building'
 import type { BuildingSaveData, RoomSaveData } from '@/common/types/building.types'
-import { TimeManager } from '@/core/game/systems/TimeManager'
+import { TimeManager } from '@/core/game/core/TimeManager'
 import { getString } from '@/common/utils/stringUtil'
 
 /**

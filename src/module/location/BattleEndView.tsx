@@ -3,7 +3,7 @@
  * Battle results view
  */
 
-import { Site } from '@/core/game/world/Site'
+import { Site } from '@/core/game/map/Site'
 import { Room } from '@/common/types/site.types'
 import { BattleResult } from '@/core/game/combat/Battle'
 import { BattleConfig } from '@/core/game/combat/BattleConfig'

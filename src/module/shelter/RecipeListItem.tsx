@@ -4,7 +4,7 @@
  * Ported from OriginalGame/src/ui/buildNode.js tableCellAtIndex()
  */
 
-import { Formula } from '@/core/game/systems/Formula'
+import { Formula } from '@/core/game/shelter/actions/Formula'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { ItemCostDisplay } from '@/common/ui/ItemCostDisplay'
 import { CommonListItemButton } from '@/common/ui/CommonListItemButton'

@@ -12,10 +12,10 @@ import { usePlayerStore } from '@/core/store/playerStore'
 type UIStoreState = ReturnType<typeof useUIStore.getState>
 type PlayerStoreState = ReturnType<typeof usePlayerStore.getState>
 import { getString } from '@/common/utils/stringUtil'
-import { saveAll } from '@/core/game/systems/SaveSystem'
+import { saveAll } from '@/core/game/systems/save'
 import { handleGateBack } from './gatePanelUtils'
 import { hasSecretRoomState, clearSecretRoomState, shouldShowSecretRoomWarning } from './secretRoomUtils'
-import { audioManager, MusicPaths, getSiteMusic } from '@/core/game/systems/AudioManager'
+import { audioManager, MusicPaths, getSiteMusic } from '@/core/game/core/AudioManager'
 
 /**
  * Handle home panel back button

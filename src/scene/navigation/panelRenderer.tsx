@@ -19,8 +19,8 @@ import { SiteStoragePanelContent } from '@/module/location/LocationStorageView'
 import { SiteExploreContent } from '@/module/location/LocationExploreView'
 import { NPCPanelContent } from '@/module/npc/NPCView'
 import { NPCTradePanelContent } from '@/module/npc/NPCTradeView'
-import { audioManager, MusicPaths, getSiteMusic } from '@/core/game/systems/AudioManager'
-import { saveAll } from '@/core/game/systems/SaveSystem'
+import { audioManager, MusicPaths, getSiteMusic } from '@/core/game/core/AudioManager'
+import { saveAll } from '@/core/game/systems/save'
 
 // Get store state types by calling getState() on the store
 type UIStoreState = ReturnType<typeof useUIStore.getState>

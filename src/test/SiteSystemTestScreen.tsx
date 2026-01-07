@@ -16,7 +16,7 @@ import {
   WORK_SITE,
   GAS_SITE,
   BAZAAR_SITE
-} from '@/core/game/world/Site'
+} from '@/core/game/map/Site'
 import { siteConfig } from '@/core/data/sites'
 import { secretRooms } from '@/core/data/secretRooms'
 import { SitePanelContent, getSiteBottomBarProps } from '@/module/location/LocationView'

@@ -5,7 +5,7 @@
  * 
  * Used by:
  * - MainScene.tsx (building display and interactions)
- * - Game systems: Formula, BedAction, SaveSystem, FoodExpirationSystem
+ * - Game systems: Formula, BedAction, SaveSystem (save/), FoodExpirationSystem
  * - Panels: HomePanelContent, BuildPanelContent, RecipeDialog, BuildDialog
  * - Components: BuildingButton, RadioPanelContent
  * - Game world: Building, Safe (inventory system)
@@ -13,8 +13,8 @@
  */
 
 import { create } from 'zustand'
-import { Room } from '@/core/game/world/Room'
-import { Building } from '@/core/game/world/Building'
+import { Room } from '@/core/game/map/Room'
+import { Building } from '@/core/game/shelter/Building'
 import type { BuildingSaveData, RoomSaveData } from '@/common/types/building.types'
 import { game } from '@/core/game/Game'
 

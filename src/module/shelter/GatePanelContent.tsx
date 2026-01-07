@@ -11,7 +11,7 @@
 import { useEffect, useMemo } from 'react'
 import { usePlayerStore } from '@/core/store/playerStore'
 import { useBuildingStore } from '@/core/store/buildingStore'
-import { audioManager, SoundPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
 import { emitter } from '@/common/utils/emitter'
 import { EquipPanel } from '@/common/ui/EquipPanel'
 import { ItemTransferPanel } from '@/common/ui/ItemTransferPanel'

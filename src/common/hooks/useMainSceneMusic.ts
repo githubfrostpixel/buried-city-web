@@ -5,7 +5,7 @@
  */
 
 import { useEffect } from 'react'
-import { audioManager, MusicPaths, getSiteMusic } from '@/core/game/systems/AudioManager'
+import { audioManager, MusicPaths, getSiteMusic } from '@/core/game/core/AudioManager'
 import type { Panel } from '@/core/store/uiStore'
 
 interface UseMainSceneMusicProps {

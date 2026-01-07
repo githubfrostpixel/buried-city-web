@@ -13,7 +13,7 @@ import { Storage } from '@/core/game/inventory/Storage'
 import { Item } from '@/core/game/inventory/Item'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { emitter } from '@/common/utils/emitter'
-import { saveAll } from '@/core/game/systems/SaveSystem'
+import { saveAll } from '@/core/game/systems/save'
 import { getString } from '@/common/utils/stringUtil'
 
 const EQUIPMENT_SLOTS = [

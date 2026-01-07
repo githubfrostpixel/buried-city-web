@@ -6,7 +6,7 @@
 
 import { useEffect, useRef } from 'react'
 import { formatRadioTimeLabel } from '@/common/utils/timeFormat'
-import type { RadioMessage } from '@/core/game/systems/RadioCommandProcessor'
+import type { RadioMessage } from '@/core/game/shelter/actions/RadioCommandProcessor'
 
 interface RadioMessageViewProps {
   messages: RadioMessage[]

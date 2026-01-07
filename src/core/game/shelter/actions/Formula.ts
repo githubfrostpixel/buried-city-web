@@ -11,9 +11,9 @@ import { usePlayerStore } from '@/core/store/playerStore'
 import { useBuildingStore } from '@/core/store/buildingStore'
 import type { BuildingCost } from '@/common/types/building.types'
 import { game } from '@/core/game/Game'
-import { TimerCallback } from '@/core/game/systems/TimeManager'
+import { TimerCallback } from '@/core/game/core/TimeManager'
 import { emitter } from '@/common/utils/emitter'
-import type { Building } from '@/core/game/world/Building'
+import type { Building } from '@/core/game/shelter/Building'
 
 export interface FormulaSaveData {
   id: number

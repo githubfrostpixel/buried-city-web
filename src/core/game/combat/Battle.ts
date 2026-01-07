@@ -8,7 +8,7 @@
 import { BattleLine } from './BattleLine'
 import { BattleConfig, Equipment } from './BattleConfig'
 import { emitter } from '@/common/utils/emitter'
-import { audioManager, MusicPaths } from '@/core/game/systems/AudioManager'
+import { audioManager, MusicPaths } from '@/core/game/core/AudioManager'
 import { usePlayerStore } from '@/core/store/playerStore'
 import { game } from '@/core/game/Game'
 import type { BattlePlayer } from './BattlePlayer'
