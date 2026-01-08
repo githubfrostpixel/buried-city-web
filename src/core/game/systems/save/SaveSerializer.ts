@@ -22,6 +22,16 @@ export async function serializeGameState(): Promise<SaveData> {
   const playerState = usePlayerStore.getState()
   const buildingStore = useBuildingStore.getState()
   
+  // Get map if available
+  let mapSaveData: import('@/common/types/site.types').MapSaveData | undefined
+  try {
+    const map = playerState.getMap()
+    mapSaveData = map.save()
+  } catch {
+    // Map not initialized yet
+    mapSaveData = undefined
+  }
+  
   // Get NPCManager if available
   let npcManagerSave: import('@/common/types/npc.types').NPCManagerSaveData | undefined
   try {
@@ -87,7 +97,8 @@ export async function serializeGameState(): Promise<SaveData> {
       time: gameState.time,
       season: gameState.season,
       day: gameState.day,
-      weather: gameState.weatherSystem.save()
+      weather: gameState.weatherSystem.save(),
+      map: mapSaveData
     },
     buildings: buildingStore.save() as Building[],
     npcManager: npcManagerSave,
@@ -106,7 +117,13 @@ export async function deserializeGameState(saveData: import('./saveSchemas').Val
   // Restore game state
   const { useGameStore } = await import('@/core/store/gameStore')
   const gameStore = useGameStore.getState()
-  gameStore.setTime(saveData.game.time)
+  // Restore TimeManager's internal time (this is the source of truth for game time)
+  // TimeManager.restore() will call updateStore() which syncs to gameStore
+  const { game } = await import('@/core/game/Game')
+  const timeManager = game.getTimeManager()
+  timeManager.restore({ time: saveData.game.time })
+  
+  // setTime() also calculates and sets season, but we explicitly set it to match save data
   gameStore.setSeason(saveData.game.season)
   
   // Restore weather system state
@@ -125,26 +142,25 @@ export async function deserializeGameState(saveData: import('./saveSchemas').Val
   })
   
   // Restore inventory
-  playerStore.bag = saveData.player.bag
-  playerStore.storage = saveData.player.storage
-  playerStore.safe = saveData.player.safe
+  // Use Zustand setState() to properly update state (direct assignment doesn't trigger state updates)
+  usePlayerStore.setState({
+    bag: saveData.player.bag,
+    storage: saveData.player.storage,
+    safe: saveData.player.safe
+  })
   
-  // Restore equipment
-  playerStore.equipment = saveData.player.equipment
+  // Restore equipment, dog, weaponRound, and other player data using setState
+  usePlayerStore.setState({
+    equipment: saveData.player.equipment,
+    dog: saveData.player.dog,
+    weaponRound: saveData.player.weaponRound || {},
+    level: saveData.player.level,
+    exp: saveData.player.exp,
+    talent: saveData.player.talent
+  })
   
-  // Restore dog
-  playerStore.dog = saveData.player.dog
-  
-  // Restore weaponRound
-  if (saveData.player.weaponRound) {
-    playerStore.weaponRound = saveData.player.weaponRound
-  }
-  
-  // Restore other player data
-  playerStore.level = saveData.player.level
-  playerStore.exp = saveData.player.exp
+  // Restore currency using the setter method
   playerStore.setCurrency(saveData.player.money)
-  playerStore.talent = saveData.player.talent
   
   // Restore buildings
   const { useBuildingStore } = await import('@/core/store/buildingStore')
@@ -156,12 +172,33 @@ export async function deserializeGameState(saveData: import('./saveSchemas').Val
     buildingStore.initialize()
   }
   
-  // Restore NPCManager
+  // Restore map (must be done before NPCManager restore)
+  if (saveData.game.map) {
+    // Initialize map if it doesn't exist
+    try {
+      playerStore.getMap()
+    } catch {
+      // Map not initialized, initialize it first
+      playerStore.initializeMap()
+    }
+    
+    const map = playerStore.getMap()
+    map.restore(saveData.game.map)
+  } else {
+    // No map data in save, initialize fresh map if it doesn't exist
+    try {
+      playerStore.getMap()
+    } catch {
+      playerStore.initializeMap()
+    }
+  }
+  
+  // Restore NPCManager (map must be initialized first)
   if (saveData.npcManager) {
     try {
       const npcManager = playerStore.getNPCManager()
       npcManager.restore(saveData.npcManager)
-    } catch {
+    } catch (e) {
       // NPCManager not initialized yet, will be initialized with map
       console.warn('NPCManager not initialized, skipping restore')
     }

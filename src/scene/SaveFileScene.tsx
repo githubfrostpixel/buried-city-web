@@ -9,9 +9,9 @@
 import { useEffect, useState } from 'react'
 import { useUIStore } from '@/core/store/uiStore'
 import { audioManager, MusicPaths, SoundPaths } from '@/core/game/core/AudioManager'
-import { setSaveSlot, deleteSaveSlot, loadAll } from '@/core/game/systems/save'
+import { setSaveSlot, deleteSaveSlot, loadAll, restoreFromSave, saveAll } from '@/core/game/systems/save'
+import { initializeNewGame } from '@/core/game/systems/GameInitializer'
 import { Sprite } from '@/common/ui/sprite/Sprite'
-import { getImagePath } from '@/common/utils/assets'
 import { cocosPosition, cocosToCssPosition } from '@/common/utils/position'
 import { getString } from '@/common/utils/stringUtil'
 
@@ -172,16 +172,46 @@ export function SaveFileScene() {
     
     if (!slotData?.hasData) {
       // Empty slot - start new game
-      // TODO: Navigate to ChooseScene for talent selection
-      setSaveSlot(slot)
-      uiStore.setScene('main')
+      try {
+        setSaveSlot(slot)
+        
+        // Initialize new game (map, player, buildings, game state)
+        await initializeNewGame()
+        
+        // Save initial game state
+        await saveAll()
+        
+        // Navigate to main scene
+        uiStore.setScene('main')
+      } catch (error) {
+        console.error('Failed to initialize new game:', error)
+        alert('Failed to start new game')
+        setBlocked(false)
+      }
     } else {
       // Load existing save
-      setSaveSlot(slot)
-      // TODO: Load save data and restore game state
-      uiStore.setScene('main')
+      try {
+        setSaveSlot(slot)
+        
+        // Load and restore save data
+        const saveData = await loadAll()
+        if (saveData) {
+          await restoreFromSave(saveData)
+        } else {
+          console.error('Failed to load save data')
+          alert('Failed to load save file')
+          setBlocked(false)
+          return
+        }
+        
+        // Navigate to main scene
+        uiStore.setScene('main')
+      } catch (error) {
+        console.error('Failed to load game:', error)
+        alert('Failed to load game')
+        setBlocked(false)
+      }
     }
-    setBlocked(false)
   }
 
   const handleDelete = (slot: number) => {
@@ -262,11 +292,12 @@ export function SaveFileScene() {
               className="absolute text-white"
               style={{
                 ...cocosToCssPosition(
-                  { x: x2, y: y - 40 },
+                  { x: x2 + 20, y: y - 60 },
                   { x: 0, y: 1 },  // Top-left anchor
                   undefined,
                   screenHeight
                 ),
+                width: '560px',
                 fontSize: '20px',
                 fontWeight: 'bold',
                 display: renamingState === slotData.slot ? 'none' : 'block'
@@ -280,12 +311,13 @@ export function SaveFileScene() {
               className="absolute text-gray-300"
               style={{
                 ...cocosToCssPosition(
-                  { x: x2, y: y - 90 },
+                  { x: x2 + 20, y: y - 90 },
                   { x: 0, y: 1 },  // Top-left anchor
                   undefined,
                   screenHeight
                 ),
-                fontSize: '16px'
+                fontSize: '16px',
+                width: '560px'
               }}
             >
               {slotData.metadata || (slotData.hasData ? 'Save data exists' : 'Empty')}
@@ -319,7 +351,7 @@ export function SaveFileScene() {
                   onClick={() => handleRename(slotData.slot)}
                   className="absolute cursor-pointer"
                   style={{
-                    ...cocosPosition(x3, y - 50, 0.5, 0.5, screenHeight),
+                    ...cocosPosition(x3-20, y - 70, 0.5, 0.5, screenHeight),
                     width: '44px',
                     height: '44px',
                     background: 'transparent',
@@ -327,9 +359,9 @@ export function SaveFileScene() {
                     padding: 0
                   }}
                 >
-                  <img 
-                    src={getImagePath('sprites/icon_iap_info.png')} 
-                    alt="Rename"
+                  <Sprite 
+                    atlas="icon" 
+                    frame="icon_iap_info.png"
                     className="w-full h-full"
                   />
                 </button>
@@ -339,7 +371,7 @@ export function SaveFileScene() {
                   onClick={() => handleClone(slotData.slot)}
                   className="absolute cursor-pointer"
                   style={{
-                    ...cocosPosition(x3, y - 100, 0.5, 0.5, screenHeight),
+                    ...cocosPosition(x3-20  , y - 120, 0.5, 0.5, screenHeight),
                     width: '44px',
                     height: '44px',
                     background: 'transparent',
@@ -347,9 +379,9 @@ export function SaveFileScene() {
                     padding: 0
                   }}
                 >
-                  <img 
-                    src={getImagePath('sprites/icon_save_copy.png')} 
-                    alt="Clone"
+                  <Sprite 
+                    atlas="icon" 
+                    frame="icon_save_copy.png"
                     className="w-full h-full"
                   />
                 </button>
@@ -359,7 +391,7 @@ export function SaveFileScene() {
                   onClick={() => handleDelete(slotData.slot)}
                   className="absolute cursor-pointer"
                   style={{
-                    ...cocosPosition(x3, y - 150, 0.5, 0.5, screenHeight),
+                    ...cocosPosition(x3-20, y - 170, 0.5, 0.5, screenHeight),
                     width: '44px',
                     height: '44px',
                     background: 'transparent',
@@ -367,9 +399,9 @@ export function SaveFileScene() {
                     padding: 0
                   }}
                 >
-                  <img 
-                    src={getImagePath('sprites/icon_save_delete.png')} 
-                    alt="Delete"
+                  <Sprite 
+                    atlas="icon" 
+                    frame="icon_save_delete.png"
                     className="w-full h-full"
                   />
                 </button>
