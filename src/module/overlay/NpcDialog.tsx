@@ -17,6 +17,7 @@ import { getTimeDistanceStr } from '@/common/utils/time'
 import { getString } from '@/common/utils/stringUtil'
 import { game } from '@/core/game/Game'
 import type { NPC } from '@/core/game/entities/NPC'
+import { useViewportScaleContext } from '@/common/context/ViewportScaleContext'
 
 interface NpcDialogData {
   npc: NPC
@@ -114,6 +115,7 @@ function HeartDisplay({ reputation }: { reputation: number }) {
 
 export function NpcDialog() {
   const uiStore = useUIStore()
+  const { scale } = useViewportScaleContext()
   const [bottomBarRect, setBottomBarRect] = useState<DOMRect | null>(null)
   
   // Get dialog data from overlay state
@@ -260,7 +262,8 @@ export function NpcDialog() {
         style={{
           left: '50%',
           top: '50%',
-          transform: 'translate(-50%, -50%)',
+          transform: `translate(-50%, -50%) scale(${scale})`,
+          transformOrigin: 'center center',
           width: `${dialogWidth}px`,
           height: `${dialogHeight}px`,
           zIndex: 51

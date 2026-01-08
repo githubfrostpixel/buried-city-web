@@ -19,6 +19,7 @@ import { useLogStore } from '@/core/store/logStore'
 import { game } from '@/core/game/Game'
 import type { NPC } from '@/core/game/entities/NPC'
 import type { Gift } from '@/common/types/npc.types'
+import { useViewportScaleContext } from '@/common/context/ViewportScaleContext'
 
 interface NpcGiftDialogData {
   npc: NPC
@@ -104,6 +105,7 @@ function HeartDisplay({ reputation }: { reputation: number }) {
 export function NpcGiftDialog() {
   const uiStore = useUIStore()
   const playerStore = usePlayerStore()
+  const { scale } = useViewportScaleContext()
   const [bottomBarRect, setBottomBarRect] = useState<DOMRect | null>(null)
   
   // Get dialog data from overlay state
@@ -317,7 +319,8 @@ export function NpcGiftDialog() {
         style={{
           left: '50%',
           top: '50%',
-          transform: 'translate(-50%, -50%)',
+          transform: `translate(-50%, -50%) scale(${scale})`,
+          transformOrigin: 'center center',
           width: `${dialogWidth}px`,
           height: `${dialogHeight}px`,
           zIndex: 51

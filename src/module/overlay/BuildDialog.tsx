@@ -17,6 +17,7 @@ import { DialogButton } from '@/common/ui/DialogButton'
 import { ItemCostDisplay } from '@/common/ui/ItemCostDisplay'
 import { getString } from '@/common/utils/stringUtil'
 import { game } from '@/core/game/Game'
+import { useViewportScaleContext } from '@/common/context/ViewportScaleContext'
 
 interface BuildDialogData {
   buildingId: number
@@ -42,6 +43,7 @@ function getBuildDialogBase() {
 export function BuildDialog() {
   const uiStore = useUIStore()
   const buildingStore = useBuildingStore()
+  const { scale } = useViewportScaleContext()
   
   // Get dialog data from overlay state
   const dialogData = (uiStore.activeOverlay === 'buildDialog' 
@@ -178,7 +180,8 @@ export function BuildDialog() {
         style={{
           left: '50%',
           top: '50%',
-          transform: 'translate(-50%, -50%)',
+          transform: `translate(-50%, -50%) scale(${scale})`,
+          transformOrigin: 'center center',
           width: `${dialogWidth}px`,
           height: `${dialogHeight}px`,
           zIndex: 51

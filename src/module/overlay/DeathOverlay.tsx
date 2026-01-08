@@ -14,6 +14,7 @@ import { useBuildingStore } from '@/core/store/buildingStore'
 import { game } from '@/core/game/Game'
 import type { DeathReason } from '@/common/types/game.types'
 import { Sprite } from '@/common/ui/sprite/Sprite'
+import { BOTTOM_BAR_LAYOUT } from '@/layout/layoutConstants'
 
 interface DeathOverlayProps {
   reason: DeathReason
@@ -128,17 +129,11 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
   
   const hasFak = fakCount > 0
 
-  // Panel dimensions (matching BottomFrameNode from original)
-  // screenFix: 0 = normal, 1 = scaled (0.87)
-  const screenFix: number = 0 // TODO: Get from settings
-  const bgScale = screenFix === 1 ? 0.87 : 1.0
-  // Original: bg.height = 834px (from frame_bg_bottom.png)
-  // But contentTopLineHeight = 770, actionBarBaseHeight = 803
-  // So bgHeight should be at least 834px to accommodate these
-  const bgHeight = 834 * bgScale
-  const bgWidth = 596 * bgScale
-  const contentTopLineHeight = 770 * bgScale // Line separator position from bottom
-  const actionBarBaseHeight = 803 * bgScale // Title/buttons position from bottom
+  // Panel dimensions - use BOTTOM_BAR_LAYOUT constants to match BottomBar exactly
+  const bgWidth = BOTTOM_BAR_LAYOUT.bgWidth
+  const bgHeight = BOTTOM_BAR_LAYOUT.bgHeight
+  const contentTopLineHeight = BOTTOM_BAR_LAYOUT.cocosRef.contentTopLineHeight
+  const actionBarBaseHeight = BOTTOM_BAR_LAYOUT.cocosRef.actionBarBaseHeight
 
   // Don't render if BottomBar not found
   if (!bottomBarRect) {
@@ -202,10 +197,13 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
         }}
       />
       
-      {/* Panel positioned to match BottomBar */}
+      {/* Panel positioned to match BottomBar - centered within outer container */}
       <div
-        className="relative"
+        className="absolute"
         style={{
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
           width: `${bgWidth}px`,
           height: `${bgHeight}px`,
           position: 'relative'
@@ -320,7 +318,7 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
           style={{ 
             left: hasFak ? '50%' : 'auto',
             right: hasFak ? 'auto' : 'auto',
-            bottom: '100px', // 100px from bottom of bg
+            bottom: `${BOTTOM_BAR_LAYOUT.cocosRef.buttonRowY}px`, // Use constant from layout
             transform: hasFak ? 'translateX(-50%)' : 'none',
             width: hasFak ? 'auto' : `${bgWidth}px`
           }}

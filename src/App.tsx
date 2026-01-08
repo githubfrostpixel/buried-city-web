@@ -17,6 +17,7 @@ import { ConfirmationDialog } from './module/overlay/ConfirmationDialog'
 import { getImagePath } from './common/utils/assets'
 import { ImageSprite } from './common/ui/sprite/ImageSprite'
 import { useViewportScale } from './common/hooks/useViewportScale'
+import { ViewportScaleProvider } from './common/context/ViewportScaleContext'
 // Future scenes (to be implemented):
 // import { ChooseScene } from './components/scenes/ChooseScene'
 // import { StoryScene } from './components/scenes/StoryScene'
@@ -32,14 +33,14 @@ function App() {
   // Calculate viewport scale to maximize visible area while fitting screen
   // Using 'fit-both' policy to calculate scale from both width and height
   // This ensures the game uses the largest possible scale that fits the viewport
-  const { scale } = useViewportScale(640, 1136, 'fit-both', 0.3, 1.0)
+  const { scale, viewportWidth, viewportHeight } = useViewportScale(640, 1136, 'fit-both', 0.3, 1.0)
   
   // Check for test mode (via URL parameter or localStorage)
   const isTestMode = window.location.search.includes('test=true') || 
                      localStorage.getItem('testMode') === 'true'
   
   return (
-    <>
+    <ViewportScaleProvider scale={scale} viewportWidth={viewportWidth} viewportHeight={viewportHeight}>
       {/* Global background - spans full viewport */}
       <div 
         className="fixed inset-0"
@@ -146,7 +147,7 @@ function App() {
       {activeOverlay !== 'death' && activeOverlay === 'confirmationDialog' && (
         <ConfirmationDialog />
       )}
-    </>
+    </ViewportScaleProvider>
   )
 }
 

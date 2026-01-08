@@ -14,6 +14,7 @@ import { Sprite } from '@/common/ui/sprite/Sprite'
 import { DialogButton } from '@/common/ui/DialogButton'
 import { getString } from '@/common/utils/stringUtil'
 import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
+import { useViewportScaleContext } from '@/common/context/ViewportScaleContext'
 
 interface ConfirmationDialogData {
   title?: string
@@ -26,6 +27,7 @@ interface ConfirmationDialogData {
 
 export function ConfirmationDialog() {
   const uiStore = useUIStore()
+  const { scale } = useViewportScaleContext()
   const [bottomBarRect, setBottomBarRect] = useState<DOMRect | null>(null)
   
   // Get dialog data from overlay state
@@ -145,7 +147,8 @@ export function ConfirmationDialog() {
         style={{
           left: '50%',
           top: '50%',
-          transform: 'translate(-50%, -50%)',
+          transform: `translate(-50%, -50%) scale(${scale})`,
+          transformOrigin: 'center center',
           width: `${dialogWidth}px`,
           height: `${dialogHeight}px`,
           zIndex: 51

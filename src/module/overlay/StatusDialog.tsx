@@ -19,6 +19,7 @@ import { Sprite } from '@/common/ui/sprite/Sprite'
 import { DialogButton } from '@/common/ui/DialogButton'
 import { getString } from '@/common/utils/stringUtil'
 import { game } from '@/core/game/Game'
+import { useViewportScaleContext } from '@/common/context/ViewportScaleContext'
 
 interface StatusDialogData {
   stringId: number
@@ -69,6 +70,7 @@ export function StatusDialog() {
   const gameStore = useGameStore()
   const playerStore = usePlayerStore()
   const buildingStore = useBuildingStore()
+  const { scale } = useViewportScaleContext()
   
   // Get dialog data from overlay state
   const dialogData = (uiStore.activeOverlay === 'statusDialog' 
@@ -170,7 +172,8 @@ export function StatusDialog() {
         style={{
           left: '50%',
           top: '50%',
-          transform: 'translate(-50%, -50%)',
+          transform: `translate(-50%, -50%) scale(${scale})`,
+          transformOrigin: 'center center',
           width: `${dialogWidth}px`,
           height: `${dialogHeight}px`,
           zIndex: 51

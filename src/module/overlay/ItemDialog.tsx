@@ -18,6 +18,7 @@ import { DialogButton } from '@/common/ui/DialogButton'
 import { emitter } from '@/common/utils/emitter'
 import { getString } from '@/common/utils/stringUtil'
 import { game } from '@/core/game/Game'
+import { useViewportScaleContext } from '@/common/context/ViewportScaleContext'
 
 interface ItemDialogData {
   itemId: string
@@ -28,6 +29,7 @@ interface ItemDialogData {
 export function ItemDialog() {
   const uiStore = useUIStore()
   const playerStore = usePlayerStore()
+  const { scale } = useViewportScaleContext()
   const [bottomBarRect, setBottomBarRect] = useState<DOMRect | null>(null)
   
   // Get dialog data from overlay state
@@ -212,7 +214,8 @@ export function ItemDialog() {
         style={{
           left: '50%',
           top: '50%',
-          transform: 'translate(-50%, -50%)',
+          transform: `translate(-50%, -50%) scale(${scale})`,
+          transformOrigin: 'center center',
           width: `${dialogWidth}px`,
           height: `${dialogHeight}px`,
           zIndex: 51
