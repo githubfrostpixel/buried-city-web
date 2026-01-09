@@ -845,8 +845,10 @@ export class WorkSite extends Site {
       const rand = Math.random()
       if (rand < probability) {
         this.isActive = false
-        // TODO: Auto-save
-        // Record.saveAll()
+        // Save game when site becomes inactive (original: Record.saveAll() in site.js:434)
+        import('@/core/game/systems/save').then(({ saveAll }) => {
+          saveAll().catch(err => console.error('Auto-save failed after site becomes inactive:', err))
+        })
         
         // TODO: Integrate with event emitter and log system
         // if (this.id === 204) {

@@ -13,6 +13,7 @@ import type { BuildingCost } from '@/common/types/building.types'
 import { game } from '@/core/game/Game'
 import { TimerCallback } from '@/core/game/core/TimeManager'
 import { emitter } from '@/common/utils/emitter'
+import { saveAll } from '@/core/game/systems/save'
 import type { Building } from '@/core/game/shelter/Building'
 
 export interface FormulaSaveData {
@@ -358,9 +359,8 @@ export class Formula {
       this.building.resetActiveBtnIndex()
     }
     
-    // Original: Record.saveAll();
-    // TODO: Save game
-    // Record.saveAll()
+    // Save game after item production completes
+    saveAll().catch(err => console.error('Auto-save failed after production:', err))
     
     // Original: this._sendUpdageSignal();
     emitter.emit('build_node_update')
@@ -502,9 +502,8 @@ export class Formula {
       // Original: utils.emitter.emit("left_btn_enabled", true);
       emitter.emit('left_btn_enabled', true)
       
-      // Original: Record.saveAll();
-      // TODO: Save game
-      // Record.saveAll()
+      // Save game after crafting starts
+      saveAll().catch(err => console.error('Auto-save failed after crafting start:', err))
     })
     
     // Original: this._sendUpdageSignal();

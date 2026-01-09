@@ -17,6 +17,7 @@ import { Bag } from '@/core/game/inventory/Bag'
 import { TradePanel } from '@/module/storage/TradePanel'
 import { BOTTOM_BAR_LAYOUT } from '@/layout/layoutConstants'
 import { getString } from '@/common/utils/stringUtil'
+import { saveAll } from '@/core/game/systems/save'
 
 interface NPCTradePanelContentProps {
   npcId: number | null
@@ -102,6 +103,9 @@ export function NPCTradePanelContent({ npcId }: NPCTradePanelContentProps) {
     
     // Persist NPC storage to npc.storage
     npc.storage.restore(npcStorage.save())
+    
+    // Save game after trade completes (original: Record.saveAll() in npc.js:251)
+    saveAll().catch(err => console.error('Auto-save failed after trade:', err))
   }, [playerBag, npcStorage, npc])
   
   // Set flush function in store and cleanup on unmount

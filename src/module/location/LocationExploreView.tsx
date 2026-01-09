@@ -61,6 +61,7 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
   const setWorkStorageView = useUIStore(state => state.setWorkStorageView)
   const isInWorkStorageView = useUIStore(state => state.isInWorkStorageView)
   const setInBattle = useUIStore(state => state.setInBattle)
+  const setInWorkProcess = useUIStore(state => state.setInWorkProcess)
   const isInWorkStorageRef = useRef(false)
   const workStorageFlushRef = useRef<(() => void) | null>(null)
   const battleResultRef = useRef<BattleResult | null>(null)
@@ -129,6 +130,13 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
       }
     }
   }, [viewMode])
+
+  // Clear work process flag when viewMode changes away from workProcess
+  useEffect(() => {
+    if (viewMode !== 'workProcess') {
+      setInWorkProcess(false)
+    }
+  }, [viewMode, setInWorkProcess])
 
   // Cleanup: Complete room on unmount if in battle end view with win
   useEffect(() => {
@@ -559,6 +567,7 @@ export function SiteExploreContent({ site, onBack }: SiteExploreContentProps) {
     setSelectedToolId(toolId)
     setWorkProgress(0)
     setViewMode('workProcess')
+    setInWorkProcess(true) // Set flag when entering work process
 
     // Start work timer
     const timeManager = game.getTimeManager()

@@ -1154,6 +1154,11 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
           : itemId
         logStore.addLog(getString(1205, brokenItemName)) // Format: "%s is broken!"
         
+        // Save game when weapon breaks (original: Record.saveAll() in Storage.js:410)
+        import('@/core/game/systems/save').then(({ saveAll }) => {
+          saveAll().catch(err => console.error('Auto-save failed after weapon break:', err))
+        })
+        
         return true
       }
     } else if (isBroken) {

@@ -92,6 +92,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const dayInCycle = d % 120
     const season = Math.floor(dayInCycle / 30) as Season
     
+    // Check if season changed (original: TimeManager.checkSeason())
+    const currentState = get()
+    const seasonChanged = currentState.season !== season
+    
     set({
       time,
       day: d,
@@ -101,6 +105,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
       stage,
       season
     })
+    
+    // Save game when season changes (original: Record.saveAll() in TimeManager.checkSeason())
+    if (seasonChanged) {
+      // Import saveAll dynamically to avoid circular dependencies
+      import('@/core/game/systems/save').then(({ saveAll }) => {
+        saveAll().catch(err => console.error('Auto-save failed after season change:', err))
+      })
+    }
   },
   
   setWeather: (weather: WeatherType) => {

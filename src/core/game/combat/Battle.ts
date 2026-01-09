@@ -11,6 +11,7 @@ import { emitter } from '@/common/utils/emitter'
 import { audioManager, MusicPaths } from '@/core/game/core/AudioManager'
 import { usePlayerStore } from '@/core/store/playerStore'
 import { game } from '@/core/game/Game'
+import { saveAll } from '@/core/game/systems/save'
 import type { BattlePlayer } from './BattlePlayer'
 import type { Monster } from './Monster'
 
@@ -317,6 +318,9 @@ export class Battle {
     if (this.gameEndListener) {
       this.gameEndListener(this.sumRes)
     }
+
+    // Save game state after battle ends
+    saveAll().catch(err => console.error('Auto-save failed after battle:', err))
   }
 
   processLog(log: string, color?: string, bigger?: boolean): void {

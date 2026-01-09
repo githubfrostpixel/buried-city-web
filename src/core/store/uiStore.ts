@@ -119,6 +119,9 @@ interface UIStore {
   // Flag to track if we're in battle end view (for handling back button)
   isInBattleEndView: boolean
   
+  // Flag to track if we're in work process (for disabling back button)
+  isInWorkProcess: boolean
+  
   // Completion function for battle end (set by SiteExploreContent)
   battleEndCompleteFunction: (() => void) | null
   
@@ -158,6 +161,7 @@ interface UIStore {
   setInBattle: (isInBattle: boolean) => void
   setBattleEndView: (isInBattleEndView: boolean) => void
   setBattleEndCompleteFunction: (completeFunction: (() => void) | null) => void
+  setInWorkProcess: (isInWorkProcess: boolean) => void
   showOverlay: (overlay: Overlay, data?: any) => void
   showItemDialog: (itemId: string, source: 'storage' | 'bag' | 'bazaar', showOnly?: boolean) => void
   showBuildDialog: (buildingId: number, level: number) => void
@@ -184,6 +188,7 @@ export const useUIStore = create<UIStore>((set, get) => ({
   isInBattle: false,
   isInBattleEndView: false,
   battleEndCompleteFunction: null,
+  isInWorkProcess: false,
   activeOverlay: null,
   overlayData: null,
   deathReason: null,
@@ -202,7 +207,7 @@ export const useUIStore = create<UIStore>((set, get) => ({
     npcStoragePanelNpcId: panel === 'npcStorage' ? (npcId ?? null) : null
   }),
   
-  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null, sitePanelSiteId: null, siteStoragePanelSiteId: null, siteExplorePanelSiteId: null, npcPanelNpcId: null, npcStoragePanelNpcId: null, isInWorkStorageView: false, workStorageFlushFunction: null, npcTradeFlushFunction: null, isInBattle: false, isInBattleEndView: false, battleEndCompleteFunction: null }),
+  closePanel: () => set({ openPanel: null, buildPanelBuildingId: null, sitePanelSiteId: null, siteStoragePanelSiteId: null, siteExplorePanelSiteId: null, npcPanelNpcId: null, npcStoragePanelNpcId: null, isInWorkStorageView: false, workStorageFlushFunction: null, npcTradeFlushFunction: null, isInBattle: false, isInBattleEndView: false, battleEndCompleteFunction: null, isInWorkProcess: false }),
   
   showNPCStoragePanel: (npcId: number) => set({ 
     openPanel: 'npcStorage',
@@ -231,6 +236,8 @@ export const useUIStore = create<UIStore>((set, get) => ({
   setBattleEndCompleteFunction: (completeFunction: (() => void) | null) => set({ 
     battleEndCompleteFunction: completeFunction
   }),
+  
+  setInWorkProcess: (isInWorkProcess: boolean) => set({ isInWorkProcess }),
   
   showOverlay: (overlay: Overlay, data?: any) => {
     const currentState = get()

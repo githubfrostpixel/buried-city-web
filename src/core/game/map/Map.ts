@@ -176,15 +176,17 @@ export class Map {
   /**
    * Unlock an NPC location
    * @param npcId NPC ID to unlock
-   * @param npcManager NPCManager instance (optional, will be passed from playerStore)
+   * @param npcManager NPCManager instance (optional, used to get NPC instance for events/logs)
+   * 
+   * Note: When called from NPCManager.unlockNpc(), the NPC is already unlocked in NPCManager.
+   * This method only marks it as unlocked on the map and emits events/logs.
    */
-  unlockNpc(npcId: number, npcManager?: { getNPC: (id: number) => { getName: () => string }; unlockNpc: (id: number) => void }): void {
+  unlockNpc(npcId: number, npcManager?: { getNPC: (id: number) => { getName: () => string } }): void {
     // Mark NPC as unlocked in map
     this.npcMap[npcId] = true
 
-    // Unlock NPC in NPCManager if provided
+    // Get NPC instance for events/logs if npcManager is provided
     if (npcManager) {
-      npcManager.unlockNpc(npcId)
       const npc = npcManager.getNPC(npcId)
       
       // Emit event with NPC instance

@@ -11,6 +11,7 @@ import { npcConfig } from '@/core/data/npcs'
 import type { NPCManagerSaveData } from '@/common/types/npc.types'
 import { useGameStore } from '@/core/store/gameStore'
 import { useLogStore } from '@/core/store/logStore'
+import { usePlayerStore } from '@/core/store/playerStore'
 import { getString } from '@/common/utils/stringUtil'
 import { getSaveSlot } from '@/core/game/systems/save'
 import { game } from '@/core/game/Game'
@@ -97,7 +98,21 @@ export class NPCManager {
     const npc = this.getNPC(npcId)
     if (!npc.isUnlocked) {
       npc.isUnlocked = true
-      // TODO: Unlock on map (player.map.unlockNpc(npcId))
+      
+      // Unlock on map (makes NPC location available on map)
+      // Original: player.map.unlockNpc(npcId)
+      try {
+        const playerStore = usePlayerStore.getState()
+        const map = playerStore.getMap()
+        // Pass this as npcManager so Map can get NPC instance for events/logs
+        // Map.unlockNpc will NOT call unlockNpc() again since NPC is already unlocked
+        map.unlockNpc(npcId, this)
+      } catch (error) {
+        // Map not initialized yet, skip map unlock for now
+        // This can happen during initialization
+        console.warn('[NPCManager] Map not available for unlockNpc:', error)
+      }
+      
       // TODO: Check achievements (Achievement.checkNpcUnlock(npcId))
       // TODO: If All Unlock cheat, set reputation to 10
     }

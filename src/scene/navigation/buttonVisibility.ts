@@ -32,6 +32,11 @@ export function shouldShowBackButton(
       return false // Disable back button during battle
     }
     
+    // Hide left button during work process (matches original game behavior)
+    if (uiStore.isInWorkProcess) {
+      return false // Hide left button during work process
+    }
+    
     // Hide left button when secret room entry is shown (matches original game: this.leftBtn.setVisible(false))
     const siteId = uiStore.siteExplorePanelSiteId
     if (siteId) {

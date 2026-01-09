@@ -281,6 +281,11 @@ export function NpcGiftDialog() {
     delete npc.needSendGiftList.item
     delete npc.needSendGiftList.site
     
+    // Save game after accepting gift (original: Record.saveAll() in npc.js:213, 238, 251, 270, 282)
+    import('@/core/game/systems/save').then(({ saveAll }) => {
+      saveAll().catch(err => console.error('Auto-save failed after accepting gift:', err))
+    })
+    
     // Close dialog
     uiStore.hideOverlay()
   }

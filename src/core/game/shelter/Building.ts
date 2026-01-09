@@ -23,6 +23,7 @@ import { TimerCallback } from '@/core/game/core/TimeManager'
 import { usePlayerStore } from '@/core/store/playerStore'
 import { emitter } from '@/common/utils/emitter'
 import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
+import { saveAll } from '@/core/game/systems/save'
 
 /**
  * Type for checking if building exists (used by canUpgrade)
@@ -318,8 +319,8 @@ export class Building {
     
     // Emit build_node_update event for UI updates
     emitter.emit("build_node_update")
-    // TODO: Save game when save system integration is ready
-    // Record.saveAll()
+    // Save game after building upgrade
+    saveAll().catch(err => console.error('Auto-save failed after building upgrade:', err))
   }
 
   /**
