@@ -18,6 +18,7 @@ import { Item } from '@/core/game/inventory/Item'
 import { ItemCell } from '@/module/storage/ItemCell'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
+import { useUIStore } from '@/core/store/uiStore'
 
 interface ItemTransferPanelProps {
   topStorage: Storage // Non-null, already initialized with correct data
@@ -55,6 +56,7 @@ export function ItemTransferPanel({
   }
   
   const [updateTrigger, setUpdateTrigger] = useState(0)
+  const uiStore = useUIStore()
   
   // Get items from storages - use props directly
   const topItems = useMemo(() => {
@@ -96,6 +98,28 @@ export function ItemTransferPanel({
       audioManager.playEffect(SoundPaths.EXCHANGE)
     }
   }, [topStorage, bottomStorage, onTopStorageUpdate, onBottomStorageUpdate, onStorageUpdate])
+  
+  // Handle item long press - open slider dialog
+  const handleItemLongPress = useCallback((itemId: string, fromTop: boolean) => {
+    const sourceStorage = fromTop ? topStorage : bottomStorage
+    const targetStorage = fromTop ? bottomStorage : topStorage
+    
+    uiStore.showOverlay('itemSliderDialog', {
+      itemId,
+      sourceStorage,
+      targetStorage,
+      onConfirm: (quantity: number) => {
+        const transferred = sourceStorage.transferItem(itemId, quantity, targetStorage)
+        if (transferred) {
+          onTopStorageUpdate?.(topStorage)
+          onBottomStorageUpdate?.(bottomStorage)
+          onStorageUpdate?.()
+          setUpdateTrigger(prev => prev + 1)
+          audioManager.playEffect(SoundPaths.EXCHANGE)
+        }
+      }
+    })
+  }, [topStorage, bottomStorage, onTopStorageUpdate, onBottomStorageUpdate, onStorageUpdate, uiStore])
   
   // Handle "Take All" button - transfer all items from bottom storage to top storage
   const handleTakeAll = () => {
@@ -175,6 +199,7 @@ export function ItemTransferPanel({
                 itemId={cell.item.id}
                 count={cell.num}
                 onClick={() => handleItemClick(cell.item.id, fromTop)}
+                onLongPress={() => handleItemLongPress(cell.item.id, fromTop)}
               />
             </div>
           )

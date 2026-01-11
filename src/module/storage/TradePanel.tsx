@@ -23,6 +23,7 @@ import { Sprite } from '@/common/ui/sprite/Sprite'
 import { CommonListItemButton } from '@/common/ui/CommonListItemButton'
 import { getString } from '@/common/utils/stringUtil'
 import { audioManager, SoundPaths } from '@/core/game/core/AudioManager'
+import { useUIStore } from '@/core/store/uiStore'
 
 interface TradePanelProps {
   topStorage: Storage  // Source storage (e.g., player bag)
@@ -96,6 +97,7 @@ export function TradePanel({
   const gap = 10
   const [revision, setRevision] = useState(0)
   const bump = () => setRevision(r => r + 1)
+  const uiStore = useUIStore()
   
   // Calculate available height for items areas
   const availableHeight = height - sectionBarHeight * 2 - transferPreviewHeight - gap * 3
@@ -204,6 +206,38 @@ export function TradePanel({
     }
   }, [bottomTempStorage, bottomStorage])
   
+  // Handle top storage item long press - open slider dialog
+  const handleTopItemLongPress = useCallback((itemId: string) => {
+    uiStore.showOverlay('itemSliderDialog', {
+      itemId,
+      sourceStorage: topStorage,
+      targetStorage: topTempStorage,
+      onConfirm: (quantity: number) => {
+        const transferred = topStorage.transferItem(itemId, quantity, topTempStorage)
+        if (transferred) {
+          bump()
+          audioManager.playEffect(SoundPaths.EXCHANGE)
+        }
+      }
+    })
+  }, [topStorage, topTempStorage, uiStore])
+  
+  // Handle bottom storage item long press - open slider dialog
+  const handleBottomItemLongPress = useCallback((itemId: string) => {
+    uiStore.showOverlay('itemSliderDialog', {
+      itemId,
+      sourceStorage: bottomStorage,
+      targetStorage: bottomTempStorage,
+      onConfirm: (quantity: number) => {
+        const transferred = bottomStorage.transferItem(itemId, quantity, bottomTempStorage)
+        if (transferred) {
+          bump()
+          audioManager.playEffect(SoundPaths.EXCHANGE)
+        }
+      }
+    })
+  }, [bottomStorage, bottomTempStorage, uiStore])
+  
 
   
   // Calculate total heights for scrolling
@@ -281,6 +315,7 @@ export function TradePanel({
                     itemId={cell.item.id}
                     count={cell.num}
                     onClick={() => handleTopItemClick(cell.item.id)}
+                    onLongPress={() => handleTopItemLongPress(cell.item.id)}
                   />
                 </div>
               )
@@ -508,6 +543,7 @@ export function TradePanel({
                     itemId={cell.item.id}
                     count={cell.num}
                     onClick={() => handleBottomItemClick(cell.item.id)}
+                    onLongPress={() => handleBottomItemLongPress(cell.item.id)}
                   />
                 </div>
               )

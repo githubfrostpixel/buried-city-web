@@ -11,14 +11,23 @@
 
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { Item } from '@/core/game/inventory/Item'
+import { useLongPress } from '@/common/hooks/useLongPress'
 
 interface ItemCellProps {
   itemId: string
   count: number
   onClick: () => void
+  onLongPress?: () => void
 }
 
-export function ItemCell({ itemId, count, onClick }: ItemCellProps) {
+export function ItemCell({ itemId, count, onClick, onLongPress }: ItemCellProps) {
+  // Long press detection
+  const longPressHandlers = useLongPress({
+    onLongPress: onLongPress || (() => {}),
+    onClick: onClick,
+    threshold: 500, // 0.5 seconds
+    moveThreshold: 200 // 200px
+  })
   // Determine background based on item type
   const getBackgroundFrame = (): string => {
     const item = new Item(itemId)
@@ -60,9 +69,7 @@ export function ItemCell({ itemId, count, onClick }: ItemCellProps) {
         height: '84px',
         margin: '0 auto'
       }}
-      onClick={() => {
-        onClick()
-      }}
+      {...(onLongPress ? longPressHandlers : { onClick })}
       data-test-id={`item-cell-${itemId}`}
     >
       {/* Background */}

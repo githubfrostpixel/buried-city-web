@@ -5,6 +5,7 @@ import { SaveFileScene } from './scene/SaveFileScene'
 import { TestIndexScreen } from './test/TestIndexScreen'
 import { DeathOverlay } from './module/overlay/DeathOverlay'
 import { ItemDialog } from './module/overlay/ItemDialog'
+import { ItemSliderDialog } from './module/overlay/ItemSliderDialog'
 import { AttributeStatusDialog } from './module/overlay/AttributeDialog'
 import { StatusDialog } from './module/overlay/StatusDialog'
 import { BuildDialog } from './module/overlay/BuildDialog'
@@ -119,6 +120,9 @@ function App() {
       {/* Prevent other overlays from rendering when death overlay is active (hardlock) */}
       {activeOverlay !== 'death' && activeOverlay === 'itemDialog' && (
         <ItemDialog />
+      )}
+      {activeOverlay !== 'death' && activeOverlay === 'itemSliderDialog' && (
+        <ItemSliderDialog />
       )}
       {activeOverlay !== 'death' && activeOverlay === 'attributeDialog' && (
         <AttributeStatusDialog />

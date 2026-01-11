@@ -51,6 +51,7 @@ export type Overlay =
   | 'itemChange'
   | 'dialog'
   | 'itemDialog'
+  | 'itemSliderDialog'
   | 'attributeDialog'
   | 'statusDialog'
   | 'buildDialog'
