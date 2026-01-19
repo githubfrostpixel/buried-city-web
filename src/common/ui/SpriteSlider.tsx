@@ -141,7 +141,7 @@ export function SpriteSlider({
         className="absolute inset-0"
         style={{
           width: '100%',
-          height: '100%',
+          height: '50%',
           zIndex: 1
         }}
       >
@@ -163,11 +163,12 @@ export function SpriteSlider({
         className="absolute"
         style={{
           left: '0',
+          right: '0',
           top: '0',
-          width: `${percentage * 100}%`,
-          height: '100%',
-          overflow: 'hidden',
-          zIndex: 2
+          height: '50%',
+          zIndex: 2,
+          clipPath: `inset(0 ${(1 - percentage) * 100}% 0 0)`,
+          WebkitClipPath: `inset(0 ${(1 - percentage) * 100}% 0 0)`,
         }}
       >
         <Sprite
@@ -187,7 +188,7 @@ export function SpriteSlider({
         className="absolute"
         style={{
           left: `${thumbPosition}%`,
-          top: '50%',
+          top: '20%',
           transform: 'translate(-50%, -50%)',
           width: '30px',
           height: '30px',

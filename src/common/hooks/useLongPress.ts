@@ -28,6 +28,7 @@ export function useLongPress({
   const startPosRef = useRef<{ x: number; y: number } | null>(null)
   const isPressedRef = useRef(false)
   const longPressTriggeredRef = useRef(false)
+  const clickHandledRef = useRef(false) // Track if onClick has already been called to prevent double-firing
 
   const cancelLongPress = useCallback(() => {
     if (timerRef.current) {
@@ -42,6 +43,7 @@ export function useLongPress({
     startPosRef.current = { x: clientX, y: clientY }
     isPressedRef.current = true
     longPressTriggeredRef.current = false
+    clickHandledRef.current = false // Reset click handled flag on new press
 
     timerRef.current = setTimeout(() => {
       if (isPressedRef.current) {
@@ -79,13 +81,16 @@ export function useLongPress({
     // 1. We were pressed (not just a hover)
     // 2. Long press was NOT triggered (to prevent double action)
     // 3. onClick is provided
-    if (wasPressed && !longPressWasTriggered && onClick) {
+    // 4. onClick hasn't already been called (prevent double-firing from touch+mouse events)
+    if (wasPressed && !longPressWasTriggered && onClick && !clickHandledRef.current) {
+      clickHandledRef.current = true // Mark as handled to prevent double-firing
       onClick()
     }
     
-    // Reset long press flag after a short delay to allow for next interaction
+    // Reset flags after a short delay to allow for next interaction
     setTimeout(() => {
       longPressTriggeredRef.current = false
+      clickHandledRef.current = false
     }, 100)
   }, [onClick, cancelLongPress])
 
@@ -114,6 +119,13 @@ export function useLongPress({
       handleStart(touch.clientX, touch.clientY)
     }
   }, [handleStart])
+  
+  // Prevent mouse events from firing after touch events (browser compatibility behavior)
+  const onTouchEnd = useCallback((e: React.TouchEvent) => {
+    handleEnd()
+    // Prevent mouse events from also firing (touch devices fire both touch and mouse events)
+    e.preventDefault()
+  }, [handleEnd])
 
   const onTouchMove = useCallback((e: React.TouchEvent) => {
     const touch = e.touches[0]
@@ -122,9 +134,6 @@ export function useLongPress({
     }
   }, [handleMove])
 
-  const onTouchEnd = useCallback(() => {
-    handleEnd()
-  }, [handleEnd])
 
   const onTouchCancel = useCallback(() => {
     cancelLongPress()

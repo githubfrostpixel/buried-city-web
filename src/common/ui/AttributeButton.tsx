@@ -6,7 +6,7 @@
 
 import { Sprite } from '@/common/ui/sprite/Sprite'
 
-interface ProgressBarProps {
+interface AttributeButtonProps {
   value: number
   max: number
   color?: string
@@ -19,7 +19,7 @@ interface ProgressBarProps {
   style?: React.CSSProperties
 }
 
-export function ProgressBar({
+export function AttributeButton({
   value,
   max,
   color,
@@ -30,7 +30,7 @@ export function ProgressBar({
   height = 4,
   className = '',
   style = {}
-}: ProgressBarProps) {
+}: AttributeButtonProps) {
   const percentage = Math.max(0, Math.min(100, (value / max) * 100))
   
   // If attr is provided, use sprite-based progress bar

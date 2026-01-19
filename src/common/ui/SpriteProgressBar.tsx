@@ -45,13 +45,14 @@ export function SpriteProgressBar({
           style={{
             position: 'absolute',
             left: 0,
+            right: 0,
             [position === 'bottom' ? 'bottom' : 'top']: 0,
-            width: `${progress}%`,
             height: '100%',
-            overflow: 'hidden',
             zIndex: 1,
             display: 'flex',
             alignItems: 'center',
+            clipPath: `inset(0 ${100 - progress}% 0 0)`,
+            WebkitClipPath: `inset(0 ${100 - progress}% 0 0)`,
           }}
         >
           <Sprite
