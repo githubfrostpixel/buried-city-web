@@ -305,11 +305,21 @@ export class Storage {
   getItemsByType(typePrefix: string): Array<{ item: Item; num: number }> {
     const result: Array<{ item: Item; num: number }> = []
     Object.entries(this.items).forEach(([itemId, count]) => {
+      // Skip empty item IDs (should not happen, but safety check)
+      if (!itemId || itemId.trim() === '') {
+        return
+      }
+      
       if (itemId.startsWith(typePrefix)) {
-        result.push({
-          item: new Item(itemId),
-          num: count
-        })
+        try {
+          result.push({
+            item: new Item(itemId),
+            num: count
+          })
+        } catch (error) {
+          // Skip invalid item IDs
+          console.warn(`Skipping invalid item ID: ${itemId}`, error)
+        }
       }
     })
     return result
@@ -333,6 +343,11 @@ export class Storage {
     
     // Group items by type prefix
     Object.entries(this.items).forEach(([itemId, count]) => {
+      // Skip empty item IDs (should not happen, but safety check)
+      if (!itemId || itemId.trim() === '') {
+        return
+      }
+      
       // Note: blackList.storageDisplay is empty in original, so no filtering needed
       const itemIdStr = String(itemId)
       let matched = false
@@ -342,21 +357,32 @@ export class Storage {
         const type = typeArray[i]
         const len = type.length
         if (itemIdStr.substring(0, len) === type) {
-          result[type].push({
-            item: new Item(itemId),
-            num: count
-          })
-          matched = true
-          break
+          try {
+            result[type].push({
+              item: new Item(itemId),
+              num: count
+            })
+            matched = true
+            break
+          } catch (error) {
+            // Skip invalid item IDs
+            console.warn(`Skipping invalid item ID: ${itemId}`, error)
+            return
+          }
         }
       }
       
       // If no match, put in "other"
       if (!matched && typeArray.includes('other')) {
-        result['other'].push({
-          item: new Item(itemId),
-          num: count
-        })
+        try {
+          result['other'].push({
+            item: new Item(itemId),
+            num: count
+          })
+        } catch (error) {
+          // Skip invalid item IDs
+          console.warn(`Skipping invalid item ID: ${itemId}`, error)
+        }
       }
     })
     
