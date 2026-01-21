@@ -28,7 +28,7 @@ export class FoodExpirationSystem {
     // Process home storage (if no fridge)
     if (!hasFridge) {
       const homeStorage = this.createStorageFromPlayerStore('storage')
-      const foodItems = homeStorage.getItemsByType('1103') // Food type prefix
+      const foodItems = homeStorage.getItemsByType('item_food') // Food type prefix
       
       for (const foodItem of foodItems) {
         const expiredAmount = this.calculateExpired(foodItem.item.id, foodItem.num)
@@ -39,7 +39,7 @@ export class FoodExpirationSystem {
             
             const fertilizerAmount = this.getFertilizerAmount(foodItem.item.id, expiredAmount)
             fertilizerHome += fertilizerAmount
-            homeStorage.addItem('1101081', fertilizerAmount) // Fertilizer item ID
+            homeStorage.addItem('item_mat_fertilizer', fertilizerAmount) // Fertilizer item ID
           }
         }
       }
@@ -84,10 +84,10 @@ export class FoodExpirationSystem {
   }
   
   /**
-   * Check if item is food (type starts with "1103")
+   * Check if item is food (key starts with "item_food")
    */
   isFood(itemId: string): boolean {
-    return itemId.startsWith('1103')
+    return itemId.startsWith('item_food')
   }
   
   /**

@@ -1,379 +1,379 @@
 import type { ItemConfig, ExpireRate, FertilizerRate } from '@/common/types/item.types'
 
-export const expireRate: ExpireRate = {"1103011": 0.003, "1103022": 0.005, "1103033": 0.01, "1103041": 0.03,"1103052": 0.015, "1103063": 0.015, "1103074": 0.015, "1103083": 0.001, "1103094": 0.02} as const
+export const expireRate: ExpireRate = {"item_food_potatoes": 0.003, "item_food_roasted_potatoes": 0.005, "item_food_mashed_potatoes": 0.01, "item_food_meat": 0.03,"item_food_broth": 0.015, "item_food_barbecue": 0.015, "item_food_flavored_stew": 0.015, "item_food_canned_food": 0.001, "item_food_cheese": 0.02} as const
 
-export const fertilizerRate: FertilizerRate = {"1103011": 1, "1103022": 3, "1103033": 2, "1103041": 1,"1103052": 2, "1103063": 3, "1103074": 5, "1103083": 3, "1103094": 5} as const
+export const fertilizerRate: FertilizerRate = {"item_food_potatoes": 1, "item_food_roasted_potatoes": 3, "item_food_mashed_potatoes": 2, "item_food_meat": 1,"item_food_broth": 2, "item_food_barbecue": 3, "item_food_flavored_stew": 5, "item_food_canned_food": 3, "item_food_cheese": 5} as const
 
 export const itemConfig: Record<string, ItemConfig> = {
-    "1101011": {
-        "id": "1101011",
+    "item_mat_wood": {
+        "id": "item_mat_wood",
         "weight": 2,
         "price": 1,
         "value": 1
     },
-    "1101021": {
-        "id": "1101021",
+    "item_mat_metal": {
+        "id": "item_mat_metal",
         "weight": 2,
         "price": 1,
         "value": 1
     },
-    "1101031": {
-        "id": "1101031",
+    "item_mat_fabric": {
+        "id": "item_mat_fabric",
         "weight": 1,
         "price": 1,
         "value": 1
     },
-    "1101041": {
-        "id": "1101041",
+    "item_mat_parts": {
+        "id": "item_mat_parts",
         "weight": 1,
         "price": 1,
         "value": 1
     },
-    "1101051": {
-        "id": "1101051",
+    "item_mat_components": {
+        "id": "item_mat_components",
         "weight": 1,
         "price": 1,
         "value": 1
     },
-    "1101061": {
-        "id": "1101061",
+    "item_mat_water": {
+        "id": "item_mat_water",
         "weight": 1,
         "price": 0.25,
         "value": 0.28279166666666666
     },
-    "1101071": {
-        "id": "1101071",
+    "item_mat_chemical_materials": {
+        "id": "item_mat_chemical_materials",
         "weight": 4,
         "price": 1.5,
         "value": 1.5
     },
-    "1101073": {
-        "id": "1101073",
+    "item_mat_data_module": {
+        "id": "item_mat_data_module",
         "weight": 2,
         "price": 6,
         "value": 6
     },
-    "1101081": {
-        "id": "1101081",
+    "item_mat_fertilizer": {
+        "id": "item_mat_fertilizer",
         "weight": 1,
         "price": 0.2,
         "value": 0.2
     },
-    "1102011": {
-        "id": "1102011",
+    "item_model_pistol_part": {
+        "id": "item_model_pistol_part",
         "weight": 1,
         "price": 1,
         "value": 1
     },
-    "1102022": {
-        "id": "1102022",
+    "item_model_shotgun_part": {
+        "id": "item_model_shotgun_part",
         "weight": 2,
         "price": 2,
         "value": 2
     },
-    "1102033": {
-        "id": "1102033",
+    "item_model_ak47_part": {
+        "id": "item_model_ak47_part",
         "weight": 3,
         "price": 3,
         "value": 3
     },
-    "1102042": {
-        "id": "1102042",
+    "item_model_katana_part": {
+        "id": "item_model_katana_part",
         "weight": 2,
         "price": 2,
         "value": 2
     },
-    "1102053": {
-        "id": "1102053",
+    "item_model_motorcycle_engine": {
+        "id": "item_model_motorcycle_engine",
         "weight": 6,
         "price": 50,
         "value": 50
     },
-    "1102063": {
-        "id": "1102063",
+    "item_model_generator_component": {
+        "id": "item_model_generator_component",
         "weight": 10,
         "price": 60,
         "value": 60
     },
-    "1102073": {
-        "id": "1102073",
+    "item_model_gasoline_pump_component": {
+        "id": "item_model_gasoline_pump_component",
         "weight": 8,
         "price": 0,
         "value": 0
     },
-    "1103011": {
-        "id": "1103011",
+    "item_food_potatoes": {
+        "id": "item_food_potatoes",
         "weight": 1,
         "price": 0.75,
         "value": 0.7870296328125,
         "effect_food": {
-            "id": "1103011",
+            "id": "item_food_potatoes",
             "starve": 10,
             "starve_chance": 1,
             "infect": 10,
             "infect_chance": 0.6
         }
     },
-    "1103022": {
-        "id": "1103022",
+    "item_food_roasted_potatoes": {
+        "id": "item_food_roasted_potatoes",
         "weight": 2,
         "price": 5.25,
         "value": 5.056622518148437,
         "effect_food": {
-            "id": "1103022",
+            "id": "item_food_roasted_potatoes",
             "starve": 35,
             "starve_chance": 1
         }
     },
-    "1103033": {
-        "id": "1103033",
+    "item_food_mashed_potatoes": {
+        "id": "item_food_mashed_potatoes",
         "weight": 2,
         "price": 4,
         "value": 3.7864089743437495,
         "effect_food": {
-            "id": "1103033",
+            "id": "item_food_mashed_potatoes",
             "starve": 35,
             "starve_chance": 1
         }
     },
-    "1103041": {
-        "id": "1103041",
+    "item_food_meat": {
+        "id": "item_food_meat",
         "weight": 1,
         "price": 1,
         "value": 1.1254523749218752,
         "effect_food": {
-            "id": "1103041",
+            "id": "item_food_meat",
             "starve": 14,
             "starve_chance": 1,
             "infect": 20,
             "infect_chance": 0.9
         }
     },
-    "1103052": {
-        "id": "1103052",
+    "item_food_broth": {
+        "id": "item_food_broth",
         "weight": 2,
         "price": 4.5,
         "value": 4.45138906415578,
         "effect_food": {
-            "id": "1103052",
+            "id": "item_food_broth",
             "starve": 40,
             "starve_chance": 1
         }
     },
-    "1103063": {
-        "id": "1103063",
+    "item_food_barbecue": {
+        "id": "item_food_barbecue",
         "weight": 2,
         "price": 5.75,
         "value": 5.666187600476133,
         "effect_food": {
-            "id": "1103063",
+            "id": "item_food_barbecue",
             "starve": 40,
             "starve_chance": 1
         }
     },
-    "1103074": {
-        "id": "1103074",
+    "item_food_flavored_stew": {
+        "id": "item_food_flavored_stew",
         "weight": 3,
         "price": 12,
         "value": 11.30843054871349,
         "effect_food": {
-            "id": "1103074",
+            "id": "item_food_flavored_stew",
             "spirit": 30,
             "spirit_chance": 1,
             "starve": 80,
             "starve_chance": 1
         }
     },
-    "1103083": {
-        "id": "1103083",
+    "item_food_canned_food": {
+        "id": "item_food_canned_food",
         "weight": 2,
         "price": 5,
         "value": 5,
         "effect_food": {
-            "id": "1103083",
+            "id": "item_food_canned_food",
             "starve": 40,
             "starve_chance": 1
         }
     },
-    "1103094": {
-        "id": "1103094",
+    "item_food_cheese": {
+        "id": "item_food_cheese",
         "weight": 1,
         "price": 14,
         "value": 13.20843054871349,
         "effect_food": {
-            "id": "1103074",
+            "id": "item_food_flavored_stew",
             "spirit": 80,
             "spirit_chance": 1,
             "starve": 30,
             "starve_chance": 1
         }
     },
-    "1104011": {
-        "id": "1104011",
+    "item_med_bandage": {
+        "id": "item_med_bandage",
         "weight": 1,
         "price": 21.5,
         "value": 21.05608633968867,
         "effect_medicine": {
-            "id": "1104011",
+            "id": "item_med_bandage",
             "injury": -30,
             "injury_chance": 1
         }
     },
-    "1104021": {
-        "id": "1104021",
+    "item_med_ointment": {
+        "id": "item_med_ointment",
         "weight": 1,
         "price": 16.5,
         "value": 16.15383871468867,
         "effect_medicine": {
-            "id": "1104021",
+            "id": "item_med_ointment",
             "infect": -20,
             "infect_chance": 1
         }
     },
-    "1104032": {
-        "id": "1104032",
+    "item_med_homemade_penicillin": {
+        "id": "item_med_homemade_penicillin",
         "weight": 1,
         "price": 31,
         "value": 30.0731189840807,
         "effect_medicine": {
-            "id": "1104032",
+            "id": "item_med_homemade_penicillin",
             "infect": -100,
             "infect_chance": 1,
             "hp": -150,
             "hp_chance": 0.5
         }
     },
-    "1104043": {
-        "id": "1104043",
+    "item_med_penicillin": {
+        "id": "item_med_penicillin",
         "weight": 1,
         "price": 60,
         "value": 60,
         "effect_medicine": {
-            "id": "1104043",
+            "id": "item_med_penicillin",
             "infect": -100,
             "infect_chance": 1
         }
     },
-    "1105011": {
-        "id": "1105011",
+    "item_econ_coffee": {
+        "id": "item_econ_coffee",
         "weight": 0,
         "price": 2,
         "value": 2
     },
-    "1105022": {
-        "id": "1105022",
+    "item_econ_vodka": {
+        "id": "item_econ_vodka",
         "weight": 1,
         "price": 3.75,
         "value": 3.6694572875325524
     },
-    "1105033": {
-        "id": "1105033",
+    "item_econ_alcohol": {
+        "id": "item_econ_alcohol",
         "weight": 1,
         "price": 11.5,
         "value": 11.248722605665916
     },
-    "1105042": {
-        "id": "1105042",
+    "item_econ_potato_buds": {
+        "id": "item_econ_potato_buds",
         "weight": 1,
         "price": 1,
         "value": 1
     },
-    "1105051": {
-        "id": "1105051",
+    "item_econ_herbs": {
+        "id": "item_econ_herbs",
         "weight": 1,
         "price": 0.75,
         "value": 0.6994851874999999
     },
-    "1106013": {
-        "id": "1106013",
+    "item_special_dog": {
+        "id": "item_special_dog",
         "weight": 12,
         "price": 60,
         "value": 60
     },
-    "1106014": {
-        "id": "1106014",
+    "item_special_dog_bone": {
+        "id": "item_special_dog_bone",
         "weight": 1,
         "price": 2,
         "value": 2
     },
-    "1106054": {
-        "id": "1106054",
+    "item_special_first_aid_kit": {
+        "id": "item_special_first_aid_kit",
         "weight": 4,
         "price": 100,
         "value": 100
     },
-    "1107012": {
-        "id": "1107012",
+    "item_buff_protoplasm_serum": {
+        "id": "item_buff_protoplasm_serum",
         "weight": 1,
         "price": 22,
         "value": 22,
         "effect_buff": {
-            "id": "1107012",
+            "id": "item_buff_protoplasm_serum",
             "effect": 1,
             "effectType": 1,
             "value": 60,
             "lastTime": 72
         }
     },
-    "1107022": {
-        "id": "1107022",
+    "item_buff_transmission_blocker": {
+        "id": "item_buff_transmission_blocker",
         "weight": 1,
         "price": 45,
         "value": 45,
         "effect_buff": {
-            "id": "1107022",
+            "id": "item_buff_transmission_blocker",
             "effect": 2,
             "effectType": 2,
             "value": 0,
             "lastTime": 72
         }
     },
-    "1107032": {
-        "id": "1107032",
+    "item_buff_stimpack": {
+        "id": "item_buff_stimpack",
         "weight": 1,
         "price": 22,
         "value": 22,
         "effect_buff": {
-            "id": "1107032",
+            "id": "item_buff_stimpack",
             "effect": 3,
             "effectType": 2,
             "value": 0,
             "lastTime": 72
         }
     },
-    "1107042": {
-        "id": "1107042",
+    "item_buff_military_ration": {
+        "id": "item_buff_military_ration",
         "weight": 1,
         "price": 28,
         "value": 28,
         "effect_buff": {
-            "id": "1107042",
+            "id": "item_buff_military_ration",
             "effect": 4,
             "effectType": 2,
             "value": 0,
             "lastTime": 72
         }
     },
-    "1107052": {
-        "id": "1107052",
+    "item_buff_experimental_antidote": {
+        "id": "item_buff_experimental_antidote",
         "weight": 1,
         "price": 24,
         "value": 24,
         "effect_buff": {
-            "id": "1107052",
+            "id": "item_buff_experimental_antidote",
             "effect": 5,
             "effectType": 2,
             "value": 0,
             "lastTime": 72
         }
     },
-    "1301011": {
-        "id": "1301011",
+    "item_weapon_gun_pistol": {
+        "id": "item_weapon_gun_pistol",
         "weight": 1,
         "price": 15,
         "value": 9.999,
         "effect_weapon": {
-            "id": "1301011",
+            "id": "item_weapon_gun_pistol",
             "atk": 0,
             "atkCD": 1,
             "range": 4,
@@ -388,13 +388,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.065
         }
     },
-    "1301022": {
-        "id": "1301022",
+    "item_weapon_gun_shotgun": {
+        "id": "item_weapon_gun_shotgun",
         "weight": 4,
         "price": 25.5,
         "value": 16.968,
         "effect_weapon": {
-            "id": "1301022",
+            "id": "item_weapon_gun_shotgun",
             "atk": 0,
             "atkCD": 2,
             "range": 5,
@@ -409,13 +409,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.065
         }
     },
-    "1301033": {
-        "id": "1301033",
+    "item_weapon_gun_ak47": {
+        "id": "item_weapon_gun_ak47",
         "weight": 6,
         "price": 50,
         "value": 32.825,
         "effect_weapon": {
-            "id": "1301033",
+            "id": "item_weapon_gun_ak47",
             "atk": 0,
             "atkCD": 1,
             "range": 5,
@@ -430,13 +430,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.065
         }
     },
-    "1301041": {
-        "id": "1301041",
+    "item_weapon_gun_magnum": {
+        "id": "item_weapon_gun_magnum",
         "weight": 2,
         "price": 17,
         "value": 12,
         "effect_weapon": {
-            "id": "1301041",
+            "id": "item_weapon_gun_magnum",
             "atk": 0,
             "atkCD": 1,
             "range": 5,
@@ -451,13 +451,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.07
         }
     },
-    "1301052": {
-        "id": "1301052",
+    "item_weapon_gun_m40": {
+        "id": "item_weapon_gun_m40",
         "weight": 5,
         "price": 28,
         "value": 18,
         "effect_weapon": {
-            "id": "1301052",
+            "id": "item_weapon_gun_m40",
             "atk": 0,
             "atkCD": 2,
             "range": 5,
@@ -472,13 +472,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.07
         }
     },
-    "1301063": {
-        "id": "1301063",
+    "item_weapon_gun_famas": {
+        "id": "item_weapon_gun_famas",
         "weight": 6,
         "price": 55,
         "value": 35,
         "effect_weapon": {
-            "id": "1301063",
+            "id": "item_weapon_gun_famas",
             "atk": 0,
             "atkCD": 1,
             "range": 5,
@@ -493,13 +493,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.07
         }
     },
-    "1301071": {
-        "id": "1301071",
+    "item_weapon_gun_emp_handgun": {
+        "id": "item_weapon_gun_emp_handgun",
         "weight": 3,
         "price": 30,
         "value": 30,
         "effect_weapon": {
-            "id": "1301071",
+            "id": "item_weapon_gun_emp_handgun",
             "atk": 60,
             "atkCD": 1,
             "range": 3,
@@ -514,13 +514,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.04
         }
     },
-    "1301082": {
-        "id": "1301082",
+    "item_weapon_gun_emp_rifle": {
+        "id": "item_weapon_gun_emp_rifle",
         "weight": 10,
         "price": 60,
         "value": 60,
         "effect_weapon": {
-            "id": "1301082",
+            "id": "item_weapon_gun_emp_rifle",
             "atk": 110,
             "atkCD": 2,
             "range": 4,
@@ -535,13 +535,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.04
         }
     },
-    "1301091": {
-        "id": "1301091",
+    "item_weapon_gun_flamethrower": {
+        "id": "item_weapon_gun_flamethrower",
         "weight": 6,
         "price": 40,
         "value": 40,
         "effect_weapon": {
-            "id": "1301091",
+            "id": "item_weapon_gun_flamethrower",
             "atk": 25,
             "atkCD": 1,
             "range": 19,
@@ -556,17 +556,17 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.08
         }
     },
-    "1302011": {
-        "id": "1302011",
+    "item_weapon_melee_crowbar": {
+        "id": "item_weapon_melee_crowbar",
         "weight": 2,
         "price": 3.5,
         "value": 3.3165,
         "effect_tool": {
-            "id": "1302011",
+            "id": "item_weapon_melee_crowbar",
             "workingTime": 10
         },
         "effect_weapon": {
-            "id": "1302011",
+            "id": "item_weapon_melee_crowbar",
             "atk": 40,
             "atkCD": 1,
             "range": 0,
@@ -581,17 +581,17 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.05
         }
     },
-    "1302021": {
-        "id": "1302021",
+    "item_weapon_melee_axe": {
+        "id": "item_weapon_melee_axe",
         "weight": 2,
         "price": 2.25,
         "value": 2.211,
         "effect_tool": {
-            "id": "1302021",
+            "id": "item_weapon_melee_axe",
             "workingTime": 20
         },
         "effect_weapon": {
-            "id": "1302021",
+            "id": "item_weapon_melee_axe",
             "atk": 40,
             "atkCD": 1,
             "range": 0,
@@ -606,13 +606,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.05
         }
     },
-    "1302032": {
-        "id": "1302032",
+    "item_weapon_melee_katana": {
+        "id": "item_weapon_melee_katana",
         "weight": 3,
         "price": 11,
         "value": 10.908,
         "effect_weapon": {
-            "id": "1302032",
+            "id": "item_weapon_melee_katana",
             "atk": 50,
             "atkCD": 1,
             "range": 0,
@@ -627,17 +627,17 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.05
         }
     },
-    "1302043": {
-        "id": "1302043",
+    "item_weapon_melee_chainsaw": {
+        "id": "item_weapon_melee_chainsaw",
         "weight": 6,
         "price": 50,
         "value": 50,
         "effect_tool": {
-            "id": "1302021",
+            "id": "item_weapon_melee_axe",
             "workingTime": 5
         },
         "effect_weapon": {
-            "id": "1302043",
+            "id": "item_weapon_melee_chainsaw",
             "atk": 100,
             "atkCD": 1.5,
             "range": 0,
@@ -652,13 +652,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0.04
         }
     },
-    "1303012": {
-        "id": "1303012",
+    "item_weapon_explosive_explosive": {
+        "id": "item_weapon_explosive_explosive",
         "weight": 1,
         "price": 4,
         "value": 4,
         "effect_weapon": {
-            "id": "1303012",
+            "id": "item_weapon_explosive_explosive",
             "atk": 50,
             "atkCD": 5,
             "range": 5,
@@ -673,13 +673,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0
         }
     },
-    "1303022": {
-        "id": "1303022",
+    "item_weapon_explosive_smoke_bomb": {
+        "id": "item_weapon_explosive_smoke_bomb",
         "weight": 1,
         "price": 8,
         "value": 8,
         "effect_weapon": {
-            "id": "1303022",
+            "id": "item_weapon_explosive_smoke_bomb",
             "atk": 3,
             "atkCD": 5,
             "range": 5,
@@ -694,13 +694,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0
         }
     },
-    "1303033": {
-        "id": "1303033",
+    "item_weapon_explosive_rocket_launcher": {
+        "id": "item_weapon_explosive_rocket_launcher",
         "weight": 1,
         "price": 18,
         "value": 18,
         "effect_weapon": {
-            "id": "1303033",
+            "id": "item_weapon_explosive_rocket_launcher",
             "atk": 100,
             "atkCD": 5,
             "range": 5,
@@ -715,13 +715,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0
         }
     },
-    "1303044": {
-        "id": "1303044",
+    "item_weapon_explosive_grenade": {
+        "id": "item_weapon_explosive_grenade",
         "weight": 1,
         "price": 28,
         "value": 28,
         "effect_weapon": {
-            "id": "1303044",
+            "id": "item_weapon_explosive_grenade",
             "atk": 160,
             "atkCD": 5,
             "range": 5,
@@ -736,41 +736,41 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0
         }
     },
-    "1304012": {
-        "id": "1304012",
+    "item_armor_thick_coat": {
+        "id": "item_armor_thick_coat",
         "weight": 2,
         "price": 8.5,
         "value": 8.442,
         "effect_arm": {
-            "id": "1304012",
+            "id": "item_armor_thick_coat",
             "def": 3,
             "brokenProbability": 0.08
         }
     },
-    "1304023": {
-        "id": "1304023",
+    "item_armor_antiriot_suit": {
+        "id": "item_armor_antiriot_suit",
         "weight": 3,
         "price": 18.5,
         "value": 18.290999999999997,
         "effect_arm": {
-            "id": "1304023",
+            "id": "item_armor_antiriot_suit",
             "def": 5,
             "brokenProbability": 0.06
         }
     },
-    "1306001": {
-        "id": "1306001",
+    "item_equip_other_boot": {
+        "id": "item_equip_other_boot",
         "weight": 1,
         "price": 8,
         "value": 7.878000000000001
     },
-    "1305011": {
-        "id": "1305011",
+    "item_ammo_standard_bullet": {
+        "id": "item_ammo_standard_bullet",
         "weight": 0,
         "price": 0.9,
         "value": 0.8888,
         "effect_weapon": {
-            "id": "1305011",
+            "id": "item_ammo_standard_bullet",
             "atk": 50,
             "atkCD": 0,
             "range": 0,
@@ -785,13 +785,13 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0
         }
     },
-    "1305012": {
-        "id": "1305012",
+    "item_ammo_handmade_bullet": {
+        "id": "item_ammo_handmade_bullet",
         "weight": 0,
         "price": 0.7,
         "value": 0.688888,
         "effect_weapon": {
-            "id": "1305011",
+            "id": "item_ammo_standard_bullet",
             "atk": 50,
             "atkCD": 0,
             "range": 0,
@@ -806,38 +806,38 @@ export const itemConfig: Record<string, ItemConfig> = {
             "brokenProbability": 0
         }
     },
-    "1305023": {
-        "id": "1305023",
+    "item_ammo_enhanced_backpack": {
+        "id": "item_ammo_enhanced_backpack",
         "weight": 1,
         "price": 13,
         "value": 13.13
     },
-    "1305024": {
-        "id": "1305024",
+    "item_ammo_military_grade_backpack": {
+        "id": "item_ammo_military_grade_backpack",
         "weight": 2,
         "price": 38,
         "value": 36.763999999999996
     },
-    "1305034": {
-        "id": "1305034",
+    "item_ammo_motorcycle": {
+        "id": "item_ammo_motorcycle",
         "weight": 16,
         "price": 64,
         "value": 62.374777777777774
     },
-    "1305053": {
-        "id": "1305053",
+    "item_ammo_strong_flashlight": {
+        "id": "item_ammo_strong_flashlight",
         "weight": 2,
         "price": 24,
         "value": 23.216666666666664
     },
-    "1305064": {
-        "id": "1305064",
+    "item_ammo_hyper_detector": {
+        "id": "item_ammo_hyper_detector",
         "weight": 4,
         "price": 48,
         "value": 46.383444444444443
     },
-    "1305075": {
-        "id": "1305075",
+    "item_ammo_siphon_tool": {
+        "id": "item_ammo_siphon_tool",
         "weight": 4,
         "price": 4,
         "value": 3.333333

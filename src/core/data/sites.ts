@@ -23,23 +23,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 50,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 4,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 3,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 5,
       },
       {
@@ -47,7 +47,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 6,
       },
       {
@@ -55,23 +55,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 1,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 5,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -79,11 +79,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -95,11 +95,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -107,29 +107,29 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
@@ -137,7 +137,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         num: 4,
       },
       {
@@ -145,23 +145,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 1,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 1,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -169,11 +169,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 5,
       },
       {
@@ -185,11 +185,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -197,7 +197,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103094",
+        itemId: "item_food_cheese",
         num: 1,
       },
     ],
@@ -224,23 +224,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 278,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 15,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 15,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 6,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 5,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 5,
       },
       {
@@ -248,7 +248,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 1,
       },
       {
@@ -256,23 +256,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 5,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 5,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 2,
       },
       {
@@ -280,11 +280,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 30,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 3,
       },
       {
@@ -296,11 +296,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 5,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 1,
       },
       {
@@ -308,33 +308,33 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
@@ -342,7 +342,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -350,23 +350,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -374,11 +374,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 3,
       },
       {
@@ -390,11 +390,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -402,7 +402,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103094",
+        itemId: "item_food_cheese",
         num: 2,
       },
     ],
@@ -429,23 +429,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 138,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 15,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 4,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 4,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 4,
       },
       {
@@ -453,7 +453,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 1,
       },
       {
@@ -461,23 +461,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 2,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 2,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 4,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 5,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -485,11 +485,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 20,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 2,
       },
       {
@@ -501,11 +501,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 3,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -513,33 +513,33 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 2,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
@@ -547,7 +547,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         num: 4,
       },
       {
@@ -555,23 +555,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -579,11 +579,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 1,
       },
       {
@@ -595,11 +595,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -607,7 +607,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -635,23 +635,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 102,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 5,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 6,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 1,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 4,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
@@ -659,7 +659,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 0,
       },
       {
@@ -667,23 +667,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 30,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 1,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 3,
       },
       {
@@ -691,11 +691,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 5,
       },
       {
@@ -707,11 +707,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -719,29 +719,29 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
@@ -749,7 +749,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -757,23 +757,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -781,11 +781,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -797,11 +797,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -809,7 +809,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103094",
+        itemId: "item_food_cheese",
         num: 2,
       },
     ],
@@ -832,23 +832,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 150,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
@@ -856,7 +856,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 0,
       },
       {
@@ -864,23 +864,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -888,11 +888,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -904,11 +904,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -916,29 +916,29 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
@@ -946,7 +946,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -954,23 +954,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -978,11 +978,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -994,11 +994,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -1006,7 +1006,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -1033,23 +1033,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 54,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 5,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 5,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 5,
       },
       {
@@ -1057,7 +1057,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 5,
       },
       {
@@ -1065,23 +1065,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 2,
       },
       {
@@ -1089,11 +1089,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -1105,11 +1105,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -1117,29 +1117,29 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         num: 4,
       },
       {
@@ -1147,7 +1147,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         num: 4,
       },
       {
@@ -1155,23 +1155,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -1179,11 +1179,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 1,
       },
       {
@@ -1195,11 +1195,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -1207,7 +1207,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103094",
+        itemId: "item_food_cheese",
         num: 2,
       },
     ],
@@ -1233,23 +1233,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 160,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 1,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 4,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 1,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 4,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 1,
       },
       {
@@ -1257,11 +1257,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 0,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
@@ -1269,23 +1269,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 4,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -1293,11 +1293,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 1,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -1309,11 +1309,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -1321,29 +1321,29 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
@@ -1351,7 +1351,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -1359,23 +1359,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -1383,11 +1383,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -1399,15 +1399,15 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 1,
       },
     ],
@@ -1434,23 +1434,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 192,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 5,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 5,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 5,
       },
       {
@@ -1458,7 +1458,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 0,
       },
       {
@@ -1466,23 +1466,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 1,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 100,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -1490,11 +1490,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -1506,11 +1506,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -1518,29 +1518,29 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
@@ -1548,7 +1548,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -1556,23 +1556,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -1580,11 +1580,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -1596,11 +1596,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -1608,7 +1608,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103094",
+        itemId: "item_food_cheese",
         num: 1,
       },
     ],
@@ -1630,23 +1630,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 161,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 100,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 50,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 20,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 20,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 20,
       },
       {
@@ -1654,7 +1654,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 20,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 0,
       },
       {
@@ -1662,23 +1662,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -1686,11 +1686,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -1702,11 +1702,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -1714,33 +1714,33 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 0,
       },
       {
@@ -1748,7 +1748,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -1756,23 +1756,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -1780,11 +1780,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -1796,11 +1796,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -1808,7 +1808,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -1831,23 +1831,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 113,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 20,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 5,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 5,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 1,
       },
       {
@@ -1855,7 +1855,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 1,
       },
       {
@@ -1863,23 +1863,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 1,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 1,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 5,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 2,
       },
       {
@@ -1887,11 +1887,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 25,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 1,
       },
       {
@@ -1903,11 +1903,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 1,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -1915,29 +1915,29 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         num: 4,
       },
       {
@@ -1945,7 +1945,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -1953,23 +1953,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -1977,11 +1977,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 1,
       },
       {
@@ -1993,11 +1993,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -2005,7 +2005,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -2033,23 +2033,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 300,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 15,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 5,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 5,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 5,
       },
       {
@@ -2057,7 +2057,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 1,
       },
       {
@@ -2065,23 +2065,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 2,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 2,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 1,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 20,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 2,
       },
       {
@@ -2089,11 +2089,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 40,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 5,
       },
       {
@@ -2105,11 +2105,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 5,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 3,
       },
       {
@@ -2117,29 +2117,29 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
@@ -2147,7 +2147,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -2155,23 +2155,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -2179,11 +2179,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -2195,11 +2195,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -2207,7 +2207,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103094",
+        itemId: "item_food_cheese",
         num: 1,
       },
     ],
@@ -2230,23 +2230,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 202,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 1,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 5,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 1,
       },
       {
@@ -2254,7 +2254,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 2,
       },
       {
@@ -2262,23 +2262,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 1,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 1,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -2286,11 +2286,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 60,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -2302,11 +2302,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 2,
       },
       {
@@ -2314,37 +2314,37 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 6,
       },
       {
@@ -2352,7 +2352,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -2360,23 +2360,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -2384,11 +2384,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -2400,11 +2400,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -2412,7 +2412,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -2439,23 +2439,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 99,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 20,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 5,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 1,
       },
       {
@@ -2463,7 +2463,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 1,
       },
       {
@@ -2471,23 +2471,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 3,
       },
       {
@@ -2495,11 +2495,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 2,
       },
       {
@@ -2511,11 +2511,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 1,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -2523,33 +2523,33 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 6,
       },
       {
@@ -2557,7 +2557,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -2565,23 +2565,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -2589,11 +2589,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -2605,11 +2605,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -2617,7 +2617,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -2640,23 +2640,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 251,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 50,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 20,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 5,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 6,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 1,
       },
       {
@@ -2664,7 +2664,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 2,
       },
       {
@@ -2672,23 +2672,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 30,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 2,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 2,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 5,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -2696,11 +2696,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 60,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 3,
       },
       {
@@ -2712,11 +2712,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 2,
       },
       {
@@ -2724,33 +2724,33 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 8,
       },
       {
@@ -2758,7 +2758,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -2766,23 +2766,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -2790,11 +2790,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -2806,11 +2806,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -2818,7 +2818,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -2845,23 +2845,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 136,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 20,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 5,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 20,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
@@ -2869,7 +2869,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 0,
       },
       {
@@ -2877,23 +2877,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 15,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 5,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 2,
       },
       {
@@ -2901,11 +2901,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -2917,11 +2917,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 30,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -2929,37 +2929,37 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 12,
       },
       {
@@ -2967,7 +2967,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -2975,23 +2975,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -2999,11 +2999,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -3015,11 +3015,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -3027,7 +3027,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -3049,23 +3049,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 157,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 50,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 15,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 15,
       },
       {
@@ -3073,7 +3073,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 30,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 1,
       },
       {
@@ -3081,23 +3081,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -3105,11 +3105,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -3121,11 +3121,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -3133,37 +3133,37 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 15,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 7,
       },
       {
@@ -3171,7 +3171,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -3179,23 +3179,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -3203,11 +3203,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -3219,11 +3219,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -3231,7 +3231,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -3258,23 +3258,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 147,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 75,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 50,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 15,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 20,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
@@ -3282,7 +3282,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 0,
       },
       {
@@ -3290,23 +3290,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -3314,11 +3314,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -3330,11 +3330,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -3342,37 +3342,37 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 25,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 8,
       },
       {
@@ -3380,7 +3380,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -3388,23 +3388,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -3412,11 +3412,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -3428,11 +3428,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -3440,7 +3440,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -3463,23 +3463,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 170,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 60,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 20,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 0,
       },
       {
@@ -3487,7 +3487,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 20,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 0,
       },
       {
@@ -3495,23 +3495,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -3519,11 +3519,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -3535,11 +3535,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -3547,33 +3547,33 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 12,
       },
       {
@@ -3581,7 +3581,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -3589,23 +3589,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -3613,11 +3613,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -3629,11 +3629,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -3641,7 +3641,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -3667,23 +3667,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 84,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 20,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 3,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 0,
       },
       {
@@ -3691,7 +3691,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 0,
       },
       {
@@ -3699,23 +3699,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -3723,11 +3723,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -3739,11 +3739,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -3751,33 +3751,33 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 18,
       },
       {
@@ -3785,7 +3785,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -3793,23 +3793,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -3817,11 +3817,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -3833,11 +3833,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -3845,7 +3845,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -3868,23 +3868,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 126,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 25,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 20,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 20,
       },
       {
@@ -3892,7 +3892,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 1,
       },
       {
@@ -3900,23 +3900,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -3924,11 +3924,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 50,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 2,
       },
       {
@@ -3940,11 +3940,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -3952,37 +3952,37 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 14,
       },
       {
@@ -3990,7 +3990,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -3998,23 +3998,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -4022,11 +4022,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -4038,11 +4038,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -4050,7 +4050,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -4076,23 +4076,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 814,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 150,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 30,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 20,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 40,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 50,
       },
       {
@@ -4100,7 +4100,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 2,
       },
       {
@@ -4108,23 +4108,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 50,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 10,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 10,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 30,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 10,
       },
       {
@@ -4132,11 +4132,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 300,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 15,
       },
       {
@@ -4148,11 +4148,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 5,
       },
       {
@@ -4160,37 +4160,37 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 25,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 28,
       },
       {
@@ -4198,7 +4198,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -4206,23 +4206,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -4230,11 +4230,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -4246,11 +4246,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -4258,7 +4258,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -4286,23 +4286,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 126,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 20,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 15,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 15,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 5,
       },
       {
@@ -4310,7 +4310,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 20,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 0,
       },
       {
@@ -4318,23 +4318,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -4342,11 +4342,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -4358,11 +4358,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -4370,33 +4370,33 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 20,
       },
       {
@@ -4404,7 +4404,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -4412,23 +4412,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -4436,11 +4436,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -4452,11 +4452,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -4464,7 +4464,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -4490,23 +4490,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 163,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 50,
       },
       {
@@ -4514,7 +4514,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 30,
       },
       {
@@ -4522,23 +4522,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -4546,11 +4546,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -4562,11 +4562,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -4574,33 +4574,33 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 16,
       },
       {
@@ -4608,7 +4608,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -4616,23 +4616,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -4640,11 +4640,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -4656,11 +4656,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -4668,7 +4668,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -4690,23 +4690,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 72,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 30,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 5,
       },
       {
@@ -4714,7 +4714,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 0,
       },
       {
@@ -4722,23 +4722,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -4746,11 +4746,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -4762,11 +4762,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -4774,33 +4774,33 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 6,
       },
       {
@@ -4808,7 +4808,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -4816,23 +4816,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -4840,11 +4840,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -4856,11 +4856,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -4868,7 +4868,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -4891,23 +4891,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 546,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 20,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 3,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 5,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 5,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 5,
       },
       {
@@ -4915,7 +4915,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 1,
       },
       {
@@ -4923,23 +4923,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 10,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 5,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 4,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 0,
       },
       {
@@ -4947,11 +4947,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 0,
       },
       {
@@ -4963,11 +4963,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 10,
       },
       {
@@ -4975,33 +4975,33 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 0,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 16,
       },
       {
@@ -5009,7 +5009,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -5017,23 +5017,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -5041,11 +5041,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -5057,11 +5057,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -5069,7 +5069,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -5091,23 +5091,23 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 168,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 20,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 5,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 5,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 5,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 1,
       },
       {
@@ -5115,7 +5115,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 1,
       },
       {
@@ -5123,23 +5123,23 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 2,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 2,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 2,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 5,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 2,
       },
       {
@@ -5147,11 +5147,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 30,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 5,
       },
       {
@@ -5163,11 +5163,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 0,
       },
       {
@@ -5175,33 +5175,33 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         weight: 0,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 3,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 3,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 3,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 3,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 3,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 12,
       },
       {
@@ -5209,7 +5209,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -5217,23 +5217,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -5241,11 +5241,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -5257,11 +5257,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -5269,7 +5269,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -5316,23 +5316,23 @@ export const siteConfig: SiteConfigMap = {
     produceList: [],
     fixedProduceList: [
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 7,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 2,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 2,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         num: 3,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 1,
       },
     ],
@@ -5375,7 +5375,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 90,
       },
     ],
@@ -5385,7 +5385,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         num: 0,
       },
     ],
@@ -5408,19 +5408,19 @@ export const siteConfig: SiteConfigMap = {
     produceList: [],
     fixedProduceList: [
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 4,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 6,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 4,
       },
       {
-        itemId: "1102063",
+        itemId: "item_model_generator_component",
         num: 1,
       },
     ],
@@ -5443,101 +5443,101 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 68,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 20,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 20,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 5,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 3,
       },
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 4,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 6,
       },
     ],
@@ -5564,97 +5564,97 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 98,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 20,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 20,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         num: 2,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 12,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 4,
       },
     ],
@@ -5681,101 +5681,101 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 98,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 20,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 20,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         num: 4,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 2,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 2,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 4,
       },
     ],
@@ -5802,109 +5802,109 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 98,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 20,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 20,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 5,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         num: 4,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         num: 4,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 3,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 4,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 3,
       },
     ],
@@ -5931,101 +5931,101 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 98,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 20,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 20,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 2,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 4,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 2,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 6,
       },
     ],
@@ -6052,101 +6052,101 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 98,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 20,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 20,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 4,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 4,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 16,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 8,
       },
     ],
@@ -6173,105 +6173,105 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 98,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 20,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 20,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         num: 3,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         num: 4,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 4,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 2,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 2,
       },
     ],
@@ -6298,101 +6298,101 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 98,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 20,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 20,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 12,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 4,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 4,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 5,
       },
     ],
@@ -6419,97 +6419,97 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 98,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 20,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 20,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 4,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 2,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 5,
       },
     ],
@@ -6536,109 +6536,109 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 118,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 20,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 20,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 5,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 15,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 4,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 3,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         num: 2,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 4,
       },
     ],
@@ -6665,105 +6665,105 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 118,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 20,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 20,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 12,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         num: 2,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         num: 2,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 4,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 3,
       },
     ],
@@ -6790,105 +6790,105 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 150,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 10,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 20,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 20,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 20,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 12,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 8,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 4,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 2,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 2,
       },
     ],
@@ -6927,109 +6927,109 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 320,
     produceList: [
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 15,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 15,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 15,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 10,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 10,
       },
       {
-        itemId: "1102063",
+        itemId: "item_model_generator_component",
         weight: 5,
       },
       {
-        itemId: "1301022",
+        itemId: "item_weapon_gun_shotgun",
         weight: 5,
       },
       {
-        itemId: "1301033",
+        itemId: "item_weapon_gun_ak47",
         weight: 5,
       },
       {
-        itemId: "1301011",
+        itemId: "item_weapon_gun_pistol",
         weight: 10,
       },
       {
-        itemId: "1301041",
+        itemId: "item_weapon_gun_magnum",
         weight: 10,
       },
       {
-        itemId: "1301052",
+        itemId: "item_weapon_gun_m40",
         weight: 5,
       },
       {
-        itemId: "1301063",
+        itemId: "item_weapon_gun_famas",
         weight: 5,
       },
       {
-        itemId: "1301071",
+        itemId: "item_weapon_gun_emp_handgun",
         weight: 10,
       },
       {
-        itemId: "1301082",
+        itemId: "item_weapon_gun_emp_rifle",
         weight: 5,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 10,
       },
       {
-        itemId: "1302021",
+        itemId: "item_weapon_melee_axe",
         weight: 10,
       },
       {
-        itemId: "1302032",
+        itemId: "item_weapon_melee_katana",
         weight: 5,
       },
       {
-        itemId: "1302043",
+        itemId: "item_weapon_melee_chainsaw",
         weight: 5,
       },
       {
-        itemId: "1303033",
+        itemId: "item_weapon_explosive_rocket_launcher",
         weight: 5,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 1,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 1,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 1,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 1,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 1,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 1,
       },
       {
@@ -7037,7 +7037,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -7045,23 +7045,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -7069,11 +7069,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -7085,11 +7085,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 4,
       },
       {
@@ -7097,7 +7097,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -7119,47 +7119,47 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 179,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 30,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 20,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 20,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 10,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 5,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 5,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 5,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 5,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 5,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 5,
       },
       {
@@ -7169,27 +7169,27 @@ export const siteConfig: SiteConfigMap = {
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 5,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 5,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 5,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 5,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 5,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 6,
       },
       {
@@ -7197,7 +7197,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -7205,23 +7205,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -7229,11 +7229,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -7245,11 +7245,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -7257,7 +7257,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -7280,47 +7280,47 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 199,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 10,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 10,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 20,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 10,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 10,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 20,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 10,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 20,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 10,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 5,
       },
       {
-        itemId: "1105051",
+        itemId: "item_econ_herbs",
         weight: 5,
       },
       {
@@ -7330,27 +7330,27 @@ export const siteConfig: SiteConfigMap = {
     ],
     fixedProduceList: [
       {
-        itemId: "1107052",
+        itemId: "item_buff_experimental_antidote",
         num: 1,
       },
       {
-        itemId: "1107042",
+        itemId: "item_buff_military_ration",
         num: 1,
       },
       {
-        itemId: "1107032",
+        itemId: "item_buff_stimpack",
         num: 1,
       },
       {
-        itemId: "1107022",
+        itemId: "item_buff_transmission_blocker",
         num: 1,
       },
       {
-        itemId: "1107012",
+        itemId: "item_buff_protoplasm_serum",
         num: 1,
       },
       {
-        itemId: "1106014",
+        itemId: "item_special_dog_bone",
         num: 2,
       },
       {
@@ -7358,7 +7358,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -7366,23 +7366,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -7390,11 +7390,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -7406,11 +7406,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -7418,7 +7418,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],
@@ -7441,253 +7441,253 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 17123,
     produceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         weight: 20,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         weight: 20,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         weight: 20,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         weight: 20,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         weight: 20,
       },
       {
-        itemId: "1101061",
+        itemId: "item_mat_water",
         weight: 20,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         weight: 10,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         weight: 5,
       },
       {
-        itemId: "1102022",
+        itemId: "item_model_shotgun_part",
         weight: 5,
       },
       {
-        itemId: "1102033",
+        itemId: "item_model_ak47_part",
         weight: 5,
       },
       {
-        itemId: "1102042",
+        itemId: "item_model_katana_part",
         weight: 5,
       },
       {
-        itemId: "1102053",
+        itemId: "item_model_motorcycle_engine",
         weight: 2,
       },
       {
-        itemId: "1102063",
+        itemId: "item_model_generator_component",
         weight: 2,
       },
       {
-        itemId: "1103011",
+        itemId: "item_food_potatoes",
         weight: 10,
       },
       {
-        itemId: "1103022",
+        itemId: "item_food_roasted_potatoes",
         weight: 5,
       },
       {
-        itemId: "1103033",
+        itemId: "item_food_mashed_potatoes",
         weight: 5,
       },
       {
-        itemId: "1103041",
+        itemId: "item_food_meat",
         weight: 10,
       },
       {
-        itemId: "1103052",
+        itemId: "item_food_broth",
         weight: 5,
       },
       {
-        itemId: "1103063",
+        itemId: "item_food_barbecue",
         weight: 5,
       },
       {
-        itemId: "1103074",
+        itemId: "item_food_flavored_stew",
         weight: 5,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         weight: 5,
       },
       {
-        itemId: "1103094",
+        itemId: "item_food_cheese",
         weight: 5,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         weight: 5,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         weight: 5,
       },
       {
-        itemId: "1104032",
+        itemId: "item_med_homemade_penicillin",
         weight: 2,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         weight: 2,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         weight: 10,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         weight: 5,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         weight: 5,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         weight: 5,
       },
       {
-        itemId: "1105051",
+        itemId: "item_econ_herbs",
         weight: 5,
       },
       {
-        itemId: "1106054",
+        itemId: "item_special_first_aid_kit",
         weight: 1,
       },
       {
-        itemId: "1107012",
+        itemId: "item_buff_protoplasm_serum",
         weight: 2,
       },
       {
-        itemId: "1107022",
+        itemId: "item_buff_transmission_blocker",
         weight: 2,
       },
       {
-        itemId: "1107032",
+        itemId: "item_buff_stimpack",
         weight: 2,
       },
       {
-        itemId: "1107042",
+        itemId: "item_buff_military_ration",
         weight: 2,
       },
       {
-        itemId: "1107052",
+        itemId: "item_buff_experimental_antidote",
         weight: 2,
       },
       {
-        itemId: "1301011",
+        itemId: "item_weapon_gun_pistol",
         weight: 5,
       },
       {
-        itemId: "1301022",
+        itemId: "item_weapon_gun_shotgun",
         weight: 5,
       },
       {
-        itemId: "1301033",
+        itemId: "item_weapon_gun_ak47",
         weight: 5,
       },
       {
-        itemId: "1301041",
+        itemId: "item_weapon_gun_magnum",
         weight: 5,
       },
       {
-        itemId: "1301052",
+        itemId: "item_weapon_gun_m40",
         weight: 5,
       },
       {
-        itemId: "1301063",
+        itemId: "item_weapon_gun_famas",
         weight: 5,
       },
       {
-        itemId: "1101071",
+        itemId: "item_mat_chemical_materials",
         weight: 5,
       },
       {
-        itemId: "1301082",
+        itemId: "item_weapon_gun_emp_rifle",
         weight: 5,
       },
       {
-        itemId: "1302011",
+        itemId: "item_weapon_melee_crowbar",
         weight: 10,
       },
       {
-        itemId: "1302021",
+        itemId: "item_weapon_melee_axe",
         weight: 10,
       },
       {
-        itemId: "1302032",
+        itemId: "item_weapon_melee_katana",
         weight: 5,
       },
       {
-        itemId: "1302043",
+        itemId: "item_weapon_melee_chainsaw",
         weight: 2,
       },
       {
-        itemId: "1303012",
+        itemId: "item_weapon_explosive_explosive",
         weight: 5,
       },
       {
-        itemId: "1303022",
+        itemId: "item_weapon_explosive_smoke_bomb",
         weight: 5,
       },
       {
-        itemId: "1303033",
+        itemId: "item_weapon_explosive_rocket_launcher",
         weight: 5,
       },
       {
-        itemId: "1303044",
+        itemId: "item_weapon_explosive_grenade",
         weight: 5,
       },
       {
-        itemId: "1304012",
+        itemId: "item_armor_thick_coat",
         weight: 5,
       },
       {
-        itemId: "1304023",
+        itemId: "item_armor_antiriot_suit",
         weight: 5,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         weight: 50,
       },
     ],
     fixedProduceList: [
       {
-        itemId: "1101011",
+        itemId: "item_mat_wood",
         num: 1,
       },
       {
-        itemId: "1101021",
+        itemId: "item_mat_metal",
         num: 0,
       },
       {
-        itemId: "1101031",
+        itemId: "item_mat_fabric",
         num: 0,
       },
       {
-        itemId: "1101041",
+        itemId: "item_mat_parts",
         num: 0,
       },
       {
-        itemId: "1101051",
+        itemId: "item_mat_components",
         num: 0,
       },
       {
-        itemId: "1101073",
+        itemId: "item_mat_data_module",
         num: 0,
       },
       {
@@ -7695,7 +7695,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102011",
+        itemId: "item_model_pistol_part",
         num: 0,
       },
       {
@@ -7703,23 +7703,23 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1104011",
+        itemId: "item_med_bandage",
         num: 0,
       },
       {
-        itemId: "1104021",
+        itemId: "item_med_ointment",
         num: 0,
       },
       {
-        itemId: "1104043",
+        itemId: "item_med_penicillin",
         num: 0,
       },
       {
-        itemId: "1105011",
+        itemId: "item_econ_coffee",
         num: 0,
       },
       {
-        itemId: "1105042",
+        itemId: "item_econ_potato_buds",
         num: 0,
       },
       {
@@ -7727,11 +7727,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1305011",
+        itemId: "item_ammo_standard_bullet",
         num: 0,
       },
       {
-        itemId: "1103083",
+        itemId: "item_food_canned_food",
         num: 0,
       },
       {
@@ -7743,11 +7743,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105022",
+        itemId: "item_econ_vodka",
         num: 0,
       },
       {
-        itemId: "1105033",
+        itemId: "item_econ_alcohol",
         num: 0,
       },
       {
@@ -7755,7 +7755,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1106013",
+        itemId: "item_special_dog",
         num: 0,
       },
     ],

@@ -14,31 +14,35 @@ import { useEffect, useState, useMemo } from 'react'
 import { usePlayerStore } from '@/core/store/playerStore'
 import { useUIStore } from '@/core/store/uiStore'
 import { Storage } from '@/core/game/inventory/Storage'
-import { Item } from '@/core/game/inventory/Item'
 import { ItemSection } from '@/module/storage/ItemSection'
 import { BOTTOM_BAR_LAYOUT } from '@/layout/layoutConstants'
 import { emitter } from '@/common/utils/emitter'
 import { Sprite } from '@/common/ui/sprite/Sprite'
 import { checkStarve } from '@/common/utils/uiUtil'
 
-// Item type categories (from string 3006)
-// English: ["Materials ", "Food ", "Medicines ", "Enhancement ", "Equipment ", "Miscellaneous "]
+// Item type categories (updated for new item key system)
 const TYPE_NAMES = [
   'Materials ',
   'Food ',
   'Medicines ',
   'Enhancement ',
+  'Weapons ',
+  'Armor ',
   'Equipment ',
+  'Accessories ',
   'Miscellaneous '
 ]
 
 const TYPE_PREFIXES = [
-  '1101',  // Materials
-  '1103',  // Food
-  '1104',  // Medicines
-  '1107',  // Enhancement
-  '13',    // Equipment
-  'other'  // Miscellaneous (catch-all)
+  'item_mat',      // Materials
+  'item_food',     // Food
+  'item_med',      // Medicines
+  'item_buff',     // Enhancement
+  'item_weapon',   // Equipment (weapons)
+  'item_armor',    // Equipment (armor)
+  'item_equip',    // Equipment (other equipment)
+  'item_ammo',     // Equipment (ammo/accessories)
+  'other'          // Miscellaneous (catch-all)
 ]
 
 export function StoragePanelContent() {
@@ -76,8 +80,7 @@ export function StoragePanelContent() {
       if (data.source !== 'storage') return
       
       // Check if food item and starve is max
-      const item = new Item(data.itemId)
-      if (item.isType('11', '03')) {
+      if (data.itemId.startsWith('item_food')) {
         // Food item - check starve
         if (!checkStarve()) {
           return // Can't eat when full

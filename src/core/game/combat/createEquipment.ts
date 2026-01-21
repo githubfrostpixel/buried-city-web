@@ -23,25 +23,25 @@ export function createEquipment(id: string | null, bPlayer: BattlePlayer): Battl
   const itemId = Number(id)
 
   switch (itemId) {
-    case 1303012:
-    case 1303033:
-    case 1303044:
+    case item_weapon_explosive_explosive:
+    case item_weapon_explosive_rocket_launcher:
+    case item_weapon_explosive_grenade:
       return new Bomb(id, bPlayer)
     
-    case 1303022:
+    case item_weapon_explosive_smoke_bomb:
       return new Trap(id, bPlayer)
     
-    case 1302011:
-    case 1302021:
-    case 1302032:
-    case 1302043:
+    case item_weapon_melee_crowbar:
+    case item_weapon_melee_axe:
+    case item_weapon_melee_katana:
+    case item_weapon_melee_chainsaw:
       return new Weapon(id, bPlayer)
     
-    case 1301071:
-    case 1301082:
+    case item_weapon_gun_emp_handgun:
+    case item_weapon_gun_emp_rifle:
       return new ElectricGun(id, bPlayer)
     
-    case 1301091:
+    case item_weapon_gun_flamethrower:
       return new Flamethrower(id, bPlayer)
     
     default:

@@ -422,7 +422,7 @@ export function NpcDialog() {
                     >
                       <Sprite
                         atlas="icon"
-                        frame={`icon_item_${item.itemId}.png`}
+                        frame={`icon_${item.itemId}.png`}
                         style={{
                           width: '24px',
                           height: '24px'

@@ -17,10 +17,10 @@ import { saveAll } from '@/core/game/systems/save'
 import { getString } from '@/common/utils/stringUtil'
 
 const EQUIPMENT_SLOTS = [
-  { key: 'gun' as const, label: 'Gun', itemType: '1301', emptyIcon: 'icon_tab_gun.png' },
-  { key: 'weapon' as const, label: 'Weapon', itemType: '1302', emptyIcon: 'icon_tab_weapon.png' },
-  { key: 'equip' as const, label: 'Equip', itemType: '1304', emptyIcon: 'icon_tab_equip.png' },
-  { key: 'tool' as const, label: 'Tool', itemType: '1303', emptyIcon: 'icon_tab_tool.png' },
+  { key: 'gun' as const, label: 'Gun', itemType: 'item_weapon_gun', emptyIcon: 'icon_tab_gun.png' },
+  { key: 'weapon' as const, label: 'Weapon', itemType: 'item_weapon_melee', emptyIcon: 'icon_tab_weapon.png' },
+  { key: 'equip' as const, label: 'Equip', itemType: 'item_equip', emptyIcon: 'icon_tab_equip.png' },
+  { key: 'tool' as const, label: 'Tool', itemType: 'item_weapon_explosive', emptyIcon: 'icon_tab_tool.png' },
   { key: 'special' as const, label: 'Special', itemType: 'special', emptyIcon: 'build_action_fix.png' }
 ]
 
@@ -84,7 +84,7 @@ export function EquipPanel() {
     
     if (slot.key === 'special') {
       // Special slot: only specific items
-      const specialItems = ['1305053', '1305064', '1305075']
+      const specialItems = ['item_ammo_strong_flashlight', 'item_ammo_hyper_detector', 'item_ammo_siphon_tool']
       items = specialItems.filter(itemId => bag.validateItem(itemId, 1))
     } else {
       // Get items by type from bag
@@ -176,9 +176,9 @@ export function EquipPanel() {
       return 'icon_tab_hand.png'
     }
     
-    // Special items use icon_item_ prefix
-    if (equipped === '1305053' || equipped === '1305064' || equipped === '1305075') {
-      return `icon_item_${equipped}.png`
+    // Special items - itemId already includes "item_" prefix, so use icon_ prefix
+    if (equipped === 'item_ammo_strong_flashlight' || equipped === 'item_ammo_hyper_detector' || equipped === 'item_ammo_siphon_tool') {
+      return `icon_${equipped}.png`
     }
     
     // Other items use icon_tab_ prefix
@@ -409,8 +409,8 @@ export function EquipPanel() {
                 }
                 
                 // Icon naming and scale
-                if (itemId === '1305053' || itemId === '1305064' || itemId === '1305075') {
-                  iconFrame = `icon_item_${itemId}.png`
+                if (itemId === 'item_ammo_strong_flashlight' || itemId === 'item_ammo_hyper_detector' || itemId === 'item_ammo_siphon_tool') {
+                  iconFrame = `icon_${itemId}.png`
                   iconScale = 1.0
                 } else {
                   iconFrame = `icon_tab_content_${itemId}.png`
@@ -558,9 +558,9 @@ export function EquipPanel() {
                     >
                       {slot.key === 'special' 
                         ? (() => {
-                            const name1 = getString('1305053')
-                            const name2 = getString('1305064')
-                            const name3 = getString('1305075')
+                            const name1 = getString('item_ammo_strong_flashlight')
+                            const name2 = getString('item_ammo_hyper_detector')
+                            const name3 = getString('item_ammo_siphon_tool')
                             const getName = (config: any): string => {
                               return typeof config === 'object' && config !== null && 'title' in config
                                 ? config.title as string

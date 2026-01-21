@@ -42,19 +42,19 @@ function getItemsForAttribute(attr: string, storage: Storage): Array<{ item: Ite
   let itemList: Array<{ item: Item; num: number }> = []
   
   if (attr === 'starve') {
-    // Food items (type 1103)
-    itemList = storage.getItemsByType('1103')
+    // Food items
+    itemList = storage.getItemsByType('item_food')
   } else if (attr === 'infect') {
-    // Medicine items except bandage (type 1104, exclude 1104011)
-    itemList = storage.getItemsByType('1104')
-    itemList = itemList.filter(({ item }) => item.id !== '1104011')
+    // Medicine items except bandage
+    itemList = storage.getItemsByType('item_med')
+    itemList = itemList.filter(({ item }) => item.id !== 'item_med_bandage')
   } else if (attr === 'injury') {
-    // Bandage only (type 1104, id 1104011)
-    itemList = storage.getItemsByType('1104')
-    itemList = itemList.filter(({ item }) => item.id === '1104011')
+    // Bandage only
+    itemList = storage.getItemsByType('item_med')
+    itemList = itemList.filter(({ item }) => item.id === 'item_med_bandage')
   } else if (attr === 'hp') {
-    // HP items (type 1107)
-    itemList = storage.getItemsByType('1107')
+    // Buff items
+    itemList = storage.getItemsByType('item_buff')
   }
   // Other attributes (vigour, spirit, water) don't have specific items in original
   
@@ -448,11 +448,11 @@ export function AttributeStatusDialog() {
                       return 'item_equip_bg.png'
                     }
                     // Basic items
-                    if (item.id === '1102063' || item.id === '1102073') {
+                    if (item.id === 'item_model_generator_component' || item.id === 'item_model_gasoline_pump_component') {
                       return 'item_basic_bg.png'
                     }
                     // Bullet items
-                    if (item.id === '1305011' || item.id === '1305012') {
+                    if (item.id === 'item_ammo_standard_bullet' || item.id === 'item_ammo_handmade_bullet') {
                       return 'item_bullet_bg.png'
                     }
                     // Default background
@@ -504,7 +504,7 @@ export function AttributeStatusDialog() {
                       >
                         <Sprite
                           atlas="icon"
-                          frame={`icon_item_${item.id}.png`}
+                          frame={`icon_${item.id}.png`}
                           className="w-full h-full"
                         />
                       </div>

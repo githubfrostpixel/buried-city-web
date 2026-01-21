@@ -32,11 +32,11 @@ export class Gun extends Weapon {
 
         // Play sound effect
         let soundName: string
-        if (this.id === "1301022" || this.id === "1301052") {
+        if (this.id === "item_weapon_gun_shotgun" || this.id === "item_weapon_gun_m40") {
           soundName = SoundPaths.ATTACK_3
-        } else if (this.id === "1301011" || this.id === "1301041") {
+        } else if (this.id === "item_weapon_gun_pistol" || this.id === "item_weapon_gun_magnum") {
           soundName = SoundPaths.ATTACK_4
-        } else if (this.id === "1301033" || this.id === "1301063") {
+        } else if (this.id === "item_weapon_gun_ak47" || this.id === "item_weapon_gun_famas") {
           soundName = SoundPaths.ATTACK_5
         } else {
           soundName = SoundPaths.ATTACK_4

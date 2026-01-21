@@ -83,7 +83,7 @@ export function ItemCostDisplay({
             >
               <Sprite
                 atlas="icon"
-                frame={`icon_item_${itemIdStr}.png`}
+                frame={`icon_${itemIdStr}.png`}
                 className="w-full h-full"
                 style={{
                   transform: `scale(${iconScale})`,

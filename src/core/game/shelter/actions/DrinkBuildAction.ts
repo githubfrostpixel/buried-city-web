@@ -22,7 +22,7 @@ export class DrinkBuildAction {
   building: Building
   configs: RestActionConfig[][]
   config: RestActionConfig = {
-    cost: [{ itemId: 1105022, num: 3 }],
+    cost: [{ itemId: "item_econ_vodka", num: 3 }],
     makeTime: 60,
     effect: { spirit: 60, spirit_chance: 1 }
   }
@@ -66,13 +66,13 @@ export class DrinkBuildAction {
       // Override cost with dynamic alcohol price
       const playerStore = usePlayerStore.getState()
       const alcoholPrice = (playerStore as any).alcoholPrice || 1
-      this.config.cost = [{ itemId: 1105022, num: alcoholPrice }]
+      this.config.cost = [{ itemId: "item_econ_vodka", num: alcoholPrice }]
     } else {
       // Fallback to level 0
       const playerStore = usePlayerStore.getState()
       const alcoholPrice = (playerStore as any).alcoholPrice || 1
       this.config = {
-        cost: [{ itemId: 1105022, num: alcoholPrice }],
+        cost: [{ itemId: "item_econ_vodka", num: alcoholPrice }],
         makeTime: 60,
         effect: { spirit: 60, spirit_chance: 1 }
       }

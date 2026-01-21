@@ -16,9 +16,9 @@ export class Weapon extends BattleEquipment {
 
       // Play sound effect
       let soundName: string
-      if (this.id === "1302043") {
+      if (this.id === "item_weapon_melee_chainsaw") {
         soundName = SoundPaths.ATTACK_1
-      } else if (this.id === "1302011") {
+      } else if (this.id === "item_weapon_melee_crowbar") {
         soundName = SoundPaths.ATTACK_2
       } else if (this.id === "1") {
         soundName = SoundPaths.PUNCH

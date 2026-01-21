@@ -102,7 +102,7 @@ export function ItemDialog() {
       return 'item_2'  // Food items - has use button
     } else if (item.isType('11', '04')) {
       return 'item_3'  // Medicine items - has use button
-    } else if (item.isType('11', '07') || itemId === '1106014') {
+    } else if (item.isType('11', '07') || itemId === 'item_special_dog_bone') {
       return 'item_3'  // Buff items - has use button
     }
     return 'item_1'  // Default items - NO use button
@@ -149,8 +149,8 @@ export function ItemDialog() {
   const itemDescription = getItemDescription()
   
   // Special item handling
-  const equipNeededItems = ['1305053', '1305075', '1305064']
-  const equipNotNeededItems = ['1305034', '1305024', '1305023', '1306001']
+  const equipNeededItems = ['item_ammo_strong_flashlight', 'item_ammo_siphon_tool', 'item_ammo_hyper_detector']
+  const equipNotNeededItems = ['item_ammo_motorcycle', 'item_ammo_military_grade_backpack', 'item_ammo_enhanced_backpack', 'item_equip_other_boot']
   const needsEquip = equipNeededItems.includes(itemId)
   const noEquipNeeded = equipNotNeededItems.includes(itemId)
   const isBuffItem = item.isType('11', '07')
@@ -253,7 +253,7 @@ export function ItemDialog() {
           >
             <Sprite
               atlas="icon"
-              frame={`icon_item_${itemId}.png`}
+              frame={`icon_${itemId}.png`}
               className="w-full h-full"
             />
           </div>

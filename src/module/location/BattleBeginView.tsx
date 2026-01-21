@@ -57,10 +57,10 @@ export function BattleBeginView({ room, site, onStartBattle }: BattleBeginViewPr
             <div style={{ position: 'relative' }}>
               <Sprite
                 atlas="icon"
-                frame={`icon_item_${playerStore.equipment.gun}.png`}
+                frame={`icon_${playerStore.equipment.gun}.png`}
                 style={{ width: '40px', height: '40px' }}
               />
-              {playerStore.equipment.gun !== "1301091" && (
+              {playerStore.equipment.gun !== "item_weapon_gun_flamethrower" && (
                 <div
                   className="text-white"
                   style={{
@@ -80,7 +80,7 @@ export function BattleBeginView({ room, site, onStartBattle }: BattleBeginViewPr
           {playerStore.equipment.weapon && (
             <Sprite
               atlas="icon"
-              frame={`icon_item_${playerStore.equipment.weapon}.png`}
+              frame={`icon_${playerStore.equipment.weapon}.png`}
               style={{ width: '40px', height: '40px' }}
             />
           )}
@@ -88,12 +88,12 @@ export function BattleBeginView({ room, site, onStartBattle }: BattleBeginViewPr
             <div style={{ position: 'relative' }}>
               <Sprite
                 atlas="icon"
-                frame={`icon_item_${playerStore.equipment.tool}.png`}
+                frame={`icon_${playerStore.equipment.tool}.png`}
                 style={{ width: '40px', height: '40px' }}
               />
-              {(playerStore.equipment.tool === "1303012" ||
-                playerStore.equipment.tool === "1303033" ||
-                playerStore.equipment.tool === "1303044") && (
+              {(playerStore.equipment.tool === "item_weapon_explosive_explosive" ||
+                playerStore.equipment.tool === "item_weapon_explosive_rocket_launcher" ||
+                playerStore.equipment.tool === "item_weapon_explosive_grenade") && (
                 <div
                   className="text-white"
                   style={{

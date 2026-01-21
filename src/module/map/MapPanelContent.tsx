@@ -279,8 +279,8 @@ export function MapPanelContent() {
     }
     
     // 6. Check motorcycle availability
-    const hasMotorcycle = playerStore.getStorageItemCount('1305034') > 0 || 
-                          playerStore.getBagItemCount('1305034') > 0
+    const hasMotorcycle = playerStore.getStorageItemCount('item_ammo_motorcycle') > 0 || 
+                          playerStore.getBagItemCount('item_ammo_motorcycle') > 0
     if (!hasMotorcycle || !playerStore.useMoto) {
       fuelNeed = -1  // No fuel needed
     }
@@ -399,8 +399,8 @@ export function MapPanelContent() {
     }
     
     // 5. Check motorcycle availability
-    const hasMotorcycle = playerStore.getStorageItemCount('1305034') > 0 || 
-                          playerStore.getBagItemCount('1305034') > 0
+    const hasMotorcycle = playerStore.getStorageItemCount('item_ammo_motorcycle') > 0 || 
+                          playerStore.getBagItemCount('item_ammo_motorcycle') > 0
     if (!hasMotorcycle || !playerStore.useMoto) {
       fuelNeed = -1  // No fuel needed
     }

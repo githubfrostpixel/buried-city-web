@@ -18,43 +18,43 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 1,
       cost: [
-        { itemId: 1101011, num: 6 },
-        { itemId: 1101021, num: 4 },
-        { itemId: 1101031, num: 1 },
-        { itemId: 1101041, num: 4 }
+        { itemId: "item_mat_wood", num: 6 },
+        { itemId: "item_mat_metal", num: 4 },
+        { itemId: "item_mat_fabric", num: 1 },
+        { itemId: "item_mat_parts", num: 4 }
       ],
       createTime: 60,
       condition: {
         bid: 1,
         level: 0
       },
-      produceList: [1402032, 1404024, 1401022, 1404012, 1305034, 1405053, 1305075]
+      produceList: [1402032, 1404024, 1401022, 1404012, "item_ammo_motorcycle", 1405053, "item_ammo_siphon_tool"]
     },
     {
       id: 1,
       cost: [
-        { itemId: 1101011, num: 2 },
-        { itemId: 1101021, num: 6 },
-        { itemId: 1101031, num: 1 },
-        { itemId: 1101041, num: 8 },
-        { itemId: 1101051, num: 8 }
+        { itemId: "item_mat_wood", num: 2 },
+        { itemId: "item_mat_metal", num: 6 },
+        { itemId: "item_mat_fabric", num: 1 },
+        { itemId: "item_mat_parts", num: 8 },
+        { itemId: "item_mat_components", num: 8 }
       ],
       createTime: 90,
       condition: {
         bid: 1,
         level: 1
       },
-      produceList: [1401082, 1402043, 1404023, 1401033, 1401091, 1405024, 1305064, 1106014]
+      produceList: [1401082, 1402043, 1404023, 1401033, 1401091, 1405024, "item_ammo_hyper_detector", "item_special_dog_bone"]
     }
   ],
   "2": [
     {
       id: 2,
       cost: [
-        { itemId: 1101011, num: 3 },
-        { itemId: 1101021, num: 3 },
-        { itemId: 1101031, num: 3 },
-        { itemId: 1101041, num: 2 }
+        { itemId: "item_mat_wood", num: 3 },
+        { itemId: "item_mat_metal", num: 3 },
+        { itemId: "item_mat_fabric", num: 3 },
+        { itemId: "item_mat_parts", num: 2 }
       ],
       createTime: 60,
       condition: {
@@ -66,11 +66,11 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 2,
       cost: [
-        { itemId: 1101011, num: 6 },
-        { itemId: 1101021, num: 8 },
-        { itemId: 1101031, num: 8 },
-        { itemId: 1101041, num: 6 },
-        { itemId: 1101051, num: 3 }
+        { itemId: "item_mat_wood", num: 6 },
+        { itemId: "item_mat_metal", num: 8 },
+        { itemId: "item_mat_fabric", num: 8 },
+        { itemId: "item_mat_parts", num: 6 },
+        { itemId: "item_mat_components", num: 3 }
       ],
       createTime: 90,
       condition: {
@@ -84,10 +84,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 3,
       cost: [
-        { itemId: 1101011, num: 2 },
-        { itemId: 1101021, num: 2 },
-        { itemId: 1101031, num: 1 },
-        { itemId: 1101041, num: 1 }
+        { itemId: "item_mat_wood", num: 2 },
+        { itemId: "item_mat_metal", num: 2 },
+        { itemId: "item_mat_fabric", num: 1 },
+        { itemId: "item_mat_parts", num: 1 }
       ],
       createTime: 60,
       condition: {
@@ -99,10 +99,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 3,
       cost: [
-        { itemId: 1101011, num: 2 },
-        { itemId: 1101021, num: 4 },
-        { itemId: 1101031, num: 2 },
-        { itemId: 1101041, num: 2 }
+        { itemId: "item_mat_wood", num: 2 },
+        { itemId: "item_mat_metal", num: 4 },
+        { itemId: "item_mat_fabric", num: 2 },
+        { itemId: "item_mat_parts", num: 2 }
       ],
       createTime: 90,
       condition: {
@@ -116,8 +116,8 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 4,
       cost: [
-        { itemId: 1101011, num: 1 },
-        { itemId: 1101021, num: 6 }
+        { itemId: "item_mat_wood", num: 1 },
+        { itemId: "item_mat_metal", num: 6 }
       ],
       createTime: 60,
       condition: {
@@ -129,10 +129,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 4,
       cost: [
-        { itemId: 1101011, num: 6 },
-        { itemId: 1101021, num: 6 },
-        { itemId: 1101031, num: 1 },
-        { itemId: 1101041, num: 2 }
+        { itemId: "item_mat_wood", num: 6 },
+        { itemId: "item_mat_metal", num: 6 },
+        { itemId: "item_mat_fabric", num: 1 },
+        { itemId: "item_mat_parts", num: 2 }
       ],
       createTime: 90,
       condition: {
@@ -144,11 +144,11 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 4,
       cost: [
-        { itemId: 1101011, num: 4 },
-        { itemId: 1101021, num: 10 },
-        { itemId: 1101031, num: 2 },
-        { itemId: 1101041, num: 4 },
-        { itemId: 1101051, num: 2 }
+        { itemId: "item_mat_wood", num: 4 },
+        { itemId: "item_mat_metal", num: 10 },
+        { itemId: "item_mat_fabric", num: 2 },
+        { itemId: "item_mat_parts", num: 4 },
+        { itemId: "item_mat_components", num: 2 }
       ],
       createTime: 120,
       condition: {
@@ -162,9 +162,9 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 5,
       cost: [
-        { itemId: 1101011, num: 1 },
-        { itemId: 1101021, num: 6 },
-        { itemId: 1101041, num: 4 }
+        { itemId: "item_mat_wood", num: 1 },
+        { itemId: "item_mat_metal", num: 6 },
+        { itemId: "item_mat_parts", num: 4 }
       ],
       createTime: 90,
       condition: {
@@ -178,10 +178,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 6,
       cost: [
-        { itemId: 1101011, num: 1 },
-        { itemId: 1101021, num: 4 },
-        { itemId: 1101031, num: 2 },
-        { itemId: 1101041, num: 6 }
+        { itemId: "item_mat_wood", num: 1 },
+        { itemId: "item_mat_metal", num: 4 },
+        { itemId: "item_mat_fabric", num: 2 },
+        { itemId: "item_mat_parts", num: 6 }
       ],
       createTime: 60,
       condition: {
@@ -193,10 +193,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 6,
       cost: [
-        { itemId: 1101021, num: 8 },
-        { itemId: 1101031, num: 1 },
-        { itemId: 1101041, num: 10 },
-        { itemId: 1101051, num: 6 }
+        { itemId: "item_mat_metal", num: 8 },
+        { itemId: "item_mat_fabric", num: 1 },
+        { itemId: "item_mat_parts", num: 10 },
+        { itemId: "item_mat_components", num: 6 }
       ],
       createTime: 90,
       condition: {
@@ -210,10 +210,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 7,
       cost: [
-        { itemId: 1101011, num: 10 },
-        { itemId: 1101021, num: 6 },
-        { itemId: 1101031, num: 2 },
-        { itemId: 1101041, num: 4 }
+        { itemId: "item_mat_wood", num: 10 },
+        { itemId: "item_mat_metal", num: 6 },
+        { itemId: "item_mat_fabric", num: 2 },
+        { itemId: "item_mat_parts", num: 4 }
       ],
       createTime: 60,
       condition: {
@@ -227,10 +227,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 8,
       cost: [
-        { itemId: 1101011, num: 1 },
-        { itemId: 1101021, num: 4 },
-        { itemId: 1101031, num: 2 },
-        { itemId: 1101041, num: 4 }
+        { itemId: "item_mat_wood", num: 1 },
+        { itemId: "item_mat_metal", num: 4 },
+        { itemId: "item_mat_fabric", num: 2 },
+        { itemId: "item_mat_parts", num: 4 }
       ],
       createTime: 60,
       condition: {
@@ -244,8 +244,8 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 9,
       cost: [
-        { itemId: 1101031, num: 6 },
-        { itemId: 1101041, num: 2 }
+        { itemId: "item_mat_fabric", num: 6 },
+        { itemId: "item_mat_parts", num: 2 }
       ],
       createTime: 60,
       condition: {
@@ -257,9 +257,9 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 9,
       cost: [
-        { itemId: 1101011, num: 2 },
-        { itemId: 1101031, num: 12 },
-        { itemId: 1101041, num: 4 }
+        { itemId: "item_mat_wood", num: 2 },
+        { itemId: "item_mat_fabric", num: 12 },
+        { itemId: "item_mat_parts", num: 4 }
       ],
       createTime: 120,
       condition: {
@@ -271,10 +271,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 9,
       cost: [
-        { itemId: 1101011, num: 4 },
-        { itemId: 1101021, num: 6 },
-        { itemId: 1101031, num: 18 },
-        { itemId: 1101041, num: 8 }
+        { itemId: "item_mat_wood", num: 4 },
+        { itemId: "item_mat_metal", num: 6 },
+        { itemId: "item_mat_fabric", num: 18 },
+        { itemId: "item_mat_parts", num: 8 }
       ],
       createTime: 180,
       condition: {
@@ -288,9 +288,9 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 10,
       cost: [
-        { itemId: 1101011, num: 2 },
-        { itemId: 1101021, num: 1 },
-        { itemId: 1101041, num: 1 }
+        { itemId: "item_mat_wood", num: 2 },
+        { itemId: "item_mat_metal", num: 1 },
+        { itemId: "item_mat_parts", num: 1 }
       ],
       createTime: 60,
       condition: {
@@ -302,10 +302,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 10,
       cost: [
-        { itemId: 1101011, num: 6 },
-        { itemId: 1101021, num: 3 },
-        { itemId: 1101031, num: 6 },
-        { itemId: 1101041, num: 2 }
+        { itemId: "item_mat_wood", num: 6 },
+        { itemId: "item_mat_metal", num: 3 },
+        { itemId: "item_mat_fabric", num: 6 },
+        { itemId: "item_mat_parts", num: 2 }
       ],
       createTime: 90,
       condition: {
@@ -317,10 +317,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 10,
       cost: [
-        { itemId: 1101011, num: 6 },
-        { itemId: 1101021, num: 2 },
-        { itemId: 1101041, num: 2 },
-        { itemId: 1101051, num: 4 }
+        { itemId: "item_mat_wood", num: 6 },
+        { itemId: "item_mat_metal", num: 2 },
+        { itemId: "item_mat_parts", num: 2 },
+        { itemId: "item_mat_components", num: 4 }
       ],
       createTime: 120,
       condition: {
@@ -334,10 +334,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 11,
       cost: [
-        { itemId: 1101011, num: 10 },
-        { itemId: 1101021, num: 10 },
-        { itemId: 1101031, num: 4 },
-        { itemId: 1101041, num: 4 }
+        { itemId: "item_mat_wood", num: 10 },
+        { itemId: "item_mat_metal", num: 10 },
+        { itemId: "item_mat_fabric", num: 4 },
+        { itemId: "item_mat_parts", num: 4 }
       ],
       createTime: 60,
       condition: {
@@ -349,10 +349,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 11,
       cost: [
-        { itemId: 1101011, num: 15 },
-        { itemId: 1101021, num: 15 },
-        { itemId: 1101031, num: 6 },
-        { itemId: 1101041, num: 4 }
+        { itemId: "item_mat_wood", num: 15 },
+        { itemId: "item_mat_metal", num: 15 },
+        { itemId: "item_mat_fabric", num: 6 },
+        { itemId: "item_mat_parts", num: 4 }
       ],
       createTime: 90,
       condition: {
@@ -364,11 +364,11 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 11,
       cost: [
-        { itemId: 1101011, num: 20 },
-        { itemId: 1101021, num: 20 },
-        { itemId: 1101031, num: 8 },
-        { itemId: 1101041, num: 12 },
-        { itemId: 1101051, num: 10 }
+        { itemId: "item_mat_wood", num: 20 },
+        { itemId: "item_mat_metal", num: 20 },
+        { itemId: "item_mat_fabric", num: 8 },
+        { itemId: "item_mat_parts", num: 12 },
+        { itemId: "item_mat_components", num: 10 }
       ],
       createTime: 120,
       condition: {
@@ -382,11 +382,11 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 12,
       cost: [
-        { itemId: 1101011, num: 4 },
-        { itemId: 1101021, num: 2 },
-        { itemId: 1101031, num: 2 },
-        { itemId: 1101041, num: 2 },
-        { itemId: 1106013, num: 1 }
+        { itemId: "item_mat_wood", num: 4 },
+        { itemId: "item_mat_metal", num: 2 },
+        { itemId: "item_mat_fabric", num: 2 },
+        { itemId: "item_mat_parts", num: 2 },
+        { itemId: "item_special_dog", num: 1 }
       ],
       createTime: 60,
       condition: {
@@ -416,9 +416,9 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 15,
       cost: [
-        { itemId: 1101021, num: 5 },
-        { itemId: 1101041, num: 5 },
-        { itemId: 1101051, num: 5 }
+        { itemId: "item_mat_metal", num: 5 },
+        { itemId: "item_mat_parts", num: 5 },
+        { itemId: "item_mat_components", num: 5 }
       ],
       createTime: 30,
       condition: {
@@ -432,11 +432,11 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 16,
       cost: [
-        { itemId: 1101011, num: 2 },
-        { itemId: 1101021, num: 6 },
-        { itemId: 1101031, num: 1 },
-        { itemId: 1101041, num: 4 },
-        { itemId: 1101051, num: 4 }
+        { itemId: "item_mat_wood", num: 2 },
+        { itemId: "item_mat_metal", num: 6 },
+        { itemId: "item_mat_fabric", num: 1 },
+        { itemId: "item_mat_parts", num: 4 },
+        { itemId: "item_mat_components", num: 4 }
       ],
       createTime: 60,
       condition: {
@@ -448,11 +448,11 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 16,
       cost: [
-        { itemId: 1101011, num: 2 },
-        { itemId: 1101021, num: 8 },
-        { itemId: 1101031, num: 1 },
-        { itemId: 1101041, num: 8 },
-        { itemId: 1101051, num: 12 }
+        { itemId: "item_mat_wood", num: 2 },
+        { itemId: "item_mat_metal", num: 8 },
+        { itemId: "item_mat_fabric", num: 1 },
+        { itemId: "item_mat_parts", num: 8 },
+        { itemId: "item_mat_components", num: 12 }
       ],
       createTime: 90,
       condition: {
@@ -478,10 +478,10 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 18,
       cost: [
-        { itemId: 1101011, num: 1 },
-        { itemId: 1101021, num: 10 },
-        { itemId: 1101041, num: 10 },
-        { itemId: 1101051, num: 10 }
+        { itemId: "item_mat_wood", num: 1 },
+        { itemId: "item_mat_metal", num: 10 },
+        { itemId: "item_mat_parts", num: 10 },
+        { itemId: "item_mat_components", num: 10 }
       ],
       createTime: 90,
       condition: {
@@ -495,11 +495,11 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 19,
       cost: [
-        { itemId: 1101011, num: 20 },
-        { itemId: 1101021, num: 20 },
-        { itemId: 1101031, num: 8 },
-        { itemId: 1101041, num: 12 },
-        { itemId: 1101051, num: 30 }
+        { itemId: "item_mat_wood", num: 20 },
+        { itemId: "item_mat_metal", num: 20 },
+        { itemId: "item_mat_fabric", num: 8 },
+        { itemId: "item_mat_parts", num: 12 },
+        { itemId: "item_mat_components", num: 30 }
       ],
       createTime: 60,
       condition: {
@@ -513,12 +513,12 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 20,
       cost: [
-        { itemId: 1101011, num: 6 },
-        { itemId: 1101021, num: 70 },
-        { itemId: 1101031, num: 8 },
-        { itemId: 1101041, num: 16 },
-        { itemId: 1101071, num: 2 },
-        { itemId: 1101073, num: 5 }
+        { itemId: "item_mat_wood", num: 6 },
+        { itemId: "item_mat_metal", num: 70 },
+        { itemId: "item_mat_fabric", num: 8 },
+        { itemId: "item_mat_parts", num: 16 },
+        { itemId: "item_mat_chemical_materials", num: 2 },
+        { itemId: "item_mat_data_module", num: 5 }
       ],
       createTime: 240,
       condition: {
@@ -532,12 +532,12 @@ export const buildingConfig: BuildingConfig = {
     {
       id: 21,
       cost: [
-        { itemId: 1101021, num: 16 },
-        { itemId: 1101031, num: 4 },
-        { itemId: 1101041, num: 16 },
-        { itemId: 1101051, num: 10 },
-        { itemId: 1101073, num: 3 },
-        { itemId: 1101071, num: 2 }
+        { itemId: "item_mat_metal", num: 16 },
+        { itemId: "item_mat_fabric", num: 4 },
+        { itemId: "item_mat_parts", num: 16 },
+        { itemId: "item_mat_components", num: 10 },
+        { itemId: "item_mat_data_module", num: 3 },
+        { itemId: "item_mat_chemical_materials", num: 2 }
       ],
       createTime: 240,
       condition: {

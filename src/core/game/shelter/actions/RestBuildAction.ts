@@ -22,7 +22,7 @@ export class RestBuildAction {
   building: Building
   configs: RestActionConfig[][]
   config: RestActionConfig = {
-    cost: [{ itemId: 1105011, num: 4 }, { itemId: 1101061, num: 1 }, { itemId: 1101011, num: 1 }],
+    cost: [{ itemId: "item_econ_coffee", num: 4 }, { itemId: "item_mat_water", num: 1 }, { itemId: "item_mat_wood", num: 1 }],
     makeTime: 60,
     effect: { spirit: 60, spirit_chance: 1 }
   }
@@ -64,7 +64,7 @@ export class RestBuildAction {
     } else {
       // Fallback to level 0
       this.config = this.configs[0]?.[this.index] || {
-        cost: [{ itemId: 1105011, num: 4 }, { itemId: 1101061, num: 1 }, { itemId: 1101011, num: 1 }],
+        cost: [{ itemId: "item_econ_coffee", num: 4 }, { itemId: "item_mat_water", num: 1 }, { itemId: "item_mat_wood", num: 1 }],
         makeTime: 60,
         effect: { spirit: 60, spirit_chance: 1 }
       }
@@ -195,7 +195,7 @@ export class RestBuildAction {
     actionText: string
     disabled: boolean
     percentage: number
-    items?: Array<{ itemId: number; num: number; color?: string }>
+    items?: Array<{ itemId: string; num: number; color?: string }>
   } {
     this.updateConfig()
     

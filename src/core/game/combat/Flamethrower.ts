@@ -84,7 +84,7 @@ export class Flamethrower extends BattleEquipment {
 
   protected isEnough(): boolean {
     const playerStore = usePlayerStore.getState()
-    return playerStore.equipment.gun === "1301091" && playerStore.fuel > 0
+    return playerStore.equipment.gun === "item_weapon_gun_flamethrower" && playerStore.fuel > 0
   }
 
   protected afterCd(): void {

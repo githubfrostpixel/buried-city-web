@@ -329,7 +329,7 @@ export class Formula {
     
     // TODO: Apply weather effects
     // Original weather effects:
-    // - Distilled water (1101061): item.num += player.weather.getValue("item_1101061")
+    // - Distilled water (item_mat_water): item.num += player.weather.getValue("item_1101061")
     // - Greenhouse (building 2): all items += player.weather.getValue("build_2")
     // For now, skip weather effects
     

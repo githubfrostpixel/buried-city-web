@@ -115,7 +115,7 @@ export class BattlePlayer {
 
     // Use weapon1 (gun) - except flamethrower at site 502
     const gunId = playerStore.equipment.gun
-    if (gunId === "1301091" || playerStore.nowSiteId !== WORK_SITE) {
+    if (gunId === "item_weapon_gun_flamethrower" || playerStore.nowSiteId !== WORK_SITE) {
       this.useWeapon1()
     }
 
@@ -125,7 +125,7 @@ export class BattlePlayer {
     // Use equip (tool) - except certain tools at site 502
     if (playerStore.nowSiteId === WORK_SITE) {
       const toolEquip = playerStore.equipment.tool
-      if (!(toolEquip === "1303012" || toolEquip === "1303033" || toolEquip === "1303044")) {
+      if (!(toolEquip === "item_weapon_explosive_explosive" || toolEquip === "item_weapon_explosive_rocket_launcher" || toolEquip === "item_weapon_explosive_grenade")) {
         this.useEquip()
       }
     } else {
@@ -200,9 +200,9 @@ export class BattlePlayer {
       const rand = Math.random()
       let threshold = 0.8
       const equipId = playerStore.equipment.equip
-      if (equipId === "1304023") {
+      if (equipId === "item_armor_antiriot_suit") {
         threshold = 0.5
-      } else if (equipId === "1304012") {
+      } else if (equipId === "item_armor_thick_coat") {
         threshold = 0.65
       }
 

@@ -227,11 +227,11 @@ export function BattlePanelContent({
               <div style={{ position: 'relative' }}>
                 <Sprite
                   atlas="icon"
-                  frame={`icon_item_${playerStore.equipment.gun}.png`}
+                  frame={`icon_${playerStore.equipment.gun}.png`}
                   style={{ width: '40px', height: '40px' }}
                 />
                 {/* Bullet count for gun */}
-                {playerStore.equipment.gun !== "1301091" && (
+                {playerStore.equipment.gun !== "item_weapon_gun_flamethrower" && (
                   <div
                     className="text-white"
                     style={{
@@ -251,7 +251,7 @@ export function BattlePanelContent({
             {playerStore.equipment.weapon && (
               <Sprite
                 atlas="icon"
-                frame={`icon_item_${playerStore.equipment.weapon}.png`}
+                frame={`icon_${playerStore.equipment.weapon}.png`}
                 style={{ width: '40px', height: '40px' }}
               />
             )}
@@ -259,13 +259,13 @@ export function BattlePanelContent({
               <div style={{ position: 'relative' }}>
                 <Sprite
                   atlas="icon"
-                  frame={`icon_item_${playerStore.equipment.tool}.png`}
+                  frame={`icon_${playerStore.equipment.tool}.png`}
                   style={{ width: '40px', height: '40px' }}
                 />
                 {/* Bomb count for bomb tools */}
-                {(playerStore.equipment.tool === "1303012" || 
-                  playerStore.equipment.tool === "1303033" || 
-                  playerStore.equipment.tool === "1303044") && (
+                {(playerStore.equipment.tool === "item_weapon_explosive_explosive" || 
+                  playerStore.equipment.tool === "item_weapon_explosive_rocket_launcher" || 
+                  playerStore.equipment.tool === "item_weapon_explosive_grenade") && (
                   <div
                     className="text-white"
                     style={{
@@ -524,7 +524,7 @@ export function BattlePanelContent({
                   <div key={index} className="flex items-center gap-1">
                     <Sprite
                       atlas="icon"
-                      frame={`icon_item_${item.itemId}.png`}
+                      frame={`icon_${item.itemId}.png`}
                       style={{ width: '24px', height: '24px' }}
                     />
                     <span className="text-xs text-white">x{item.num}</span>
@@ -549,7 +549,7 @@ export function BattlePanelContent({
                   <Sprite
                     key={index}
                     atlas="icon"
-                    frame={`icon_item_${itemId}.png`}
+                    frame={`icon_${itemId}.png`}
                     style={{ width: '32px', height: '32px' }}
                   />
                 ))}

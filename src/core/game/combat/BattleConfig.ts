@@ -8,8 +8,8 @@ export const BattleConfig = {
   MAX_REAL_DISTANCE: 1000, // meters
   REAL_DISTANCE_PER_LINE: 100, // meters per line
   ESCAPE_TIME: 1.5, // seconds
-  BULLET_ID: "1305011",
-  HOMEMADE_ID: "1305012"
+  BULLET_ID: "item_ammo_standard_bullet",
+  HOMEMADE_ID: "item_ammo_handmade_bullet"
 } as const
 
 export const EquipmentPos = {

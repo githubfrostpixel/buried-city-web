@@ -473,16 +473,16 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     const state = get()
     let maxWeight = 40 // Base weight
     
-    // +10 if storage has item 1305023
-    if (state.getStorageItemCount('1305023') > 0) {
+    // +10 if storage has item item_ammo_enhanced_backpack
+    if (state.getStorageItemCount('item_ammo_enhanced_backpack') > 0) {
       maxWeight += 10
     }
-    // +20 if storage has item 1305024
-    if (state.getStorageItemCount('1305024') > 0) {
+    // +20 if storage has item item_ammo_military_grade_backpack
+    if (state.getStorageItemCount('item_ammo_military_grade_backpack') > 0) {
       maxWeight += 20
     }
-    // +30 if storage has item 1305034
-    if (state.getStorageItemCount('1305034') > 0) {
+    // +30 if storage has item item_ammo_motorcycle
+    if (state.getStorageItemCount('item_ammo_motorcycle') > 0) {
       maxWeight += 30
     }
     // +30 if IAP big bag unlocked (skip for now)
@@ -891,7 +891,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     }
   },
   
-  // Special effect for Homemade Penicillin (1104032)
+  // Special effect for Homemade Penicillin (item_med_homemade_penicillin)
   item1104032Effect: (item: Item, effectObj: MedicineEffect | undefined) => {
     if (!effectObj) return false
     
@@ -970,8 +970,8 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       // Update time: 600 seconds = 10 minutes
       timeManager.updateTime(600)
       
-      // Special case for bandage (1104011)
-      if (itemId === '1104011') {
+      // Special case for bandage (item_med_bandage)
+      if (itemId === 'item_med_bandage') {
         storage.removeItem(itemId, 1)
         
         if (storage.name === 'player') {
@@ -1001,8 +1001,8 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         const logStore = useLogStore.getState()
         logStore.addLog(getString(1095, itemName, remainingCount)) // Format: "You took %s (stock: %s)"
         
-        // Special case for Homemade Penicillin (1104032)
-        if (itemId === '1104032') {
+        // Special case for Homemade Penicillin (item_med_homemade_penicillin)
+        if (itemId === 'item_med_homemade_penicillin') {
           const canCure = state.item1104032Effect(item, item.getMedicineEffect())
           if (canCure) {
             state.cure()

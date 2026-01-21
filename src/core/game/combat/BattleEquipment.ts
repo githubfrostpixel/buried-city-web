@@ -23,7 +23,7 @@ export abstract class BattleEquipment {
 
     if (this.id === "1") {
       // Hand-to-hand combat
-      this.itemConfig = clone(itemConfig["1302011"])
+      this.itemConfig = clone(itemConfig["item_weapon_melee_crowbar"])
       // Name will be retrieved from string system when needed
       if (this.itemConfig.effect_weapon) {
         this.itemConfig.effect_weapon = {

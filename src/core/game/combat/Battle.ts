@@ -280,7 +280,7 @@ export class Battle {
                        ((this.sumRes.bulletNum / totalBullets) * 0.2)
         }
         // Special guns use multiplier 1
-        if (gunItemId === "1301091" || gunItemId === "1301071" || gunItemId === "1301082") {
+        if (gunItemId === "item_weapon_gun_flamethrower" || gunItemId === "item_weapon_gun_emp_handgun" || gunItemId === "item_weapon_gun_emp_rifle") {
           multiplier = 1
         }
         if (playerStore.testWeaponBroken(gunItemId, 0, multiplier)) {

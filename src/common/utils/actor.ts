@@ -32,17 +32,17 @@ export function getMaxVelocityGameTime(
 ): number {
   let v = BASE_VELOCITY_GAME
   
-  // Check motorcycle (item 1305034)
-  const hasMotorcycle = playerStore.getStorageItemCount('1305034') > 0 || 
-                        playerStore.getBagItemCount('1305034') > 0
+  // Check motorcycle (item item_ammo_motorcycle)
+  const hasMotorcycle = playerStore.getStorageItemCount('item_ammo_motorcycle') > 0 || 
+                        playerStore.getBagItemCount('item_ammo_motorcycle') > 0
   
   if (hasMotorcycle && canAfford && playerStore.useMoto) {
     v += MAX_VELOCITY_ENHANCE_MOTO
   }
   
-  // Check boots (item 1306001)
-  const hasBoots = playerStore.getStorageItemCount('1306001') > 0 || 
-                   playerStore.getBagItemCount('1306001') > 0
+  // Check boots (item item_equip_other_boot)
+  const hasBoots = playerStore.getStorageItemCount('item_equip_other_boot') > 0 || 
+                   playerStore.getBagItemCount('item_equip_other_boot') > 0
   if (hasBoots) {
     v += MAX_VELOCITY_ENHANCE
   }

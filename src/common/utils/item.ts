@@ -11,8 +11,8 @@ import type { SiteProduceItem } from '@/common/types/site.types'
 // Blacklist for random item generation (wildcard mode)
 // Items that cannot drop from wildcard patterns
 const RANDOM_LOOP_BLACKLIST = [
-  1305023, 1305024, 1106013, 1106054, 1306001, 1305034, 1305053, 1305064,
-  1303033, 1303044, 1102053, 1107012, 1107022, 1107032, 1107042, 1101081
+                                                      'item_ammo_enhanced_backpack', 'item_ammo_military_grade_backpack', 'item_special_dog', 'item_special_first_aid_kit', 'item_equip_other_boot', 'item_ammo_motorcycle', 'item_ammo_strong_flashlight', 'item_ammo_hyper_detector',
+  'item_weapon_explosive_rocket_launcher', 'item_weapon_explosive_grenade', 'item_model_motorcycle_engine', 'item_buff_protoplasm_serum', 'item_buff_transmission_blocker', 'item_buff_stimpack', 'item_buff_military_ration', 'item_mat_fertilizer'
 ]
 
 /**
@@ -41,7 +41,7 @@ export function getRandomItemId(itemId: string): string | null {
       
       filteredIds = filteredIds.filter((iid) => {
         // Exclude blacklisted items
-        if (RANDOM_LOOP_BLACKLIST.indexOf(Number(iid)) !== -1) {
+        if (RANDOM_LOOP_BLACKLIST.indexOf(iid) !== -1) {
           return false
         }
         const iidStr = String(iid)

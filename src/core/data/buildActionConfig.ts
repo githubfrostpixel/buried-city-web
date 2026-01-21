@@ -30,7 +30,7 @@ export type BuildActionConfig = {
 
 export const buildActionConfig: BuildActionConfig = {
   "5": [{
-    cost: [{ itemId: 1101011, num: 1 }],  // 1 wood
+    cost: [{ itemId: "item_mat_wood", num: 1 }],  // 1 wood
     makeTime: 240,  // 240 minutes = 4 hours per wood
     max: 6  // Maximum 6 wood
   }],
@@ -42,36 +42,36 @@ export const buildActionConfig: BuildActionConfig = {
   "10": [
     [  // Level 0
       {
-        cost: [{ itemId: 1105011, num: 4 }, { itemId: 1101061, num: 1 }, { itemId: 1101011, num: 1 }],
+        cost: [{ itemId: "item_econ_coffee", num: 4 }, { itemId: "item_mat_water", num: 1 }, { itemId: "item_mat_wood", num: 1 }],
         makeTime: 60,
         effect: { spirit: 60, spirit_chance: 1 }
       },
       {
-        cost: [{ itemId: 1105022, num: 3 }],
+        cost: [{ itemId: "item_econ_vodka", num: 3 }],
         makeTime: 60,
         effect: { spirit: 60, spirit_chance: 1 }
       }
     ],
     [  // Level 1
       {
-        cost: [{ itemId: 1105011, num: 4 }, { itemId: 1101061, num: 1 }, { itemId: 1101011, num: 1 }],
+        cost: [{ itemId: "item_econ_coffee", num: 4 }, { itemId: "item_mat_water", num: 1 }, { itemId: "item_mat_wood", num: 1 }],
         makeTime: 60,
         effect: { spirit: 80, spirit_chance: 1 }
       },
       {
-        cost: [{ itemId: 1105022, num: 3 }],
+        cost: [{ itemId: "item_econ_vodka", num: 3 }],
         makeTime: 60,
         effect: { spirit: 80, spirit_chance: 1 }
       }
     ],
     [  // Level 2
       {
-        cost: [{ itemId: 1105011, num: 4 }, { itemId: 1101061, num: 1 }, { itemId: 1101011, num: 1 }],
+        cost: [{ itemId: "item_econ_coffee", num: 4 }, { itemId: "item_mat_water", num: 1 }, { itemId: "item_mat_wood", num: 1 }],
         makeTime: 60,
         effect: { spirit: 100, spirit_chance: 1 }
       },
       {
-        cost: [{ itemId: 1105022, num: 3 }],
+        cost: [{ itemId: "item_econ_vodka", num: 3 }],
         makeTime: 60,
         effect: { spirit: 100, spirit_chance: 1 }
       }

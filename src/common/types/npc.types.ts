@@ -5,7 +5,7 @@ import type { Storage } from '@/core/game/inventory/Storage'
  * Items NPC prefers and their price multipliers at different reputation levels
  */
 export interface FavoriteItem {
-  itemId: number
+  itemId: string
   price: number // Multiplier (e.g., 1.2 = 20% more expensive)
 }
 
@@ -14,7 +14,7 @@ export interface FavoriteItem {
  * Items NPC sells at different reputation levels
  */
 export interface TradingItem {
-  itemId: number
+  itemId: string
   num: number
 }
 
@@ -23,7 +23,7 @@ export interface TradingItem {
  * Items NPC needs from player at different reputation levels
  */
 export interface NeedItem {
-  itemId: number
+  itemId: string
   num: number
 }
 

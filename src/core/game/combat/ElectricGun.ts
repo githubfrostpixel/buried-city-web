@@ -18,9 +18,9 @@ export class ElectricGun extends Gun {
 
         // Play sound effect
         let soundName: string
-        if (this.id === "1301071") {
+        if (this.id === "item_weapon_gun_emp_handgun") {
           soundName = SoundPaths.ATTACK_7
-        } else if (this.id === "1301082") {
+        } else if (this.id === "item_weapon_gun_emp_rifle") {
           soundName = SoundPaths.ATTACK_8
         } else {
           soundName = SoundPaths.ATTACK_7

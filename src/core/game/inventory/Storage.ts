@@ -170,10 +170,10 @@ export class Storage {
   
   /**
    * Get random item for raids
-   * Excludes: 1106013, 1305034, 1102073, 1301091, 1305075
+   * Excludes: dog, motorcycle, gasoline_pump_component, flamethrower, siphon_tool
    */
   getRandomItem(): { itemId: string; num: number } | null {
-    const excludedItems = ['1106013', '1305034', '1102073', '1301091', '1305075']
+    const excludedItems = ['item_special_dog', 'item_ammo_motorcycle', 'item_model_gasoline_pump_component', 'item_weapon_gun_flamethrower', 'item_ammo_siphon_tool']
     const availableItems = Object.keys(this.items).filter(
       itemId => !excludedItems.includes(itemId) && this.items[itemId] > 0
     )
@@ -199,7 +199,7 @@ export class Storage {
     const price = item.getPrice()
     
     // Special handling for bullets
-    if (itemId === '1305011' || itemId === '1305012') {
+    if (itemId === 'item_ammo_standard_bullet' || itemId === 'item_ammo_handmade_bullet') {
       amount *= 2
       if (amount > itemCount) {
         amount = Math.max(1, itemCount - 4)
@@ -226,7 +226,7 @@ export class Storage {
    * Similar to getRandomItem but with different amount calculation
    */
   getRobItem(): { itemId: string; num: number } | null {
-    const excludedItems = ['1106013', '1305034', '1102073', '1301091', '1305075']
+    const excludedItems = ['item_special_dog', 'item_ammo_motorcycle', 'item_model_gasoline_pump_component', 'item_weapon_gun_flamethrower', 'item_ammo_siphon_tool']
     const availableItems = Object.keys(this.items).filter(
       itemId => !excludedItems.includes(itemId) && this.items[itemId] > 0
     )
@@ -254,7 +254,7 @@ export class Storage {
     const price = item.getPrice()
     
     // Special handling for bullets
-    if (itemId === '1305011' || itemId === '1305012') {
+    if (itemId === 'item_ammo_standard_bullet' || itemId === 'item_ammo_handmade_bullet') {
       amount *= 2
       if (amount > itemCount) {
         amount = Math.max(1, itemCount - 4)

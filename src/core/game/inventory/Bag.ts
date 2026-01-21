@@ -15,16 +15,16 @@ export class Bag extends Storage {
     
     const playerStore = usePlayerStore.getState()
     
-    // +10 if storage has item 1305023
-    if (playerStore.getStorageItemCount('1305023') > 0) {
+    // +10 if storage has item item_ammo_enhanced_backpack
+    if (playerStore.getStorageItemCount('item_ammo_enhanced_backpack') > 0) {
       maxWeight += 10
     }
-    // +20 if storage has item 1305024
-    if (playerStore.getStorageItemCount('1305024') > 0) {
+    // +20 if storage has item item_ammo_military_grade_backpack
+    if (playerStore.getStorageItemCount('item_ammo_military_grade_backpack') > 0) {
       maxWeight += 20
     }
-    // +30 if storage has item 1305034
-    if (playerStore.getStorageItemCount('1305034') > 0) {
+    // +30 if storage has item item_ammo_motorcycle
+    if (playerStore.getStorageItemCount('item_ammo_motorcycle') > 0) {
       maxWeight += 30
     }
     // +30 if IAP big bag unlocked (skip for now)

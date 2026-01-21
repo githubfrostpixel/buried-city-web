@@ -150,7 +150,7 @@ export function WorkBeginView({ room, site, onToolSelect }: WorkBeginViewProps) 
                   ) : (
                     <Sprite
                       atlas="icon"
-                      frame={`icon_item_${tool.itemId}.png`}
+                      frame={`icon_${tool.itemId}.png`}
                       style={{ width: 'auto', height: '50%' }}
                     />
                   )}

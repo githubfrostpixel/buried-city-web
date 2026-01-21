@@ -394,10 +394,10 @@ export class Site extends BaseSite {
       return
     }
     
-    // Check max count (can be increased by item 1305064)
+    // Check max count (can be increased by item item_ammo_hyper_detector)
     let maxCount = Number.parseInt(this.secretRoomsConfig.maxCount)
-    // TODO: Check if player.equip.isEquiped(1305064)
-    // if (player.equip.isEquiped(1305064)) {
+    // TODO: Check if player.equip.isEquiped(item_ammo_hyper_detector)
+    // if (player.equip.isEquiped(item_ammo_hyper_detector)) {
     //   maxCount += 1
     // }
     
@@ -405,9 +405,9 @@ export class Site extends BaseSite {
     if (this.secretRoomsShowedCount < maxCount) {
       let probability = Number.parseFloat(this.secretRoomsConfig.probability)
       
-      // Item 1305064 doubles probability
-      // TODO: Check if player.equip.isEquiped(1305064)
-      // if (player.equip.isEquiped(1305064)) {
+      // Item item_ammo_hyper_detector doubles probability
+      // TODO: Check if player.equip.isEquiped(item_ammo_hyper_detector)
+      // if (player.equip.isEquiped(item_ammo_hyper_detector)) {
       //   probability *= 2
       // }
       
@@ -545,15 +545,15 @@ export class Site extends BaseSite {
       const randItem: { itemId: string; weight: number } = { itemId: "0", weight: 0 }
       
       if (randAdd < 0.1) {
-        randItem.itemId = "1107022"
+        randItem.itemId = "item_buff_transmission_blocker"
       } else if (randAdd < 0.2) {
-        randItem.itemId = "1107032"
+        randItem.itemId = "item_buff_stimpack"
       } else if (randAdd < 0.3) {
-        randItem.itemId = "1107042"
+        randItem.itemId = "item_buff_military_ration"
       } else if (randAdd < 0.4) {
-        randItem.itemId = "1107052"
+        randItem.itemId = "item_buff_experimental_antidote"
       } else if (randAdd < 0.5) {
-        randItem.itemId = "1107012"
+        randItem.itemId = "item_buff_protoplasm_serum"
       }
       
       if (randItem.itemId !== "0") {

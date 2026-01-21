@@ -33,7 +33,7 @@ export class BonfireBuildAction {
     this.building = building
     const configs = buildActionConfig[String(buildingId)] as BonfireActionConfig[]
     this.config = configs?.[0] || {
-      cost: [{ itemId: 1101011, num: 1 }],
+      cost: [{ itemId: "item_mat_wood", num: 1 }],
       makeTime: 240,
       max: 6
     }

@@ -170,7 +170,7 @@ export function BattleSystemTestScreen() {
 
   // Add Bomb (equip it)
   const addBomb = () => {
-    const bombId = "1303012" // Bomb item ID
+    const bombId = "item_weapon_explosive_explosive" // Bomb item ID
     // First add bomb to bag (required for equipping)
     playerStore.addItemToBag(bombId, 10)
     // Then equip it in tool slot
@@ -192,7 +192,7 @@ export function BattleSystemTestScreen() {
 
   // Add Gun (equip it)
   const addGun = () => {
-    const gunId = "1301011" // Basic gun item ID
+    const gunId = "item_weapon_gun_pistol" // Basic gun item ID
     // First add gun to bag (required for equipping)
     playerStore.addItemToBag(gunId, 1)
     // Then equip it
@@ -214,7 +214,7 @@ export function BattleSystemTestScreen() {
 
   // Add Melee Weapon (equip it)
   const addMeleeWeapon = () => {
-    const weaponId = "1302011" // Basic melee weapon item ID
+    const weaponId = "item_weapon_melee_crowbar" // Basic melee weapon item ID
     // First add weapon to bag (required for equipping)
     playerStore.addItemToBag(weaponId, 1)
     // Then equip it

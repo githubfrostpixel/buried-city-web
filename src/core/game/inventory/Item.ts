@@ -40,9 +40,64 @@ export class Item {
    * @returns 2-digit type string
    */
   getType(level: number): string {
-    const itemIdStr = String(this.id)
-    const startPos = level * 2
-    return itemIdStr.substring(startPos, startPos + 2)
+    const itemKey = String(this.id)
+    
+    // Map key prefixes to numeric type codes
+    // Main category (level 0)
+    let mainType = ''
+    let subType = ''
+    
+    if (itemKey.startsWith('item_mat_')) {
+      mainType = '11'
+      subType = '01'
+    } else if (itemKey.startsWith('item_model_')) {
+      mainType = '11'
+      subType = '02'
+    } else if (itemKey.startsWith('item_food_')) {
+      mainType = '11'
+      subType = '03'
+    } else if (itemKey.startsWith('item_med_')) {
+      mainType = '11'
+      subType = '04'
+    } else if (itemKey.startsWith('item_econ_')) {
+      mainType = '11'
+      subType = '05'
+    } else if (itemKey.startsWith('item_special_')) {
+      mainType = '11'
+      subType = '06'
+    } else if (itemKey.startsWith('item_buff_')) {
+      mainType = '11'
+      subType = '07'
+    } else if (itemKey.startsWith('item_weapon_gun_')) {
+      mainType = '13'
+      subType = '01'
+    } else if (itemKey.startsWith('item_weapon_melee_')) {
+      mainType = '13'
+      subType = '02'
+    } else if (itemKey.startsWith('item_weapon_explosive_')) {
+      mainType = '13'
+      subType = '03'
+    } else if (itemKey.startsWith('item_armor_')) {
+      mainType = '13'
+      subType = '04'
+    } else if (itemKey.startsWith('item_ammo_')) {
+      mainType = '13'
+      subType = '05'
+    } else if (itemKey.startsWith('item_equip_other_')) {
+      mainType = '13'
+      subType = '06'
+    } else {
+      // Fallback: try to extract from numeric ID if it's still numeric
+      const itemIdStr = String(this.id)
+      if (/^\d{7}$/.test(itemIdStr)) {
+        const startPos = level * 2
+        return itemIdStr.substring(startPos, startPos + 2)
+      }
+      // Unknown type, return empty string
+      return ''
+    }
+    
+    return level === 0 ? mainType : subType
   }
   
   /**

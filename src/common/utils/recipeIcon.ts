@@ -38,13 +38,14 @@ export function getRecipeIcon(
   }
   
   // Default: Use produced item's icon
+  // producedItemId already includes "item_" prefix, so use icon_ prefix
   if (producedItemId) {
-    const iconName = `icon_item_${producedItemId}.png`
+    const iconName = `icon_${producedItemId}.png`
     return { iconName, atlas: 'icon' }
   }
   
   // Fallback
-  return { iconName: 'icon_item_1101051.png', atlas: 'icon' }
+  return { iconName: 'icon_item_mat_components.png', atlas: 'icon' }
 }
 
 

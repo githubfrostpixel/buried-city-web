@@ -19,34 +19,34 @@ export const secretRooms: SecretRoomConfigMap = {
       "itemId": "1101**",
       "weight": 1
     }, {
-      "itemId": "1103083",
+      "itemId": "item_food_canned_food",
       "weight": 1
     }, {
-      "itemId": "1105011",
+      "itemId": "item_econ_coffee",
       "weight": 1
     }, {
-      "itemId": "1105022",
+      "itemId": "item_econ_vodka",
       "weight": 1
     }, {
-      "itemId": "1305011",
+      "itemId": "item_ammo_standard_bullet",
       "weight": 10
     }, {
-      "itemId": "1301041",
+      "itemId": "item_weapon_gun_magnum",
       "weight": 10
     }, {
-      "itemId": "1301052",
+      "itemId": "item_weapon_gun_m40",
       "weight": 0
     }, {
-      "itemId": "1301063",
+      "itemId": "item_weapon_gun_famas",
       "weight": 0
     }, {
-      "itemId": "1104011",
+      "itemId": "item_med_bandage",
       "weight": 0
     }, {
-      "itemId": "1104021",
+      "itemId": "item_med_ointment",
       "weight": 0
     }, {
-      "itemId": "1104043",
+      "itemId": "item_med_penicillin",
       "weight": 0
     }]
   },
@@ -63,37 +63,37 @@ export const secretRooms: SecretRoomConfigMap = {
       "itemId": "1101**",
       "weight": 1
     }, {
-      "itemId": "1103083",
+      "itemId": "item_food_canned_food",
       "weight": 1
     }, {
-      "itemId": "1105011",
+      "itemId": "item_econ_coffee",
       "weight": 1
     }, {
-      "itemId": "1105022",
+      "itemId": "item_econ_vodka",
       "weight": 1
     }, {
-      "itemId": "1305011",
+      "itemId": "item_ammo_standard_bullet",
       "weight": 10
     }, {
-      "itemId": "1301041",
+      "itemId": "item_weapon_gun_magnum",
       "weight": 10
     }, {
-      "itemId": "1301052",
+      "itemId": "item_weapon_gun_m40",
       "weight": 0
     }, {
-      "itemId": "1301063",
+      "itemId": "item_weapon_gun_famas",
       "weight": 0
     }, {
-      "itemId": "1104011",
+      "itemId": "item_med_bandage",
       "weight": 0
     }, {
-      "itemId": "1104021",
+      "itemId": "item_med_ointment",
       "weight": 0
     }, {
-      "itemId": "1104043",
+      "itemId": "item_med_penicillin",
       "weight": 0
     }, {
-      "itemId": "1101073",
+      "itemId": "item_mat_data_module",
       "weight": 0
     }]
   },
@@ -110,37 +110,37 @@ export const secretRooms: SecretRoomConfigMap = {
       "itemId": "1101**",
       "weight": 0
     }, {
-      "itemId": "1103083",
+      "itemId": "item_food_canned_food",
       "weight": 0
     }, {
-      "itemId": "1105011",
+      "itemId": "item_econ_coffee",
       "weight": 0
     }, {
-      "itemId": "1105022",
+      "itemId": "item_econ_vodka",
       "weight": 0
     }, {
-      "itemId": "1305011",
+      "itemId": "item_ammo_standard_bullet",
       "weight": 10
     }, {
-      "itemId": "1301041",
+      "itemId": "item_weapon_gun_magnum",
       "weight": 10
     }, {
-      "itemId": "1301052",
+      "itemId": "item_weapon_gun_m40",
       "weight": 10
     }, {
-      "itemId": "1301063",
+      "itemId": "item_weapon_gun_famas",
       "weight": 0
     }, {
-      "itemId": "1104011",
+      "itemId": "item_med_bandage",
       "weight": 0
     }, {
-      "itemId": "1104021",
+      "itemId": "item_med_ointment",
       "weight": 0
     }, {
-      "itemId": "1104043",
+      "itemId": "item_med_penicillin",
       "weight": 0
     }, {
-      "itemId": "1101073",
+      "itemId": "item_mat_data_module",
       "weight": 0
     }]
   },
@@ -157,37 +157,37 @@ export const secretRooms: SecretRoomConfigMap = {
       "itemId": "1101**",
       "weight": 0
     }, {
-      "itemId": "1103083",
+      "itemId": "item_food_canned_food",
       "weight": 0
     }, {
-      "itemId": "1105011",
+      "itemId": "item_econ_coffee",
       "weight": 0
     }, {
-      "itemId": "1105022",
+      "itemId": "item_econ_vodka",
       "weight": 0
     }, {
-      "itemId": "1305011",
+      "itemId": "item_ammo_standard_bullet",
       "weight": 20
     }, {
-      "itemId": "1301041",
+      "itemId": "item_weapon_gun_magnum",
       "weight": 5
     }, {
-      "itemId": "1301052",
+      "itemId": "item_weapon_gun_m40",
       "weight": 5
     }, {
-      "itemId": "1301063",
+      "itemId": "item_weapon_gun_famas",
       "weight": 10
     }, {
-      "itemId": "1104011",
+      "itemId": "item_med_bandage",
       "weight": 0
     }, {
-      "itemId": "1104021",
+      "itemId": "item_med_ointment",
       "weight": 0
     }, {
-      "itemId": "1104043",
+      "itemId": "item_med_penicillin",
       "weight": 0
     }, {
-      "itemId": "1101073",
+      "itemId": "item_mat_data_module",
       "weight": 0
     }]
   },
@@ -201,16 +201,16 @@ export const secretRooms: SecretRoomConfigMap = {
     "maxDifficultyOffset": 1,
     "produceValue": 86,
     "produceList": [{
-      "itemId": "1101073",
+      "itemId": "item_mat_data_module",
       "weight": 0
     }, {
-      "itemId": "1103083",
+      "itemId": "item_food_canned_food",
       "weight": 0
     }, {
-      "itemId": "1104011",
+      "itemId": "item_med_bandage",
       "weight": 10
     }, {
-      "itemId": "1305011",
+      "itemId": "item_ammo_standard_bullet",
       "weight": 0
     }]
   },
@@ -224,16 +224,16 @@ export const secretRooms: SecretRoomConfigMap = {
     "maxDifficultyOffset": 1,
     "produceValue": 86,
     "produceList": [{
-      "itemId": "1101073",
+      "itemId": "item_mat_data_module",
       "weight": 0
     }, {
-      "itemId": "1103083",
+      "itemId": "item_food_canned_food",
       "weight": 0
     }, {
-      "itemId": "1104011",
+      "itemId": "item_med_bandage",
       "weight": 10
     }, {
-      "itemId": "1305011",
+      "itemId": "item_ammo_standard_bullet",
       "weight": 0
     }]
   }

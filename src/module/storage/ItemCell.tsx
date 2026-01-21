@@ -38,12 +38,12 @@ export function ItemCell({ itemId, count, onClick, onLongPress }: ItemCellProps)
     }
     
     // Basic items
-    if (itemId === '1102063' || itemId === '1102073') {
+    if (itemId === 'item_model_generator_component' || itemId === 'item_model_gasoline_pump_component') {
       return 'item_basic_bg.png'
     }
     
     // Bullet items
-    if (itemId === '1305011' || itemId === '1305012') {
+    if (itemId === 'item_ammo_standard_bullet' || itemId === 'item_ammo_handmade_bullet') {
       return 'item_bullet_bg.png'
     }
     
@@ -54,9 +54,10 @@ export function ItemCell({ itemId, count, onClick, onLongPress }: ItemCellProps)
   // Get item icon (fallback to default if not found)
   const getIconFrame = (): string => {
     // Try item-specific icon first
-    const iconName = `icon_item_${itemId}.png`
+    // itemId already includes "item_" prefix, so use icon_ prefix
+    const iconName = `icon_${itemId}.png`
     // Note: Sprite component will handle missing frames
-    // Original game falls back to icon_item_1101051.png if not found
+    // Original game falls back to icon_item_mat_components.png if not found
     // For now, use item ID - fallback can be handled by Sprite component
     return iconName
   }

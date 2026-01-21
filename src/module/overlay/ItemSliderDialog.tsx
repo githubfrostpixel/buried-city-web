@@ -118,7 +118,7 @@ export function ItemSliderDialog() {
   // Calculate weight for selected quantity
   const getWeight = (quantity: number): number => {
     // Special handling for bullet items
-    if (itemId === '1305011' || itemId === '1105011' || itemId === '1305012') {
+    if (itemId === 'item_ammo_standard_bullet' || itemId === 'item_econ_coffee' || itemId === 'item_ammo_handmade_bullet') {
       return Math.ceil(0.02 * quantity)
     }
     const config = itemConfig[itemId]
@@ -262,7 +262,7 @@ export function ItemSliderDialog() {
           >
             <Sprite
               atlas="icon"
-              frame={`icon_item_${itemId}.png`}
+              frame={`icon_${itemId}.png`}
               className="w-full h-full"
             />
           </div>

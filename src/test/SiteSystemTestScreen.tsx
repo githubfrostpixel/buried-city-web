@@ -547,7 +547,7 @@ export function SiteSystemTestScreen() {
 
     try {
       const initialCount = currentSite.getAllItemNum()
-      currentSite.increaseItem('1101011', 5)
+      currentSite.increaseItem('item_mat_wood', 5)
       const afterAddCount = currentSite.getAllItemNum()
       const hasNewItems = currentSite.haveNewItems
       
@@ -830,7 +830,7 @@ export function SiteSystemTestScreen() {
 
   // Add Gun (equip it)
   const addGun = () => {
-    const gunId = "1301011" // Basic gun item ID
+    const gunId = "item_weapon_gun_pistol" // Basic gun item ID
     const playerStore = usePlayerStore.getState()
     // First add gun to bag (required for equipping)
     playerStore.addItemToBag(gunId, 1)
@@ -853,7 +853,7 @@ export function SiteSystemTestScreen() {
 
   // Add Melee Weapon (equip it)
   const addMeleeWeapon = () => {
-    const weaponId = "1302011" // Basic melee weapon item ID
+    const weaponId = "item_weapon_melee_crowbar" // Basic melee weapon item ID
     const playerStore = usePlayerStore.getState()
     // First add weapon to bag (required for equipping)
     playerStore.addItemToBag(weaponId, 1)
@@ -876,7 +876,7 @@ export function SiteSystemTestScreen() {
 
   // Add Axe (equip it)
   const addAxe = () => {
-    const axeId = "1302021" // Axe item ID
+    const axeId = "item_weapon_melee_axe" // Axe item ID
     const playerStore = usePlayerStore.getState()
     // First add axe to bag (required for equipping)
     playerStore.addItemToBag(axeId, 1)
@@ -921,7 +921,7 @@ export function SiteSystemTestScreen() {
 
   // Add Bomb (equip it)
   const addBomb = () => {
-    const bombId = "1303012" // Bomb item ID
+    const bombId = "item_weapon_explosive_explosive" // Bomb item ID
     const playerStore = usePlayerStore.getState()
     // First add bomb to bag (required for equipping)
     playerStore.addItemToBag(bombId, 10)

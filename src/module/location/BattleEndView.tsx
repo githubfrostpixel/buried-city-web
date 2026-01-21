@@ -72,7 +72,7 @@ export function BattleEndView({ result, site, room, onNext }: BattleEndViewProps
                 <div key={index} className="flex items-center gap-1">
                   <Sprite
                     atlas="icon"
-                    frame={`icon_item_${item.itemId}.png`}
+                    frame={`icon_${item.itemId}.png`}
                     style={{ width: '24px', height: '24px' }}
                   />
                   <span className="text-xs text-white">x{item.num}</span>
@@ -95,7 +95,7 @@ export function BattleEndView({ result, site, room, onNext }: BattleEndViewProps
                 <Sprite
                   key={index}
                   atlas="icon"
-                  frame={`icon_item_${itemId}.png`}
+                  frame={`icon_${itemId}.png`}
                   style={{ width: '32px', height: '32px' }}
                 />
               ))}

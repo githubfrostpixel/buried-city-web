@@ -1842,5 +1842,285 @@
   "bt_special_2": {
     "title": "Fort Knox",
     "des": "Reach maximum home defense once."
+  },
+  "item_mat_wood": {
+    "title": "Wood",
+    "des": "A versatile material that is commonly seen in buildings. Can be crafted into furniture, or used as a heat source."
+  },
+  "item_mat_metal": {
+    "title": "Metal",
+    "des": "Includes steel, easily mouldable copper, and low melting point lead. Can be used to create structures or manufacture ammo."
+  },
+  "item_mat_fabric": {
+    "title": "Fabric",
+    "des": "Cloth, leather, paper, and plastic sheets. Can be used as crafting components for a lot of stuff."
+  },
+  "item_mat_parts": {
+    "title": "Parts",
+    "des": "Basic parts of complex devices and an integral part of various equipment."
+  },
+  "item_mat_components": {
+    "title": "Components",
+    "des": "Components found within electrical appliances can be repurposed into other appliances."
+  },
+  "item_mat_water": {
+    "title": "Water",
+    "des": "It is unclear what zombies actually are and how the affliction spreads. Drinking distilled water is a good idea in case the virus is waterborne."
+  },
+  "item_mat_chemical_materials": {
+    "title": "Chemical materials",
+    "des": "Bottles and jars of powders and liquids that give off an acrid smell."
+  },
+  "item_mat_data_module": {
+    "title": "Data Module",
+    "des": "A re-programmable module used as a key component in a lot of high-tech machinery."
+  },
+  "item_mat_fertilizer": {
+    "title": "Fertilizer",
+    "des": "It's actually just expired food, and the only way to use them is to fertilize the crops."
+  },
+  "item_model_pistol_part": {
+    "title": "Pistol part",
+    "des": "A broken pistol, it needs to be repaired and reassembled to be of any use."
+  },
+  "item_model_shotgun_part": {
+    "title": "Shotgun part",
+    "des": "A broken shotgun, it needs to be repaired and reassembled to be of any use."
+  },
+  "item_model_ak47_part": {
+    "title": "AK47 part",
+    "des": "A broken AK47, it needs to be repaired and reassembled be of any use."
+  },
+  "item_model_katana_part": {
+    "title": "Katana part",
+    "des": "A broken samurai sword, It needs to be repaired to be of any use."
+  },
+  "item_model_motorcycle_engine": {
+    "title": "Motorcycle Engine",
+    "des": "The core component for making motorcycles."
+  },
+  "item_model_generator_component": {
+    "title": "Generator Component",
+    "des": "Electricity is the source of modern civilization. Replace the Generator Component to ensure Power Plant's operation."
+  },
+  "item_model_gasoline_pump_component": {
+    "title": "Gasoline Pump Component",
+    "des": "Apart from lacking ceramics, this component is flawless. Gasoline is too corrosive, and plastic becomes brittle within days."
+  },
+  "item_food_potatoes": {
+    "title": "Potatoes",
+    "des": "A nourishing and easily grown crop, potatoes are a staple for staving off hunger after their introduction to Europe in the 16th century. Eating raw potatoes can cause digestive infection."
+  },
+  "item_food_roasted_potatoes": {
+    "title": "Roasted potatoes",
+    "des": "Cooked using the oldest cooking method known to man - roasting. It is easier to digest and prevents digestive infections."
+  },
+  "item_food_mashed_potatoes": {
+    "title": "Mashed potatoes",
+    "des": "Cooked potatoes seasoned with salt. Delicious and nutritious!"
+  },
+  "item_food_meat": {
+    "title": "Meat",
+    "des": "Fresh uninfected meat. In this world of zombies, it is very important to know the source of your meat. Eating raw meat can result in a digestive infection."
+  },
+  "item_food_broth": {
+    "title": "Broth",
+    "des": "Stew requires less firewood to cook than roasted meat and is easier to digest as well."
+  },
+  "item_food_barbecue": {
+    "title": "Barbecue",
+    "des": "Cooked using the old-fashioned way: roasting, allows for better nutrient absorption and prevents digestive infection."
+  },
+  "item_food_flavored_stew": {
+    "title": "Flavored stew",
+    "des": "A stew made from multiple ingredients, it reminds you of a carefree family life."
+  },
+  "item_food_canned_food": {
+    "title": "Canned food",
+    "des": "Hermetically sealed foodstuffs. It's not tasty, but it's safe to eat."
+  },
+  "item_food_cheese": {
+    "title": "Cheese",
+    "des": "The smooth and melty texture and the rich milky flavor can make you forget the pressures of survival."
+  },
+  "item_med_bandage": {
+    "title": "Bandage",
+    "des": "A hemostatic sterile gauze with herbs inside. It helps relieve pain and prevent infections."
+  },
+  "item_med_ointment": {
+    "title": "Ointment",
+    "des": "A mixture of crushed herbs and alcohol, with ingredients that help stabilize and treat infections."
+  },
+  "item_med_homemade_penicillin": {
+    "title": "Homemade penicillin",
+    "des": "Desperate times calls for desperate measures! The effects are unknown and the risks are high, this homemade concoction will either cure you or kill you."
+  },
+  "item_med_penicillin": {
+    "title": "Penicillin",
+    "des": "The best option to treat an infection. If you can get your hands on some of it, that is."
+  },
+  "item_econ_coffee": {
+    "title": "Coffee",
+    "des": "Caffeine is a mild stimulant. It can raise your sensitivity, alertness, and also improve your mental state."
+  },
+  "item_econ_vodka": {
+    "title": "Vodka",
+    "des": "Distilled from potatoes. In these dangerous times, it's probably better not to get drunk."
+  },
+  "item_econ_alcohol": {
+    "title": "Alcohol",
+    "des": "You can get high concentration alcohol for sterilization and medicine producing purposes by distilling vodka."
+  },
+  "item_econ_potato_buds": {
+    "title": "Potato Buds",
+    "des": "Potato buds contain the poison solanine, so these are inedible but they can be planted to grow new potatoes."
+  },
+  "item_econ_herbs": {
+    "title": "Herbs",
+    "des": "Herbs are the oldest form of medicine that humans have. Many health effects have been scientifically proven now regarding their use."
+  },
+  "item_special_dog": {
+    "title": "Dog",
+    "des": "Man's best friend, a dog can help guard the shelter and help out in combat. He eats meat regularly."
+  },
+  "item_special_dog_bone": {
+    "title": "Dog bone",
+    "des": "Home-made dog bone can cheer up your dog, even in such harsh environment."
+  },
+  "item_special_first_aid_kit": {
+    "title": "First aid kit",
+    "des": "(FAK) The first aid equipment and medicine within this kit can save lives just in the nick of time (available when near death, no need to carry it along with you)."
+  },
+  "item_buff_protoplasm_serum": {
+    "title": "Protoplasm Serum",
+    "des": "A supplement used in the military that gives you more capable to endure and survive."
+  },
+  "item_buff_transmission_blocker": {
+    "title": "Transmission Blocker",
+    "des": "No mistake about it, this thing can prevent you from being infected for days like a protective barrier."
+  },
+  "item_buff_stimpack": {
+    "title": "Stimpack",
+    "des": "A high-nutrient inject specifically designed for wilderness survival. The user will not feel fatigue for long periods of time."
+  },
+  "item_buff_military_ration": {
+    "title": "Military Ration",
+    "des": "It's incredible that you don't feel hungry for days after eating what is merely made of honey, flour, and salad oil."
+  },
+  "item_buff_experimental_antidote": {
+    "title": "Experimental Antidote",
+    "des": "While a breakthrough in the cure for the zombie virus has not been achieved yet, temporarily preventing the accumulation of the virus is still possible."
+  },
+  "item_weapon_gun_pistol": {
+    "title": "Pistol",
+    "des": "Short-range self-defense weapon. Its damage is more consistent when enemies are closer."
+  },
+  "item_weapon_gun_shotgun": {
+    "title": "Shotgun",
+    "des": "A long-barreled single-shot shotgun. It has long range and high precision, but slow reload."
+  },
+  "item_weapon_gun_ak47": {
+    "title": "AK47",
+    "des": "With long range and a quick firing rate, this rifle kills enemies easily with its 3-round burst firing."
+  },
+  "item_weapon_gun_magnum": {
+    "title": "Magnum",
+    "des": "Police-issued revolver. It has good range and decent accuracy."
+  },
+  "item_weapon_gun_m40": {
+    "title": "M40",
+    "des": "An old military sniper rifle, equipped with an optical scope for better accuracy."
+  },
+  "item_weapon_gun_famas": {
+    "title": "FAMAS",
+    "des": "The service rifle of NATO troops, it has good mobility, stability, and accuracy. Very rare in the wild, though..."
+  },
+  "item_weapon_gun_emp_handgun": {
+    "title": "EMP Handgun",
+    "des": "Can produce powerful currents that rivals conventional handguns. Without electricity, though, it is useless."
+  },
+  "item_weapon_gun_emp_rifle": {
+    "title": "EMP Rifle",
+    "des": "Use high voltage current to zap through any organic material. Given that there is electricity, of course."
+  },
+  "item_weapon_gun_flamethrower": {
+    "title": "Flamethrower",
+    "des": "Inflicts lasting damage to hordes of zombies, the only drawback is that it requires gasoline. A lot of gasoline. If you run out of gasoline halfway through..."
+  },
+  "item_weapon_melee_crowbar": {
+    "title": "Crowbar",
+    "des": "A tool that can quickly open locked cabinets. Also a useful weapon against zombies."
+  },
+  "item_weapon_melee_axe": {
+    "title": "Axe",
+    "des": "A staple of horror films. It's not great at breaking locks, but it's excellent at breaking zombies."
+  },
+  "item_weapon_melee_katana": {
+    "title": "Katana",
+    "des": "A sharp blade capable of quickly dispatching zombies."
+  },
+  "item_weapon_melee_chainsaw": {
+    "title": "Chainsaw",
+    "des": "An ultimate weapon that zombies have no defense against. It is also great for removing barriers or opening cabinets."
+  },
+  "item_weapon_explosive_explosive": {
+    "title": "Explosive",
+    "des": "A powerful homemade pipe bomb, capable of taking out a group of zombies."
+  },
+  "item_weapon_explosive_smoke_bomb": {
+    "title": "Smoke Bomb",
+    "des": "Use chemical reaction to produce a lot of smoke. Add some meat, and bandits and zombies alike will be distracted."
+  },
+  "item_weapon_explosive_rocket_launcher": {
+    "title": "Rocket Launcher",
+    "des": "A heavy weapon that deals massive damage to zombie hordes. It's a bit expensive though."
+  },
+  "item_weapon_explosive_grenade": {
+    "title": "Grenade",
+    "des": "NATO superweapon. This grenade devastates all enemies within its blast radius. A must for any fighter."
+  },
+  "item_armor_thick_coat": {
+    "title": "Thick coat",
+    "des": "Made out of multi-layered fabrics and leather, it can reduce the damage caused by scratches and bites from zombies."
+  },
+  "item_armor_antiriot_suit": {
+    "title": "Anti-riot suit",
+    "des": "A thick coat covered with sheet metal that protects critical parts from zombies and physical damage."
+  },
+  "item_ammo_standard_bullet": {
+    "title": "Standard Bullet",
+    "des": "Produced before the disaster, it is less likely to damage the gun and has better accuracy, making it more valuable."
+  },
+  "item_ammo_handmade_bullet": {
+    "title": "Handmade Bullet",
+    "des": "Handmade bullet with low accuracy. Might cause damage to the gun."
+  },
+  "item_ammo_enhanced_backpack": {
+    "title": "Enhanced backpack",
+    "des": "A backpack that has been enhanced in capacity and strength, allowing it to bear more weight."
+  },
+  "item_ammo_military_grade_backpack": {
+    "title": "Military Grade Backpack",
+    "des": "Made to military specifications, this backpack is the best you can get, allowing you to carry the most stuff."
+  },
+  "item_ammo_motorcycle": {
+    "title": "Motorcycle",
+    "des": "An old-fashioned motorcycle with a large carrying capacity, significantly increasing your travel speed."
+  },
+  "item_ammo_strong_flashlight": {
+    "title": "Strong Flashlight",
+    "des": "Don't underestimate it. With this, zombies hiding in corners will have nowhere to hide. Greatly reduces the chance of encountering zombies."
+  },
+  "item_ammo_hyper_detector": {
+    "title": "Hyper Detector",
+    "des": "Equipped with a sensitive probe and capable of automatic terrain surveying. In China, it even works better than a Luoyang shovel. Greatly increase the probability of finding secret rooms."
+  },
+  "item_ammo_siphon_tool": {
+    "title": "Siphon Tool",
+    "des": "Simple hose and container allow you to use gravity to extract the gas from cars."
+  },
+  "item_equip_other_boot": {
+    "title": "Boot",
+    "des": "This boot has a thickened instep and a reinforced sole. It can protect your feet, allowing you to move faster through rubble."
   }
 }

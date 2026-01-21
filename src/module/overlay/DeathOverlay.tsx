@@ -76,7 +76,7 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
   const description = `You have finally fallen after surviving for ${day + 1} day${day !== 0 ? 's' : ''}.`
 
   const handleRevive = () => {
-    // TODO: Check for First Aid Kit (FAK) item ID 1106054
+    // TODO: Check for First Aid Kit (FAK) item ID item_special_first_aid_kit
     // For now, just revive without item check
     
     // Reset player attributes (relive function from original)
@@ -121,8 +121,8 @@ export function DeathOverlay({ reason }: DeathOverlayProps) {
     game.pause()
   }
   
-  // Check for First Aid Kit (FAK) - item ID 1106054
-  const RELIVE_ITEMID = '1106054'
+  // Check for First Aid Kit (FAK) - item ID item_special_first_aid_kit
+  const RELIVE_ITEMID = 'item_special_first_aid_kit'
   const fakCount = playerStore.getBagItemCount(RELIVE_ITEMID) + 
                    playerStore.getStorageItemCount(RELIVE_ITEMID) + 
                    playerStore.getSafeItemCount(RELIVE_ITEMID)
