@@ -16,40 +16,54 @@ const RANDOM_LOOP_BLACKLIST = [
 ]
 
 /**
+ * Mapping from old numeric wildcard patterns to new string-based patterns
+ */
+const WILDCARD_PATTERN_MAP: Record<string, string> = {
+  '1101**': 'item_mat_*',      // Any material item
+  '1101*1': 'item_mat_*',      // Any material item (same as 1101**)
+  '1102**': 'item_model_*',   // Any model part
+  '1103*1': 'item_food_*',    // Any food item (all food items match)
+  '1104*1': 'item_med_*',     // Any medicine item
+  '1105**': 'item_econ_*',     // Any econ item
+  '1301**': 'item_weapon_gun_*', // Any gun weapon
+  '1302*1': 'item_weapon_melee_*', // Any melee weapon
+}
+
+/**
  * Get random item ID from wildcard pattern
- * Ported from OriginalGame/src/util/utils.js:getRandomItemId
+ * Supports both old numeric patterns (e.g., "1101**") and new string patterns (e.g., "item_mat_*")
  * 
- * @param itemId - Item ID pattern (e.g., "1101**" for any item starting with 1101)
+ * @param itemId - Item ID pattern (e.g., "item_mat_*" for any material item)
  * @returns Resolved item ID or null if no match
  */
 export function getRandomItemId(itemId: string): string | null {
+  // Convert old numeric patterns to new string patterns
+  if (WILDCARD_PATTERN_MAP[itemId]) {
+    itemId = WILDCARD_PATTERN_MAP[itemId]
+  }
+  
   if (itemId.indexOf('*') === -1) {
     return itemId  // No wildcard, return as-is
   }
   
   const itemIds = Object.keys(itemConfig)
-  const itemIdStr = String(itemId)
-  let index = 0
   let filteredIds = [...itemIds]
   
-  for (let i = 0; i < itemIdStr.length; i++) {
-    if (itemIdStr[i] === '*') {
-      // Skip wildcard character
-    } else {
-      const len = index === 6 ? 1 : 2
-      const flag = itemIdStr.substr(i, len)
-      
-      filteredIds = filteredIds.filter((iid) => {
-        // Exclude blacklisted items
-        if (RANDOM_LOOP_BLACKLIST.indexOf(iid) !== -1) {
-          return false
-        }
-        const iidStr = String(iid)
-        return flag === iidStr.substr(index, len)
-      })
-      i++  // Skip next character (already processed)
-    }
-    index += 2
+  // Handle string-based wildcard patterns (e.g., "item_mat_*", "item_weapon_gun_*")
+  if (itemId.includes('*')) {
+    // Convert wildcard pattern to regex
+    // "item_mat_*" -> matches items starting with "item_mat_"
+    // "item_weapon_gun_*" -> matches items starting with "item_weapon_gun_"
+    const pattern = itemId.replace(/\*/g, '.*')
+    const regex = new RegExp(`^${pattern}$`)
+    
+    filteredIds = filteredIds.filter((iid) => {
+      // Exclude blacklisted items
+      if (RANDOM_LOOP_BLACKLIST.includes(iid)) {
+        return false
+      }
+      return regex.test(iid)
+    })
   }
   
   if (filteredIds.length === 0) {

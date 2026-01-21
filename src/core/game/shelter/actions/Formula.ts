@@ -39,7 +39,7 @@ export function setBuildOccupied(value: boolean): void {
  * Formula class for crafting recipes
  */
 export class Formula {
-  id: number
+  id: number | string
   buildingId: number
   needBuild?: { bid: number; level: number }
   config: FormulaConfig | null
@@ -61,7 +61,7 @@ export class Formula {
   // Building reference (needed for activeBtnIndex)
   building?: Building
   
-  constructor(id: number, buildingId: number) {
+  constructor(id: number | string, buildingId: number) {
     this.id = id
     this.buildingId = buildingId
     this.config = formulaConfig[String(id)] || null

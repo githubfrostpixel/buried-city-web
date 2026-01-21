@@ -19,12 +19,12 @@ import type { NPCGiftConfig, NPCConfigMap } from '@/common/types/npc.types'
 export const npcGiftConfig: NPCGiftConfig = {
   produceValue: 4,
   produceList: [
-    { itemId: "1101**", weight: 120 },
-    { itemId: "1103*1", weight: 50 },
-    { itemId: "1104*1", weight: 10 },
+    { itemId: "item_mat_*", weight: 120 },
+    { itemId: "item_food_*", weight: 50 },
+    { itemId: "item_med_*", weight: 10 },
     { itemId: "item_econ_coffee", weight: 10 },
     { itemId: "item_econ_vodka", weight: 10 },
-    { itemId: "1302*1", weight: 10 }
+    { itemId: "item_weapon_melee_*", weight: 10 }
   ]
 }
 

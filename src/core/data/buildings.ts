@@ -13,7 +13,7 @@ export const buildingConfig: BuildingConfig = {
       id: 1,
       cost: [],
       condition: {},
-      produceList: [1402021, 1402011, 1401011, 1401071, 1405023]
+      produceList: ["1402021", "1402011", "1401011", "1401071", "1405023"]
     },
     {
       id: 1,
@@ -28,7 +28,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 0
       },
-      produceList: [1402032, 1404024, 1401022, 1404012, "item_ammo_motorcycle", 1405053, "item_ammo_siphon_tool"]
+      produceList: ["1402032", "1404024", "1401022", "1404012", "item_ammo_motorcycle", "1405053", "item_ammo_siphon_tool"]
     },
     {
       id: 1,
@@ -44,7 +44,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 1
       },
-      produceList: [1401082, 1402043, 1404023, 1401033, 1401091, 1405024, "item_ammo_hyper_detector", "item_special_dog_bone"]
+      produceList: ["1401082", "1402043", "1404023", "1401033", "1401091", "1405024", "item_ammo_hyper_detector", "item_special_dog_bone"]
     }
   ],
   "2": [
@@ -61,7 +61,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 0
       },
-      produceList: [1203011, 1205042]
+      produceList: ["1203011", "1205042"]
     },
     {
       id: 2,
@@ -77,7 +77,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 1
       },
-      produceList: [1205051]
+      produceList: ["1205051"]
     }
   ],
   "3": [
@@ -94,7 +94,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 0
       },
-      produceList: [1204011, 1204021]
+      produceList: ["1204011", "1204021"]
     },
     {
       id: 3,
@@ -109,7 +109,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 1
       },
-      produceList: [1204032]
+      produceList: ["1204032"]
     }
   ],
   "4": [
@@ -124,7 +124,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 0
       },
-      produceList: [1203063, 1203022]
+      produceList: ["1203063", "1203022"]
     },
     {
       id: 4,
@@ -139,7 +139,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 1
       },
-      produceList: [1203052, 1203033]
+      produceList: ["1203052", "1203033"]
     },
     {
       id: 4,
@@ -155,7 +155,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 2
       },
-      produceList: [1203074]
+      produceList: ["1203074"]
     }
   ],
   "5": [
@@ -188,7 +188,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 0
       },
-      produceList: [1201061]
+      produceList: ["1201061"]
     },
     {
       id: 6,
@@ -203,7 +203,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 1
       },
-      produceList: [1205033]
+      produceList: ["1205033"]
     }
   ],
   "7": [
@@ -220,7 +220,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 0
       },
-      produceList: [1205022]
+      produceList: ["1205022"]
     }
   ],
   "8": [
@@ -237,7 +237,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 0
       },
-      produceList: [1203041]
+      produceList: ["1203041"]
     }
   ],
   "9": [
@@ -443,7 +443,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 0
       },
-      produceList: [1403012, 1403022, 1202063]
+      produceList: ["1403012", "1403022", "1202063"]
     },
     {
       id: 16,
@@ -459,7 +459,7 @@ export const buildingConfig: BuildingConfig = {
         bid: 1,
         level: 1
       },
-      produceList: [1405012, 1202073]
+      produceList: ["1405012", "1202073"]
     }
   ],
   "17": [

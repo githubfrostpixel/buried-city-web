@@ -43,7 +43,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -51,7 +51,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 6,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -75,7 +75,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -87,11 +87,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -103,7 +103,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 0,
       },
       {
@@ -133,7 +133,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -141,7 +141,7 @@ export const siteConfig: SiteConfigMap = {
         num: 4,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -165,7 +165,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -177,11 +177,11 @@ export const siteConfig: SiteConfigMap = {
         num: 5,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -193,7 +193,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -244,7 +244,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -252,7 +252,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 10,
       },
       {
@@ -276,7 +276,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -288,11 +288,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 3,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 2,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -304,7 +304,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 1,
       },
       {
@@ -338,7 +338,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -346,7 +346,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -370,7 +370,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -382,11 +382,11 @@ export const siteConfig: SiteConfigMap = {
         num: 3,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -398,7 +398,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -449,7 +449,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 4,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -457,7 +457,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -481,7 +481,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -493,11 +493,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 1,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -509,7 +509,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 1,
       },
       {
@@ -543,7 +543,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -551,7 +551,7 @@ export const siteConfig: SiteConfigMap = {
         num: 4,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -575,7 +575,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -587,11 +587,11 @@ export const siteConfig: SiteConfigMap = {
         num: 1,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -603,7 +603,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -655,7 +655,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -663,7 +663,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 30,
       },
       {
@@ -687,7 +687,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 3,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -699,11 +699,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -715,7 +715,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 0,
       },
       {
@@ -745,7 +745,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -753,7 +753,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -777,7 +777,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -789,11 +789,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -805,7 +805,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -852,7 +852,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -860,7 +860,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -884,7 +884,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -896,11 +896,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -912,7 +912,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 0,
       },
       {
@@ -942,7 +942,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -950,7 +950,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -974,7 +974,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -986,11 +986,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -1002,7 +1002,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -1053,7 +1053,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -1061,7 +1061,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 20,
       },
       {
@@ -1085,7 +1085,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -1097,11 +1097,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -1113,7 +1113,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 0,
       },
       {
@@ -1143,7 +1143,7 @@ export const siteConfig: SiteConfigMap = {
         num: 4,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -1151,7 +1151,7 @@ export const siteConfig: SiteConfigMap = {
         num: 4,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -1175,7 +1175,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -1187,11 +1187,11 @@ export const siteConfig: SiteConfigMap = {
         num: 1,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -1203,7 +1203,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -1253,7 +1253,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 1,
       },
       {
@@ -1265,7 +1265,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -1289,7 +1289,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -1301,11 +1301,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -1317,7 +1317,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 0,
       },
       {
@@ -1347,7 +1347,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -1355,7 +1355,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -1379,7 +1379,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -1391,11 +1391,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -1454,7 +1454,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -1462,7 +1462,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -1486,7 +1486,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -1498,11 +1498,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -1514,7 +1514,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 0,
       },
       {
@@ -1544,7 +1544,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -1552,7 +1552,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -1576,7 +1576,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -1588,11 +1588,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -1604,7 +1604,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -1650,7 +1650,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 20,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 20,
       },
       {
@@ -1658,7 +1658,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -1682,7 +1682,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -1694,11 +1694,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -1710,7 +1710,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 1,
       },
       {
@@ -1744,7 +1744,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -1752,7 +1752,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -1776,7 +1776,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -1788,11 +1788,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -1804,7 +1804,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -1851,7 +1851,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -1859,7 +1859,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -1883,7 +1883,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -1895,11 +1895,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 2,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -1911,7 +1911,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 1,
       },
       {
@@ -1941,7 +1941,7 @@ export const siteConfig: SiteConfigMap = {
         num: 4,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -1949,7 +1949,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -1973,7 +1973,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -1985,11 +1985,11 @@ export const siteConfig: SiteConfigMap = {
         num: 1,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -2001,7 +2001,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -2053,7 +2053,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -2061,7 +2061,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 20,
       },
       {
@@ -2085,7 +2085,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -2097,11 +2097,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 2,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -2113,7 +2113,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 3,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 1,
       },
       {
@@ -2143,7 +2143,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -2151,7 +2151,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -2175,7 +2175,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -2187,11 +2187,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -2203,7 +2203,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -2250,7 +2250,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -2258,7 +2258,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -2282,7 +2282,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -2294,11 +2294,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 3,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -2310,7 +2310,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 2,
       },
       {
@@ -2348,7 +2348,7 @@ export const siteConfig: SiteConfigMap = {
         num: 6,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -2356,7 +2356,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -2380,7 +2380,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -2392,11 +2392,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -2408,7 +2408,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -2459,7 +2459,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -2467,7 +2467,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 20,
       },
       {
@@ -2491,7 +2491,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 3,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -2503,11 +2503,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 3,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -2519,7 +2519,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 1,
       },
       {
@@ -2553,7 +2553,7 @@ export const siteConfig: SiteConfigMap = {
         num: 6,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -2561,7 +2561,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -2585,7 +2585,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -2597,11 +2597,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -2613,7 +2613,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -2660,7 +2660,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -2668,7 +2668,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 30,
       },
       {
@@ -2692,7 +2692,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -2704,11 +2704,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 3,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 4,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -2720,7 +2720,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 2,
       },
       {
@@ -2754,7 +2754,7 @@ export const siteConfig: SiteConfigMap = {
         num: 8,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -2762,7 +2762,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -2786,7 +2786,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -2798,11 +2798,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -2814,7 +2814,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -2865,7 +2865,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -2873,7 +2873,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 15,
       },
       {
@@ -2897,7 +2897,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -2909,11 +2909,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -2925,7 +2925,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 0,
       },
       {
@@ -2963,7 +2963,7 @@ export const siteConfig: SiteConfigMap = {
         num: 12,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -2971,7 +2971,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -2995,7 +2995,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -3007,11 +3007,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -3023,7 +3023,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -3069,7 +3069,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 15,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 30,
       },
       {
@@ -3077,7 +3077,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -3101,7 +3101,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -3113,11 +3113,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -3129,7 +3129,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 1,
       },
       {
@@ -3167,7 +3167,7 @@ export const siteConfig: SiteConfigMap = {
         num: 7,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -3175,7 +3175,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -3199,7 +3199,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -3211,11 +3211,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -3227,7 +3227,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -3278,7 +3278,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -3286,7 +3286,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -3310,7 +3310,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -3322,11 +3322,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -3338,7 +3338,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 5,
       },
       {
@@ -3376,7 +3376,7 @@ export const siteConfig: SiteConfigMap = {
         num: 8,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -3384,7 +3384,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -3408,7 +3408,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -3420,11 +3420,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -3436,7 +3436,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -3483,7 +3483,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 20,
       },
       {
@@ -3491,7 +3491,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -3515,7 +3515,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -3527,11 +3527,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -3543,7 +3543,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 2,
       },
       {
@@ -3577,7 +3577,7 @@ export const siteConfig: SiteConfigMap = {
         num: 12,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -3585,7 +3585,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -3609,7 +3609,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -3621,11 +3621,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -3637,7 +3637,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -3687,7 +3687,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -3695,7 +3695,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -3719,7 +3719,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -3731,11 +3731,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -3747,7 +3747,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 0,
       },
       {
@@ -3781,7 +3781,7 @@ export const siteConfig: SiteConfigMap = {
         num: 18,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -3789,7 +3789,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -3813,7 +3813,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -3825,11 +3825,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -3841,7 +3841,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -3888,7 +3888,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 20,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -3896,7 +3896,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -3920,7 +3920,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -3932,11 +3932,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 3,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -3948,7 +3948,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 5,
       },
       {
@@ -3986,7 +3986,7 @@ export const siteConfig: SiteConfigMap = {
         num: 14,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -3994,7 +3994,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -4018,7 +4018,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -4030,11 +4030,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -4046,7 +4046,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -4096,7 +4096,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 50,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -4104,7 +4104,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 50,
       },
       {
@@ -4128,7 +4128,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -4140,11 +4140,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 15,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 6,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -4156,7 +4156,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 5,
       },
       {
@@ -4194,7 +4194,7 @@ export const siteConfig: SiteConfigMap = {
         num: 28,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -4202,7 +4202,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -4226,7 +4226,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -4238,11 +4238,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -4254,7 +4254,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -4306,7 +4306,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 20,
       },
       {
@@ -4314,7 +4314,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -4338,7 +4338,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -4350,11 +4350,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -4366,7 +4366,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 10,
       },
       {
@@ -4400,7 +4400,7 @@ export const siteConfig: SiteConfigMap = {
         num: 20,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -4408,7 +4408,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -4432,7 +4432,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -4444,11 +4444,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -4460,7 +4460,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -4510,7 +4510,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 50,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -4518,7 +4518,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 30,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -4542,7 +4542,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -4554,11 +4554,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -4570,7 +4570,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 0,
       },
       {
@@ -4604,7 +4604,7 @@ export const siteConfig: SiteConfigMap = {
         num: 16,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -4612,7 +4612,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -4636,7 +4636,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -4648,11 +4648,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -4664,7 +4664,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -4710,7 +4710,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -4718,7 +4718,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -4742,7 +4742,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -4754,11 +4754,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -4770,7 +4770,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 0,
       },
       {
@@ -4804,7 +4804,7 @@ export const siteConfig: SiteConfigMap = {
         num: 6,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -4812,7 +4812,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -4836,7 +4836,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -4848,11 +4848,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -4864,7 +4864,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -4911,7 +4911,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -4919,7 +4919,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 0,
       },
       {
@@ -4943,7 +4943,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 0,
       },
       {
@@ -4955,11 +4955,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 0,
       },
       {
@@ -4971,7 +4971,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 10,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 0,
       },
       {
@@ -5005,7 +5005,7 @@ export const siteConfig: SiteConfigMap = {
         num: 16,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -5013,7 +5013,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -5037,7 +5037,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -5049,11 +5049,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -5065,7 +5065,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -5111,7 +5111,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -5119,7 +5119,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 1,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         weight: 5,
       },
       {
@@ -5143,7 +5143,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 2,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         weight: 5,
       },
       {
@@ -5155,11 +5155,11 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         weight: 5,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         weight: 5,
       },
       {
@@ -5171,7 +5171,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 5,
       },
       {
@@ -5205,7 +5205,7 @@ export const siteConfig: SiteConfigMap = {
         num: 12,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -5213,7 +5213,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -5237,7 +5237,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -5249,11 +5249,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -5265,7 +5265,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -5371,7 +5371,7 @@ export const siteConfig: SiteConfigMap = {
     produceValue: 240,
     produceList: [
       {
-        itemId: "1101*1",
+        itemId: "item_mat_*",
         weight: 10,
       },
       {
@@ -5381,7 +5381,7 @@ export const siteConfig: SiteConfigMap = {
     ],
     fixedProduceList: [
       {
-        itemId: "1101*1",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -7033,7 +7033,7 @@ export const siteConfig: SiteConfigMap = {
         num: 1,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -7041,7 +7041,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -7065,7 +7065,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -7077,11 +7077,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -7093,7 +7093,7 @@ export const siteConfig: SiteConfigMap = {
         num: 4,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -7163,7 +7163,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 5,
       },
     ],
@@ -7193,7 +7193,7 @@ export const siteConfig: SiteConfigMap = {
         num: 6,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -7201,7 +7201,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -7225,7 +7225,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -7237,11 +7237,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -7253,7 +7253,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -7324,7 +7324,7 @@ export const siteConfig: SiteConfigMap = {
         weight: 5,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         weight: 5,
       },
     ],
@@ -7354,7 +7354,7 @@ export const siteConfig: SiteConfigMap = {
         num: 2,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -7362,7 +7362,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -7386,7 +7386,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -7398,11 +7398,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -7414,7 +7414,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {
@@ -7691,7 +7691,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1101**",
+        itemId: "item_mat_*",
         num: 0,
       },
       {
@@ -7699,7 +7699,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1103*1",
+        itemId: "item_food_*",
         num: 0,
       },
       {
@@ -7723,7 +7723,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1105**",
+        itemId: "item_econ_*",
         num: 0,
       },
       {
@@ -7735,11 +7735,11 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1102**",
+        itemId: "item_model_*",
         num: 0,
       },
       {
-        itemId: "1301**",
+        itemId: "item_weapon_gun_*",
         num: 0,
       },
       {
@@ -7751,7 +7751,7 @@ export const siteConfig: SiteConfigMap = {
         num: 0,
       },
       {
-        itemId: "1302*1",
+        itemId: "item_weapon_melee_*",
         num: 0,
       },
       {

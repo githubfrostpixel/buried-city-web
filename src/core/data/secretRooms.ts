@@ -16,7 +16,7 @@ export const secretRooms: SecretRoomConfigMap = {
     "maxDifficultyOffset": 1,
     "produceValue": 11,
     "produceList": [{
-      "itemId": "1101**",
+      "itemId": "item_mat_*",
       "weight": 1
     }, {
       "itemId": "item_food_canned_food",
@@ -60,7 +60,7 @@ export const secretRooms: SecretRoomConfigMap = {
     "maxDifficultyOffset": 1,
     "produceValue": 11,
     "produceList": [{
-      "itemId": "1101**",
+      "itemId": "item_mat_*",
       "weight": 1
     }, {
       "itemId": "item_food_canned_food",
@@ -107,7 +107,7 @@ export const secretRooms: SecretRoomConfigMap = {
     "maxDifficultyOffset": 1,
     "produceValue": 20,
     "produceList": [{
-      "itemId": "1101**",
+      "itemId": "item_mat_*",
       "weight": 0
     }, {
       "itemId": "item_food_canned_food",
@@ -154,7 +154,7 @@ export const secretRooms: SecretRoomConfigMap = {
     "maxDifficultyOffset": 1,
     "produceValue": 54,
     "produceList": [{
-      "itemId": "1101**",
+      "itemId": "item_mat_*",
       "weight": 0
     }, {
       "itemId": "item_food_canned_food",

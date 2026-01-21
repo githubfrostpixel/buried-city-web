@@ -14,7 +14,7 @@ export interface BuildingLevel {
   cost: BuildingCost[]
   createTime?: number // Construction time in minutes (converted to seconds in Building class)
   condition?: BuildingCondition
-  produceList?: number[] // Formula IDs that can be produced
+  produceList?: (number | string)[] // Formula IDs that can be produced (supports both numeric and string IDs)
 }
 
 export type BuildingConfig = Record<string, BuildingLevel[]>
